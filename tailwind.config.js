@@ -2,10 +2,10 @@
 export default {
   darkMode: ['class'],
   content: [
-    './components/**/*.{js,vue,ts}',
+    './components/**/*.{js,jsx,ts,tsx,vue}',
     './app.vue',
-    './assets/**/*.css',
-    './assets/**/*.scss',
+    './pages/**/*.{js,ts,vue}',
+    './.storybook/**/*.{js,ts}',
   ],
   theme: {
     extend: {
