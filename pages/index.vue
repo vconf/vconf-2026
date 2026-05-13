@@ -137,65 +137,67 @@ function onLoop(_loopContext) {
 </script>
 
 <template>
-  <div class="relative h-screen w-screen overflow-hidden bg-[#101010]">
-    <TresCanvas
-      window-size
-      clear-color="#ffffff"
-      @loop="onLoop"
-    >
-      <TresPerspectiveCamera
-        :position="[0, 0, 24]"
-        :fov="18"
-      />
-
-      <TresMesh
-        v-for="index in layers"
-        :key="`left-${index}`"
-        :ref="(mesh) => setLeftLayerRef(mesh, index)"
+  <div>
+    <!-- <div class="h-[200px] w-screen overflow-hidden">
+      <TresCanvas
+        window-size
+        clear-color="#ffffff"
+        @loop="onLoop"
       >
-        <TresPlaneGeometry :args="[3.2, 3.2]" />
-        <TresMeshBasicMaterial
-          :color="leftLayerColors[index]"
-          transparent
-          :opacity="leftLayerOpacities[index]"
-          :side="2"
-          :depth-write="false"
+        <TresPerspectiveCamera
+          :position="[0, 0, 24]"
+          :fov="18"
         />
-      </TresMesh>
 
-      <TresMesh
-        v-for="index in layers"
-        :key="`right-${index}`"
-        :ref="(mesh) => setRightLayerRef(mesh, index)"
-      >
-        <TresPlaneGeometry :args="[3.2, 3.2]" />
-        <TresMeshBasicMaterial
-          :color="rightLayerColors[index]"
-          transparent
-          :opacity="rightLayerOpacities[index]"
-          :side="2"
-          :depth-write="false"
-        />
-      </TresMesh>
-    </TresCanvas>
+        <TresMesh
+          v-for="index in layers"
+          :key="`left-${index}`"
+          :ref="(mesh) => setLeftLayerRef(mesh, index)"
+        >
+          <TresPlaneGeometry :args="[3.2, 3.2]" />
+          <TresMeshBasicMaterial
+            :color="leftLayerColors[index]"
+            transparent
+            :opacity="leftLayerOpacities[index]"
+            :side="2"
+            :depth-write="false"
+          />
+        </TresMesh>
 
-    <div
-      class="pointer-events-none absolute left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center"
-      :style="mainImageSize"
-    >
-      <img
-        v-if="hasMainImage"
-        src="/main-vue.png"
-        alt="main-vue"
-        class="size-full object-contain drop-shadow-[0_18px_28px_rgba(0,0,0,0.3)]"
-        @error="onMainImageError"
-      />
+        <TresMesh
+          v-for="index in layers"
+          :key="`right-${index}`"
+          :ref="(mesh) => setRightLayerRef(mesh, index)"
+        >
+          <TresPlaneGeometry :args="[3.2, 3.2]" />
+          <TresMeshBasicMaterial
+            :color="rightLayerColors[index]"
+            transparent
+            :opacity="rightLayerOpacities[index]"
+            :side="2"
+            :depth-write="false"
+          />
+        </TresMesh>
+      </TresCanvas>
+
       <div
-        v-else
-        class="grid size-full place-items-center rounded-full bg-[radial-gradient(circle_at_30%_30%,#f8fbff,#c6d5e8)] text-2xl font-bold text-[#24364b]"
+        class="pointer-events-none absolute left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center"
+        :style="mainImageSize"
       >
-        main-vue
+        <img
+          v-if="hasMainImage"
+          src="/main-vue.png"
+          alt="main-vue"
+          class="size-full object-contain drop-shadow-[0_18px_28px_rgba(0,0,0,0.3)]"
+          @error="onMainImageError"
+        />
+        <div
+          v-else
+          class="grid size-full place-items-center rounded-full bg-[radial-gradient(circle_at_30%_30%,#f8fbff,#c6d5e8)] text-2xl font-bold text-[#24364b]"
+        >
+          main-vue
+        </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>

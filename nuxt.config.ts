@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@tresjs/nuxt',
+    'nuxt-typed-router',
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
     '@nuxtjs/seo',
@@ -14,13 +15,33 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     'nuxt-typed-router',
     'shadcn-nuxt',
+    '@nuxtjs/color-mode',
   ],
   css: ['@/assets/css/main.css'],
+
+  colorMode: {
+    classSuffix: '',
+  },
+
+  fonts: {
+    families: [
+      {
+        name: 'Afacad',
+        provider: 'google',
+        weights: [400],
+        styles: ['normal'],
+        display: 'swap',
+      },
+    ],
+  },
 
   // 全域設定
   // 頁面切換動畫採用舊動畫先移除之後，再進來新動畫
   app: {
     head: {
+      meta: [
+        { name: 'color-scheme', content: 'light dark' },
+      ],
       link: [
         { rel: 'icon', href: 'https://webconf.tw/favicon.ico', sizes: 'any' }, // 絕對路徑
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }, // 絕對路徑，Apple 設備加入主畫面的圖片

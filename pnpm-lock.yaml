@@ -46,6 +46,9 @@ devDependencies:
   '@nuxt/scripts':
     specifier: 0.11.10
     version: 0.11.10(@unhead/vue@2.1.15)(typescript@6.0.3)(vue@3.5.34)
+  '@nuxtjs/color-mode':
+    specifier: 4.0.0
+    version: 4.0.0
   '@nuxtjs/seo':
     specifier: ^3.1.0
     version: 3.4.0(@unhead/vue@2.1.15)(unhead@2.1.15)(unstorage@1.17.5)(vite@6.4.2)(vue@3.5.34)
@@ -2835,6 +2838,18 @@ packages:
     transitivePeerDependencies:
       - magicast
     dev: false
+
+  /@nuxtjs/color-mode@4.0.0:
+    resolution: {integrity: sha512-xyaVR/TPLdMuRa2VOgH6b75jvmFEsn9QKL6ISldaAw38ooFJfWY1ts2F3ye43wcT/goCbcuvPuskF2f8yUZhlw==}
+    dependencies:
+      '@nuxt/kit': 4.4.5(magicast@0.5.2)
+      exsolve: 1.0.8
+      pathe: 2.0.3
+      pkg-types: 2.3.1
+      semver: 7.8.0
+    transitivePeerDependencies:
+      - magicast
+    dev: true
 
   /@nuxtjs/robots@5.7.1(vite@6.4.2)(vue@3.5.34):
     resolution: {integrity: sha512-1y1pW8Dh2gqJGFpXwkTin1KokBofYAG91C1gqxR4XbI7Xkl7DAXQ+BropHF2AeCV/uCxs6qz28ONp0+60TSw1Q==}

@@ -59,6 +59,10 @@ export default {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+        vconf: {
+          'text-muted': 'hsl(var(--text-muted))',
+          'black': 'hsl(var(--color-black))',
+        },
       },
     },
   },
