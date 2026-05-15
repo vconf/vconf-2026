@@ -1,13 +1,13 @@
 export const site = {
-  url: 'https://webconf.tw',
-  name: '2025 WebConf Taiwan 技術研討會',
+  url: 'https://vconf-2026.vercel.app/',
+  name: '2026 vconf 技術研討會',
   description:
-    '本屆榮幸邀請到各領域專業講者，包含網站開發、前端設計、UIUX 以及團隊管理、軟性主題等各方面相關議題分享。希望能讓所有對 Web 開發、設計有熱情的人，共同創造一個充滿回憶與影響力的盛會！',
+    '聚焦 Vue 生態系與現代前端開發體驗，分享 Vue、Vite、工具鏈與實務案例等前端議題，與開發者一同探索 Web 開發的下一個階段',
   defaultLocale: 'zh-TW',
   ogImage: {
     url: 'https://webconf.tw/og.jpg',
   },
-  twitter: '@webconftaiwan',
+  twitter: '@vuejs_taiwan',
 }
 
 // 如果沒有給 og:image 會由標題組成 ogImage，這是文字預設字型
