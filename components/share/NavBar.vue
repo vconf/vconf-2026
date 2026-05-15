@@ -38,18 +38,27 @@ function onToggleMenu() {
 
 <template>
   <header class="sticky top-0 bg-vconf-white md:bg-transparent">
-    <nav class="relative flex items-center p-6 md:pl-16 md:pr-8">
+    <nav class="relative flex items-center px-6 py-4 md:p-6 md:pl-16 md:pr-8">
       <!-- logo 顯示使用 -->
       <NuxtLink
         class="grid place-content-center"
         to="/"
       >
         <NuxtImg
-          src="/home/logo.svg"
+          src="/home/nav-logo-md.svg"
           height="26"
           width="150"
           loading="eager"
           placeholder
+          class="hidden md:block"
+        />
+        <NuxtImg
+          src="/home/nav-logo-sm.svg"
+          height="19"
+          width="110"
+          loading="eager"
+          placeholder
+          class="md:hidden"
         />
       </NuxtLink>
 

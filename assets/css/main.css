@@ -32,6 +32,12 @@
     --text-muted: 0 0% 34%;
     --color-black: 0 0% 0%;
     --color-primary: 153 48% 49%;
+    --color-sun: 56 94% 59%;
+    --color-sun-background: 0 0% 100%;
+    --color-moon: 0 0% 89%;
+    --color-moon-background: 0 0% 100%;
+    --color-moon-border: 0 0% 89%;
+    --color-theme-toggle-bg: 0 0% 100%;
   }
 
   .dark {
@@ -41,6 +47,12 @@
     --text-muted: 151 100% 49%;
     --color-black: 153 48% 49%;
     --color-primary: 153 48% 49%;
+    --color-sun: 0 0% 89% / 0.5;
+    --color-sun-background: 0 0% 0%;
+    --color-moon: 36 100% 72%;
+    --color-moon-background: 260 67% 43%;
+    --color-moon-border: 261, 67%, 42%;
+    --color-theme-toggle-bg: 0 0% 100% / 0.5
   }
 }
 
