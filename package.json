@@ -57,7 +57,6 @@
     "nuxt": "^3.18.1",
     "nuxt-typed-router": "4.0.1",
     "prettier": "^3.6.2",
-    "shadcn-nuxt": "^2.2.0",
     "storybook": "9.1.20",
     "tailwind-clip-path": "^1.0.0",
     "tailwind-merge": "^2.5.5",

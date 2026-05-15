@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/scripts',
     'nuxt-typed-router',
-    'shadcn-nuxt',
     '@nuxtjs/color-mode',
   ],
   css: ['@/assets/css/main.css'],

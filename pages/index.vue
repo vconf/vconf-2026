@@ -138,8 +138,8 @@ function onLoop(_loopContext) {
 
 <template>
   <div>
-    <!-- <div class="h-[200px] w-screen overflow-hidden">
-      <TresCanvas
+    <div class="h-[200px] w-screen overflow-hidden">
+      <!-- <TresCanvas
         window-size
         clear-color="#ffffff"
         @loop="onLoop"
@@ -197,7 +197,7 @@ function onLoop(_loopContext) {
         >
           main-vue
         </div>
-      </div>
-    </div> -->
+      </div> -->
+    </div>
   </div>
 </template>

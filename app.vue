@@ -1,9 +1,3 @@
-<script lang="ts" setup>
-definePageMeta({
-  colorMode: 'dark',
-})
-</script>
-
 <template>
   <Body class="main-body">
     <NuxtLayout>
