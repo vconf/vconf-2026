@@ -8,6 +8,9 @@ dependencies:
   '@tresjs/nuxt':
     specifier: ^5.6.1
     version: 5.6.1(@tiptap/extensions@3.23.1)(@tiptap/y-tiptap@3.0.3)(embla-carousel@8.6.0)(esbuild@0.25.12)(tailwindcss@3.4.19)(three@0.184.0)(typescript@6.0.3)(vite@6.4.2)(vue-router@4.6.4)(vue@3.5.34)(yjs@13.6.30)
+  '@vueuse/core':
+    specifier: ^14.3.0
+    version: 14.3.0(vue@3.5.34)
   gsap:
     specifier: ^3.13.0
     version: 3.15.0

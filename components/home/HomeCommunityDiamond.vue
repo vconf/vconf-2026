@@ -1,21 +1,139 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
-const props = withDefaults(defineProps<{
-  image?: string
-}>(), {
-  image: '/home/community-bg.png',
+const sectionRef = ref<HTMLElement | null>(null)
+const textRef = ref<HTMLElement | null>(null)
+const colorMode = useColorMode()
+const isDark = computed(() => colorMode.value === 'dark')
+
+const { gsap, ScrollTrigger } = useGsap()
+
+let colorTimeline: ReturnType<typeof gsap.timeline> | null = null
+let originalTextHtml = ''
+const charNodes = ref<HTMLElement[]>([])
+
+function resolveTargetColor() {
+  const computedValue = getComputedStyle(document.documentElement)
+    .getPropertyValue('--color-text-read')
+    .trim()
+
+  return computedValue
+    ? `hsl(${computedValue})`
+    : 'hsl(var(--color-text-read))'
+}
+
+function buildColorTimeline(targetColor: string, progress = 0) {
+  if (!sectionRef.value || !ScrollTrigger || !charNodes.value.length)
+    return
+
+  colorTimeline?.scrollTrigger?.kill()
+  colorTimeline?.kill()
+
+  for (const charNode of charNodes.value)
+    charNode.style.color = ''
+
+  colorTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: sectionRef.value,
+      start: 'top 60%',
+      end: '+=700',
+      scrub: true,
+      invalidateOnRefresh: true,
+    },
+  })
+
+  colorTimeline.to(charNodes.value, {
+    color: targetColor,
+    ease: 'none',
+    stagger: 0.015,
+  })
+
+  colorTimeline.progress(progress)
+  ScrollTrigger.refresh()
+}
+
+onMounted(() => {
+  if (!sectionRef.value || !textRef.value || !ScrollTrigger)
+    return
+
+  originalTextHtml = textRef.value.innerHTML
+
+  // 把內容節點解析進行文字動畫的轉換（排除標題跟空白的部分）
+  const walker = document.createTreeWalker(
+    textRef.value,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        const content = node.textContent ?? ''
+        const parent = node.parentElement
+
+        if (!content.trim() || !parent)
+          return NodeFilter.FILTER_REJECT
+
+        if (parent.closest('.text-vconf-primary'))
+          return NodeFilter.FILTER_REJECT
+
+        return NodeFilter.FILTER_ACCEPT
+      },
+    },
+  )
+
+  const textNodes: Text[] = []
+  let currentNode = walker.nextNode()
+
+  // 將文字節點蒐集到 textNodes
+  while (currentNode) {
+    textNodes.push(currentNode as Text)
+    currentNode = walker.nextNode()
+  }
+
+  // 拆字組成 span
+  for (const textNode of textNodes) {
+    const fragment = document.createDocumentFragment()
+
+    for (const char of textNode.textContent ?? '') {
+      if (char === ' ') {
+        fragment.appendChild(document.createTextNode(char))
+        continue
+      }
+
+      const span = document.createElement('span')
+      span.className = 'char-read'
+      span.textContent = char
+      fragment.appendChild(span)
+    }
+
+    textNode.parentNode?.replaceChild(fragment, textNode)
+  }
+
+  charNodes.value = [...textRef.value.querySelectorAll<HTMLElement>('.char-read')]
+  buildColorTimeline(resolveTargetColor())
 })
 
-const title = ref('（ 連結社群 啟發未來 ）')
-const subtitle = ref('V-CONF Taiwan 2026')
-const description = ref(
-  '聚焦 Vue 生態系與現代前端開發體驗，透過交流讓靈感與技術持續流動。',
-)
+watch(isDark, () => {
+  requestAnimationFrame(() => {
+    if (!charNodes.value.length)
+      return
+
+    const progress = colorTimeline?.progress() ?? 0
+    buildColorTimeline(resolveTargetColor(), progress)
+  })
+}, { flush: 'post' })
+
+onBeforeUnmount(() => {
+  colorTimeline?.scrollTrigger?.kill()
+  colorTimeline?.kill()
+
+  if (textRef.value && originalTextHtml)
+    textRef.value.innerHTML = originalTextHtml
+})
 </script>
 
 <template>
-  <section class="overflow-hidden">
+  <section
+    ref="sectionRef"
+    class="overflow-hidden"
+  >
     <div class="community relative">
       <div class="absolute left-1/2 top-1/2 min-h-[486px] w-full min-w-0 -translate-x-1/2 -translate-y-1/2 px-6 py-8 text-center font-serif xs:w-screen lg:min-h-[520px] lg:w-full">
         <h2 class="mb-6 text-[28px] font-bold  leading-tight text-vconf-heading xs:text-[48px]">
@@ -24,7 +142,10 @@ const description = ref(
           <span class="pr-3">啟發未來</span>
           <span>)</span>
         </h2>
-        <div class="text-[16px] font-medium leading-[160%] tracking-[0.02em] text-vconf-text-unread xs:text-[21px]">
+        <div
+          ref="textRef"
+          class="text-[16px] font-medium leading-[160%] tracking-[0.02em] text-vconf-text-unread xs:text-[21px]"
+        >
           <p class="mb-9">
             <span class="inline lg:block"><span class="text-vconf-primary">V-CONF Taiwan 2026 </span>是一場匯聚 Vue.js 開發者與前端工程師的年度盛會，<span></span></span>
             <span class="inline lg:block">聚焦 Vue 生態系與現代前端開發體驗的演進。</span>
@@ -43,8 +164,6 @@ const description = ref(
         </div>
       </div>
     </div>
-
-    <div class="h-screen"></div>
   </section>
 </template>
 

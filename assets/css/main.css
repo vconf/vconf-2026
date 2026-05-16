@@ -58,7 +58,7 @@
     --color-theme-toggle-bg: 0 0% 100% / 0.5;
     --color-heading: 153 47% 49%;
     --color-text-unread: 210 26% 28%;
-    --color-text-read: 210 26% 28%;
+    --color-text-read: 0 0% 79%;
   }
 }
 

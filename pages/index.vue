@@ -104,6 +104,8 @@ function toggleTheme(theme: 'dark' | 'light') {
     <!-- ThreeScene -->
     <!-- <HomeHeroThreeScene /> -->
 
+    <div class="h-[300px]"></div>
     <HomeCommunityDiamond />
+    <div class="h-screen"></div>
   </div>
 </template>
