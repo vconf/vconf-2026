@@ -45,6 +45,8 @@ export default {
           'moon-background': 'hsl(var(--color-moon-background))',
           'moon-border': 'hsl(var(--color-moon-border))',
           'theme-toggle-bg': 'hsl(var(--color-theme-toggle-bg))',
+          'gray-light': 'hsl(var(--color-gray-light))',
+          'section-bg': 'hsl(var(--color-section-bg))',
         },
       },
     },

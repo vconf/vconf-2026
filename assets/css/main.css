@@ -38,9 +38,11 @@
     --color-moon-background: 0 0% 100%;
     --color-moon-border: 0 0% 89%;
     --color-theme-toggle-bg: 0 0% 100%;
-    --color-heading: 210 26% 28%;
-    --color-text-unread: 0 0% 79%;
-    --color-text-read: 210 26% 28%;
+    --color-heading: 210 26% 28%; /* blue-dark */
+    --color-text-unread: 0 0% 79%; /* gray-light */
+    --color-text-read: 210 26% 28%; /* blue-dark */
+    --color-gray-light: 0 0% 79%;
+    --color-section-bg: 0 0% 100%;
   }
 
   .dark {
@@ -58,7 +60,9 @@
     --color-theme-toggle-bg: 0 0% 100% / 0.5;
     --color-heading: 153 47% 49%;
     --color-text-unread: 210 26% 28%;
-    --color-text-read: 0 0% 79%;
+    --color-text-read: 0 0% 79%; /* gray-light */
+    --color-gray-light: 0 0% 79%;
+    --color-section-bg: 222 96% 5%; /* blue-dark */
   }
 }
 

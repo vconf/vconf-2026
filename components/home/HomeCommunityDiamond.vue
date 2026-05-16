@@ -137,9 +137,9 @@ onBeforeUnmount(() => {
     <div class="community relative">
       <div class="absolute left-1/2 top-1/2 min-h-[486px] w-full min-w-0 -translate-x-1/2 -translate-y-1/2 px-6 py-8 text-center font-serif xs:w-screen lg:min-h-[520px] lg:w-full">
         <h2 class="mb-6 text-[28px] font-bold  leading-tight text-vconf-heading xs:text-[48px]">
-          <span class="pr-3">(</span>
-          <span class="pr-3">連結社群</span>
-          <span class="pr-3">啟發未來</span>
+          <span class="pr-6">(</span>
+          <span class="pr-6">連結社群</span>
+          <span class="pr-6">啟發未來</span>
           <span>)</span>
         </h2>
         <div
