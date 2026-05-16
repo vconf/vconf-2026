@@ -1,98 +1,72 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 const props = withDefaults(defineProps<{
-  iconCount?: number
+  image?: string
 }>(), {
-  iconCount: 1200,
+  image: '/home/community-bg.png',
 })
 
-const accentIndices = new Set([118, 462, 975])
-
-function getIconSrc(accent = false) {
-  if (accent)
-    return '/home/vue-icon.svg'
-
-  return '/home/vite-icon.svg'
-}
-
-// Grid is always 40 cols in a fixed 1200px container — shape never changes with viewport.
-// Smaller screens see a cropped portion via section overflow-hidden.
-const COLS = 40
-const ROWS = computed(() => Math.ceil(props.iconCount / COLS))
-
-const OUTER_RX = 1.1
-const OUTER_RY = 1.2
-const INNER_RX = 0.72
-const INNER_RY = 0.7
-
-const gridCells = computed(() => {
-  const rows = ROWS.value
-  const cells: { key: string, show: boolean, accent: boolean }[] = []
-
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < COLS; c++) {
-      const nx = (c - (COLS - 1) / 2) / ((COLS - 1) / 2)
-      const ny = (r - (rows - 1) / 2) / ((rows - 1) / 2)
-
-      const inOuter = (nx / OUTER_RX) ** 2 + (ny / OUTER_RY) ** 2 <= 1
-      const inInner = (nx / INNER_RX) ** 2 + (ny / INNER_RY) ** 2 <= 1
-      const inRing = inOuter && !inInner
-
-      cells.push({
-        key: `${r}-${c}`,
-        show: inRing,
-        accent: inRing && accentIndices.has(r * COLS + c),
-      })
-    }
-  }
-  return cells
-})
+const title = ref('（ 連結社群 啟發未來 ）')
+const subtitle = ref('V-CONF Taiwan 2026')
+const description = ref(
+  '聚焦 Vue 生態系與現代前端開發體驗，透過交流讓靈感與技術持續流動。',
+)
 </script>
 
 <template>
-  <section class="relative overflow-hidden py-10">
-    <div class="relative mx-auto min-h-[520px] w-full">
-      <div
-        class="absolute left-1/2 top-0 w-[1200px] -translate-x-1/2"
-      >
-        <div class="grid grid-cols-[repeat(40,minmax(0,1fr))] gap-x-[6px] gap-y-[10px]">
-          <template
-            v-for="cell in gridCells"
-            :key="cell.key"
-          >
-            <img
-              v-if="cell.show"
-              :src="getIconSrc(cell.accent)"
-              alt=""
-              aria-hidden="true"
-              class="mx-auto h-[12px] w-[12px]"
-              style="filter: saturate(1.05); opacity: 0.95"
-            />
-            <span
-              v-else
-              aria-hidden="true"
-              class="mx-auto block h-[12px] w-[12px]"
-            ></span>
-          </template>
-        </div>
-      </div>
-
-      <!-- 內容區塊 -->
-      <div class="pointer-events-none absolute inset-0 grid place-items-center px-4">
-        <div class="w-full max-w-[760px] rounded-[44px] bg-white/[0.9] px-6 py-10 text-center backdrop-blur-[1px] dark:bg-slate-950/[0.72] md:px-14 md:py-16">
-          <div class="mx-auto max-w-[560px]">
-            <p class="text-[13px] font-semibold uppercase tracking-[0.32em] text-emerald-500/85">
-              Connect The Community
-            </p>
-            <h2 class="mt-4 text-[28px] font-bold leading-tight text-slate-800 dark:text-slate-50 md:text-[42px]">
-              連結社群 啟發未來
-            </h2>
-            <p class="mx-auto mt-5 max-w-[520px] text-sm leading-7 text-slate-500 dark:text-slate-300/90 md:text-base">
-              以 Vue 與 Vite 為核心，串起開發者、設計師與產品團隊的交流現場。
-              這裡保留足夠的留白，讓一段清楚的訊息成為視覺中心。
-            </p>
-          </div>
+  <section class="overflow-hidden">
+    <div class="community relative">
+      <div class="absolute left-1/2 top-1/2 min-h-[486px] w-full min-w-0 -translate-x-1/2 -translate-y-1/2 px-6 py-8 text-center font-serif xs:w-screen lg:min-h-[520px] lg:w-full">
+        <h2 class="mb-6 text-[28px] font-bold  leading-tight text-vconf-heading xs:text-[48px]">
+          <span class="pr-3">(</span>
+          <span class="pr-3">連結社群</span>
+          <span class="pr-3">啟發未來</span>
+          <span>)</span>
+        </h2>
+        <div class="text-[16px] font-medium leading-[160%] tracking-[0.02em] text-vconf-text-unread xs:text-[21px]">
+          <p class="mb-9">
+            <span class="inline lg:block"><span class="text-vconf-primary">V-CONF Taiwan 2026 </span>是一場匯聚 Vue.js 開發者與前端工程師的年度盛會，<span></span></span>
+            <span class="inline lg:block">聚焦 Vue 生態系與現代前端開發體驗的演進。</span>
+          </p>
+          <p class="mb-9">
+            <span class="inline lg:block">在前端技術快速迭代的浪潮中，我們將一同回顧 Vue 的成長歷程，</span>
+            <span class="inline lg:block">梳理那些實際改變開發模式的關鍵技術與轉折。</span>
+            <span class="inline lg:block">除了回顧過去，我們也關注未來，</span>
+            <span class="inline lg:block">深入探討以 Vite 為核心的開發流程，以及新一代工具鏈如何帶來更快速、更流暢的開發體驗，</span>
+            <span class="inline lg:block">並透過實務案例分享最新技術趨勢。</span>
+          </p>
+          <p>
+            <span class="inline lg:block">在這裡，你將有機會與來自各地的開發者建立連結，</span>
+            <span class="inline lg:block">一同探索 Vue 與 Vite 的更多可能，並共同想像前端開發的下一個階段。</span>
+          </p>
         </div>
       </div>
     </div>
+
+    <div class="h-screen"></div>
   </section>
 </template>
+
+<style scoped>
+  .community {
+    background-image: url('/home/community-bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 637px;
+    width: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+@media (min-width: 480px) {
+  .community {
+    background-image: url('/home/community-md-bg.png');
+    background-position: center;
+    height: 912px;
+    width: 1512px;
+  }
+}
+</style>

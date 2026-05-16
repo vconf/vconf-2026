@@ -9,6 +9,18 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '480px',
+      },
+      container: {
+        center: true,
+        screens: {
+          '2xl': '1512px',
+        },
+      },
+      fontFamily: {
+        serif: ['"Noto Sans TC"', 'serif'],
+      },
       clipPath: {
         mypolygon: 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem))',
         fancycut: 'polygon(32px 0%, 100% 0%, 100% 100%, 0% 100%)',
@@ -20,7 +32,10 @@ export default {
       },
       colors: {
         vconf: {
+          'heading': 'hsl(var(--color-heading))',
           'text-muted': 'hsl(var(--text-muted))',
+          'text-unread': 'hsl(var(--color-text-unread))',
+          'text-read': 'hsl(var(--color-text-read))',
           'black': 'hsl(var(--color-black))',
           'white': 'hsl(var(--background))',
           'primary': 'hsl(var(--color-primary))',

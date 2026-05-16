@@ -41,7 +41,7 @@ function onToggleMenu() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-10 bg-vconf-white">
+  <header class="container sticky top-0 z-10 bg-vconf-white">
     <nav class="relative flex items-center px-6 py-4 md:p-6 md:pl-16 md:pr-8">
       <!-- logo 顯示使用 -->
       <NuxtLink
@@ -88,7 +88,7 @@ function onToggleMenu() {
         class="ml-auto h-[calc(100svh-64px)] gap-8 bg-vconf-white px-6 text-vconf-text-muted md:h-auto md:gap-0 md:bg-transparent md:px-0"
         :class="[
           isMenuOpen
-            ? 'absolute left-0 top-[74px] flex h-[calc(100svh-51px)] w-full flex-col md:relative md:top-0 md:w-fit md:flex-row'
+            ? 'absolute left-0 top-[51px] flex h-[calc(100svh-51px)] w-full flex-col md:relative md:top-0 md:w-fit md:flex-row'
             : 'hidden md:flex',
         ]"
       >

@@ -27,7 +27,14 @@ export default defineNuxtConfig({
       {
         name: 'Afacad',
         provider: 'google',
-        weights: [400],
+        weights: [400, 700],
+        styles: ['normal'],
+        display: 'swap',
+      },
+      {
+        name: 'Noto Sans TC',
+        provider: 'google',
+        weights: [400, 500, 700],
         styles: ['normal'],
         display: 'swap',
       },

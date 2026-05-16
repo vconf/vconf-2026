@@ -28,7 +28,7 @@ function toggleTheme(theme: 'dark' | 'light') {
 
     <!-- 切換按鈕 -->
     <div
-      class="ml-[17px] mt-[79px] hidden w-fit flex-col gap-2 rounded-full bg-vconf-theme-toggle-bg px-2 py-3 md:flex"
+      class="ml-[17px] mt-[79px] hidden w-fit flex-col gap-2 rounded-full bg-vconf-theme-toggle-bg px-2 py-3 lg:flex"
     >
       <button
         type="button"
