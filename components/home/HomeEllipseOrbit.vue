@@ -69,8 +69,7 @@ onBeforeUnmount(() => {
 <template>
   <section class="container flex w-full gap-6 overflow-hidden pt-[60px]">
     <svg
-      class="w-[45%] shrink-0"
-      style="min-width: 700px"
+      class="ml-[-40px] w-[620px] shrink-0 lg:w-[700px] xl:w-[700px]"
       viewBox="-80 0 700 980"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
@@ -127,8 +126,8 @@ onBeforeUnmount(() => {
         />
       </g>
     </svg>
-    <div class="font-serif text-[21px] text-vconf-text-read">
-      <div class="ml-[-450px] max-w-[590px] translate-y-[95px] bg-vconf-section-bg px-6 py-8 font-bold">
+    <div class="relative ml-[-450px] pt-[92px] font-serif text-[21px] text-vconf-text-read">
+      <div class="max-w-[542px] bg-vconf-section-bg px-6 py-8 font-bold">
         <h2 class="mb-6 text-[48px] font-bold text-vconf-heading">
           <span class="pr-6">(</span>
           <span class="pr-6">行為準則</span>
@@ -139,27 +138,48 @@ onBeforeUnmount(() => {
           <span>致力於為所有與會者，包括講者、贊助商與工作人員，提供一個安全、無騷擾且相互尊重的活動環境。</span>
         </p>
       </div>
+      <div class="ml-[430px] mt-[15px] flex max-w-[677px] flex-col gap-12">
+        <div class="relative  border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
+          <p>我們堅決反對任何形式的騷擾行為，包括但不限於涉及性別、年齡、種族、宗教、身體外貌或性取向的冒犯性言論，以及跟蹤、不當肢體接觸或未受歡迎的性暗示等行為。</p>
+          <NuxtImg
+            width="713"
+            height="173"
+            class="absolute right-[-85px] top-[-30px] max-w-none"
+            src="/home/icon-bg.png"
+            loading="eager"
+            placeholder
+          />
+        </div>
 
-      <div class="relative ml-[-5px] max-w-[629px] translate-y-[100px] border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
-        <p>我們堅決反對任何形式的騷擾行為，包括但不限於涉及性別、年齡、種族、宗教、身體外貌或性取向的冒犯性言論，以及跟蹤、不當肢體接觸或未受歡迎的性暗示等行為。</p>
-        <NuxtImg
-          width="713"
-          height="173"
-          class="absolute right-[-60px] top-[-25px] h-[173px] w-[712px]"
-          src="/home/icon-bg.png"
-          loading="eager"
-          placeholder
-        />
+        <div class="relative translate-x-[42px] border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
+          <p>所有參與者皆須同意並遵守本行為準則。若發生違規情形，主辦單位有權採取相應措施，包括警告或要求離場，且不予退費。</p>
+          <NuxtImg
+            width="713"
+            height="138"
+            class="absolute right-[-85px] top-[-30px] max-w-none"
+            src="/home/icon-bg-2.png"
+            loading="eager"
+            placeholder
+          />
+        </div>
+
+        <div class="relative translate-x-[10px] border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
+          <p>若您遭受騷擾，或目睹他人遭受不當對待，請立即聯繫工作人員。我們將盡全力提供協助，確保每一位參與者都能安心參與活動。</p>
+          <NuxtImg
+            width="713"
+            height="138"
+            class="absolute right-[-80px] top-[-30px] max-w-none"
+            src="/home/icon-bg-2.png"
+            loading="eager"
+            placeholder
+          />
+        </div>
       </div>
-      <!-- <div class="border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
-        <p>所有參與者皆須同意並遵守本行為準則。若發生違規情形，主辦單位有權採取相應措施，包括警告或要求離場，且不予退費。</p>
+      <div class="ml-[352px] mt-10 max-w-[677px] translate-x-[-130px]">
+        <p class="text-center text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary">
+          感謝您的配合與支持，讓我們共同打造開放、包容且充滿活力的 Vue.js 社群。
+        </p>
       </div>
-      <div class="border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
-        <p>若您遭受騷擾，或目睹他人遭受不當對待，請立即聯繫工作人員。我們將盡全力提供協助，確保每一位參與者都能安心參與活動。</p>
-      </div>
-      <p class="text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary">
-        感謝您的配合與支持，讓我們共同打造開放、包容且充滿活力的 Vue.js 社群。
-      </p> -->
     </div>
   </section>
 </template>
