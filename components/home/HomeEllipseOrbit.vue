@@ -69,7 +69,7 @@ onBeforeUnmount(() => {
 <template>
   <section class="container flex w-full gap-6 overflow-hidden pt-[60px]">
     <svg
-      class="ml-[-40px] w-[620px] shrink-0 lg:w-[700px] xl:w-[700px]"
+      class="ml-[-290px] w-[620px] shrink-0 md:w-[700px] xl:ml-[-40px]"
       viewBox="-80 0 700 980"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
@@ -126,7 +126,7 @@ onBeforeUnmount(() => {
         />
       </g>
     </svg>
-    <div class="relative ml-[-450px] pt-[92px] font-serif text-[21px] text-vconf-text-read">
+    <div class="relative ml-[-420px] pt-[92px] font-serif text-[21px] text-vconf-text-read xl:ml-[-450px]">
       <div class="max-w-[542px] bg-vconf-section-bg px-6 py-8 font-bold">
         <h2 class="mb-6 text-[48px] font-bold text-vconf-heading">
           <span class="pr-6">(</span>
@@ -138,14 +138,22 @@ onBeforeUnmount(() => {
           <span>致力於為所有與會者，包括講者、贊助商與工作人員，提供一個安全、無騷擾且相互尊重的活動環境。</span>
         </p>
       </div>
-      <div class="ml-[430px] mt-[15px] flex max-w-[677px] flex-col gap-12">
+      <div class="ml-[400px] mt-[15px] flex max-w-[475px] flex-col gap-12 xl:ml-[430px] xl:max-w-[677px]">
         <div class="relative  border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
           <p>我們堅決反對任何形式的騷擾行為，包括但不限於涉及性別、年齡、種族、宗教、身體外貌或性取向的冒犯性言論，以及跟蹤、不當肢體接觸或未受歡迎的性暗示等行為。</p>
           <NuxtImg
             width="713"
             height="173"
-            class="absolute right-[-85px] top-[-30px] max-w-none"
+            class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
             src="/home/icon-bg.png"
+            loading="eager"
+            placeholder
+          />
+          <NuxtImg
+            width="549"
+            height="173"
+            class="absolute right-[-85px] top-[-30px] block max-w-none xl:hidden"
+            src="/home/icon-bg-md.png"
             loading="eager"
             placeholder
           />
@@ -156,8 +164,16 @@ onBeforeUnmount(() => {
           <NuxtImg
             width="713"
             height="138"
-            class="absolute right-[-85px] top-[-30px] max-w-none"
+            class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
             src="/home/icon-bg-2.png"
+            loading="eager"
+            placeholder
+          />
+          <NuxtImg
+            width="549"
+            height="138"
+            class="absolute right-[-85px] top-[-30px] block max-w-none xl:hidden"
+            src="/home/icon-bg-md-2.png"
             loading="eager"
             placeholder
           />
@@ -168,8 +184,16 @@ onBeforeUnmount(() => {
           <NuxtImg
             width="713"
             height="138"
-            class="absolute right-[-80px] top-[-30px] max-w-none"
+            class="absolute right-[-80px] top-[-30px] hidden max-w-none xl:block"
             src="/home/icon-bg-2.png"
+            loading="eager"
+            placeholder
+          />
+          <NuxtImg
+            width="549"
+            height="138"
+            class="absolute right-[-80px] top-[-30px] block max-w-none xl:hidden"
+            src="/home/icon-bg-md-2.png"
             loading="eager"
             placeholder
           />
