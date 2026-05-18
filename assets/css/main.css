@@ -80,5 +80,6 @@
     font-family: 'Afacad', sans-serif;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    letter-spacing: 0.02em;
   }
 }

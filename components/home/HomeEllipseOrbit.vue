@@ -67,9 +67,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="container flex w-full gap-6 overflow-hidden pt-[60px]">
+  <section class="container flex w-full justify-center gap-6 overflow-hidden px-6 pt-[60px] md:items-start md:px-0">
     <svg
-      class="ml-[-290px] w-[620px] shrink-0 md:w-[700px] xl:ml-[-40px]"
+      class="ml-[-510px] hidden w-[700px] shrink-0 md:block lg:ml-[-290px] xl:ml-[-150px] 2xl:ml-[-40px]"
       viewBox="-80 0 700 980"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
@@ -126,81 +126,138 @@ onBeforeUnmount(() => {
         />
       </g>
     </svg>
-    <div class="relative ml-[-420px] pt-[92px] font-serif text-[21px] text-vconf-text-read xl:ml-[-450px]">
-      <div class="max-w-[542px] bg-vconf-section-bg px-6 py-8 font-bold">
-        <h2 class="mb-6 text-[48px] font-bold text-vconf-heading">
-          <span class="pr-6">(</span>
-          <span class="pr-6">行為準則</span>
+    <div class="relative ml-0 pt-[92px] font-serif text-[16px]  text-vconf-text-read md:ml-[-420px] md:text-[21px] xl:ml-[-450px]">
+      <!-- 標題 -->
+      <div class="mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0">
+        <h2 class="mb-3 text-center text-[28px] font-bold text-vconf-heading md:text-left md:text-[48px] lg:mb-6">
+          <span class="pr-2 lg:pr-6">(</span>
+          <span class="pr-2 lg:pr-6">行為準則</span>
           <span>)</span>
         </h2>
-        <p class="text-[21px] font-medium leading-[160%] tracking-[0.02em]">
+        <p class="text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]">
           <span class="text-vconf-primary">V-CONF Taiwan 2026 </span>
           <span>致力於為所有與會者，包括講者、贊助商與工作人員，提供一個安全、無騷擾且相互尊重的活動環境。</span>
         </p>
       </div>
-      <div class="ml-[400px] mt-[15px] flex max-w-[475px] flex-col gap-12 xl:ml-[430px] xl:max-w-[677px]">
-        <div class="relative  border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
-          <p>我們堅決反對任何形式的騷擾行為，包括但不限於涉及性別、年齡、種族、宗教、身體外貌或性取向的冒犯性言論，以及跟蹤、不當肢體接觸或未受歡迎的性暗示等行為。</p>
+      <!-- 行為準則三條內容 -->
+      <div class="mx:m-0 mx-auto mt-[15px] flex max-w-[307px] flex-col gap-9 md:ml-[400px] md:max-w-[475px] md:gap-12 xl:ml-[430px] xl:max-w-[677px]">
+        <div class="flex items-center">
           <NuxtImg
-            width="713"
-            height="173"
-            class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
-            src="/home/icon-bg.png"
+            width="15"
+            height="14"
+            class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
+            src="/home/vue-icon.svg"
             loading="eager"
             placeholder
           />
-          <NuxtImg
-            width="549"
-            height="173"
-            class="absolute right-[-85px] top-[-30px] block max-w-none xl:hidden"
-            src="/home/icon-bg-md.png"
-            loading="eager"
-            placeholder
-          />
+          <div class="relative min-w-0 flex-1 p-3 leading-[160%] tracking-[0.01em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:p-6 md:tracking-[0.02em]">
+            <p>我們堅決反對任何形式的騷擾行為，包括但不限於涉及性別、年齡、種族、宗教、身體外貌或性取向的冒犯性言論，以及跟蹤、不當肢體接觸或未受歡迎的性暗示等行為。</p>
+            <NuxtImg
+              width="713"
+              height="173"
+              class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
+              src="/home/icon-bg.png"
+              loading="eager"
+              placeholder
+            />
+            <NuxtImg
+              width="549"
+              height="173"
+              class="absolute right-[-85px] top-[-30px] hidden max-w-none md:block xl:hidden"
+              src="/home/icon-bg-md.png"
+              loading="eager"
+              placeholder
+            />
+            <NuxtImg
+              width="312"
+              height="137"
+              class="absolute right-[-40px] top-[-15px] block max-w-none md:hidden"
+              src="/home/icon-bg-sm.png"
+              loading="eager"
+              placeholder
+            />
+          </div>
         </div>
 
-        <div class="relative translate-x-[42px] border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
-          <p>所有參與者皆須同意並遵守本行為準則。若發生違規情形，主辦單位有權採取相應措施，包括警告或要求離場，且不予退費。</p>
+        <div class="flex items-center">
           <NuxtImg
-            width="713"
-            height="138"
-            class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
-            src="/home/icon-bg-2.png"
+            width="15"
+            height="14"
+            class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
+            src="/home/vue-icon.svg"
             loading="eager"
             placeholder
           />
-          <NuxtImg
-            width="549"
-            height="138"
-            class="absolute right-[-85px] top-[-30px] block max-w-none xl:hidden"
-            src="/home/icon-bg-md-2.png"
-            loading="eager"
-            placeholder
-          />
+          <div class="relative min-w-0 flex-1 translate-x-0 p-3 leading-[160%] tracking-[0.01em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:translate-x-[42px] md:p-6 md:tracking-[0.02em]">
+            <p>所有參與者皆須同意並遵守本行為準則。若發生違規情形，主辦單位有權採取相應措施，包括警告或要求離場，且不予退費。</p>
+            <NuxtImg
+              width="713"
+              height="138"
+              class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
+              src="/home/icon-bg-2.png"
+              loading="eager"
+              placeholder
+            />
+            <NuxtImg
+              width="549"
+              height="138"
+              class="absolute right-[-85px] top-[-30px] hidden max-w-none md:block xl:hidden"
+              src="/home/icon-bg-md-2.png"
+              loading="eager"
+              placeholder
+            />
+            <NuxtImg
+              width="312"
+              height="119"
+              class="absolute right-[-40px] top-[-15px] block max-w-none md:hidden"
+              src="/home/icon-bg-sm-2.png"
+              loading="eager"
+              placeholder
+            />
+          </div>
         </div>
 
-        <div class="relative translate-x-[10px] border border-vconf-gray-light p-6 leading-[160%] tracking-[0.02em]">
-          <p>若您遭受騷擾，或目睹他人遭受不當對待，請立即聯繫工作人員。我們將盡全力提供協助，確保每一位參與者都能安心參與活動。</p>
+        <div class="flex items-center">
           <NuxtImg
-            width="713"
-            height="138"
-            class="absolute right-[-80px] top-[-30px] hidden max-w-none xl:block"
-            src="/home/icon-bg-2.png"
+            width="15"
+            height="14"
+            class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
+            src="/home/vue-icon.svg"
             loading="eager"
             placeholder
           />
-          <NuxtImg
-            width="549"
-            height="138"
-            class="absolute right-[-80px] top-[-30px] block max-w-none xl:hidden"
-            src="/home/icon-bg-md-2.png"
-            loading="eager"
-            placeholder
-          />
+          <div class="relative min-w-0 flex-1 translate-x-0 p-3 leading-[160%] tracking-[0.01em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:translate-x-[10px] md:p-6 md:tracking-[0.02em]">
+            <p>若您遭受騷擾，或目睹他人遭受不當對待，請立即聯繫工作人員。我們將盡全力提供協助，確保每一位參與者都能安心參與活動。</p>
+            <NuxtImg
+              width="713"
+              height="138"
+              class="absolute right-[-80px] top-[-30px] hidden max-w-none xl:block"
+              src="/home/icon-bg-2.png"
+              loading="eager"
+              placeholder
+            />
+            <NuxtImg
+              width="549"
+              height="138"
+              class="absolute right-[-80px] top-[-30px] hidden max-w-none md:block xl:hidden"
+              src="/home/icon-bg-md-2.png"
+              loading="eager"
+              placeholder
+            />
+            <NuxtImg
+              width="312"
+              height="119"
+              class="absolute right-[-40px] top-[-15px] block max-w-none md:hidden"
+              src="/home/icon-bg-sm-2.png"
+              loading="eager"
+              placeholder
+            />
+          </div>
         </div>
       </div>
-      <div class="ml-[352px] mt-10 max-w-[677px] translate-x-[-130px]">
-        <p class="text-center text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary">
+      <!-- 感謝語 -->
+      <div class="mt-10  hidden place-content-center md:grid">
+        <p class="w-fit max-w-[677px] text-center text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary sm:translate-x-[100px] lg:translate-x-0">
           感謝您的配合與支持，讓我們共同打造開放、包容且充滿活力的 Vue.js 社群。
         </p>
       </div>
