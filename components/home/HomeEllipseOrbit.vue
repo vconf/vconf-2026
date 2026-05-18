@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { useBreakpoints } from '@vueuse/core'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const { gsap } = useGsap()
 
@@ -18,6 +19,10 @@ const smallPathRef = ref<SVGPathElement | null>(null)
 const mobilePathRef = ref<SVGPathElement | null>(null)
 
 const activeTweens: Array<{ kill: () => void }> = []
+const breakpoints = useBreakpoints({
+  md: 768,
+})
+const isMdUp = breakpoints.greaterOrEqual('md')
 
 function createOrbitTween(
   element: SVGImageElement,
@@ -40,37 +45,66 @@ function createOrbitTween(
   })
 }
 
+function clearActiveTweens() {
+  activeTweens.forEach(tween => tween.kill())
+  activeTweens.length = 0
+}
+
+function initDesktopTweens() {
+  if (
+    !bigPathRef.value
+    || !smallPathRef.value
+    || !vueIcon1Ref.value
+    || !vueIcon2Ref.value
+    || !vueIcon3Ref.value
+    || !viteIcon1Ref.value
+    || !viteIcon2Ref.value
+  ) {
+    return
+  }
+
+  activeTweens.push(
+    createOrbitTween(vueIcon1Ref.value, bigPathRef.value, 0, 18),
+    createOrbitTween(vueIcon2Ref.value, bigPathRef.value, 0.33, 18),
+    createOrbitTween(vueIcon3Ref.value, bigPathRef.value, 0.66, 18),
+    createOrbitTween(viteIcon1Ref.value, smallPathRef.value, 0.15, 12),
+    createOrbitTween(viteIcon2Ref.value, smallPathRef.value, 0.65, 12),
+  )
+}
+
+function initMobileTweens() {
+  if (!mobilePathRef.value || !mobileViteLargeRef.value || !mobileViteSmallRef.value)
+    return
+
+  activeTweens.push(
+    createOrbitTween(mobileViteLargeRef.value, mobilePathRef.value, 0.12, 9),
+    createOrbitTween(mobileViteSmallRef.value, mobilePathRef.value, 0.62, 11),
+  )
+}
+
+function syncOrbitTweensByViewport(mdUp: boolean) {
+  clearActiveTweens()
+
+  if (mdUp) {
+    initDesktopTweens()
+    return
+  }
+
+  initMobileTweens()
+}
+
 onMounted(() => {
   gsap.registerPlugin(MotionPathPlugin)
-
-  if (
-    bigPathRef.value
-    && smallPathRef.value
-    && vueIcon1Ref.value
-    && vueIcon2Ref.value
-    && vueIcon3Ref.value
-    && viteIcon1Ref.value
-    && viteIcon2Ref.value
-  ) {
-    activeTweens.push(
-      createOrbitTween(vueIcon1Ref.value, bigPathRef.value, 0, 18),
-      createOrbitTween(vueIcon2Ref.value, bigPathRef.value, 0.33, 18),
-      createOrbitTween(vueIcon3Ref.value, bigPathRef.value, 0.66, 18),
-      createOrbitTween(viteIcon1Ref.value, smallPathRef.value, 0.15, 12),
-      createOrbitTween(viteIcon2Ref.value, smallPathRef.value, 0.65, 12),
-    )
-  }
-
-  if (mobilePathRef.value && mobileViteLargeRef.value && mobileViteSmallRef.value) {
-    activeTweens.push(
-      createOrbitTween(mobileViteLargeRef.value, mobilePathRef.value, 0.12, 9),
-      createOrbitTween(mobileViteSmallRef.value, mobilePathRef.value, 0.62, 11),
-    )
-  }
+  syncOrbitTweensByViewport(isMdUp.value)
 })
 
+watch(isMdUp, async (mdUp) => {
+  await nextTick()
+  syncOrbitTweensByViewport(mdUp)
+}, { flush: 'post' })
+
 onBeforeUnmount(() => {
-  activeTweens.forEach(tween => tween.kill())
+  clearActiveTweens()
 })
 </script>
 
