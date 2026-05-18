@@ -1,5 +1,17 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
+const isDark = ref(false)
+
+onMounted(() => {
+  isDark.value = colorMode.value === 'dark'
+})
+
+watch(
+  () => colorMode.value,
+  (mode) => {
+    isDark.value = mode === 'dark'
+  },
+)
 
 function toggleTheme(theme: 'dark' | 'light') {
   colorMode.preference = theme
@@ -13,7 +25,7 @@ function toggleTheme(theme: 'dark' | 'light') {
       class="m-auto hidden pt-[50px] md:block"
       width="455"
       height="230"
-      src="/home/hero-logo-md.svg"
+      :src="isDark ? '/home/hero-logo-dark-md.svg' : '/home/hero-logo-md.svg'"
       loading="eager"
       placeholder
     />
