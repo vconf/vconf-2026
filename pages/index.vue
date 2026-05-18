@@ -106,6 +106,6 @@ function toggleTheme(theme: 'dark' | 'light') {
 
     <div class="h-[300px]"></div>
     <HomeCommunityDiamond />
-    <HomeEllipseOrbit />
+    <HomeCodeOfConduct />
   </div>
 </template>
