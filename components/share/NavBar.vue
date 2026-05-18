@@ -85,10 +85,10 @@ function onToggleMenu() {
 
       <!-- 導覽列項目 -->
       <ul
-        class="ml-auto h-[calc(100svh-64px)] gap-8 bg-vconf-white px-6 text-vconf-text-muted md:h-auto md:gap-0 md:bg-transparent md:px-0"
+        class="z-20 ml-auto h-[calc(100svh-64px)] gap-8 bg-vconf-white px-6 text-vconf-text-muted md:h-auto md:gap-0 md:bg-transparent md:px-0"
         :class="[
           isMenuOpen
-            ? 'absolute left-0 top-[51px] flex h-[calc(100svh-51px)] w-full flex-col md:relative md:top-0 md:w-fit md:flex-row'
+            ? 'absolute left-0 top-[51px] flex h-screen w-full flex-col md:relative md:top-0 md:w-fit md:flex-row'
             : 'hidden md:flex',
         ]"
       >

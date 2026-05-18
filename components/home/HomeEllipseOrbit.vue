@@ -10,9 +10,12 @@ const vueIcon3Ref = ref<SVGImageElement | null>(null)
 
 const viteIcon1Ref = ref<SVGImageElement | null>(null)
 const viteIcon2Ref = ref<SVGImageElement | null>(null)
+const mobileViteLargeRef = ref<SVGImageElement | null>(null)
+const mobileViteSmallRef = ref<SVGImageElement | null>(null)
 
 const bigPathRef = ref<SVGPathElement | null>(null)
 const smallPathRef = ref<SVGPathElement | null>(null)
+const mobilePathRef = ref<SVGPathElement | null>(null)
 
 const activeTweens: Array<{ kill: () => void }> = []
 
@@ -41,24 +44,29 @@ onMounted(() => {
   gsap.registerPlugin(MotionPathPlugin)
 
   if (
-    !bigPathRef.value
-    || !smallPathRef.value
-    || !vueIcon1Ref.value
-    || !vueIcon2Ref.value
-    || !vueIcon3Ref.value
-    || !viteIcon1Ref.value
-    || !viteIcon2Ref.value
+    bigPathRef.value
+    && smallPathRef.value
+    && vueIcon1Ref.value
+    && vueIcon2Ref.value
+    && vueIcon3Ref.value
+    && viteIcon1Ref.value
+    && viteIcon2Ref.value
   ) {
-    return
+    activeTweens.push(
+      createOrbitTween(vueIcon1Ref.value, bigPathRef.value, 0, 18),
+      createOrbitTween(vueIcon2Ref.value, bigPathRef.value, 0.33, 18),
+      createOrbitTween(vueIcon3Ref.value, bigPathRef.value, 0.66, 18),
+      createOrbitTween(viteIcon1Ref.value, smallPathRef.value, 0.15, 12),
+      createOrbitTween(viteIcon2Ref.value, smallPathRef.value, 0.65, 12),
+    )
   }
 
-  activeTweens.push(
-    createOrbitTween(vueIcon1Ref.value, bigPathRef.value, 0, 18),
-    createOrbitTween(vueIcon2Ref.value, bigPathRef.value, 0.33, 18),
-    createOrbitTween(vueIcon3Ref.value, bigPathRef.value, 0.66, 18),
-    createOrbitTween(viteIcon1Ref.value, smallPathRef.value, 0.15, 12),
-    createOrbitTween(viteIcon2Ref.value, smallPathRef.value, 0.65, 12),
-  )
+  if (mobilePathRef.value && mobileViteLargeRef.value && mobileViteSmallRef.value) {
+    activeTweens.push(
+      createOrbitTween(mobileViteLargeRef.value, mobilePathRef.value, 0.12, 9),
+      createOrbitTween(mobileViteSmallRef.value, mobilePathRef.value, 0.62, 11),
+    )
+  }
 })
 
 onBeforeUnmount(() => {
@@ -126,9 +134,45 @@ onBeforeUnmount(() => {
         />
       </g>
     </svg>
-    <div class="relative ml-0 pt-[92px] font-serif text-[16px]  text-vconf-text-read md:ml-[-420px] md:text-[21px] xl:ml-[-450px]">
+    <div class="relative ml-0 pt-[92px] font-serif text-[16px] text-vconf-text-read md:ml-[-420px] md:text-[21px] xl:ml-[-450px]">
+      <div
+        class="pointer-events-none absolute left-1/2 top-[62px] h-[257px] w-[372px] -translate-x-1/2 md:hidden"
+        aria-hidden="true"
+      >
+        <svg
+          class="size-full"
+          viewBox="0 0 372 257"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <image
+            href="/home/ellipse-sm.svg"
+            x="0"
+            y="0"
+            width="372"
+            height="257"
+          />
+          <path
+            ref="mobilePathRef"
+            d="M90.0093 1.01172C49.3506 -1.90744 18.2615 7.65039 6.00635 30.0742C-6.24873 52.4981 2.49531 83.8257 26.9087 116.47C51.293 149.075 91.1937 182.821 140.84 209.954C190.487 237.087 240.437 252.446 281.047 255.361C321.706 258.28 352.795 248.723 365.05 226.299C377.305 203.875 368.561 172.547 344.148 139.903C319.764 107.298 279.862 73.5518 230.215 46.4189C180.569 19.2862 130.619 3.92743 90.0093 1.01172Z"
+            fill="none"
+            stroke="none"
+          />
+          <image
+            ref="mobileViteLargeRef"
+            href="/home/vite-icon.svg"
+            width="16"
+            height="15"
+          />
+          <image
+            ref="mobileViteSmallRef"
+            href="/home/vite-icon.svg"
+            width="8"
+            height="8"
+          />
+        </svg>
+      </div>
       <!-- 標題 -->
-      <div class="mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0">
+      <div class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0">
         <h2 class="mb-3 text-center text-[28px] font-bold text-vconf-heading md:text-left md:text-[48px] lg:mb-6">
           <span class="pr-2 lg:pr-6">(</span>
           <span class="pr-2 lg:pr-6">行為準則</span>
