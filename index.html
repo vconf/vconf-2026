@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V-CONF Taiwan 2026 - Canvas Particle Effect</title>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #ffffff;
+      font-family: 'PingFang TC', 'Helvetica Neue', Helvetica, Arial, 'Microsoft JhengHei', sans-serif;
+    }
+
+    #app {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Canvas 滿版背景 */
+    .particle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none; /* 讓滑鼠點擊可以穿透，方便選取文字 */
+    }
+
+    /* 中央內文排版層 */
+    .content-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 90%;
+      max-width: 850px;
+      text-align: center;
+      color: #1e293b;
+      padding: 20px;
+    }
+
+    .title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 2rem;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      line-height: 1.8;
+      color: #64748b;
+      margin-bottom: 2.5rem;
+    }
+
+    .highlight {
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    .description {
+      font-size: 1rem;
+      line-height: 2;
+      color: #475569;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #64748b;
+    }
+
+    /* 響應式手機版微調 */
+    @media (max-width: 768px) {
+      .title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .description, .footer-text {
+        font-size: 0.875rem;
+        line-height: 1.8;
+      }
+      /* 手機版隱藏換行，改由瀏覽器自然折行 */
+      br {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <canvas ref="canvasRef" class="particle-canvas"></canvas>
+
+  <div class="content-overlay">
+    <h1 class="title">（ 連結社群 啟發未來 ）</h1>
+    <p class="subtitle">
+      <span class="highlight">V-CONF Taiwan 2026</span> 
+      是一場匯聚 Vue.js 開發者與前端工程師的年度盛會，<br>
+      聚焦 Vue 生態系與現代前端開發體驗的演進。
+    </p>
+    <p class="description">
+      在前端技術快速迭代的浪潮中，我們將一同回顧 Vue 的成長歷程，<br>
+      梳理那些實際改變開發模式的關鍵技術與轉折。<br>
+      除了回顧過去，我們也關注未來，<br>
+      深入探討以 Vite 為核心的開發流程，以及新一代工具鏈如何帶來更快速、更流暢的開發體驗，<br>
+      並透過實務案例分享最新技術趨勢。
+    </p>
+    <p class="footer-text">
+      在這裡，你將有機會與來自各地的開發者建立連結，<br>
+      一同探索 Vue 與 Vite 的更多可能，並共同想像前端開發的下一個階段。
+    </p>
+  </div>
+</div>
+
+<script>
+  const { createApp, ref, onMounted, onUnmounted } = Vue;
+
+  createApp({
+    setup() {
+      const canvasRef = ref(null);
+      let animationTicker = null;
+
+      // 粒子類別 (Particle Class)
+      class Particle {
+        constructor(canvasWidth, canvasHeight) {
+          this.canvasWidth = canvasWidth;
+          this.canvasHeight = canvasHeight;
+          this.reset();
+          // 初始隨機分佈在全螢幕
+          this.x = Math.random() * canvasWidth;
+          this.y = Math.random() * canvasHeight;
+        }
+
+        reset() {
+          // 設定隨機目標位置與基礎微幅移動速度
+          this.targetX = Math.random() * this.canvasWidth;
+          this.targetY = Math.random() * this.canvasHeight;
+          this.x = this.targetX;
+          this.y = this.targetY;
+          
+          this.size = Math.random() * 6 + 10; // 10px ~ 16px
+          this.vx = (Math.random() - 0.5) * 0.4; // X 軸飄移速度
+          this.vy = (Math.random() - 0.5) * 0.4; // Y 軸飄移速度
+          
+          this.angle = Math.random() * Math.PI * 2; // 隨機初始角度
+          this.va = (Math.random() - 0.5) * 0.01;   // 隨機旋轉速度
+
+          // 94% 紫色閃電，6% 綠色打勾
+          if (Math.random() > 0.94) {
+            this.type = 'check';
+            this.color = '#10B981'; 
+          } else {
+            this.type = 'bolt';
+            this.color = '#6366F1'; 
+          }
+        }
+
+        update(centerX, centerY, rx, ry) {
+          // 1. 讓目標點隨時間產生微幅漂浮
+          this.targetX += this.vx;
+          this.targetY += this.vy;
+
+          // 飄出邊界就重置
+          if (this.targetX < 0 || this.targetX > this.canvasWidth || this.targetY < 0 || this.targetY > this.canvasHeight) {
+            this.reset();
+          }
+
+          this.angle += this.va;
+
+          // 2. 核心邏輯：橢圓排斥運算
+          const dx = this.targetX - centerX;
+          const dy = this.targetY - centerY;
+
+          // 橢圓標準方程：(x/a)^2 + (y/b)^2
+          const ellipseValue = (dx * dx) / (rx * rx) + (dy * dy) / (ry * ry);
+
+          let finalX = this.targetX;
+          let finalY = this.targetY;
+
+          // 當值小於 1，代表闖入中央排斥圈，需計算邊緣座標將其向外推
+          if (ellipseValue < 1) {
+            const angleToCenter = Math.atan2(dy, dx);
+            // 算出在該角度下，橢圓邊緣的精確 X, Y 座標 (加上 5px 緩衝讓邊緣更乾淨)
+            finalX = centerX + (rx + 5) * Math.cos(angleToCenter);
+            finalY = centerY + (ry + 5) * Math.sin(angleToCenter);
+          }
+
+          // 3. 物理緩動 (Easing) 讓粒子被推開或移動時呈現絲滑柔和感
+          this.x += (finalX - this.x) * 0.1;
+          this.y += (finalY - this.y) * 0.1;
+        }
+
+        draw(ctx) {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.angle);
+          ctx.fillStyle = this.color;
+
+          if (this.type === 'bolt') {
+            // 繪製幾何閃電
+            ctx.beginPath();
+            ctx.moveTo(0, -this.size / 2);
+            ctx.lineTo(this.size / 4, -this.size / 6);
+            ctx.lineTo(-this.size / 10, -this.size / 6);
+            ctx.lineTo(-this.size / 4, this.size / 2);
+            ctx.lineTo(-this.size / 12, 0);
+            ctx.lineTo(this.size / 4, 0);
+            ctx.closePath();
+            ctx.fill();
+          } else {
+            // 繪製打勾
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(-this.size / 3, 0);
+            ctx.lineTo(-this.size / 10, this.size / 3);
+            ctx.lineTo(this.size / 3, -this.size / 3);
+            ctx.stroke();
+          }
+
+          ctx.restore();
+        }
+      }
+
+      onMounted(() => {
+        const canvas = canvasRef.value;
+        const ctx = canvas.getContext('2d');
+        const particles = [];
+        const particleCount = 400; // 粒子總數
+
+        // 處理 Retina 高解析度螢幕模糊問題
+        const resizeCanvas = () => {
+          const dpr = window.devicePixelRatio || 1;
+          canvas.width = window.innerWidth * dpr;
+          canvas.height = window.innerHeight * dpr;
+          canvas.style.width = `${window.innerWidth}px`;
+          canvas.style.height = `${window.innerHeight}px`;
+          ctx.scale(dpr, dpr);
+        };
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // 初始化粒子群
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle(window.innerWidth, window.innerHeight));
+        }
+
+        // 渲染迴圈
+        const render = () => {
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          
+          // 動態計算排斥範圍，RWD 自動適應大小
+          const rx = Math.min(window.innerWidth * 0.38, 460); // 橢圓 X 半徑
+          const ry = Math.min(window.innerHeight * 0.28, 240); // 橢圓 Y 半徑
+
+          particles.forEach(p => {
+            p.canvasWidth = window.innerWidth;
+            p.canvasHeight = window.innerHeight;
+            p.update(centerX, centerY, rx, ry);
+            p.draw(ctx);
+          });
+        };
+
+        // 綁定到 GSAP Ticker 運作 (高流暢 60fps 驅動)
+        gsap.ticker.add(render);
+        animationTicker = render;
+      });
+
+      onUnmounted(() => {
+        if (animationTicker) {
+          gsap.ticker.remove(animationTicker);
+        }
+        window.removeEventListener('resize', () => {});
+      });
+
+      return {
+        canvasRef
+      };
+    }
+  }).mount('#app');
+</script>
+
+</body>
+</html>

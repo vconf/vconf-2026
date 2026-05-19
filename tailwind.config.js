@@ -2,13 +2,25 @@
 export default {
   darkMode: ['class'],
   content: [
-    './components/**/*.{js,vue,ts}',
+    './components/**/*.{js,jsx,ts,tsx,vue}',
     './app.vue',
-    './assets/**/*.css',
-    './assets/**/*.scss',
+    './pages/**/*.{js,ts,vue}',
+    './.storybook/**/*.{js,ts}',
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '480px',
+      },
+      container: {
+        center: true,
+        screens: {
+          '2xl': '1512px',
+        },
+      },
+      fontFamily: {
+        serif: ['"Noto Sans TC"', 'serif'],
+      },
       clipPath: {
         mypolygon: 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem))',
         fancycut: 'polygon(32px 0%, 100% 0%, 100% 100%, 0% 100%)',
@@ -19,45 +31,22 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        chart: {
-          1: 'hsl(var(--chart-1))',
-          2: 'hsl(var(--chart-2))',
-          3: 'hsl(var(--chart-3))',
-          4: 'hsl(var(--chart-4))',
-          5: 'hsl(var(--chart-5))',
+        vconf: {
+          'heading': 'hsl(var(--color-heading))',
+          'text-muted': 'hsl(var(--text-muted))',
+          'text-unread': 'hsl(var(--color-text-unread))',
+          'text-read': 'hsl(var(--color-text-read))',
+          'black': 'hsl(var(--color-black))',
+          'white': 'hsl(var(--background))',
+          'primary': 'hsl(var(--color-primary))',
+          'sun': 'hsl(var(--color-sun))',
+          'sun-background': 'hsl(var(--color-sun-background))',
+          'moon': 'hsl(var(--color-moon))',
+          'moon-background': 'hsl(var(--color-moon-background))',
+          'moon-border': 'hsl(var(--color-moon-border))',
+          'theme-toggle-bg': 'hsl(var(--color-theme-toggle-bg))',
+          'gray-light': 'hsl(var(--color-gray-light))',
+          'section-bg': 'hsl(var(--color-section-bg))',
         },
       },
     },

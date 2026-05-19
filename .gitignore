@@ -32,3 +32,5 @@ components/assets/*.svg
 components/assets/*.avif
 components/assets/*.jpg
 components/assets/*.jpeg
+.claude/settings.local.json
+CLAUDE.md
