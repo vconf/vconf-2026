@@ -1,16 +1,16 @@
 <template>
-  <section class="px-6">
+  <section class="px-6 md:px-0">
     <div class="container mt-[80px] md:mt-[171px]">
-      <div class="flex flex-col items-center justify-center md:flex-row">
+      <div class="flex flex-col items-center justify-center md:flex-row xl:justify-start">
         <!-- 贊助圖片 -->
-        <div class="shrink translate-x-0 translate-y-0 md:ml-[-14%] md:shrink-0 md:translate-x-[15px] md:translate-y-[-12px] xl:ml-0">
+        <div class="shrink translate-x-0 translate-y-0 md:ml-[-14%] md:shrink-0 md:translate-x-[15px] xl:ml-0">
           <NuxtImg
             width="631"
             height="772"
             loading="eager"
             placeholder
             src="/home/donate.png"
-            class="hidden md:block"
+            class="hidden h-auto w-[clamp(333px,52.07vw,631px)] md:block"
           />
           <NuxtImg
             width="333"
@@ -22,13 +22,13 @@
           />
         </div>
         <!-- 內容區域 -->
-        <div class="max-w-[518px] px-0 py-6 font-serif font-medium md:px-6 md:py-8 xl:max-w-[711px]">
-          <h2 class="mb-6 text-center text-[28px] font-bold leading-[1.214] text-vconf-heading md:text-[48px]">
+        <div class="max-w-[518px] px-0 py-6 font-serif font-medium md:translate-y-[-15%] md:px-6 md:py-8 lg:translate-y-[-14%] xl:max-w-[711px] xl:translate-y-[-6%]">
+          <h2 class="mb-6 text-center text-[clamp(28px,7.8125vw-32px,48px)] font-bold leading-[1.214] text-vconf-heading">
             <span class="pr-2 lg:pr-6">(</span>
             <span class="pr-2 lg:pr-6">贊助商</span>
             <span>)</span>
           </h2>
-          <div class="text-[16px] leading-[160%] tracking-[0.02em] text-vconf-text-read md:text-[21px]">
+          <div class="text-[clamp(16px,1.953vw+1.04px,21px)] leading-[160%] tracking-[0.02em] text-vconf-text-read">
             <p class="mb-6">
               <span class="text-vconf-primary">V-CONF Taiwan 2026 </span>致力於為所有與會者，包括講者、贊助商與工作人員，提供一個安全、無騷擾且相互尊重的活動環境。
             </p>
@@ -45,6 +45,22 @@
               這不僅是一次曝光機會，更是參與並支持開源社群發展的重要契機。
             </p>
           </div>
+          <!-- Vue icon（裝飾） -->
+          <NuxtImg
+            src="/home/vue-bg.png"
+            width="384"
+            height="355"
+            loading="eager"
+            class="absolute right-[-230px] top-[-65px] hidden xl:block"
+          />
+          <!-- Vite icon（裝飾） -->
+          <NuxtImg
+            src="/home/vite-bg.png"
+            width="255"
+            height="243"
+            loading="eager"
+            class="absolute right-[38px] top-[-187px] hidden xl:block"
+          />
         </div>
       </div>
     </div>
