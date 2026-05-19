@@ -109,12 +109,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="relative isolate mt-[100px] md:mt-[40px] xl:mt-0">
+  <section class="relative isolate mt-[100px] md:mt-[64px] xl:mt-[11px]">
     <!-- 主要內容 -->
     <div class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0">
       <svg
         class="ml-[clamp(-680px,calc(-680px+170*((100vw-768px)/256)),-510px)] hidden w-[700px] shrink-0 md:block lg:ml-[clamp(-450px,calc(-450px+160*((100vw-1024px)/256)),-290px)] xl:ml-[clamp(-400px,calc(-400px+250*((100vw-1280px)/256)),-150px)] 2xl:ml-[-40px]"
-        viewBox="-80 0 700 980"
+        viewBox="-80 0 700 920"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
@@ -338,8 +338,8 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <!-- 感謝語 -->
-    <div class="container relative z-10 hidden place-content-center md:grid">
-      <p class="w-fit max-w-[677px] text-center text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary md:translate-y-[-21px] xl:translate-y-[-80px]">
+    <div class="container relative z-10 mt-[42px] hidden place-content-center font-serif md:grid xl:mt-0">
+      <p class="w-fit max-w-[677px] text-center text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary">
         感謝您的配合與支持，讓我們共同打造開放、包容且充滿活力的 Vue.js 社群。
       </p>
     </div>
@@ -374,13 +374,13 @@ onBeforeUnmount(() => {
   user-select: none;
 }
 
-@media (min-width: 768px){
+@media (min-width: 769px){
   .section-bg {
-    transform: translate(69.8%, -40.5%) rotate(-5deg);
+    transform: translate(69.8%, -42.5%) rotate(-5deg);
   }
 }
 
-@media (min-width: 1024px){
+@media (min-width: 1025px){
   .section-bg {
     transform: translate(56.8%, -38.5%) rotate(-5deg)
   }
