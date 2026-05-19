@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="relative isolate">
+  <section class="relative isolate mt-[100px] md:mt-[40px] xl:mt-0">
     <!-- 主要內容 -->
     <div class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0">
       <svg
@@ -344,17 +344,19 @@ onBeforeUnmount(() => {
       </p>
     </div>
 
+    <!-- 區塊間背景圖 -->
     <div
-      class="section-bg-layer pointer-events-none absolute inset-0 z-0"
+      class="section-bg-layer pointer-events-none absolute inset-0 z-20"
       aria-hidden="true"
     >
-      <NuxtImg
+      <NuxtPicture
         src="/home/section-bg.png"
         class="section-bg absolute right-0 top-0"
+        sizes="(max-width: 767px) 728px, 1159px"
         width="1159"
         height="880"
         loading="eager"
-        placeholder
+        :img-attrs="{ class: 'max-w-none w-[728px] h-[553px] md:w-[1159px] md:h-[880px]' }"
       />
     </div>
   </section>
@@ -367,8 +369,20 @@ onBeforeUnmount(() => {
 }
 
 .section-bg {
-  transform: translate(56.8%, -42.5%) rotate(-5deg);
+  transform: translate(66.8%, -49.5%) rotate(-5deg);
   pointer-events: none;
   user-select: none;
+}
+
+@media (min-width: 768px){
+  .section-bg {
+    transform: translate(69.8%, -40.5%) rotate(-5deg);
+  }
+}
+
+@media (min-width: 1024px){
+  .section-bg {
+    transform: translate(56.8%, -38.5%) rotate(-5deg)
+  }
 }
 </style>
