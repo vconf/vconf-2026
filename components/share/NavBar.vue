@@ -3,11 +3,15 @@ import { ref } from 'vue'
 
 const NAV_ITEMS = [
   {
-    name: 'Concept',
+    name: 'About',
     href: '/about',
   },
   {
-    name: 'Rules',
+    name: 'Agenda',
+    href: '#',
+  },
+  {
+    name: 'Speakers',
     href: '#',
   },
   {
@@ -15,7 +19,11 @@ const NAV_ITEMS = [
     href: '#',
   },
   {
-    name: 'Contact',
+    name: 'Team',
+    href: '#',
+  },
+  {
+    name: 'Recap',
     href: '#',
   },
 ]
