@@ -25,7 +25,7 @@ function toggleTheme(theme: 'dark' | 'light') {
       class="m-auto hidden pt-[50px] md:block"
       width="455"
       height="230"
-      :src="isDark ? '/home/hero-logo-dark-md.svg' : '/home/hero-logo-md.svg'"
+      :src="isDark ? '/about/hero-logo-dark-md.svg' : '/about/hero-logo-md.svg'"
       loading="eager"
       placeholder
     />
@@ -33,7 +33,7 @@ function toggleTheme(theme: 'dark' | 'light') {
       class="m-auto block pt-[50px] md:hidden"
       width="264"
       height="133"
-      src="/home/hero-logo-sm.svg"
+      src="/about/hero-logo-sm.svg"
       loading="eager"
       placeholder
     />
@@ -115,11 +115,5 @@ function toggleTheme(theme: 'dark' | 'light') {
 
     <!-- ThreeScene -->
     <!-- <HomeHeroThreeScene /> -->
-
-    <div class="h-[300px]"></div>
-    <HomeCommunityDiamond />
-    <HomeCodeOfConduct />
-    <HomeSponsors />
-    <ShareFooter />
   </div>
 </template>

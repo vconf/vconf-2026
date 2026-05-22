@@ -136,12 +136,10 @@ onBeforeUnmount(() => {
   >
     <div class="community relative">
       <div class="absolute left-1/2 top-1/2 min-h-[486px] w-full min-w-0 -translate-x-1/2 -translate-y-1/2 px-6 py-8 text-center font-serif xs:w-screen lg:min-h-[520px] lg:w-full">
-        <h2 class="mb-6 whitespace-nowrap text-[clamp(28px,5.2vw,48px)]  font-bold leading-tight text-vconf-heading xs:text-[48px]">
-          <span class="pr-2 lg:pr-6">(</span>
-          <span class="pr-2 lg:pr-6">連結社群</span>
-          <span class="pr-2 lg:pr-6">啟發未來</span>
-          <span>)</span>
-        </h2>
+        <ShareSectionTitle
+          title="連結社群 啟發未來"
+          :padding-bottom="24"
+        />
         <div
           ref="textRef"
           class="text-[clamp(16px,2.2vw,21px)] font-medium leading-[160%] tracking-[0.02em] text-vconf-text-unread xs:text-[21px]"
@@ -169,7 +167,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
   .community {
-    background-image: url('/home/community-bg.png');
+    background-image: url('/about/community-bg.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -182,7 +180,7 @@ onBeforeUnmount(() => {
 
 @media (min-width: 480px) {
   .community {
-    background-image: url('/home/community-md-bg.png');
+    background-image: url('/about/community-md-bg.png');
     background-position: center;
     height: 912px;
     width: 1512px;

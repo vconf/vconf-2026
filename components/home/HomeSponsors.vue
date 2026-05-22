@@ -9,7 +9,7 @@
             height="772"
             loading="eager"
             placeholder
-            src="/home/donate.png"
+            src="/about/donate.png"
             class="hidden h-auto w-[clamp(333px,52.07vw,631px)] md:block"
           />
           <NuxtImg
@@ -17,7 +17,7 @@
             height="386"
             loading="eager"
             placeholder
-            src="/home/donate-md.png"
+            src="/about/donate-md.png"
             class="block md:hidden"
           />
         </div>
@@ -47,7 +47,7 @@
           </div>
           <!-- Vue icon（裝飾） -->
           <NuxtImg
-            src="/home/vue-bg.png"
+            src="/about/vue-bg.png"
             width="384"
             height="355"
             loading="eager"
@@ -55,7 +55,7 @@
           />
           <!-- Vite icon（裝飾） -->
           <NuxtImg
-            src="/home/vite-bg.png"
+            src="/about/vite-bg.png"
             width="255"
             height="243"
             loading="eager"
@@ -69,7 +69,7 @@
           aria-hidden="true"
         >
           <NuxtPicture
-            src="/home/section-bg.png"
+            src="/about/section-bg.png"
             class="section-bg absolute left-0 top-0"
             sizes="(max-width: 767px) 728px, 1159px"
             width="1159"

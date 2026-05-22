@@ -13,21 +13,21 @@ const SOCIAL_LINKS = [
   {
     LABEL: 'Facebook',
     HREF: 'https://www.facebook.com/groups/vuejs.tw',
-    ICON: '/home/fb.svg',
+    ICON: '/share/fb.svg',
     WIDTH: '28',
     HEIGHT: '45',
   },
   {
     LABEL: 'Threads',
     HREF: 'https://www.threads.com/@vuejs_taiwan',
-    ICON: '/home/thread.svg',
+    ICON: '/share/thread.svg',
     WIDTH: '43',
     HEIGHT: '53',
   },
   {
     LABEL: 'Instagram',
     HREF: 'https://www.instagram.com/vuejs_taiwan',
-    ICON: '/home/ig.svg',
+    ICON: '/share/ig.svg',
     WIDTH: '50',
     HEIGHT: '50',
   },
@@ -52,14 +52,9 @@ const { stop } = useIntersectionObserver(
 </script>
 
 <template>
-  <footer class="overflow-hidden pb-[31px] pt-[68px]">
+  <footer class="overflow-hidden pb-[31px] pt-[99px]">
     <div class="container relative mb-[220px] max-w-[891px]">
-      <!-- 主標題 -->
-      <h2 class="mb-8 flex items-center justify-center whitespace-nowrap text-center font-serif text-[clamp(28px,5.2vw,64px)] font-bold leading-[1.2] text-vconf-heading xs:text-[64px]">
-        <span class="translate-y-[2px] pr-2 text-[32px] lg:pr-6">(</span>
-        <span class="pr-2 lg:pr-6">Information</span>
-        <span class="translate-y-[2px] text-[32px]">)</span>
-      </h2>
+      <ShareSectionTitle title="Information" />
       <!-- 內文 -->
       <div class="flex flex-col items-center gap-4 pb-[98px] font-serif">
         <p class="text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-text-read">
@@ -96,7 +91,7 @@ const { stop } = useIntersectionObserver(
             <NuxtImg
               width="21"
               height="29"
-              src="/home/map.svg"
+              src="/share/map.svg"
               placeholder
             />
           </a>
@@ -134,12 +129,13 @@ const { stop } = useIntersectionObserver(
       </div>
       <!-- 飛行軌道背景 -->
       <NuxtImg
-        src="/home/fly-bg.png"
+        src="/share/fly-bg.png"
         width="891"
         height="418"
         placeholder
-        class="absolute bottom-[-39%] left-[9%] z-0"
+        class="absolute bottom-[-39%] left-[9%] z-[-1]"
       />
+      <!-- 飛機圖示 -->
       <div
         ref="airplaneTriggerRef"
         class="absolute bottom-[20%] left-[-3%] z-10 aspect-[265/291] w-[191px]"
@@ -149,6 +145,51 @@ const { stop } = useIntersectionObserver(
           class="pointer-events-none absolute inset-0 size-full"
         />
       </div>
+      <!-- 裝飾背景 vite icon -->
+      <!-- 右邊 icon 背景 -->
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute right-[17px] top-[54px]"
+      />
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute right-[-135px] top-[-15px]"
+      />
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute right-[-135px] top-[416px]"
+      />
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute right-[-93px] top-[280px]"
+      />
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute bottom-[91px] right-[-93px]"
+      />
+      <!-- 左邊 icon 背景 -->
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute left-[-49px] top-[98px]"
+      />
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute left-[-91px] top-[190px]"
+      />
     </div>
     <!-- 底部背景圖 -->
     <div class="relative bottom-0 left-0 mx-5 overflow-hidden pb-[143px]">
@@ -156,14 +197,17 @@ const { stop } = useIntersectionObserver(
         class="footer-bg pointer-events-none absolute inset-x-0 bottom-0"
         aria-hidden="true"
       ></div>
+      <p class="absolute bottom-[10px] right-[41px] bg-vconf-white font-serif text-[14px] leading-[1.6] tracking-[0.02em] text-vconf-primary">
+        © V-CONF Taiwan 2026
+      </p>
     </div>
   </footer>
 </template>
 
 <style scoped>
 .footer-bg {
-  padding-top: 520px;
-  background-image: url('/home/vite-icon-large.svg');
+  height: 143px;
+  background-image: url('/share/vite-icon-large.svg');
   background-repeat: repeat;
   background-size: 36px 35px;
 }
