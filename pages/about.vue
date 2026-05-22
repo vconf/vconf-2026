@@ -1,8 +1,8 @@
 <template>
   <div>
     <AboutHero />
-    <HomeCommunityDiamond />
-    <HomeCodeOfConduct />
-    <!-- <HomeSponsors /> -->
+    <AboutCommunityDiamond />
+    <AboutCodeOfConduct />
+    <!-- <AboutSponsors /> -->
   </div>
 </template>
