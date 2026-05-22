@@ -1,7 +1,7 @@
 <template>
-  <section class="px-6 md:px-0">
-    <div class="container mt-[80px] md:mt-[171px]">
-      <div class="flex flex-col items-center justify-center md:flex-row xl:justify-start">
+  <section class="relative px-6 md:px-0">
+    <div class="container mt-[80px] md:mt-[375px]">
+      <div class="flex flex-col items-center justify-center overflow-x-clip md:flex-row xl:justify-start">
         <!-- 贊助圖片 -->
         <div class="shrink translate-x-0 translate-y-0 md:ml-[-14%] md:shrink-0 md:translate-x-[15px] xl:ml-0">
           <NuxtImg
@@ -62,7 +62,35 @@
             class="absolute right-[38px] top-[-187px] hidden xl:block"
           />
         </div>
+
+        <!-- 區塊間背景圖 -->
+        <!-- <div
+          class="section-bg-layer pointer-events-none absolute inset-0 z-20"
+          aria-hidden="true"
+        >
+          <NuxtPicture
+            src="/home/section-bg.png"
+            class="section-bg absolute left-0 top-0"
+            sizes="(max-width: 767px) 728px, 1159px"
+            width="1159"
+            height="880"
+            loading="eager"
+            :img-attrs="{ class: 'max-w-none w-[728px] h-[553px] md:w-[1159px] md:h-[880px]' }"
+          />
+        </div> -->
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.section-bg-layer {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.section-bg {
+  pointer-events: none;
+  user-select: none;
+}
+</style>

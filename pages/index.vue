@@ -120,5 +120,6 @@ function toggleTheme(theme: 'dark' | 'light') {
     <HomeCommunityDiamond />
     <HomeCodeOfConduct />
     <HomeSponsors />
+    <ShareFooter />
   </div>
 </template>
