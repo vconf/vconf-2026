@@ -34,6 +34,8 @@ watch(
       placeholder
     />
 
+    <HomeCountdown />
+
     <!-- 切換按鈕 -->
     <Teleport to="body">
       <ShareThemeToggle class="left-[17px] top-[166px]" />

@@ -32,6 +32,7 @@
     --text-muted: 0 0% 34%;
     --color-black: 0 0% 0%;
     --color-primary: 153 48% 49%;
+    --color-purple: 263 100% 62%;
     --color-sun: 56 94% 59%;
     --color-sun-background: 0 0% 100%;
     --color-moon: 0 0% 89%;
@@ -52,6 +53,7 @@
     --text-muted: 151 100% 49%;
     --color-black: 153 48% 49%;
     --color-primary: 153 48% 49%;
+    --color-purple: 263 100% 62%;
     --color-sun: 0 0% 89% / 0.5;
     --color-sun-background: 0 0% 0%;
     --color-moon: 36 100% 72%;
