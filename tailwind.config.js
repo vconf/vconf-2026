@@ -20,6 +20,7 @@ export default {
       },
       fontFamily: {
         serif: ['"Noto Sans TC"', 'serif'],
+        sans: ['"avenir-next-lt-pro"', '"Noto Sans TC"', 'sans-serif'],
       },
       clipPath: {
         mypolygon: 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem))',

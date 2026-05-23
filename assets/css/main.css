@@ -37,7 +37,7 @@
     --color-moon: 0 0% 89%;
     --color-moon-background: 0 0% 100%;
     --color-moon-border: 0 0% 89%;
-    --color-theme-toggle-bg: 0 0% 100%;
+    --color-theme-toggle-bg: 0 0% 100% / 0.5;
     --color-heading: 210 26% 28%; /* blue-dark */
     --color-text-unread: 0 0% 79%; /* gray-light */
     --color-text-read: 210 26% 28%; /* blue-dark */

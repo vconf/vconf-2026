@@ -73,7 +73,7 @@ watch(
 </script>
 
 <template>
-  <header class="sticky top-0 z-20 bg-vconf-white">
+  <header class="sticky top-0 bg-vconf-white">
     <div class="container">
       <nav class="relative flex items-center px-6 py-4 md:p-6 md:pl-16 md:pr-8">
         <!-- logo 顯示使用 -->
