@@ -35,7 +35,9 @@ watch(
     />
 
     <!-- 切換按鈕 -->
-    <ShareThemeToggle class="hidden w-fit flex-col gap-2 rounded-full bg-vconf-theme-toggle-bg px-2 py-3 lg:flex" />
+    <Teleport to="body">
+      <ShareThemeToggle class="left-[17px] top-[166px]" />
+    </Teleport>
 
     <!-- ThreeScene -->
     <!-- <HomeHeroThreeScene /> -->
