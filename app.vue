@@ -11,6 +11,7 @@
 .page-enter-active {
   transition: all 0.5s;
 }
+
 .page-enter-from {
   opacity: 0;
   transform: translateY(30px);
