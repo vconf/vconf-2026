@@ -133,7 +133,7 @@ const { stop } = useIntersectionObserver(
         width="891"
         height="418"
         placeholder
-        class="absolute bottom-[-39%] left-[9%] z-[-1]"
+        class="absolute bottom-[-37%] left-[9%] z-[-1]"
       />
       <!-- 飛機圖示 -->
       <div

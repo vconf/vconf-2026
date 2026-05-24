@@ -60,10 +60,10 @@ const segments = computed(() => [
 </script>
 
 <template>
-  <section class="mx-auto w-fit pb-[280px] pt-[180px] text-center">
-    <div class="container">
+  <section class="mx-auto w-fit pb-[280px] pt-[279px] text-center">
+    <div class="container relative">
       <h2 class="mb-8 font-serif text-[64px] font-bold tracking-[0%] text-vconf-heading">
-        Oct 31,2026
+        Oct 31 2026
       </h2>
       <p class="mb-8 font-serif text-[32px] font-bold tracking-[1%] text-vconf-heading">
         即將，VUE 見未來
@@ -88,6 +88,20 @@ const segments = computed(() => [
           </p>
         </div>
       </div>
+
+      <!-- 上下裝飾背景 -->
+      <NuxtImg
+        src="/home/homeCountdown-top.png"
+        width="722"
+        height="130"
+        class="absolute left-1/2 top-[-190px] -translate-x-1/2"
+      />
+      <NuxtImg
+        src="/home/homeCountdown-bottom.png"
+        width="722"
+        height="138"
+        class="absolute bottom-[-190px] left-1/2 -translate-x-1/2"
+      />
     </div>
   </section>
 </template>
@@ -96,9 +110,9 @@ const segments = computed(() => [
 .countdown-number-frame::after {
   content: attr(data-value);
   position: absolute;
-  top: 100%;
+  top: 105%;
   left: 0;
-  width: 106%;
+  width: 100%;
   height: 50%;
   transform: scaleY(-0.74);
   transform-origin: top center;
