@@ -138,7 +138,7 @@ const { stop } = useIntersectionObserver(
       <!-- 飛機圖示 -->
       <div
         ref="airplaneTriggerRef"
-        class="absolute bottom-[20%] left-[-3%] z-10 aspect-[265/291] w-[191px]"
+        class="absolute bottom-[22%] left-[-3%] z-10 aspect-[265/291] w-[191px]"
       >
         <ShareFooterAirplane
           :started="airplaneStarted"
