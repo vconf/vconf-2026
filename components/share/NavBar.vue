@@ -3,11 +3,15 @@ import { ref } from 'vue'
 
 const NAV_ITEMS = [
   {
-    name: 'Concept',
+    name: 'About',
     href: '/about',
   },
   {
-    name: 'Rules',
+    name: 'Agenda',
+    href: '#',
+  },
+  {
+    name: 'Speakers',
     href: '#',
   },
   {
@@ -15,12 +19,17 @@ const NAV_ITEMS = [
     href: '#',
   },
   {
-    name: 'Contact',
+    name: 'Team',
+    href: '#',
+  },
+  {
+    name: 'Recap',
     href: '#',
   },
 ]
 
 const lenis = useLenis()
+const route = useRoute()
 const isMenuOpen = ref(false)
 
 function onClickIcon() {
@@ -38,10 +47,33 @@ function onToggleMenu() {
     lenis.start()
   }
 }
+
+function onClickNavItem() {
+  if (!isMenuOpen.value)
+    return
+
+  isMenuOpen.value = false
+  lenis.start()
+}
+
+function isNavItemActive(href: string) {
+  if (href === '#')
+    return false
+
+  return route.path === href || route.path.startsWith(`${href}/`)
+}
+
+watch(
+  () => route.fullPath,
+  () => {
+    isMenuOpen.value = false
+    lenis.start()
+  },
+)
 </script>
 
 <template>
-  <header class="sticky top-0 z-10 bg-vconf-white">
+  <header class="sticky top-0 bg-vconf-white">
     <div class="container">
       <nav class="relative flex items-center px-6 py-4 md:p-6 md:pl-16 md:pr-8">
         <!-- logo 顯示使用 -->
@@ -51,7 +83,7 @@ function onToggleMenu() {
           @click="onClickIcon()"
         >
           <NuxtImg
-            src="/home/nav-logo-md.svg"
+            src="/share/nav-logo-md.svg"
             height="26"
             width="150"
             loading="eager"
@@ -59,7 +91,7 @@ function onToggleMenu() {
             class="hidden md:block"
           />
           <NuxtImg
-            src="/home/nav-logo-sm.svg"
+            src="/share/nav-logo-sm.svg"
             height="19"
             width="110"
             loading="eager"
@@ -96,8 +128,11 @@ function onToggleMenu() {
           <li
             v-for="NAV_ITEM in NAV_ITEMS"
             :key="NAV_ITEM.href"
-            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-4/5 after:origin-right after:-translate-x-1/2 after:scale-x-0 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent md:hover:after:origin-left md:hover:after:scale-x-100"
-            @click="onToggleMenu()"
+            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-4/5 after:-translate-x-1/2 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent md:hover:after:origin-left md:hover:after:scale-x-100"
+            :class="isNavItemActive(NAV_ITEM.href)
+              ? 'after:origin-left after:scale-x-100'
+              : 'after:origin-right after:scale-x-0'"
+            @click="onClickNavItem()"
           >
             <NuxtLink
 

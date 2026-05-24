@@ -109,12 +109,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="relative isolate mt-[100px] md:mt-[64px] xl:mt-[11px]">
+  <section class="relative isolate mt-[99px] md:mt-[64px] xl:mt-[99px]">
     <!-- 主要內容 -->
     <div class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0">
       <svg
-        class="ml-[clamp(-680px,calc(-680px+170*((100vw-768px)/256)),-510px)] hidden w-[700px] shrink-0 md:block lg:ml-[clamp(-450px,calc(-450px+160*((100vw-1024px)/256)),-290px)] xl:ml-[clamp(-400px,calc(-400px+250*((100vw-1280px)/256)),-150px)] 2xl:ml-[-40px]"
-        viewBox="-80 0 700 920"
+        class="ml-[clamp(-610px,calc(-610px+150*((100vw-768px)/256)),-460px)] hidden w-[620px] shrink-0 md:block lg:ml-[clamp(-390px,calc(-390px+140*((100vw-1024px)/256)),-250px)] xl:ml-[clamp(-340px,calc(-340px+210*((100vw-1280px)/256)),-130px)] 2xl:ml-[-30px]"
+        viewBox="-10 0 620 920"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
@@ -129,19 +129,19 @@ onBeforeUnmount(() => {
 
           <image
             ref="vueIcon1Ref"
-            href="/home/vue-icon.svg"
+            href="/about/vue-icon.svg"
             width="21"
             height="20"
           />
           <image
             ref="vueIcon2Ref"
-            href="/home/vue-icon.svg"
+            href="/about/vue-icon.svg"
             width="21"
             height="20"
           />
           <image
             ref="vueIcon3Ref"
-            href="/home/vue-icon.svg"
+            href="/about/vue-icon.svg"
             width="21"
             height="20"
           />
@@ -158,13 +158,13 @@ onBeforeUnmount(() => {
 
           <image
             ref="viteIcon1Ref"
-            href="/home/vite-icon.svg"
+            href="/share/vite-icon.svg"
             width="16"
             height="15"
           />
           <image
             ref="viteIcon2Ref"
-            href="/home/vite-icon.svg"
+            href="/share/vite-icon.svg"
             width="16"
             height="15"
           />
@@ -181,7 +181,7 @@ onBeforeUnmount(() => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <image
-              href="/home/ellipse-sm.svg"
+              href="/about/ellipse-sm.svg"
               x="0"
               y="0"
               width="372"
@@ -195,13 +195,13 @@ onBeforeUnmount(() => {
             />
             <image
               ref="mobileViteLargeRef"
-              href="/home/vite-icon.svg"
+              href="/share/vite-icon.svg"
               width="16"
               height="15"
             />
             <image
               ref="mobileViteSmallRef"
-              href="/home/vite-icon.svg"
+              href="/share/vite-icon.svg"
               width="8"
               height="8"
             />
@@ -209,11 +209,10 @@ onBeforeUnmount(() => {
         </div>
         <!-- 標題 -->
         <div class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0">
-          <h2 class="mb-6 text-center text-[28px] font-bold leading-[1.214] text-vconf-heading md:text-left md:text-[48px]">
-            <span class="pr-2 lg:pr-6">(</span>
-            <span class="pr-2 lg:pr-6">行為準則</span>
-            <span>)</span>
-          </h2>
+          <ShareSectionTitle
+            title="行為準則"
+            :padding-bottom="24"
+          />
           <p class="text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]">
             <span class="text-vconf-primary">V-CONF Taiwan 2026 </span>
             <span>是致力於為所有與會者，包括講者、贊助商與工作人員，提供一個安全、無騷擾且相互尊重的活動環境。</span>
@@ -226,7 +225,7 @@ onBeforeUnmount(() => {
               width="15"
               height="14"
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
-              src="/home/vue-icon.svg"
+              src="/about/vue-icon.svg"
               loading="eager"
               placeholder
             />
@@ -236,7 +235,7 @@ onBeforeUnmount(() => {
                 width="713"
                 height="173"
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
-                src="/home/icon-bg.png"
+                src="/about/icon-bg.png"
                 loading="eager"
                 placeholder
               />
@@ -244,7 +243,7 @@ onBeforeUnmount(() => {
                 width="549"
                 height="173"
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none md:block xl:hidden"
-                src="/home/icon-bg-md.png"
+                src="/about/icon-bg-md.png"
                 loading="eager"
                 placeholder
               />
@@ -252,7 +251,7 @@ onBeforeUnmount(() => {
                 width="312"
                 height="137"
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
-                src="/home/icon-bg-sm.png"
+                src="/about/icon-bg-sm.png"
                 loading="eager"
                 placeholder
               />
@@ -264,7 +263,7 @@ onBeforeUnmount(() => {
               width="15"
               height="14"
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
-              src="/home/vue-icon.svg"
+              src="/about/vue-icon.svg"
               loading="eager"
               placeholder
             />
@@ -274,7 +273,7 @@ onBeforeUnmount(() => {
                 width="713"
                 height="138"
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
-                src="/home/icon-bg-2.png"
+                src="/about/icon-bg-2.png"
                 loading="eager"
                 placeholder
               />
@@ -282,7 +281,7 @@ onBeforeUnmount(() => {
                 width="549"
                 height="138"
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none md:block xl:hidden"
-                src="/home/icon-bg-md-2.png"
+                src="/about/icon-bg-md-2.png"
                 loading="eager"
                 placeholder
               />
@@ -290,7 +289,7 @@ onBeforeUnmount(() => {
                 width="312"
                 height="119"
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
-                src="/home/icon-bg-sm-2.png"
+                src="/about/icon-bg-sm-2.png"
                 loading="eager"
                 placeholder
               />
@@ -302,7 +301,7 @@ onBeforeUnmount(() => {
               width="15"
               height="14"
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
-              src="/home/vue-icon.svg"
+              src="/about/vue-icon.svg"
               loading="eager"
               placeholder
             />
@@ -312,7 +311,7 @@ onBeforeUnmount(() => {
                 width="713"
                 height="138"
                 class="absolute right-[-75px] top-[-30px] hidden max-w-none xl:block"
-                src="/home/icon-bg-2.png"
+                src="/about/icon-bg-2.png"
                 loading="eager"
                 placeholder
               />
@@ -320,7 +319,7 @@ onBeforeUnmount(() => {
                 width="549"
                 height="138"
                 class="absolute right-[-75px] top-[-30px] hidden max-w-none md:block xl:hidden"
-                src="/home/icon-bg-md-2.png"
+                src="/about/icon-bg-md-2.png"
                 loading="eager"
                 placeholder
               />
@@ -328,7 +327,7 @@ onBeforeUnmount(() => {
                 width="312"
                 height="119"
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
-                src="/home/icon-bg-sm-2.png"
+                src="/about/icon-bg-sm-2.png"
                 loading="eager"
                 placeholder
               />
@@ -336,28 +335,38 @@ onBeforeUnmount(() => {
           </div>
         </div>
       </div>
+      <!-- 裝飾 vite icon 背景 -->
+      <!-- 右側 -->
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute right-[513px] top-[-42px]"
+      />
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute right-[313px] top-0"
+      />
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute right-[313px] top-[59px]"
+      />
+      <NuxtImg
+        src="/share/vite-icon.svg"
+        width="16"
+        height="15"
+        class="absolute right-[313px] top-[182px]"
+      />
     </div>
     <!-- 感謝語 -->
     <div class="container relative z-10 mt-[42px] hidden place-content-center font-serif md:grid xl:mt-0">
       <p class="w-fit max-w-[677px] text-center text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary">
         感謝您的配合與支持，讓我們共同打造開放、包容且充滿活力的 Vue.js 社群。
       </p>
-    </div>
-
-    <!-- 區塊間背景圖 -->
-    <div
-      class="section-bg-layer pointer-events-none absolute inset-0 z-20"
-      aria-hidden="true"
-    >
-      <NuxtPicture
-        src="/home/section-bg.png"
-        class="section-bg absolute right-0 top-0"
-        sizes="(max-width: 767px) 728px, 1159px"
-        width="1159"
-        height="880"
-        loading="eager"
-        :img-attrs="{ class: 'max-w-none w-[728px] h-[553px] md:w-[1159px] md:h-[880px]' }"
-      />
     </div>
   </section>
 </template>

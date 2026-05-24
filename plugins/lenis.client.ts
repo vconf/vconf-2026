@@ -17,9 +17,14 @@ export default defineNuxtPlugin({
     gsap.ticker.add(onTick)
     gsap.ticker.lagSmoothing(0)
 
-    // 切換頁面會滾到最上面
+    // 切換頁面時先立即回到頂部
+    nuxtApp.hook('page:start', () => {
+      lenis.scrollTo(0, { immediate: true })
+    })
+
+    // 頁面完成後再同步一次滾動狀態並刷新 ScrollTrigger
     nuxtApp.hook('page:finish', () => {
-      lenis.scrollTo(0, { immediate: false })
+      lenis.scrollTo(0, { immediate: true })
       requestAnimationFrame(() => {
         ScrollTrigger.refresh()
       })

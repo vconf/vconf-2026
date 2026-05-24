@@ -20,6 +20,8 @@ export default {
       },
       fontFamily: {
         serif: ['"Noto Sans TC"', 'serif'],
+        sans: ['"avenir-next-lt-pro"', '"Noto Sans TC"', 'sans-serif'],
+        avenir: ['"Avenir"', 'serif'],
       },
       clipPath: {
         mypolygon: 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem))',
@@ -39,6 +41,7 @@ export default {
           'black': 'hsl(var(--color-black))',
           'white': 'hsl(var(--background))',
           'primary': 'hsl(var(--color-primary))',
+          'purple': 'hsl(var(--color-purple))',
           'sun': 'hsl(var(--color-sun))',
           'sun-background': 'hsl(var(--color-sun-background))',
           'moon': 'hsl(var(--color-moon))',

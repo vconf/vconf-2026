@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   modules: [
     '@tresjs/nuxt',
     'nuxt-typed-router',
+    'nuxt-swiper',
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
     '@nuxtjs/seo',
@@ -49,8 +50,19 @@ export default defineNuxtConfig({
         { name: 'color-scheme', content: 'light dark' },
       ],
       link: [
-        { rel: 'icon', href: 'https://webconf.tw/favicon.ico', sizes: 'any' }, // 絕對路徑
-        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }, // 絕對路徑，Apple 設備加入主畫面的圖片
+        {
+          rel: 'icon',
+          href: 'https://webconf.tw/favicon.ico', // 絕對路徑，網站圖示
+          sizes: 'any',
+        },
+        {
+          rel: 'apple-touch-icon',
+          href: '/apple-touch-icon.png', // 絕對路徑，Apple 設備加入主畫面的圖片
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://use.typekit.net/zyp0lum.css', // Adobe Fonts 的 CSS 連結
+        },
       ],
     },
     pageTransition: {

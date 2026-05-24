@@ -80,7 +80,7 @@ export default antfu(
       'tw/no-custom-classname': [
         'error',
         {
-          whitelist: ['main-body', 'page-root', 'community', 'card-icon-bg', 'code-of-conduct', 'section-bg', 'section-bg-layer'], // 允許自定義的 CSS 類名
+          whitelist: ['main-body', 'page-root', 'community', 'card-icon-bg', 'code-of-conduct', 'section-bg', 'section-bg-layer', 'footer-bg', 'airplane__body', 'airplane', 'airplane--started', 'countdown-row', 'countdown-item', 'countdown-number', 'countdown-number-frame'], // 允許自定義的 CSS 類名
         },
       ],
       'tw/no-contradicting-classname': 'error',
