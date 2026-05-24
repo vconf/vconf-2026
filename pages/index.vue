@@ -40,6 +40,7 @@ watch(
     </Teleport>
 
     <HomeCountdown />
+    <HomeSpeakers />
     <HomeSponsorSection />
 
     <!-- ThreeScene -->

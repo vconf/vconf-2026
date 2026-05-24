@@ -108,7 +108,8 @@ onBeforeUnmount(() => {
     <div class="container relative">
       <ShareSectionTitle
         title="Sponsor"
-        :padding-bottom="249"
+        :padding-bottom="56"
+        class="pb-[197px]"
       />
 
       <div class="relative mx-auto w-full max-w-[1161px] overflow-visible">

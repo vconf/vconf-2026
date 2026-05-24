@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
   title: string
-  paddingBottom?: 24 | 32 | 249
+  paddingBottom?: 24 | 32 | 56 | 249
 }>(), {
   paddingBottom: 32,
 })
@@ -9,6 +9,9 @@ const props = withDefaults(defineProps<{
 const marginBottomClass = computed(() => {
   if (props.paddingBottom === 24)
     return 'mb-6'
+
+  if (props.paddingBottom === 56)
+    return 'mb-14'
 
   if (props.paddingBottom === 249)
     return 'mb-[249px]'

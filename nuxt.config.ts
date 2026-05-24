@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   modules: [
     '@tresjs/nuxt',
     'nuxt-typed-router',
+    'nuxt-swiper',
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
     '@nuxtjs/seo',
