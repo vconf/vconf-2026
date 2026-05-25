@@ -17,13 +17,14 @@ const countdown = ref<CountdownState>({
   seconds: '00',
 })
 
-let timer: ReturnType<typeof setInterval> | null = null
+let rafId: number | null = null
+let lastRenderedSecond: number | null = null
 
 function pad(value: number, length: number) {
   return String(Math.max(value, 0)).padStart(length, '0')
 }
 
-function updateCountdown() {
+function getCountdownState() {
   const now = new Date()
   const diff = Math.max(TARGET_DATE.getTime() - now.getTime(), 0)
 
@@ -33,7 +34,7 @@ function updateCountdown() {
   const minutes = Math.floor((totalSeconds % 3600) / 60)
   const seconds = totalSeconds % 60
 
-  countdown.value = {
+  return {
     days: pad(days, 3),
     hours: pad(hours, 2),
     minutes: pad(minutes, 2),
@@ -41,14 +42,35 @@ function updateCountdown() {
   }
 }
 
+function updateCountdown(totalSeconds?: number) {
+  const nextState = getCountdownState()
+
+  countdown.value = nextState
+  lastRenderedSecond = totalSeconds ?? Math.floor(
+    Math.max(TARGET_DATE.getTime() - Date.now(), 0) / 1000,
+  )
+}
+
+function tickCountdown() {
+  const remainingSeconds = Math.floor(
+    Math.max(TARGET_DATE.getTime() - Date.now(), 0) / 1000,
+  )
+
+  if (remainingSeconds !== lastRenderedSecond)
+    updateCountdown(remainingSeconds)
+
+  if (remainingSeconds > 0)
+    rafId = requestAnimationFrame(tickCountdown)
+}
+
 onMounted(() => {
   updateCountdown()
-  timer = setInterval(updateCountdown, 1000)
+  rafId = requestAnimationFrame(tickCountdown)
 })
 
 onBeforeUnmount(() => {
-  if (timer)
-    clearInterval(timer)
+  if (rafId !== null)
+    cancelAnimationFrame(rafId)
 })
 
 const segments = computed(() => [

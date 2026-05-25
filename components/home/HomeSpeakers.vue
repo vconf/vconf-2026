@@ -119,14 +119,14 @@ useSwiper(swiperRef, {
         src="/home/speakers-bg-left.png"
         width="220"
         height="842"
-        class="pointer-events-none absolute left-[100px] top-1/2 z-10 hidden -translate-y-1/2 md:block"
+        class="pointer-events-none absolute left-[5.5%] top-1/2 z-10 hidden -translate-y-1/2 md:block"
       />
 
       <NuxtImg
         src="/home/speakers-bg-right.png"
         width="220"
         height="842"
-        class="pointer-events-none absolute right-[100px] top-1/2 z-10 hidden -translate-y-1/2 md:block"
+        class="pointer-events-none absolute right-[5.5%] top-1/2 z-10 hidden -translate-y-1/2 md:block"
       />
     </div>
   </section>
