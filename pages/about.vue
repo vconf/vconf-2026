@@ -1,3 +1,11 @@
+<script lang="ts">
+const { trackImpression } = useAdTracking()
+
+onMounted(() => {
+  trackImpression('testUse')
+})
+</script>
+
 <template>
   <div>
     <AboutHero />
