@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-const { trackImpression } = useAdTracking()
+import { trackAdImpression } from '@/utils/adTracking'
 
 onMounted(() => {
-  trackImpression('testUse')
+  trackAdImpression('testUse')
 })
 </script>
 

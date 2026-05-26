@@ -19,6 +19,13 @@ export default defineNuxtConfig({
   ],
   css: ['@/assets/css/main.css'],
 
+  runtimeConfig: {
+    public: {
+      umamiScriptUrl: process.env.NUXT_PUBLIC_UMAMI_SCRIPT_URL || 'https://cloud.umami.is/script.js',
+      umamiWebsiteId: process.env.NUXT_PUBLIC_UMAMI_WEBSITE_ID || '',
+    },
+  },
+
   colorMode: {
     classSuffix: '',
   },
