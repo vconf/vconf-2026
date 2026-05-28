@@ -8,20 +8,20 @@
       <span class="text-[84px]">TW</span>
     </h1>
     <Teleport to="body">
-      <div>
+      <div class="pointer-events-none absolute left-1/2 top-0 z-30 h-0 w-screen -translate-x-1/2 overflow-x-clip">
         <NuxtImg
           src="/about/hero-bg-1.png"
           width="1159"
           height="1171"
           loading="eager"
-          class="pointer-events-none absolute left-[-546px] top-[-164px] z-30 max-w-none"
+          class="absolute left-[-546px] top-[-164px] max-w-none"
         />
         <NuxtImg
           src="/about/hero-bg-2.png"
           width="1159"
           height="1175"
           loading="eager"
-          class="pointer-events-none absolute right-[-575px] top-[-394px] z-30 max-w-none"
+          class="absolute right-[-575px] top-[-394px] max-w-none"
         />
       </div>
     </Teleport>

@@ -152,10 +152,9 @@ function onLoop(_loopContext: unknown) {
 </script>
 
 <template>
-  <div>
+  <div class="grid size-full place-items-center overflow-hidden">
     <TresCanvas
-      class="-z-10"
-      window-size
+      class="col-start-1 row-start-1 size-full"
       :alpha="true"
       :clear-alpha="0"
       clear-color="#ffffff"
@@ -198,7 +197,7 @@ function onLoop(_loopContext: unknown) {
     </TresCanvas>
 
     <div
-      class="pointer-events-none absolute left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center"
+      class="pointer-events-none col-start-1 row-start-1 grid place-items-center"
       :style="mainImageSize"
     >
       <img
