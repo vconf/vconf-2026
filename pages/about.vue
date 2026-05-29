@@ -11,6 +11,5 @@ onMounted(() => {
     <AboutHero />
     <AboutCommunityDiamond />
     <AboutCodeOfConduct />
-    <!-- <AboutSponsors /> -->
   </div>
 </template>

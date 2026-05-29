@@ -72,17 +72,20 @@ const rightTiltYSpread = 8 * degToRad
 const leftLayerRefs = shallowRef<Array<LayerMesh | null>>([])
 const rightLayerRefs = shallowRef<Array<LayerMesh | null>>([])
 const bgRef = ref<HTMLImageElement | null>(null)
-// 高度跟隨 Three.js 垂直 FOV 縮放（fov=22 → 65vh = 585px at 900px viewport）
+// 高度跟隨 Three.js 垂直 FOV 縮放（fov=24 → 59vh ≈ 531px at 900px viewport）
 // 寬度由 aspect-ratio 自動推算，保持原始 615.668 × 646.435 比例
 const mainImageSize = {
-  height: 'clamp(180px, 65vh, 640px)',
+  height: 'clamp(160px, 59vh, 576px)',
   width: 'auto',
   aspectRatio: '615.668 / 646.435',
 }
 
-// 各骨牌 z 軸旋轉值，由 GSAP 控制（初始直立 π/2）
-const leftAnimZ = leftZAngles.map(() => ({ z: Math.PI / 2 }))
-const rightAnimZ = rightZAngles.map(() => ({ z: Math.PI / 2 }))
+// 跨頁面導航保持狀態，確保骨牌動畫整個 session 只播一次
+const dominoPlayed = useState('hero-domino-played', () => false)
+
+// 已播過則直接從最終角度初始化，否則從直立（π/2）開始等待動畫
+const leftAnimZ = leftZAngles.map(angle => ({ z: dominoPlayed.value ? angle : Math.PI / 2 }))
+const rightAnimZ = rightZAngles.map(angle => ({ z: dominoPlayed.value ? angle : Math.PI / 2 }))
 
 // 風吹參數，預先計算避免每幀重複運算
 const leftWindParams = layers.map((_, i) => ({
@@ -113,6 +116,12 @@ function setRightLayerRef(mesh: LayerMesh | null, index: number) {
 }
 
 function startDominoAnimation() {
+  // 已播過則跳過，tiles 已在最終角度
+  if (dominoPlayed.value)
+    return
+
+  dominoPlayed.value = true
+
   const { gsap } = useGsap()
   if (!gsap)
     return
@@ -269,7 +278,7 @@ onMounted(() => {
     >
       <TresPerspectiveCamera
         :position="[0, 0, 24]"
-        :fov="22"
+        :fov="24"
       />
 
       <TresMesh
