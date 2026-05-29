@@ -9,8 +9,3 @@ export const site = {
   },
   twitter: '@vuejs_taiwan',
 }
-
-// 如果沒有給 og:image 會由標題組成 ogImage，這是文字預設字型
-export const ogImage = {
-  fonts: ['Noto+Sans+TC:700', 'Mina:700'],
-}

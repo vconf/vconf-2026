@@ -1,4 +1,13 @@
 <script lang="ts" setup>
+useSeoMeta({
+  ogImage: 'https://vconf-2026.vercel.app/og-image.png',
+  ogImageAlt: 'vconf 2026',
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  twitterImage: 'https://webconf.tw/images/seo/og-image.png',
+  twitterImageAlt: 'vconf 2026',
+})
+
 const isProduction = import.meta.env.PROD
 const { public: { umamiScriptUrl, umamiWebsiteId } } = useRuntimeConfig()
 
