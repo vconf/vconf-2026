@@ -1,4 +1,4 @@
-import { ogImage, site } from './config/seo.config'
+import { site } from './config/seo.config'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -18,6 +18,13 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
   ],
   css: ['@/assets/css/main.css'],
+
+  runtimeConfig: {
+    public: {
+      umamiScriptUrl: process.env.NUXT_PUBLIC_UMAMI_SCRIPT_URL || 'https://cloud.umami.is/script.js',
+      umamiWebsiteId: process.env.NUXT_PUBLIC_UMAMI_WEBSITE_ID || '',
+    },
+  },
 
   colorMode: {
     classSuffix: '',
@@ -52,12 +59,11 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'icon',
-          href: 'https://webconf.tw/favicon.ico', // 絕對路徑，網站圖示
-          sizes: 'any',
+          href: 'https://vconf-2026.vercel.app/favicon.png', // 絕對路徑，網站圖示
         },
         {
           rel: 'apple-touch-icon',
-          href: '/apple-touch-icon.png', // 絕對路徑，Apple 設備加入主畫面的圖片
+          href: 'https://vconf-2026.vercel.app/app-touch-icon.png', // 絕對路徑，Apple 設備加入主畫面的圖片
         },
         {
           rel: 'stylesheet',
@@ -104,5 +110,4 @@ export default defineNuxtConfig({
   },
 
   site,
-  ogImage,
 })

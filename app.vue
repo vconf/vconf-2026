@@ -1,3 +1,25 @@
+<script lang="ts" setup>
+useSeoMeta({
+  ogImage: 'https://vconf-2026.vercel.app/og-image.png',
+  ogImageAlt: 'vconf 2026',
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  twitterImage: 'https://vconf-2026.vercel.app/og-image.png',
+  twitterImageAlt: 'vconf 2026',
+})
+
+const isProduction = import.meta.env.PROD
+const { public: { umamiScriptUrl, umamiWebsiteId } } = useRuntimeConfig()
+
+if (isProduction && umamiWebsiteId) {
+  useScript({
+    'src': umamiScriptUrl,
+    'defer': true,
+    'data-website-id': umamiWebsiteId,
+  })
+}
+</script>
+
 <template>
   <Body class="main-body">
     <NuxtLayout>
