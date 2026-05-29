@@ -7,7 +7,7 @@ function toggleTheme(theme: 'dark' | 'light') {
 </script>
 
 <template>
-  <div class="absolute z-[100] hidden w-fit flex-col gap-2 rounded-full bg-vconf-theme-toggle-bg px-2 py-3 pointer-events-auto lg:flex">
+  <div class="pointer-events-auto absolute z-[100] hidden w-fit flex-col gap-2 rounded-full bg-vconf-theme-toggle-bg px-2 py-3 lg:flex">
     <button
       type="button"
       class="grid size-[39px] place-content-center rounded-full border border-vconf-sun bg-vconf-sun-background text-vconf-sun"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { onMounted, ref, shallowRef } from 'vue'
 
 interface LayerMesh {
   position: { x: number, y: number, z: number }
@@ -71,11 +71,38 @@ const rightTiltYSpread = 8 * degToRad
 
 const leftLayerRefs = shallowRef<Array<LayerMesh | null>>([])
 const rightLayerRefs = shallowRef<Array<LayerMesh | null>>([])
-const hasMainImage = ref(true)
+const bgRef = ref<HTMLImageElement | null>(null)
+// 高度跟隨 Three.js 垂直 FOV 縮放（fov=22 → 65vh = 585px at 900px viewport）
+// 寬度由 aspect-ratio 自動推算，保持原始 615.668 × 646.435 比例
 const mainImageSize = {
-  width: '615.67px',
-  height: '646.43px',
+  height: 'clamp(180px, 65vh, 640px)',
+  width: 'auto',
+  aspectRatio: '615.668 / 646.435',
 }
+
+// 各骨牌 z 軸旋轉值，由 GSAP 控制（初始直立 π/2）
+const leftAnimZ = leftZAngles.map(() => ({ z: Math.PI / 2 }))
+const rightAnimZ = rightZAngles.map(() => ({ z: Math.PI / 2 }))
+
+// 風吹參數，預先計算避免每幀重複運算
+const leftWindParams = layers.map((_, i) => ({
+  amp: 0.018 + (i % 4) * 0.006,
+  freq: 0.28 + (i % 5) * 0.09,
+  phase: (i / layerCount) * Math.PI * 2.4,
+}))
+const rightWindParams = layers.map((_, i) => ({
+  amp: 0.016 + (i % 4) * 0.006,
+  freq: 0.30 + (i % 5) * 0.08,
+  phase: (i / layerCount) * Math.PI * 2.1 + 1.2,
+}))
+
+let animationStarted = false
+let frameCount = 0
+let elapsed = 0
+
+// 倒下動畫總時長：左鏈 0.3+(14×0.09) + 右鏈 0.09+(14×0.09) + 每張持續 0.48 ≈ 3.42s
+const FALL_END = 0.3 + 14 * 0.09 + 0.09 + 14 * 0.09 + 0.48
+const WIND_FADE_DURATION = 1.5
 
 function setLeftLayerRef(mesh: LayerMesh | null, index: number) {
   leftLayerRefs.value[index] = mesh ?? null
@@ -85,13 +112,45 @@ function setRightLayerRef(mesh: LayerMesh | null, index: number) {
   rightLayerRefs.value[index] = mesh ?? null
 }
 
-function onMainImageError() {
-  hasMainImage.value = false
+function startDominoAnimation() {
+  const { gsap } = useGsap()
+  if (!gsap)
+    return
+
+  const stagger = 0.09
+  const baseDuration = 0.48
+
+  // 左側：由外（0）向中心（14）依序倒下
+  leftAnimZ.forEach((state, i) => {
+    gsap.to(state, {
+      z: leftZAngles[i],
+      duration: baseDuration,
+      delay: 0.3 + i * stagger,
+      ease: 'power4.out',
+    })
+  })
+
+  // 右側：接續左側，由中心（0）向外（14）延伸，形成一波連鎖
+  const leftChainEnd = 0.3 + (layerCount - 1) * stagger
+  rightAnimZ.forEach((state, i) => {
+    gsap.to(state, {
+      z: rightZAngles[i],
+      duration: baseDuration,
+      delay: leftChainEnd + stagger + i * stagger,
+      ease: 'power4.out',
+    })
+  })
 }
 
-function onLoop(_loopContext: unknown) {
+function onLoop(loopContext: unknown) {
+  const delta = (loopContext as { delta?: number })?.delta ?? 0.016
+  elapsed += delta
+
+  // Wind strength fades in smoothly after the fall animation finishes
+  const windStrength = Math.max(0, Math.min(1, (elapsed - FALL_END) / WIND_FADE_DURATION))
+
   const anchorX = -0.2
-  const anchorY = -1.2
+  const anchorY = -1.2 // 貝茲曲線錨點（左右兩側的收束中心）
 
   leftLayerRefs.value.forEach((mesh, index) => {
     if (!mesh)
@@ -113,11 +172,13 @@ function onLoop(_loopContext: unknown) {
 
     mesh.rotation.x = leftTiltXBase + depth * leftTiltXSpread
     mesh.rotation.y = leftTiltYBase + depth * leftTiltYSpread
-    mesh.rotation.z = leftZAngles[index]
+
+    const { amp, freq, phase } = leftWindParams[index]
+    const wind = windStrength * Math.sin(elapsed * freq * Math.PI * 2 + phase) * amp
+    mesh.rotation.z = leftAnimZ[index].z + wind
 
     const scale = leftLayerScales[index]
     mesh.scale.set(scale, scale, 1)
-
     mesh.material.opacity = leftLayerOpacities[index]
   })
 
@@ -141,14 +202,60 @@ function onLoop(_loopContext: unknown) {
 
     mesh.rotation.x = rightTiltXBase + depth * rightTiltXSpread
     mesh.rotation.y = rightTiltYBase - depth * rightTiltYSpread
-    mesh.rotation.z = rightZAngles[index]
+
+    const { amp, freq, phase } = rightWindParams[index]
+    const wind = windStrength * Math.sin(elapsed * freq * Math.PI * 2 + phase) * amp
+    mesh.rotation.z = rightAnimZ[index].z + wind
 
     const scale = rightLayerScales[index]
     mesh.scale.set(scale, scale, 1)
-
     mesh.material.opacity = rightLayerOpacities[index]
   })
+
+  // mesh refs 就緒後才觸發骨牌動畫（等幾幀確保全部掛載）
+  if (!animationStarted) {
+    frameCount++
+    if (frameCount > 3) {
+      const leftReady = leftLayerRefs.value.filter(r => r !== null).length === layerCount
+      const rightReady = rightLayerRefs.value.filter(r => r !== null).length === layerCount
+      if (leftReady && rightReady) {
+        animationStarted = true
+        startDominoAnimation()
+      }
+    }
+  }
 }
+
+onMounted(() => {
+  const { gsap } = useGsap()
+  const el = bgRef.value
+  if (!gsap || !el)
+    return
+
+  // 進場淡入，結束後進入「慢呼吸 + 偶爾霓虹閃爍」循環
+  gsap.to(el, {
+    opacity: 0.85,
+    duration: 1.8,
+    ease: 'power2.out',
+    onComplete() {
+      const tl = gsap.timeline({ repeat: -1 })
+
+      // 呼吸
+      tl.to(el, { opacity: 0.45, duration: 1.4, ease: 'sine.inOut' })
+        .to(el, { opacity: 0.85, duration: 1.2, ease: 'sine.inOut' })
+
+      // 霓虹閃爍（快速斷訊再恢復）
+        .to(el, { opacity: 0.05, duration: 0.06, ease: 'none' })
+        .to(el, { opacity: 0.7, duration: 0.05, ease: 'none' })
+        .to(el, { opacity: 0.08, duration: 0.08, ease: 'none' })
+        .to(el, { opacity: 0.8, duration: 0.4, ease: 'power2.out' })
+
+      // 閃爍後繼續呼吸
+        .to(el, { opacity: 0.4, duration: 1.5, ease: 'sine.inOut' })
+        .to(el, { opacity: 0.82, duration: 1.3, ease: 'sine.inOut' })
+    },
+  })
+})
 </script>
 
 <template>
@@ -162,7 +269,7 @@ function onLoop(_loopContext: unknown) {
     >
       <TresPerspectiveCamera
         :position="[0, 0, 24]"
-        :fov="20"
+        :fov="22"
       />
 
       <TresMesh
@@ -170,7 +277,7 @@ function onLoop(_loopContext: unknown) {
         :key="`left-${index}`"
         :ref="(mesh: unknown) => setLeftLayerRef(mesh as LayerMesh | null, index)"
       >
-        <TresPlaneGeometry :args="[3.2, 3.2]" />
+        <TresBoxGeometry :args="[3.2, 3.2, 0.16]" />
         <TresMeshBasicMaterial
           :color="leftLayerColors[index]"
           transparent
@@ -185,7 +292,7 @@ function onLoop(_loopContext: unknown) {
         :key="`right-${index}`"
         :ref="(mesh: unknown) => setRightLayerRef(mesh as LayerMesh | null, index)"
       >
-        <TresPlaneGeometry :args="[3.2, 3.2]" />
+        <TresBoxGeometry :args="[3.2, 3.2, 0.16]" />
         <TresMeshBasicMaterial
           :color="rightLayerColors[index]"
           transparent
@@ -196,23 +303,26 @@ function onLoop(_loopContext: unknown) {
       </TresMesh>
     </TresCanvas>
 
+    <!-- 中心元素：hero-middle-bg（電路板底圖）+ hero-middle（3D 骨牌本體） -->
     <div
-      class="pointer-events-none col-start-1 row-start-1 grid place-items-center"
+      class="pointer-events-none relative col-start-1 row-start-1 grid place-items-center"
       :style="mainImageSize"
     >
+      <!-- 電路板背景：霓虹閃爍動畫，完整顯示 SVG -->
       <img
-        v-if="hasMainImage"
-        src="/main-vue.png"
-        alt="main-vue"
-        class="size-full object-contain drop-shadow-[0_18px_28px_rgba(0,0,0,0.3)]"
-        @error="onMainImageError"
+        ref="bgRef"
+        src="/home/hero-middle-bg.svg"
+        aria-hidden="true"
+        class="pointer-events-none absolute object-contain opacity-0"
+        style="width: 118%; height: 118%; top: -9%; left: -9%;"
       />
-      <div
-        v-else
-        class="grid size-full place-items-center rounded-full bg-[radial-gradient(circle_at_30%_30%,#f8fbff,#c6d5e8)] text-2xl font-bold text-[#24364b]"
-      >
-        main-vue
-      </div>
+
+      <!-- 中心骨牌立體圖，壓在兩側扇形上方形成一體感 -->
+      <img
+        src="/home/hero-middle.svg"
+        alt=""
+        class="relative z-10 size-full object-contain"
+      />
     </div>
   </div>
 </template>
