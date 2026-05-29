@@ -4,7 +4,7 @@ useSeoMeta({
   ogImageAlt: 'vconf 2026',
   ogImageWidth: 1200,
   ogImageHeight: 630,
-  twitterImage: 'https://webconf.tw/images/seo/og-image.png',
+  twitterImage: 'https://vconf-2026.vercel.app/og-image.png',
   twitterImageAlt: 'vconf 2026',
 })
 
