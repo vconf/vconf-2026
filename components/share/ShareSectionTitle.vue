@@ -16,17 +16,17 @@ const marginBottomClass = computed(() => {
   if (props.paddingBottom === 249)
     return 'mb-[249px]'
 
-  return 'mb-8'
+  return 'xs:mb-8 mb-4'
 })
 </script>
 
 <template>
   <h2
-    class="flex items-center justify-center whitespace-nowrap text-center font-serif text-[clamp(28px,5.2vw,64px)] font-bold leading-[1.2] text-vconf-heading xs:text-[64px]"
+    class="flex items-center justify-center whitespace-nowrap text-center font-serif text-[clamp(32px,calc(11.111vw-21.333px),64px)] font-bold leading-[1.2] tracking-[0.01em] text-vconf-heading xs:tracking-[0em]"
     :class="marginBottomClass"
   >
-    <span class="translate-y-[2px] pr-2 text-[32px] lg:pr-6">(</span>
+    <span class="translate-y-[2px] pr-2 text-[clamp(16px,calc(5.556vw-10.667px),32px)] lg:pr-6">(</span>
     <span class="pr-2 lg:pr-6">{{ title }}</span>
-    <span class="translate-y-[2px] text-[32px]">)</span>
+    <span class="translate-y-[2px] text-[clamp(16px,calc(5.556vw-10.667px),32px)]">)</span>
   </h2>
 </template>
