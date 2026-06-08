@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBreakpoints, useIntersectionObserver, useResizeObserver } from '@vueuse/core'
+import { useBreakpoints, useIntersectionObserver, useResizeObserver, useWindowSize } from '@vueuse/core'
 
 const CONTACT_EMAIL = 'vuejs_taiwan@googlegroups.com'
 const EVENT_DATE = '2026.10.31'
@@ -44,13 +44,14 @@ const TILE_W_XS = 20
 const TILE_H_XS = 19
 const MD_BREAKPOINT = 768
 
+const { width: viewportWidth } = useWindowSize()
 const tileSizeStyle = ref<{ backgroundSize: string }>({ backgroundSize: `${TILE_W}px ${TILE_H}px` })
 
 useResizeObserver(footerBgRef, ([entry]) => {
   const { width, height } = entry.contentRect
   if (width <= 0 || height <= 0)
     return
-  const isSmall = window.innerWidth < MD_BREAKPOINT
+  const isSmall = viewportWidth.value < MD_BREAKPOINT
   const tileW = isSmall ? TILE_W_XS : TILE_W
   const tileH = isSmall ? TILE_H_XS : TILE_H
   const cols = Math.round(width / tileW)

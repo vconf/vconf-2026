@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 
 const { gsap } = useGsap()
@@ -7,7 +8,7 @@ const ORBIT_RADIUS_DESKTOP = 140
 const MD_BREAKPOINT = 768
 const ORBIT_STROKE_INSET = 0.5
 
-const viewportWidth = ref(0)
+const { width: viewportWidth } = useWindowSize()
 
 const SPONSORS = [
   {
@@ -177,15 +178,8 @@ function updateOrbitSize() {
   orbitSize.height = height
 }
 
-function updateViewportWidth() {
-  viewportWidth.value = window.innerWidth
-}
-
 onMounted(() => {
   gsap.registerPlugin(MotionPathPlugin)
-
-  updateViewportWidth()
-  window.addEventListener('resize', updateViewportWidth)
 
   updateOrbitSize()
   if (orbitFrameRef.value) {
@@ -206,7 +200,6 @@ watch(orbitPathD, () => {
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', updateViewportWidth)
   resizeObserver?.disconnect()
   killOrbitTweens()
 })
