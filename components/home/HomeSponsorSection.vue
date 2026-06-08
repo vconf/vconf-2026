@@ -2,6 +2,12 @@
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 
 const { gsap } = useGsap()
+const ORBIT_RADIUS_MOBILE = 72
+const ORBIT_RADIUS_DESKTOP = 140
+const MD_BREAKPOINT = 768
+const ORBIT_STROKE_INSET = 0.5
+
+const viewportWidth = ref(0)
 
 const SPONSORS = [
   {
@@ -48,13 +54,66 @@ const SPONSORS = [
   },
 ] as const
 
+const orbitFrameRef = ref<HTMLDivElement | null>(null)
 const orbitPathRef = ref<SVGPathElement | null>(null)
 const viteIcon1Ref = ref<SVGImageElement | null>(null)
 const viteIcon2Ref = ref<SVGImageElement | null>(null)
 const viteIcon3Ref = ref<SVGImageElement | null>(null)
 const viteIcon4Ref = ref<SVGImageElement | null>(null)
 
+const orbitSize = reactive({
+  width: 1161,
+  height: 682,
+})
+
 const activeTweens: Array<{ kill: () => void }> = []
+let resizeObserver: ResizeObserver | null = null
+
+const maxOrbitRadius = computed(() =>
+  viewportWidth.value < MD_BREAKPOINT ? ORBIT_RADIUS_MOBILE : ORBIT_RADIUS_DESKTOP,
+)
+
+const orbitRadius = computed(() => {
+  return Math.min(
+    maxOrbitRadius.value,
+    (orbitSize.width - ORBIT_STROKE_INSET * 2) / 2,
+    (orbitSize.height - ORBIT_STROKE_INSET * 2) / 2,
+  )
+})
+
+const orbitViewBox = computed(() => {
+  return `0 0 ${orbitSize.width} ${orbitSize.height}`
+})
+
+const orbitRect = computed(() => {
+  return {
+    x: ORBIT_STROKE_INSET,
+    y: ORBIT_STROKE_INSET,
+    width: Math.max(orbitSize.width - ORBIT_STROKE_INSET * 2, 0),
+    height: Math.max(orbitSize.height - ORBIT_STROKE_INSET * 2, 0),
+    rx: orbitRadius.value,
+  }
+})
+
+const orbitPathD = computed(() => {
+  const left = ORBIT_STROKE_INSET
+  const top = ORBIT_STROKE_INSET
+  const right = Math.max(orbitSize.width - ORBIT_STROKE_INSET, left)
+  const bottom = Math.max(orbitSize.height - ORBIT_STROKE_INSET, top)
+  const radius = orbitRadius.value
+
+  return [
+    `M ${left + radius} ${top}`,
+    `H ${right - radius}`,
+    `A ${radius} ${radius} 0 0 1 ${right} ${top + radius}`,
+    `V ${bottom - radius}`,
+    `A ${radius} ${radius} 0 0 1 ${right - radius} ${bottom}`,
+    `H ${left + radius}`,
+    `A ${radius} ${radius} 0 0 1 ${left} ${bottom - radius}`,
+    `V ${top + radius}`,
+    `A ${radius} ${radius} 0 0 1 ${left + radius} ${top}`,
+  ].join(' ')
+})
 
 function createOrbitTween(
   element: SVGImageElement,
@@ -77,7 +136,12 @@ function createOrbitTween(
   })
 }
 
-onMounted(() => {
+function killOrbitTweens() {
+  activeTweens.forEach(tween => tween.kill())
+  activeTweens.length = 0
+}
+
+function restartOrbitTweens() {
   if (
     !orbitPathRef.value
     || !viteIcon1Ref.value
@@ -88,7 +152,7 @@ onMounted(() => {
     return
   }
 
-  gsap.registerPlugin(MotionPathPlugin)
+  killOrbitTweens()
 
   activeTweens.push(
     createOrbitTween(viteIcon1Ref.value, orbitPathRef.value, 0, 16),
@@ -96,10 +160,55 @@ onMounted(() => {
     createOrbitTween(viteIcon3Ref.value, orbitPathRef.value, 0.5, 16),
     createOrbitTween(viteIcon4Ref.value, orbitPathRef.value, 0.75, 16),
   )
+}
+
+function updateOrbitSize() {
+  if (!orbitFrameRef.value) {
+    return
+  }
+
+  const { width, height } = orbitFrameRef.value.getBoundingClientRect()
+
+  if (!width || !height) {
+    return
+  }
+
+  orbitSize.width = width
+  orbitSize.height = height
+}
+
+function updateViewportWidth() {
+  viewportWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  gsap.registerPlugin(MotionPathPlugin)
+
+  updateViewportWidth()
+  window.addEventListener('resize', updateViewportWidth)
+
+  updateOrbitSize()
+  if (orbitFrameRef.value) {
+    resizeObserver = new ResizeObserver(() => {
+      updateOrbitSize()
+    })
+    resizeObserver.observe(orbitFrameRef.value)
+  }
+  nextTick(() => {
+    restartOrbitTweens()
+  })
+})
+
+watch(orbitPathD, () => {
+  nextTick(() => {
+    restartOrbitTweens()
+  })
 })
 
 onBeforeUnmount(() => {
-  activeTweens.forEach(tween => tween.kill())
+  window.removeEventListener('resize', updateViewportWidth)
+  resizeObserver?.disconnect()
+  killOrbitTweens()
 })
 </script>
 
@@ -108,109 +217,122 @@ onBeforeUnmount(() => {
     <div class="container relative">
       <ShareSectionTitle
         title="Sponsor"
-        :padding-bottom="56"
-        class="pb-[197px]"
+        :margin-bottom="56"
+        class="pb-[90px] md:pb-[162px]"
       />
 
-      <div class="relative mx-auto w-full max-w-[1161px] overflow-visible">
-        <!-- 外框線圖示 -->
-        <NuxtImg
-          src="/home/sponsor-bg.svg"
-          width="1161"
-          height="682"
-          class="pointer-events-none mx-auto"
+      <div class="relative mx-auto w-full max-w-[1161px] overflow-visible px-6 pb-16 pt-[132px] sm:px-10 md:px-14 lg:min-h-[682px] lg:px-[96px] lg:pb-[88px] lg:pt-[174px]">
+        <!-- 軌道 -->
+        <div
+          ref="orbitFrameRef"
+          class="pointer-events-none absolute inset-x-4 inset-y-0 overflow-visible"
           aria-hidden="true"
-        />
+        >
+          <svg
+            class="size-full overflow-visible"
+            :viewBox="orbitViewBox"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              :x="orbitRect.x"
+              :y="orbitRect.y"
+              :width="orbitRect.width"
+              :height="orbitRect.height"
+              :rx="orbitRect.rx"
+              fill="none"
+              stroke="#863BFF"
+            />
+            <path
+              ref="orbitPathRef"
+              :d="orbitPathD"
+              fill="none"
+              stroke="none"
+            />
+            <image
+              ref="viteIcon1Ref"
+              href="/share/vite-icon.svg"
+              x="-8"
+              y="-7.5"
+              width="16"
+              height="15"
+            />
+            <image
+              ref="viteIcon2Ref"
+              href="/share/vite-icon.svg"
+              x="-8"
+              y="-7.5"
+              width="16"
+              height="15"
+            />
+            <image
+              ref="viteIcon3Ref"
+              href="/share/vite-icon.svg"
+              x="-8"
+              y="-7.5"
+              width="16"
+              height="15"
+            />
+            <image
+              ref="viteIcon4Ref"
+              href="/share/vite-icon.svg"
+              x="-8"
+              y="-7.5"
+              width="16"
+              height="15"
+            />
+          </svg>
+        </div>
 
         <!-- 錢財圖示 -->
-        <div class="absolute left-1/2 top-[-193px] z-10 -translate-x-1/2 before:absolute before:inset-y-0 before:left-[-40px] before:w-10 before:bg-vconf-white before:content-[''] after:absolute after:inset-y-0 after:right-[-40px] after:w-10 after:bg-vconf-white after:content-['']">
+        <div class="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 before:absolute before:inset-y-0 before:left-[-15%] before:w-[15%] before:bg-vconf-white before:content-[''] after:absolute after:inset-y-0 after:right-[-15%] after:w-[15%] after:bg-vconf-white after:content-['']">
           <NuxtImg
             src="/home/sponsor-money.png"
             width="273"
             height="386"
-            class="relative bg-vconf-white"
+            class="relative hidden bg-vconf-white md:block"
+          />
+          <NuxtImg
+            src="/home/money-small.png"
+            width="136"
+            height="193"
+            class="relative bg-vconf-white md:hidden"
           />
         </div>
 
-        <!-- 軌道移動的 vite icon -->
-        <svg
-          class="pointer-events-none absolute inset-0 size-full overflow-visible"
-          viewBox="0 0 1161 682"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path
-            ref="orbitPathRef"
-            d="M140 0.5H1021C1098.04 0.5 1160.5 62.96 1160.5 140V542C1160.5 619.04 1098.04 681.5 1021 681.5H140C62.96 681.5 0.5 619.04 0.5 542V140C0.5 62.96 62.96 0.5 140 0.5Z"
-            fill="none"
-            stroke="none"
-          />
-          <image
-            ref="viteIcon1Ref"
-            href="/share/vite-icon.svg"
-            x="-8"
-            y="-7.5"
-            width="16"
-            height="15"
-          />
-          <image
-            ref="viteIcon2Ref"
-            href="/share/vite-icon.svg"
-            x="-8"
-            y="-7.5"
-            width="16"
-            height="15"
-          />
-          <image
-            ref="viteIcon3Ref"
-            href="/share/vite-icon.svg"
-            x="-8"
-            y="-7.5"
-            width="16"
-            height="15"
-          />
-          <image
-            ref="viteIcon4Ref"
-            href="/share/vite-icon.svg"
-            x="-8"
-            y="-7.5"
-            width="16"
-            height="15"
-          />
-        </svg>
-
         <!-- 贊助商 icon  -->
-        <div class="absolute left-1/2 top-1/2 grid max-w-[809px] -translate-x-1/2 -translate-y-1/2 grid-cols-3 place-items-center gap-y-[80px]">
+        <div class="relative z-10 mx-auto grid max-w-[809px] grid-cols-2 place-items-center gap-x-8 gap-y-10 md:grid-cols-3 md:gap-y-16 lg:gap-y-[80px]">
           <a
             v-for="sponsor in SPONSORS"
             :key="sponsor.name"
             :href="sponsor.href"
             target="_blank"
             rel="noopener noreferrer"
+            class="flex min-h-[88px] w-full items-center justify-center"
           >
             <NuxtImg
               :src="sponsor.src"
               :width="sponsor.width"
               :height="sponsor.height"
               :alt="sponsor.name"
+              class="h-auto max-w-full"
             />
           </a>
         </div>
       </div>
 
       <!-- 背景 vite icon x2  -->
-      <NuxtImg
+      <!-- <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
         class="absolute left-[238px] top-[81px]"
-      />
-      <NuxtImg
+      /> -->
+      <!-- <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
         class="absolute right-[145px] top-[87px]"
-      />
+      /> -->
     </div>
   </section>
 </template>

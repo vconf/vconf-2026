@@ -211,7 +211,7 @@ onBeforeUnmount(() => {
         <div class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0">
           <ShareSectionTitle
             title="行為準則"
-            :padding-bottom="24"
+            :margin-bottom="24"
           />
           <p class="text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]">
             <span class="text-vconf-primary">V-CONF Taiwan 2026 </span>

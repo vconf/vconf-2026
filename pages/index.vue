@@ -1,8 +1,8 @@
 <template>
   <div>
-    <HomeHero />
-    <HomeCountdown />
-    <HomeSpeakers />
+    <!-- <HomeHero /> -->
+    <!-- <HomeCountdown /> -->
+    <!-- <HomeSpeakers /> -->
     <HomeSponsorSection />
   </div>
 </template>

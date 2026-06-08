@@ -44,7 +44,7 @@ useSwiper(swiperRef, {
       <!-- 標題 -->
       <ShareSectionTitle
         title="Speakers"
-        :padding-bottom="56"
+        :margin-bottom="56"
       />
 
       <!-- 輪播卡片 -->
