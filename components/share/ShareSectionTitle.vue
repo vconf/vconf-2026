@@ -2,21 +2,25 @@
 const props = withDefaults(defineProps<{
   title: string
   marginBottom?: 24 | 32 | 56 | 249
+  breakpoint?: 'xs' | 'md'
 }>(), {
   marginBottom: 32,
+  breakpoint: 'xs',
 })
 
 const marginBottomClass = computed(() => {
   if (props.marginBottom === 24)
     return 'mb-6'
 
-  if (props.marginBottom === 56)
-    return 'xs:mb-14 mb-4'
-
   if (props.marginBottom === 249)
     return 'mb-[249px]'
 
-  return 'xs:mb-8 mb-4'
+  const map = {
+    56: { xs: 'xs:mb-14 mb-4', md: 'md:mb-14 mb-4' },
+    32: { xs: 'xs:mb-8 mb-4', md: 'md:mb-8 mb-4' },
+  } as const
+
+  return map[props.marginBottom as 32 | 56][props.breakpoint]
 })
 </script>
 

@@ -51,6 +51,7 @@ export default {
           'theme-toggle-bg': 'hsl(var(--color-theme-toggle-bg))',
           'gray-light': 'hsl(var(--color-gray-light))',
           'section-bg': 'hsl(var(--color-section-bg))',
+          'gray-exlight': 'hsl(var(--color-gray-exlight))',
         },
       },
     },

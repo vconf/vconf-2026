@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useWindowSize } from '@vueuse/core'
+import { useResizeObserver, useWindowSize } from '@vueuse/core'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 
 const { gsap } = useGsap()
@@ -10,48 +10,34 @@ const ORBIT_STROKE_INSET = 0.5
 
 const { width: viewportWidth } = useWindowSize()
 
-const SPONSORS = [
+const SPONSOR_GROUPS = [
   {
-    name: 'Apple',
-    href: '#',
-    src: '/home/apple.svg',
-    width: '223',
-    height: '72',
+    label: '10x Sponsor',
+    widthClass: 'w-[calc((100%-1.5rem)/2)]',
+    sponsors: [
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '480', height: '162' },
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '480', height: '162' },
+    ],
   },
   {
-    name: 'Google',
-    href: '#',
-    src: '/home/google.svg',
-    width: '207',
-    height: '69',
+    label: '5x Sponsor',
+    widthClass: 'w-[calc((100%-3rem)/3)]',
+    sponsors: [
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+    ],
   },
   {
-    name: 'Nike',
-    href: '#',
-    src: '/home/nike.svg',
-    width: '246',
-    height: '88',
-  },
-  {
-    name: 'AMD',
-    href: '#',
-    src: '/home/amd.svg',
-    width: '179',
-    height: '50',
-  },
-  {
-    name: 'Glant',
-    href: '#',
-    src: '/home/glant.svg',
-    width: '189',
-    height: '45',
-  },
-  {
-    name: 'GitHub',
-    href: '#',
-    src: '/home/github.svg',
-    width: '242',
-    height: '82',
+    label: '3x Sponsor',
+    widthClass: 'w-[calc((100%-3rem)/3)]',
+    sponsors: [
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+    ],
   },
 ] as const
 
@@ -68,7 +54,6 @@ const orbitSize = reactive({
 })
 
 const activeTweens: Array<{ kill: () => void }> = []
-let resizeObserver: ResizeObserver | null = null
 
 const maxOrbitRadius = computed(() =>
   viewportWidth.value < MD_BREAKPOINT ? ORBIT_RADIUS_MOBILE : ORBIT_RADIUS_DESKTOP,
@@ -178,16 +163,14 @@ function updateOrbitSize() {
   orbitSize.height = height
 }
 
+useResizeObserver(orbitFrameRef, () => {
+  updateOrbitSize()
+})
+
 onMounted(() => {
   gsap.registerPlugin(MotionPathPlugin)
 
   updateOrbitSize()
-  if (orbitFrameRef.value) {
-    resizeObserver = new ResizeObserver(() => {
-      updateOrbitSize()
-    })
-    resizeObserver.observe(orbitFrameRef.value)
-  }
   nextTick(() => {
     restartOrbitTweens()
   })
@@ -200,7 +183,6 @@ watch(orbitPathD, () => {
 })
 
 onBeforeUnmount(() => {
-  resizeObserver?.disconnect()
   killOrbitTweens()
 })
 </script>
@@ -211,10 +193,11 @@ onBeforeUnmount(() => {
       <ShareSectionTitle
         title="Sponsor"
         :margin-bottom="56"
+        breakpoint="md"
         class="pb-[90px] md:pb-[162px]"
       />
 
-      <div class="relative mx-auto w-full max-w-[1161px] overflow-visible px-6 pb-16 pt-[132px] sm:px-10 md:px-14 lg:min-h-[682px] lg:px-[96px] lg:pb-[88px] lg:pt-[174px]">
+      <div class="relative mx-auto w-full max-w-[370px] overflow-visible px-4 pb-[52px] pt-[100px] md:max-w-[928px] md:px-12 md:pb-[111px] md:pt-[205px] lg:max-w-[1164px] lg:px-[90px]">
         <!-- 軌道 -->
         <div
           ref="orbitFrameRef"
@@ -293,39 +276,61 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- 贊助商 icon  -->
-        <div class="relative z-10 mx-auto grid max-w-[809px] grid-cols-2 place-items-center gap-x-8 gap-y-10 md:grid-cols-3 md:gap-y-16 lg:gap-y-[80px]">
-          <a
-            v-for="sponsor in SPONSORS"
-            :key="sponsor.name"
-            :href="sponsor.href"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex min-h-[88px] w-full items-center justify-center"
+        <div class="relative z-10 mx-auto grid place-items-center gap-8 md:gap-16">
+          <div
+            v-for="group in SPONSOR_GROUPS"
+            :key="group.label"
+            class="w-full"
           >
-            <NuxtImg
-              :src="sponsor.src"
-              :width="sponsor.width"
-              :height="sponsor.height"
-              :alt="sponsor.name"
-              class="h-auto max-w-full"
-            />
-          </a>
+            <h3 class="mb-[17px] text-center font-serif text-[20px] font-bold leading-[1.6] tracking-[0em]  text-vconf-primary md:mb-6 md:text-[48px] md:leading-[auto]">
+              {{ group.label }}
+            </h3>
+            <div
+              class="flex flex-wrap justify-center gap-2 md:gap-6"
+            >
+              <a
+                v-for="sponsor in group.sponsors"
+                :key="sponsor.name"
+                :href="sponsor.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex aspect-square items-center justify-center border border-vconf-gray-exlight"
+                :class="group.widthClass"
+              >
+                <NuxtImg
+                  :src="sponsor.src"
+                  :width="sponsor.width"
+                  :height="sponsor.height"
+                  class="h-auto w-full object-contain"
+                  :alt="sponsor.name"
+                />
+              </a>
+            </div>
+          </div>
         </div>
+
+        <!-- All Sponsors 按鈕 -->
+        <a
+          href="#"
+          class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:px-12 md:py-3 md:text-[21px]"
+        >
+          All Sponsors
+        </a>
       </div>
 
       <!-- 背景 vite icon x2  -->
-      <!-- <NuxtImg
+      <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute left-[238px] top-[81px]"
-      /> -->
-      <!-- <NuxtImg
+        class="absolute left-[238px] top-[81px] hidden lg:block"
+      />
+      <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[145px] top-[87px]"
-      /> -->
+        class="absolute right-[106px] top-[25px] hidden md:right-[145px] md:top-[87px] md:block"
+      />
     </div>
   </section>
 </template>
