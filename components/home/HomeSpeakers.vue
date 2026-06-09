@@ -117,13 +117,13 @@ useSwiper(swiperRef, {
                     </svg>
                     <div class="flex-1 px-6 pt-4 text-center md:px-[45px]">
                       <h3
-                        data-speaker-name
-                        class="mb-[14px] font-serif text-[20px] font-bold leading-[1.2] tracking-[0%] text-vconf-primary md:text-[24px]"
+                        class="mb-[14px] flex items-center justify-center font-serif text-[20px] font-bold leading-[1.2] tracking-[0%] md:text-[24px]"
                       >
-                        {{ speaker.name }}
+                        <span class="pr-2 font-sans text-[17px] leading-[1] tracking-[0.02em] text-vconf-gray-light">{</span>
+                        <span class="text-vconf-primary">{{ speaker.name }}</span>
+                        <span class="pl-2 font-sans text-[17px] leading-[1] tracking-[0.02em] text-vconf-gray-light">}</span>
                       </h3>
                       <p
-                        data-speaker-topic
                         class="font-serif text-[16px] leading-[1.6] tracking-[0%] text-vconf-text-read"
                       >
                         {{ speaker.topic }}
