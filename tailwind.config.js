@@ -13,6 +13,9 @@ export default {
         xxs: '375px',
         xs: '480px',
       },
+      aspectRatio: {
+        'speaker-card': '267 / 374',
+      },
       container: {
         center: true,
         screens: {

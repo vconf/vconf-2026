@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
   title: string
-  marginBottom?: 24 | 32 | 56 | 249
+  marginBottom?: -85 | 24 | 32 | 56 | 249
   breakpoint?: 'xs' | 'md'
 }>(), {
   marginBottom: 32,
@@ -14,6 +14,9 @@ const marginBottomClass = computed(() => {
 
   if (props.marginBottom === 249)
     return 'mb-[249px]'
+
+  if (props.marginBottom === -85)
+    return 'mb-0 md:mb-[-85px]'
 
   const map = {
     56: { xs: 'xs:mb-14 mb-4', md: 'md:mb-14 mb-4' },

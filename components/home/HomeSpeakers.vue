@@ -17,14 +17,17 @@ useSwiper(swiperRef, {
   initialSlide: 1,
   speed: 600,
   grabCursor: true,
-  autoplay: {
-    delay: 2800,
-    disableOnInteraction: false,
-    pauseOnMouseEnter: true,
-  },
+  // autoplay: {
+  //   delay: 2800,
+  //   disableOnInteraction: false,
+  //   pauseOnMouseEnter: true,
+  // },
   breakpoints: {
-    768: {
+    1024: {
       slidesPerView: 4,
+    },
+    768: {
+      slidesPerView: 3,
     },
   },
   effect: 'coverflow',
@@ -39,103 +42,128 @@ useSwiper(swiperRef, {
 </script>
 
 <template>
-  <section class="relative isolate overflow-visible px-6 pb-[180px] pt-[99px]">
+  <section class="relative isolate overflow-visible pt-[99px]">
     <div class="container relative z-10">
       <!-- 標題 -->
       <ShareSectionTitle
         title="Speakers"
-        :margin-bottom="56"
+        :margin-bottom="-85"
       />
 
-      <!-- 輪播卡片 -->
-      <ClientOnly>
-        <div class="relative mx-auto max-w-[1004px] before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-10 before:w-6 before:bg-gradient-to-r before:from-vconf-white before:to-transparent before:content-[''] after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-10 after:w-6 after:bg-gradient-to-l after:from-vconf-white after:to-transparent after:content-['']">
-          <swiper-container
-            ref="swiperRef"
-            :init="false"
-            data-swiper="speakers"
-            class="mx-auto block max-w-[1004px]"
-          >
-            <swiper-slide
-              v-for="(speaker, index) in DISPLAY_SPEAKERS"
-              :key="`${speaker.name}-${index}`"
-              class="flex justify-center"
-            >
-              <div class="w-[267px] min-w-[267px] shrink-0">
-                <svg
-                  data-speaker-image-frame
-                  viewBox="0 0 267 374"
-                  xmlns="http://www.w3.org/2000/svg"
-                  :aria-label="speaker.name"
-                  role="img"
+      <!-- 主要內容 -->
+      <div class="mx-auto flex min-h-[421px] items-center justify-center overflow-visible md:h-[842px] md:min-h-0 xl:max-w-[1397px]">
+        <NuxtImg
+          src="/home/speakers-bg-left.png"
+          width="220"
+          height="842"
+          class="pointer-events-none z-20 mr-[-60px] hidden shrink-0 xl:block"
+        />
+
+        <NuxtImg
+          src="/home/speakers-bg-left-md.png"
+          width="191"
+          height="842"
+          class="pointer-events-none z-20 mr-[-80px] hidden shrink-0 md:block xl:hidden"
+        />
+
+        <NuxtImg
+          src="/home/speakers-bg-left-sm.png"
+          width="93"
+          height="421"
+          class="pointer-events-none z-20 mr-[-24px] block shrink-0 md:hidden"
+        />
+
+        <div class="relative z-10 min-w-0 flex-1 translate-y-[80px] pb-[78px] md:translate-y-0 md:pb-[124px]">
+          <!-- 輪播卡片 -->
+          <ClientOnly>
+            <div class="relative flex min-w-0 items-center before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-10 before:w-6 before:bg-gradient-to-r before:from-vconf-white before:to-transparent before:content-[''] after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-10 after:w-6 after:bg-gradient-to-l after:from-vconf-white after:to-transparent after:content-[''] md:h-full">
+              <swiper-container
+                ref="swiperRef"
+                :init="false"
+                data-swiper="speakers"
+                class="mx-auto grid place-content-center md:h-full"
+              >
+                <swiper-slide
+                  v-for="(speaker, index) in DISPLAY_SPEAKERS"
+                  :key="`${speaker.name}-${index}`"
+                  class="speaker-slide flex justify-center md:h-full"
                 >
-                  <defs>
-                    <clipPath
-                      :id="`speaker-mask-${index}`"
-                      clipPathUnits="userSpaceOnUse"
+                  <div class="flex w-full max-w-[228px] flex-col md:max-w-none">
+                    <svg
+                      data-speaker-image-frame
+                      viewBox="0 0 267 374"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="aspect-speaker-card w-full min-w-0"
+                      :aria-label="speaker.name"
+                      role="img"
                     >
-                      <path d="M4 28.8947L263 0V366L4 313.026V28.8947Z" />
-                    </clipPath>
-                  </defs>
-                  <image
-                    :href="speaker.image"
-                    x="0"
-                    y="0"
-                    width="267"
-                    height="374"
-                    preserveAspectRatio="xMidYMid slice"
-                    :clip-path="`url(#speaker-mask-${index})`"
-                  />
-                </svg>
-                <div class="px-[45px] pt-4 text-center">
-                  <h3
-                    data-speaker-name
-                    class="mb-[14px] font-serif text-[24px] font-bold leading-[1.2] tracking-[0%] text-vconf-primary"
-                  >
-                    {{ speaker.name }}
-                  </h3>
-                  <p
-                    data-speaker-topic
-                    class="mb-4 font-serif text-[16px] leading-[1.6] tracking-[0%] text-vconf-text-read"
-                  >
-                    {{ speaker.topic }}
-                  </p>
+                      <defs>
+                        <clipPath
+                          :id="`speaker-mask-${index}`"
+                          clipPathUnits="userSpaceOnUse"
+                        >
+                          <path d="M4 28.8947L263 0V366L4 313.026V28.8947Z" />
+                        </clipPath>
+                      </defs>
+                      <image
+                        :href="speaker.image"
+                        x="0"
+                        y="0"
+                        width="267"
+                        height="374"
+                        preserveAspectRatio="xMidYMid slice"
+                        :clip-path="`url(#speaker-mask-${index})`"
+                      />
+                    </svg>
+                    <div class="flex-1 px-6 pt-4 text-center md:px-[45px]">
+                      <h3
+                        data-speaker-name
+                        class="mb-[14px] font-serif text-[20px] font-bold leading-[1.2] tracking-[0%] text-vconf-primary md:text-[24px]"
+                      >
+                        {{ speaker.name }}
+                      </h3>
+                      <p
+                        data-speaker-topic
+                        class="font-serif text-[16px] leading-[1.6] tracking-[0%] text-vconf-text-read"
+                      >
+                        {{ speaker.topic }}
+                      </p>
+                    </div>
+                  </div>
+                </swiper-slide>
+              </swiper-container>
+            </div>
+          </ClientOnly>
 
-                  <NuxtLink
-                    to="#"
-                    class="relative isolate inline-flex items-center justify-center bg-vconf-white px-8 py-[6px] font-avenir text-vconf-primary before:absolute before:inset-0 before:-z-10 before:rounded-full before:border before:border-vconf-primary before:content-['']"
-                  >
-                    More
-                  </NuxtLink>
-                </div>
-              </div>
-            </swiper-slide>
-          </swiper-container>
+          <!-- 全部講者按鈕 -->
+          <NuxtLink
+            to="#"
+            class="absolute bottom-0 left-1/2 z-30 w-fit -translate-x-1/2 whitespace-nowrap rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:px-12 md:py-3 md:text-[21px]"
+          >
+            All Spekers
+          </NuxtLink>
         </div>
-      </ClientOnly>
+        <NuxtImg
+          src="/home/speakers-bg-right.png"
+          width="220"
+          height="842"
+          class="pointer-events-none z-20 ml-[-60px] hidden shrink-0 xl:block"
+        />
 
-      <!-- 左右背景圖片 -->
-      <NuxtImg
-        src="/home/speakers-bg-left.png"
-        width="220"
-        height="842"
-        class="pointer-events-none absolute left-[5.5%] top-1/2 z-10 hidden -translate-y-1/2 md:block"
-      />
+        <NuxtImg
+          src="/home/speakers-bg-right-md.png"
+          width="191"
+          height="842"
+          class="pointer-events-none z-20 ml-[-80px] hidden shrink-0 md:block xl:hidden"
+        />
 
-      <NuxtImg
-        src="/home/speakers-bg-right.png"
-        width="220"
-        height="842"
-        class="pointer-events-none absolute right-[5.5%] top-1/2 z-10 hidden -translate-y-1/2 md:block"
-      />
+        <NuxtImg
+          src="/home/speakers-bg-right-sm.png"
+          width="93"
+          height="421"
+          class="pointer-events-none z-20 ml-[-24px] block shrink-0 md:hidden"
+        />
+      </div>
     </div>
   </section>
 </template>
-
-<style scoped>
-[data-speaker-image-frame] {
-  display: block;
-  height: 374px;
-  width: 267px;
-}
-</style>

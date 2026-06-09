@@ -6,7 +6,13 @@ const { gsap } = useGsap()
 const ORBIT_RADIUS_MOBILE = 72
 const ORBIT_RADIUS_DESKTOP = 140
 const MD_BREAKPOINT = 768
-const ORBIT_STROKE_INSET = 0.5
+const ORBIT_ICON_WIDTH = 16
+const ORBIT_ICON_HEIGHT = 15
+const ORBIT_STROKE_WIDTH = 1
+const ORBIT_CONTENT_GAP = 16
+const ORBIT_ICON_PADDING = Math.hypot(ORBIT_ICON_WIDTH, ORBIT_ICON_HEIGHT) / 2
+const ORBIT_FRAME_INSET = ORBIT_ICON_PADDING + ORBIT_STROKE_WIDTH / 2
+const ORBIT_CONTENT_INSET = ORBIT_FRAME_INSET + ORBIT_CONTENT_GAP
 
 const { width: viewportWidth } = useWindowSize()
 
@@ -49,11 +55,12 @@ const viteIcon3Ref = ref<SVGImageElement | null>(null)
 const viteIcon4Ref = ref<SVGImageElement | null>(null)
 
 const orbitSize = reactive({
-  width: 1161,
-  height: 682,
+  width: 0,
+  height: 0,
 })
 
 const activeTweens: Array<{ kill: () => void }> = []
+let orbitSyncRafId: number | null = null
 
 const maxOrbitRadius = computed(() =>
   viewportWidth.value < MD_BREAKPOINT ? ORBIT_RADIUS_MOBILE : ORBIT_RADIUS_DESKTOP,
@@ -62,8 +69,8 @@ const maxOrbitRadius = computed(() =>
 const orbitRadius = computed(() => {
   return Math.min(
     maxOrbitRadius.value,
-    (orbitSize.width - ORBIT_STROKE_INSET * 2) / 2,
-    (orbitSize.height - ORBIT_STROKE_INSET * 2) / 2,
+    (orbitSize.width - ORBIT_FRAME_INSET * 2) / 2,
+    (orbitSize.height - ORBIT_FRAME_INSET * 2) / 2,
   )
 })
 
@@ -71,21 +78,28 @@ const orbitViewBox = computed(() => {
   return `0 0 ${orbitSize.width} ${orbitSize.height}`
 })
 
+const isOrbitReady = computed(() => orbitSize.width > 0 && orbitSize.height > 0)
+
+const orbitContentStyle = computed(() => ({
+  paddingInline: `${ORBIT_CONTENT_INSET}px`,
+  paddingBottom: `${ORBIT_CONTENT_GAP}px`,
+}))
+
 const orbitRect = computed(() => {
   return {
-    x: ORBIT_STROKE_INSET,
-    y: ORBIT_STROKE_INSET,
-    width: Math.max(orbitSize.width - ORBIT_STROKE_INSET * 2, 0),
-    height: Math.max(orbitSize.height - ORBIT_STROKE_INSET * 2, 0),
+    x: ORBIT_FRAME_INSET,
+    y: ORBIT_FRAME_INSET,
+    width: Math.max(orbitSize.width - ORBIT_FRAME_INSET * 2, 0),
+    height: Math.max(orbitSize.height - ORBIT_FRAME_INSET * 2, 0),
     rx: orbitRadius.value,
   }
 })
 
 const orbitPathD = computed(() => {
-  const left = ORBIT_STROKE_INSET
-  const top = ORBIT_STROKE_INSET
-  const right = Math.max(orbitSize.width - ORBIT_STROKE_INSET, left)
-  const bottom = Math.max(orbitSize.height - ORBIT_STROKE_INSET, top)
+  const left = ORBIT_FRAME_INSET
+  const top = ORBIT_FRAME_INSET
+  const right = Math.max(orbitSize.width - ORBIT_FRAME_INSET, left)
+  const bottom = Math.max(orbitSize.height - ORBIT_FRAME_INSET, top)
   const radius = orbitRadius.value
 
   return [
@@ -129,7 +143,8 @@ function killOrbitTweens() {
 
 function restartOrbitTweens() {
   if (
-    !orbitPathRef.value
+    !isOrbitReady.value
+    || !orbitPathRef.value
     || !viteIcon1Ref.value
     || !viteIcon2Ref.value
     || !viteIcon3Ref.value
@@ -163,16 +178,24 @@ function updateOrbitSize() {
   orbitSize.height = height
 }
 
-useResizeObserver(orbitFrameRef, () => {
+function syncOrbitLayout() {
   updateOrbitSize()
+  nextTick(() => {
+    restartOrbitTweens()
+  })
+}
+
+useResizeObserver(orbitFrameRef, () => {
+  syncOrbitLayout()
 })
 
 onMounted(() => {
   gsap.registerPlugin(MotionPathPlugin)
 
-  updateOrbitSize()
-  nextTick(() => {
-    restartOrbitTweens()
+  syncOrbitLayout()
+  orbitSyncRafId = window.requestAnimationFrame(() => {
+    syncOrbitLayout()
+    orbitSyncRafId = null
   })
 })
 
@@ -182,13 +205,20 @@ watch(orbitPathD, () => {
   })
 })
 
+watch(viewportWidth, () => {
+  syncOrbitLayout()
+})
+
 onBeforeUnmount(() => {
+  if (orbitSyncRafId !== null) {
+    window.cancelAnimationFrame(orbitSyncRafId)
+  }
   killOrbitTweens()
 })
 </script>
 
 <template>
-  <section class="overflow-x-clip pt-[100px]">
+  <section class="overflow-x-clip pt-[178px] md:pt-[224px]">
     <div class="container relative">
       <ShareSectionTitle
         title="Sponsor"
@@ -197,7 +227,7 @@ onBeforeUnmount(() => {
         class="pb-[90px] md:pb-[162px]"
       />
 
-      <div class="relative mx-auto w-full max-w-[370px] overflow-visible px-4 pb-[52px] pt-[100px] md:max-w-[928px] md:px-12 md:pb-[111px] md:pt-[205px] lg:max-w-[1164px] lg:px-[90px]">
+      <div class="relative mx-auto w-full overflow-visible px-4 pb-[52px] pt-[100px] md:px-12 md:pb-[111px] md:pt-[205px] lg:px-[90px]">
         <!-- 軌道 -->
         <div
           ref="orbitFrameRef"
@@ -205,8 +235,10 @@ onBeforeUnmount(() => {
           aria-hidden="true"
         >
           <svg
+            v-if="isOrbitReady"
             class="size-full overflow-visible"
             :viewBox="orbitViewBox"
+            preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <rect
@@ -217,6 +249,7 @@ onBeforeUnmount(() => {
               :rx="orbitRect.rx"
               fill="none"
               stroke="#863BFF"
+              :stroke-width="ORBIT_STROKE_WIDTH"
             />
             <path
               ref="orbitPathRef"
@@ -227,34 +260,34 @@ onBeforeUnmount(() => {
             <image
               ref="viteIcon1Ref"
               href="/share/vite-icon.svg"
-              x="-8"
-              y="-7.5"
-              width="16"
-              height="15"
+              :x="-ORBIT_ICON_WIDTH / 2"
+              :y="-ORBIT_ICON_HEIGHT / 2"
+              :width="ORBIT_ICON_WIDTH"
+              :height="ORBIT_ICON_HEIGHT"
             />
             <image
               ref="viteIcon2Ref"
               href="/share/vite-icon.svg"
-              x="-8"
-              y="-7.5"
-              width="16"
-              height="15"
+              :x="-ORBIT_ICON_WIDTH / 2"
+              :y="-ORBIT_ICON_HEIGHT / 2"
+              :width="ORBIT_ICON_WIDTH"
+              :height="ORBIT_ICON_HEIGHT"
             />
             <image
               ref="viteIcon3Ref"
               href="/share/vite-icon.svg"
-              x="-8"
-              y="-7.5"
-              width="16"
-              height="15"
+              :x="-ORBIT_ICON_WIDTH / 2"
+              :y="-ORBIT_ICON_HEIGHT / 2"
+              :width="ORBIT_ICON_WIDTH"
+              :height="ORBIT_ICON_HEIGHT"
             />
             <image
               ref="viteIcon4Ref"
               href="/share/vite-icon.svg"
-              x="-8"
-              y="-7.5"
-              width="16"
-              height="15"
+              :x="-ORBIT_ICON_WIDTH / 2"
+              :y="-ORBIT_ICON_HEIGHT / 2"
+              :width="ORBIT_ICON_WIDTH"
+              :height="ORBIT_ICON_HEIGHT"
             />
           </svg>
         </div>
@@ -276,7 +309,10 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- 贊助商 icon  -->
-        <div class="relative z-10 mx-auto grid place-items-center gap-8 md:gap-16">
+        <div
+          class="relative z-10 mx-auto grid place-items-center gap-8 md:gap-16"
+          :style="orbitContentStyle"
+        >
           <div
             v-for="group in SPONSOR_GROUPS"
             :key="group.label"
@@ -308,14 +344,13 @@ onBeforeUnmount(() => {
             </div>
           </div>
         </div>
-
         <!-- All Sponsors 按鈕 -->
-        <a
-          href="#"
-          class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:px-12 md:py-3 md:text-[21px]"
+        <NuxtLink
+          to="#"
+          class="absolute bottom-[-10px] left-1/2 -translate-x-1/2 rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:px-12 md:py-3 md:text-[21px]"
         >
           All Sponsors
-        </a>
+        </NuxtLink>
       </div>
 
       <!-- 背景 vite icon x2  -->

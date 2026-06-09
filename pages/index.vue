@@ -2,7 +2,7 @@
   <div>
     <!-- <HomeHero /> -->
     <!-- <HomeCountdown /> -->
-    <!-- <HomeSpeakers /> -->
+    <HomeSpeakers />
     <HomeSponsorSection />
   </div>
 </template>
