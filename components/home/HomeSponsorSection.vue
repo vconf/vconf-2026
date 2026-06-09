@@ -188,7 +188,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section>
+  <section class="overflow-x-clip pt-[100px]">
     <div class="container relative">
       <ShareSectionTitle
         title="Sponsor"
