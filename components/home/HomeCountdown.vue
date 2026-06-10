@@ -89,7 +89,7 @@ const segments = computed(() => [
         <NuxtImg
           src="/home/homeCountdown-top.png"
           width="722"
-          height="173"
+          height="96"
           class="mb-5 hidden md:mb-10 md:block"
         />
         <NuxtImg
@@ -129,7 +129,7 @@ const segments = computed(() => [
         <NuxtImg
           src="/home/homeCountdown-bottom.png"
           width="722"
-          height="138"
+          height="96"
           class="mt-5 hidden md:mt-10 md:block"
         />
         <NuxtImg
@@ -170,8 +170,8 @@ const segments = computed(() => [
 .countdown-item:not(:last-child)::after {
   content: '';
   position: absolute;
-  top: 10px;
-  right: -10px;
+  top: 12px;
+  right: -13px;
   width: 5.5px;
   height: 5.5px;
   border-radius: 9999px;
@@ -181,7 +181,7 @@ const segments = computed(() => [
 
 @media (min-width: 768px) {
   .countdown-item:not(:last-child)::after {
-    top: 20px;
+    top: 24px;
     right: -44px;
     width: 11px;
     height: 11px;

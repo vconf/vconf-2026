@@ -15,7 +15,7 @@ watch(
 </script>
 
 <template>
-  <section class="relative isolate min-h-[calc(100svh-100px)] overflow-y-clip">
+  <section class="relative isolate overflow-y-clip">
     <!-- <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-screen max-h-screen">
       <HomeHeroThreeScene />
     </div> -->
