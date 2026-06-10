@@ -89,13 +89,13 @@ const segments = computed(() => [
         <NuxtImg
           src="/home/homeCountdown-top.png"
           width="722"
-          height="130"
+          height="173"
           class="mb-5 hidden md:mb-10 md:block"
         />
         <NuxtImg
           src="/home/homeCountdown-top-small.png"
-          width="1083"
-          height="137"
+          width="361"
+          height="49"
           class="mb-3 block md:mb-10 md:hidden"
         />
 
@@ -105,7 +105,7 @@ const segments = computed(() => [
         <p class="mb-4 font-serif text-[16px] font-bold tracking-[1%] text-vconf-heading md:mb-8 md:text-[32px]">
           即將，VUE 見未來
         </p>
-        <div class="flex items-center gap-[14px] md:gap-[75px]">
+        <div class="flex items-center gap-[20px] md:gap-[75px]">
           <div
             v-for="segment in segments"
             :key="segment.key"
@@ -134,8 +134,8 @@ const segments = computed(() => [
         />
         <NuxtImg
           src="/home/homeCountdown-bottom-small.png"
-          width="1083"
-          height="172"
+          width="361"
+          height="61"
           class="mt-3 block md:mt-10 md:hidden"
         />
       </div>
