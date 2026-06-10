@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="relative isolate mt-[99px] md:mt-[64px] xl:mt-[99px]">
+  <section class="relative isolate pt-[100px]">
     <!-- 主要內容 -->
     <div class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0">
       <svg
@@ -341,25 +341,25 @@ onBeforeUnmount(() => {
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[513px] top-[-42px]"
+        class="absolute right-[513px] top-[-42px] hidden lg:block"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[313px] top-0"
+        class="absolute right-[313px] top-0 hidden lg:block"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[313px] top-[59px]"
+        class="absolute right-[313px] top-[59px] hidden lg:block"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[313px] top-[182px]"
+        class="absolute right-[313px] top-[182px] hidden lg:block"
       />
     </div>
     <!-- 感謝語 -->
