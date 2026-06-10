@@ -17,11 +17,11 @@ useSwiper(swiperRef, {
   initialSlide: 1,
   speed: 600,
   grabCursor: true,
-  // autoplay: {
-  //   delay: 2800,
-  //   disableOnInteraction: false,
-  //   pauseOnMouseEnter: true,
-  // },
+  autoplay: {
+    delay: 2800,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
   breakpoints: {
     1024: {
       slidesPerView: 4,

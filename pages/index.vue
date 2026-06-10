@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <HomeHero /> -->
-    <!-- <HomeCountdown /> -->
+    <HomeCountdown />
     <HomeSpeakers />
     <HomeSponsorSection />
   </div>
