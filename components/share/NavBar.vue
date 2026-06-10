@@ -88,7 +88,7 @@ watch(
 
 <template>
   <header
-    class="sticky top-0 bg-vconf-white"
+    class="sticky top-0 z-40 bg-vconf-white"
     :class="{ 'z-50': isMenuOpen }"
   >
     <div class="container">
