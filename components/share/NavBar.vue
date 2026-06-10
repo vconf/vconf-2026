@@ -87,7 +87,10 @@ watch(
 </script>
 
 <template>
-  <header class="sticky top-0 bg-vconf-white">
+  <header
+    class="sticky top-0 bg-vconf-white"
+    :class="{ 'z-50': isMenuOpen }"
+  >
     <div class="container">
       <nav class="relative flex items-center px-6 py-4 md:py-6 md:pl-[34px] md:pr-4 lg:pl-16 lg:pr-8">
         <!-- logo 顯示使用 -->
@@ -116,7 +119,7 @@ watch(
 
         <!-- 導覽列項目 -->
         <ul
-          class="nav-menu z-20 ml-auto gap-8 px-6 text-vconf-text-muted"
+          class="nav-menu z-40 ml-auto gap-8 px-6 text-vconf-text-muted"
           :class="[
             isMenuOpen
               ? 'active fixed left-0 top-[57px] flex h-[calc(100svh-57px)] w-full flex-col bg-vconf-white'
