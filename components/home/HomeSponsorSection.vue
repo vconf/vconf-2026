@@ -346,7 +346,7 @@ onBeforeUnmount(() => {
         </div>
         <!-- All Sponsors 按鈕 -->
         <NuxtLink
-          to="#"
+          to="/sponsors"
           class="absolute bottom-[-10px] left-1/2 -translate-x-1/2 rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:px-12 md:py-3 md:text-[21px]"
         >
           All Sponsors

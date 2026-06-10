@@ -17,18 +17,19 @@
           class="absolute left-[clamp(-800px,calc(-1562px+99.22vw),-546px)] top-[-164px] hidden max-w-none md:block"
         />
         <NuxtImg
-          src="/about/hero-bg-left-small.png"
-          width="810"
-          height="817"
-          loading="eager"
-          class="absolute left-[-434px] top-[116px] block max-w-none md:hidden"
-        />
-        <NuxtImg
           src="/about/hero-bg-2.png"
           width="1159"
           height="1175"
           loading="eager"
           class="absolute right-[clamp(-800px,calc(-1475px+87.89vw),-575px)] top-[-394px] hidden max-w-none md:block"
+        />
+        <!-- 手機版 -->
+        <NuxtImg
+          src="/about/hero-bg-left-small.png"
+          width="810"
+          height="817"
+          loading="eager"
+          class="absolute left-[-434px] top-[116px] block max-w-none md:hidden"
         />
         <NuxtImg
           src="/about/hero-bg-right-small.png"

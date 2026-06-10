@@ -9,25 +9,25 @@ const NAV_ITEMS = [
   },
   {
     name: 'Agenda',
-    href: '#',
+    href: '/agenda',
   },
   {
     name: 'Speakers',
-    href: '#',
+    href: '/speakers',
   },
   {
     name: 'Sponsors',
-    href: '#',
+    href: '/sponsors',
     mdHidden: true,
   },
   {
     name: 'Team',
-    href: '#',
+    href: '/team',
     mdHidden: true,
   },
   {
     name: 'Recap',
-    href: '#',
+    href: '/recap',
     mdHidden: true,
   },
 ]

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <HomeHero /> -->
+    <HomeHero />
     <HomeCountdown />
     <HomeSpeakers />
     <HomeSponsorSection />

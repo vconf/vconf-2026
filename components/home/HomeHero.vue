@@ -16,9 +16,9 @@ watch(
 
 <template>
   <section class="relative isolate min-h-[calc(100svh-100px)] overflow-y-clip">
-    <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-screen max-h-screen">
+    <!-- <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-screen max-h-screen">
       <HomeHeroThreeScene />
-    </div>
+    </div> -->
 
     <!-- 首頁主要 logo -->
     <NuxtImg
