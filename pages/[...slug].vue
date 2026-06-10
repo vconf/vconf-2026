@@ -6,32 +6,32 @@ definePageMeta({
 
 <template>
   <div class="relative m-auto grid h-svh place-content-center overflow-hidden">
-    <div class="flex flex-col items-center md:gap-4">
+    <div class="relative z-10 flex flex-col items-center md:gap-4">
       <!-- 背景裝飾使用 -->
       <NuxtImg
         src="/coming-soon/decorate-bg-left-large.png"
         width="1258"
         height="1150"
-        class="absolute left-[clamp(-990px,calc(53.32vw_-_1399.4px),-717px)] top-[-434px] hidden max-w-none md:block"
+        class="pointer-events-none absolute left-[clamp(-990px,calc(53.32vw_-_1399.4px),-717px)] top-[-434px] hidden max-w-none md:block"
       />
       <NuxtImg
         src="/coming-soon/decorate-bg-right-large.png"
         width="1224"
         height="1293"
-        class="absolute right-[clamp(-942px,calc(57.03vw_-_1380.9px),-650px)] top-[-655px] hidden max-w-none md:block"
+        class="pointer-events-none absolute right-[clamp(-942px,calc(57.03vw_-_1380.9px),-650px)] top-[-655px] hidden max-w-none md:block"
       />
       <!-- 手機版 -->
       <NuxtImg
         src="/coming-soon/decorate-bg-left-small.png"
         width="810"
         height="817"
-        class="absolute bottom-[-494px] left-[-422px] block max-w-none md:hidden"
+        class="pointer-events-none absolute bottom-[-494px] left-[-422px] block max-w-none md:hidden"
       />
       <NuxtImg
         src="/coming-soon/decorate-bg-right-small.png"
         width="807"
         height="818"
-        class="absolute right-[-435px] top-[-510px] block max-w-none md:hidden"
+        class="pointer-events-none absolute right-[-435px] top-[-510px] block max-w-none md:hidden"
       />
       <!-- logo 區域 -->
       <NuxtImg
