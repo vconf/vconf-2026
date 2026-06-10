@@ -6,7 +6,7 @@ definePageMeta({
 
 <template>
   <div class="relative m-auto grid h-svh place-content-center overflow-hidden">
-    <div class="relative z-10 flex flex-col items-center px-4">
+    <div class="z-10 flex flex-col items-center px-4">
       <!-- 背景圖 -->
       <NuxtImg
         src="/coming-soon/decorate-bg-left-large.png"
