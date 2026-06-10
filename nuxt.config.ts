@@ -81,6 +81,13 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    compressPublicAssets: {
+      gzip: true,
+      brotli: true,
+    },
+  },
+
   build: {
     transpile: ['gsap'],
   },
