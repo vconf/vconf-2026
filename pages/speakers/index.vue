@@ -6,7 +6,8 @@ definePageMeta({
 
 <template>
   <div class="relative m-auto grid h-svh place-content-center overflow-hidden">
-    <div class="flex flex-col items-center gap-2 px-4 md:gap-4">
+    <div class="flex flex-col items-center px-4">
+      <!-- 背景圖 -->
       <NuxtImg
         src="/coming-soon/decorate-bg-left-large.png"
         width="1258"
@@ -31,31 +32,33 @@ definePageMeta({
         height="818"
         class="absolute right-[-435px] top-[-510px] block max-w-none md:hidden"
       />
+      <!-- logo -->
       <NuxtImg
         width="362"
         height="182"
         src="/coming-soon/logo-large.svg"
-        class="hidden md:block"
+        class="mb-4 hidden md:block"
       />
       <NuxtImg
         width="265"
         height="134"
         src="/coming-soon/logo-small.svg"
-        class="block md:hidden"
+        class="mb-2 block md:hidden"
       />
+      <!-- 建置圖片 -->
       <NuxtImg
         width="772"
         height="133"
         src="/coming-soon/bg-large.png"
-        class="hidden p-4 md:block"
+        class="mb-4 hidden p-4 md:block"
       />
       <NuxtImg
         width="386"
         height="67"
         src="/coming-soon/bg-small.png"
-        class="block p-4 md:hidden"
+        class="mb-2 block p-4 md:hidden"
       />
-      <p class="p-[10px] font-serif text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-text-read md:text-[24px] md:leading-[1.2] md:tracking-[0em]">
+      <p class="mb-2 p-[5px] font-serif text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-text-read md:mb-4 md:p-[10px] md:text-[24px] md:leading-[1.2] md:tracking-[0em]">
         建置中，敬請期待
       </p>
       <NuxtLink
