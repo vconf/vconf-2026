@@ -10,7 +10,7 @@
     <Teleport to="body">
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute left-1/2 top-0 z-30 h-[760px] w-screen -translate-x-1/2 overflow-hidden md:h-[980px]"
+        class="pointer-events-none absolute left-1/2 top-0 z-30 h-[760px] w-svw -translate-x-1/2 overflow-hidden md:h-[980px]"
       >
         <NuxtImg
           src="/about/hero-bg-1.png"
