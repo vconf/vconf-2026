@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useBreakpoints } from '@vueuse/core'
 import { ref } from 'vue'
 
 const NAV_ITEMS = [
@@ -8,29 +9,42 @@ const NAV_ITEMS = [
   },
   {
     name: 'Agenda',
-    href: '#',
+    href: '/agenda',
   },
   {
     name: 'Speakers',
-    href: '#',
+    href: '/speakers',
   },
   {
     name: 'Sponsors',
-    href: '#',
+    href: '/sponsors',
+    mdHidden: true,
   },
   {
     name: 'Team',
-    href: '#',
+    href: '/team',
+    mdHidden: true,
   },
   {
     name: 'Recap',
-    href: '#',
+    href: '/recap',
+    mdHidden: true,
   },
 ]
 
 const lenis = useLenis()
 const route = useRoute()
 const isMenuOpen = ref(false)
+
+const breakpoints = useBreakpoints({ lg: 1024 })
+const isLg = breakpoints.greaterOrEqual('lg')
+
+watch(isLg, (lg) => {
+  if (lg && isMenuOpen.value) {
+    isMenuOpen.value = false
+    lenis.start()
+  }
+})
 
 function onClickIcon() {
   lenis.start()
@@ -73,19 +87,22 @@ watch(
 </script>
 
 <template>
-  <header class="sticky top-0 bg-vconf-white">
+  <header
+    class="sticky top-0 bg-vconf-white"
+    :class="{ 'z-50': isMenuOpen }"
+  >
     <div class="container">
-      <nav class="relative flex items-center px-6 py-4 md:p-6 md:pl-16 md:pr-8">
+      <nav class="relative flex items-center px-6 py-4 md:py-6 md:pl-[34px] md:pr-4 lg:pl-16 lg:pr-8">
         <!-- logo 顯示使用 -->
         <NuxtLink
-          class="grid place-content-center"
+          class="grid place-content-center md:py-[10px] lg:py-0"
           to="/"
           @click="onClickIcon()"
         >
           <NuxtImg
             src="/share/nav-logo-md.svg"
-            height="26"
-            width="150"
+            height="38"
+            width="220"
             loading="eager"
             placeholder
             class="hidden md:block"
@@ -100,10 +117,42 @@ watch(
           />
         </NuxtLink>
 
+        <!-- 導覽列項目 -->
+        <ul
+          class="nav-menu z-40 ml-auto gap-8 px-6 text-vconf-text-muted"
+          :class="[
+            isMenuOpen
+              ? 'active fixed left-0 top-[57px] flex h-[calc(100svh-57px)] w-full flex-col bg-vconf-white'
+              : 'hidden md:flex md:h-auto md:gap-0 md:bg-transparent md:px-0',
+          ]"
+        >
+          <li
+            v-for="NAV_ITEM in NAV_ITEMS"
+            :key="NAV_ITEM.href"
+            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-4/5 after:-translate-x-1/2 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent md:hover:after:origin-left md:hover:after:scale-x-100"
+            :class="[
+              isNavItemActive(NAV_ITEM.href)
+                ? 'after:origin-left after:scale-x-100'
+                : 'after:origin-right after:scale-x-0',
+              NAV_ITEM.mdHidden && !isMenuOpen ? 'md:hidden lg:block' : '',
+            ]"
+            @click="onClickNavItem()"
+          >
+            <NuxtLink
+
+              :to="NAV_ITEM.href"
+              class="inline-block w-full px-4 py-[10px] text-[24px] tracking-[0em] xl:w-auto xl:px-8"
+            >
+              {{ NAV_ITEM.name }}
+            </NuxtLink>
+          </li>
+        </ul>
+
         <!-- 導覽漢堡按鈕 -->
         <button
           type="button"
-          class="ml-auto md:hidden"
+          class="mr-2 w-[43px] flex-none py-3 pl-3 lg:hidden"
+          :class="isMenuOpen ? 'ml-auto' : 'ml-auto md:ml-0'"
           :aria-expanded="isMenuOpen"
           aria-label="Toggle navigation"
           @click="onToggleMenu()"
@@ -115,40 +164,30 @@ watch(
             class="relative h-[1px] w-[35px] transition-colors duration-300 before:absolute before:h-[1px] before:content-[''] before:[transition:transform_300ms] after:absolute after:h-[1px] after:content-[''] after:[transition:transform_300ms]"
           ></div>
         </button>
-
-        <!-- 導覽列項目 -->
-        <ul
-          class="z-20 ml-auto h-[calc(100svh-64px)] gap-8 bg-vconf-white px-6 text-vconf-text-muted md:h-auto md:gap-0 md:bg-transparent md:px-0"
-          :class="[
-            isMenuOpen
-              ? 'absolute left-0 top-[51px] flex h-screen w-full flex-col md:relative md:top-0 md:w-fit md:flex-row'
-              : 'hidden md:flex',
-          ]"
-        >
-          <li
-            v-for="NAV_ITEM in NAV_ITEMS"
-            :key="NAV_ITEM.href"
-            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-4/5 after:-translate-x-1/2 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent md:hover:after:origin-left md:hover:after:scale-x-100"
-            :class="isNavItemActive(NAV_ITEM.href)
-              ? 'after:origin-left after:scale-x-100'
-              : 'after:origin-right after:scale-x-0'"
-            @click="onClickNavItem()"
-          >
-            <NuxtLink
-
-              :to="NAV_ITEM.href"
-              class="inline-block w-full p-3 py-[10px] text-[24px] leading-[1.333] md:w-auto md:px-8"
-            >
-              {{ NAV_ITEM.name }}
-            </NuxtLink>
-          </li>
-        </ul>
       </nav>
     </div>
   </header>
 </template>
 
 <style scoped>
+.nav-menu.active {
+  top: 57px;
+  height: calc(100svh - 57px);
+}
+
+@media (min-width: 768px) {
+  .nav-menu.active {
+    top: 104px;
+    height: calc(100svh - 104px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .nav-menu.active {
+    display: none;
+  }
+}
+
 .router-link-active {
   font-weight: bold;
 }

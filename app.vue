@@ -28,7 +28,7 @@ if (isProduction && umamiWebsiteId) {
   </Body>
 </template>
 
-<style scoped>
+<style>
 /* 進入時由下往上淡入 */
 .page-enter-active {
   transition: transform 0.5s;
@@ -46,5 +46,14 @@ if (isProduction && umamiWebsiteId) {
 .page-leave-to {
   opacity: 0;
   filter: blur(0.5rem);
+}
+
+.layout-enter-active {
+  transition: opacity 0.35s ease;
+}
+
+.layout-enter-from,
+.layout-leave-to {
+  opacity: 0;
 }
 </style>

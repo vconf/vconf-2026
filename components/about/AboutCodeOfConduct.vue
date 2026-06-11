@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="relative isolate mt-[99px] md:mt-[64px] xl:mt-[99px]">
+  <section class="relative isolate">
     <!-- 主要內容 -->
     <div class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0">
       <svg
@@ -211,7 +211,7 @@ onBeforeUnmount(() => {
         <div class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0">
           <ShareSectionTitle
             title="行為準則"
-            :padding-bottom="24"
+            :margin-bottom="24"
           />
           <p class="text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]">
             <span class="text-vconf-primary">V-CONF Taiwan 2026 </span>
@@ -341,25 +341,25 @@ onBeforeUnmount(() => {
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[513px] top-[-42px]"
+        class="absolute top-[-42px] hidden md:left-[200px] md:block lg:left-auto lg:right-[513px]"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[313px] top-0"
+        class="absolute top-0 hidden md:left-[350px] md:top-5 md:block lg:left-auto lg:right-[313px]"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[313px] top-[59px]"
+        class="absolute right-[313px] top-[59px] hidden lg:block"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
         width="16"
         height="15"
-        class="absolute right-[313px] top-[182px]"
+        class="absolute right-[313px] top-[182px] hidden lg:block"
       />
     </div>
     <!-- 感謝語 -->

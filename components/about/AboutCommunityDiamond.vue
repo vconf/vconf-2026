@@ -138,7 +138,7 @@ onBeforeUnmount(() => {
       <div class="absolute left-1/2 top-1/2 min-h-[486px] w-full min-w-0 -translate-x-1/2 -translate-y-1/2 px-6 py-8 text-center font-serif xs:w-screen lg:min-h-[520px] lg:w-full">
         <ShareSectionTitle
           title="連結社群 啟發未來"
-          :padding-bottom="24"
+          :margin-bottom="24"
         />
         <div
           ref="textRef"

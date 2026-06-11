@@ -10,7 +10,11 @@ export default {
   theme: {
     extend: {
       screens: {
+        xxs: '375px',
         xs: '480px',
+      },
+      aspectRatio: {
+        'speaker-card': '267 / 374',
       },
       container: {
         center: true,
@@ -50,6 +54,7 @@ export default {
           'theme-toggle-bg': 'hsl(var(--color-theme-toggle-bg))',
           'gray-light': 'hsl(var(--color-gray-light))',
           'section-bg': 'hsl(var(--color-section-bg))',
+          'gray-exlight': 'hsl(var(--color-gray-exlight))',
         },
       },
     },

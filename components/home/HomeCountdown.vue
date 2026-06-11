@@ -82,48 +82,63 @@ const segments = computed(() => [
 </script>
 
 <template>
-  <section class="mx-auto w-fit pb-[280px] pt-[279px] text-center">
-    <div class="container relative">
-      <h2 class="mb-8 font-serif text-[64px] font-bold tracking-[0%] text-vconf-heading">
-        Oct 31 2026
-      </h2>
-      <p class="mb-8 font-serif text-[32px] font-bold tracking-[1%] text-vconf-heading">
-        即將，VUE 見未來
-      </p>
-      <!-- 倒數計時 -->
-      <div class="flex items-center gap-[77px]">
-        <div
-          v-for="segment in segments"
-          :key="segment.key"
-          class="countdown-item relative text-center font-avenir"
-        >
+  <section class="pt-[100px] text-center">
+    <div class="container">
+      <div class="mx-auto flex w-fit flex-col items-center">
+        <!-- 上方 vite 裝飾物 -->
+        <NuxtImg
+          src="/home/homeCountdown-top.png"
+          width="722"
+          height="96"
+          class="mb-5 hidden md:mb-10 md:block"
+        />
+        <NuxtImg
+          src="/home/homeCountdown-top-small.png"
+          width="361"
+          height="49"
+          class="mb-3 block md:mb-10 md:hidden"
+        />
+
+        <h2 class="mb-4 font-serif text-[32px] font-bold tracking-[0%] text-vconf-heading md:mb-8 md:text-[64px]">
+          Oct 31 2026
+        </h2>
+        <p class="mb-4 font-serif text-[16px] font-bold tracking-[1%] text-vconf-heading md:mb-8 md:text-[32px]">
+          即將，VUE 見未來
+        </p>
+        <div class="flex items-center gap-[20px] md:gap-[75px]">
           <div
-            class="countdown-number-frame  relative inline-block overflow-hidden pb-[37px] text-[100px] font-black leading-[1] tracking-[2%] text-vconf-primary"
-            :data-value="segment.value"
+            v-for="segment in segments"
+            :key="segment.key"
+            class="countdown-item relative text-center font-avenir"
           >
-            <p class="countdown-number">
-              {{ segment.value }}
+            <div
+              class="countdown-number-frame  relative inline-block overflow-hidden pb-[21px] text-[50px] font-black leading-[1] tracking-[2%] text-vconf-primary md:pb-[37px] md:text-[100px]"
+              :data-value="segment.value"
+            >
+              <p class="countdown-number">
+                {{ segment.value }}
+              </p>
+            </div>
+            <p class="text-[13px] font-medium tracking-[0%] text-vconf-primary md:text-[24px]">
+              {{ segment.label }}
             </p>
           </div>
-          <p class="text-[24px] font-medium tracking-[0%] text-vconf-primary">
-            {{ segment.label }}
-          </p>
         </div>
-      </div>
 
-      <!-- 上下裝飾背景 -->
-      <NuxtImg
-        src="/home/homeCountdown-top.png"
-        width="722"
-        height="130"
-        class="absolute left-1/2 top-[-190px] -translate-x-1/2"
-      />
-      <NuxtImg
-        src="/home/homeCountdown-bottom.png"
-        width="722"
-        height="138"
-        class="absolute bottom-[-190px] left-1/2 -translate-x-1/2"
-      />
+        <!-- 下方 vite 裝飾物 -->
+        <NuxtImg
+          src="/home/homeCountdown-bottom.png"
+          width="722"
+          height="96"
+          class="mt-5 hidden md:mt-10 md:block"
+        />
+        <NuxtImg
+          src="/home/homeCountdown-bottom-small.png"
+          width="361"
+          height="61"
+          class="mt-3 block md:mt-10 md:hidden"
+        />
+      </div>
     </div>
   </section>
 </template>
@@ -146,15 +161,31 @@ const segments = computed(() => [
   pointer-events: none;
 }
 
+.countdown-number-frame,
+.countdown-number {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
 .countdown-item:not(:last-child)::after {
   content: '';
   position: absolute;
-  top: 20px;
-  right: -44px;
-  width: 11px;
-  height: 11px;
+  top: 12px;
+  right: -13px;
+  width: 5.5px;
+  height: 5.5px;
   border-radius: 9999px;
   background: hsl(var(--color-purple));
-  box-shadow: 0 42px 0 0 hsl(var(--color-purple));
+  box-shadow: 0 21px 0 0 hsl(var(--color-purple));
+}
+
+@media (min-width: 768px) {
+  .countdown-item:not(:last-child)::after {
+    top: 24px;
+    right: -44px;
+    width: 11px;
+    height: 11px;
+    box-shadow: 0 42px 0 0 hsl(var(--color-purple));
+  }
 }
 </style>

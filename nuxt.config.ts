@@ -75,6 +75,17 @@ export default defineNuxtConfig({
       name: 'page',
       mode: 'out-in',
     },
+    layoutTransition: {
+      name: 'layout',
+      mode: 'out-in',
+    },
+  },
+
+  nitro: {
+    compressPublicAssets: {
+      gzip: true,
+      brotli: true,
+    },
   },
 
   build: {
