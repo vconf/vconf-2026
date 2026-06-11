@@ -7,9 +7,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <main>
     <AboutHero />
     <AboutCommunityDiamond />
     <AboutCodeOfConduct />
-  </div>
+  </main>
 </template>

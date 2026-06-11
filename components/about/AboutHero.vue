@@ -8,7 +8,10 @@
       <span class="text-[clamp(24px,calc(5.26px+4.662vw),53px)] tracking-[0em]">TW</span>
     </h1>
     <Teleport to="body">
-      <div class="pointer-events-none absolute left-1/2 top-0 z-30 h-0 w-screen -translate-x-1/2 overflow-x-clip">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute left-1/2 top-0 z-30 h-[760px] w-screen -translate-x-1/2 overflow-hidden md:h-[980px]"
+      >
         <NuxtImg
           src="/about/hero-bg-1.png"
           width="1159"
