@@ -2,8 +2,8 @@
 import { useBreakpoints, useIntersectionObserver, useResizeObserver, useWindowSize } from '@vueuse/core'
 
 const CONTACT_EMAIL = 'vuejs_taiwan@googlegroups.com'
-const EVENT_DATE = '2026.10.31'
-const EVENT_DATE_TIME = '2026-10-31'
+const EVENT_DATE = '2026.10.17'
+const EVENT_DATE_TIME = '2026-10-17'
 const EVENT_START_TIME = '09:30'
 const EVENT_END_TIME = '16:00'
 const VENUE_NAME = '政大公企中心 A2 國際會議廳'
