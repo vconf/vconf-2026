@@ -159,7 +159,7 @@ function startDominoAnimation() {
 
 // ── RAF loop ──────────────────────────────────────────────────────────────────
 let rafId: number | null = null
-let elapsed = 0
+let elapsed = dominoPlayed.value ? FALL_END + WIND_FADE_DURATION : 0
 let ready = false
 let frameCount = 0
 let prevTs: number | null = null
@@ -211,6 +211,11 @@ onMounted(() => {
   const { gsap } = useGsap()
   if (!gsap)
     return
+
+  elapsed = dominoPlayed.value ? FALL_END + WIND_FADE_DURATION : 0
+  ready = dominoPlayed.value
+  frameCount = 0
+  prevTs = null
 
   if (heroSvgRef.value) {
     const initialWidth = heroSvgRef.value.getBoundingClientRect().width
