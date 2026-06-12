@@ -341,7 +341,7 @@ const sceneClasses = computed(() => props.sceneClass)
     <!-- 卡片主視覺下方的背景裝飾 -->
     <img
       ref="heroBgImgRef"
-      src="/hero-bg.svg"
+      src="/hero-bg-md.svg"
       class="mx-auto mt-[-557px] block w-full max-w-[1512px] translate-x-[9%]"
       aria-hidden="true"
     />
