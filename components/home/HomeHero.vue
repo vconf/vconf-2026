@@ -47,7 +47,7 @@ watch(
       placeholder
     />
 
-    <HomeHeroThreeScene class="pointer-events-none mt-[-19%] w-full" />
+    <HomeHeroThreeScene class="pointer-events-none mt-[-365px] w-full" />
 
     <Teleport to="body">
       <ShareThemeToggle class="left-[17px] top-[166px]" />
