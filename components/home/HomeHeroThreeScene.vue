@@ -128,6 +128,7 @@ const rightInitialTransforms = layers.map(i =>
 // ── SVG refs ──────────────────────────────────────────────────────────────────
 const heroSvgRef = ref<SVGSVGElement | null>(null)
 const svgBgRef = ref<SVGImageElement | null>(null)
+const heroBgImgRef = ref<HTMLImageElement | null>(null)
 const leftTileRefs = shallowRef<Array<SVGGElement | null>>([])
 const rightTileRefs = shallowRef<Array<SVGGElement | null>>([])
 
@@ -240,6 +241,15 @@ onMounted(() => {
     })
   }
 
+  if (heroBgImgRef.value) {
+    const w = heroBgImgRef.value.getBoundingClientRect().width
+    heroBgImgRef.value.style.width = `${w}px`
+    heroBgImgRef.value.style.position = 'relative'
+    heroBgImgRef.value.style.left = '50%'
+    heroBgImgRef.value.style.marginLeft = `-${w / 2}px`
+    heroBgImgRef.value.style.marginRight = '0'
+  }
+
   rafId = requestAnimationFrame(svgTick)
 })
 
@@ -255,79 +265,80 @@ const sceneClasses = computed(() => props.sceneClass)
 
 <template>
   <div :class="sceneClasses">
-      <svg
-        ref="heroSvgRef"
-        class="w-full"
-        style="opacity: 0; overflow: visible;"
-        viewBox="292 0 1494 1099"
-        preserveAspectRatio="xMidYMin meet"
-        overflow="visible"
-        xmlns="http://www.w3.org/2000/svg"
+    <svg
+      ref="heroSvgRef"
+      class="w-full"
+      style="opacity: 0; overflow: visible;"
+      viewBox="292 0 1494 1099"
+      preserveAspectRatio="xMidYMin meet"
+      overflow="visible"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- 左扇 (藍/青色系, 15 張) -->
+      <g
+        v-for="i in layers"
+        :key="`tl-${i}`"
+        :ref="(el: unknown) => setLeftTileRef(el, i)"
+        :transform="leftInitialTransforms[i]"
       >
-        <!-- 左扇 (藍/青色系, 15 張) -->
-        <g
-          v-for="i in layers"
-          :key="`tl-${i}`"
-          :ref="(el: unknown) => setLeftTileRef(el, i)"
-          :transform="leftInitialTransforms[i]"
-        >
-          <rect
-            :x="-TILE / 2"
-            :y="-TILE / 2"
-            :width="TILE"
-            :height="TILE"
-            :rx="TILE_RX"
-            :fill="leftLayerColors[i]"
-            :fill-opacity="leftLayerOpacities[i]"
-            transform="skewX(15)"
-          />
-        </g>
-
-        <!-- 右扇 (粉/黃色系, 15 張) -->
-        <g
-          v-for="i in layers"
-          :key="`tr-${i}`"
-          :ref="(el: unknown) => setRightTileRef(el, i)"
-          :transform="rightInitialTransforms[i]"
-        >
-          <rect
-            :x="-TILE / 2"
-            :y="-TILE / 2"
-            :width="TILE"
-            :height="TILE"
-            :rx="TILE_RX"
-            :fill="rightLayerColors[i]"
-            :fill-opacity="rightLayerOpacities[i]"
-            transform="skewX(15)"
-          />
-        </g>
-
-        <!-- 電路板底圖 (GSAP 霓虹閃爍) -->
-        <image
-          ref="svgBgRef"
-          href="/home/hero-middle-bg.svg"
-          x="656.47"
-          y="286.628"
-          width="615.668"
-          height="646.435"
-          opacity="0"
+        <rect
+          :x="-TILE / 2"
+          :y="-TILE / 2"
+          :width="TILE"
+          :height="TILE"
+          :rx="TILE_RX"
+          :fill="leftLayerColors[i]"
+          :fill-opacity="leftLayerOpacities[i]"
+          transform="skewX(15)"
         />
+      </g>
 
-        <!-- 中心骨牌圖 -->
-        <image
-          href="/home/hero-middle.svg"
-          x="656.47"
-          y="286.628"
-          width="615.668"
-          height="646.435"
+      <!-- 右扇 (粉/黃色系, 15 張) -->
+      <g
+        v-for="i in layers"
+        :key="`tr-${i}`"
+        :ref="(el: unknown) => setRightTileRef(el, i)"
+        :transform="rightInitialTransforms[i]"
+      >
+        <rect
+          :x="-TILE / 2"
+          :y="-TILE / 2"
+          :width="TILE"
+          :height="TILE"
+          :rx="TILE_RX"
+          :fill="rightLayerColors[i]"
+          :fill-opacity="rightLayerOpacities[i]"
+          transform="skewX(15)"
         />
-      </svg>
+      </g>
 
-      <!-- 卡片主視覺下方的背景裝飾 -->
-      <img
-        src="/Hero-bg.svg"
-        class="mx-auto mt-[-29%] block w-full max-w-[1512px] translate-x-[9%]"
-        aria-hidden="true"
+      <!-- 電路板底圖 (GSAP 霓虹閃爍) -->
+      <image
+        ref="svgBgRef"
+        href="/home/hero-middle-bg.svg"
+        x="656.47"
+        y="286.628"
+        width="615.668"
+        height="646.435"
+        opacity="0"
       />
+
+      <!-- 中心骨牌圖 -->
+      <image
+        href="/home/hero-middle.svg"
+        x="656.47"
+        y="286.628"
+        width="615.668"
+        height="646.435"
+      />
+    </svg>
+
+    <!-- 卡片主視覺下方的背景裝飾 -->
+    <img
+      ref="heroBgImgRef"
+      src="/hero-bg.svg"
+      class="mx-auto mt-[-557px] block w-full max-w-[1512px] translate-x-[9%]"
+      aria-hidden="true"
+    />
   </div>
 </template>

@@ -29,7 +29,7 @@ watch(
 </script>
 
 <template>
-  <section class="relative isolate flex w-screen flex-col items-center overflow-x-hidden">
+  <section class="relative isolate flex w-screen flex-col items-center [overflow-x:clip]">
     <NuxtImg
       class="relative z-10 hidden pt-[50px] md:block"
       :width="heroBrand.desktop.width"
