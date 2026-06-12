@@ -211,8 +211,14 @@ onMounted(() => {
   if (!gsap)
     return
 
-  if (heroSvgRef.value)
+  if (heroSvgRef.value) {
+    const initialWidth = heroSvgRef.value.getBoundingClientRect().width
+    heroSvgRef.value.style.width = `${initialWidth}px`
+    heroSvgRef.value.style.position = 'relative'
+    heroSvgRef.value.style.left = '50%'
+    heroSvgRef.value.style.marginLeft = `-${initialWidth / 2}px`
     gsap.fromTo(heroSvgRef.value, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' })
+  }
 
   if (svgBgRef.value) {
     const el = svgBgRef.value as unknown as Element
