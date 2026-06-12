@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, shallowRef } from 'vue'
+import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
+
+const props = withDefaults(defineProps<{
+  sceneClass?: string
+}>(), {
+  sceneClass: 'w-full',
+})
 
 // ── Colour / opacity tables ───────────────────────────────────────────────────
 const rightLayerColors = [
@@ -19,7 +25,7 @@ const rightLayerColors = [
   '#FAD02E',
   '#FCEE21',
 ]
-const rightLayerOpacities = [0, 11, 23, 34, 46, 57, 69, 80, 73, 66, 59, 51, 44, 37, 30].map(v => v / 100)
+const rightLayerOpacities = [0, 11, 23, 34, 46, 57, 69, 80, 71, 63, 54, 46, 37, 29, 20].map(v => v / 100)
 
 const leftLayerColors = [
   '#687A89',
@@ -45,12 +51,12 @@ const layers = Array.from({ length: layerCount }, (_, i) => i)
 const RAD_TO_DEG = 180 / Math.PI
 
 // ── SVG tile geometry ─────────────────────────────────────────────────────────
-const TILE = 240
-const TILE_RX = 14
-const leftDesktopScale = 1.18
-const rightDesktopScale = 1.09
-const leftDesktopOffset = { x: 37, y: 25 }
-const rightDesktopOffset = { x: -22, y: -45 }
+const TILE = 228
+const TILE_RX = 12
+const leftDesktopScale = 1.14
+const rightDesktopScale = 1.14
+const leftDesktopOffset = { x: 33, y: 21 }
+const rightDesktopOffset = { x: -14, y: -40 }
 
 const leftPos = [
   { cx: 165, cy: 1215 },
@@ -87,8 +93,8 @@ const rightPos = [
   { cx: 1911, cy: 279 },
 ]
 
-const leftZDeg = [26, 30, 34, 39, 44, 49, 54, 58, 61, 64, 67, 70, 73, 75, 77]
-const rightZDeg = [30, 33, 36, 40, 44, 48, 52, 56, 60, 64, 67, 70, 73, 75, 77]
+const leftZDeg = [26, 28, 32, 37, 42, 48, 54, 55, 50, 45, 41, 38, 35, 32, 30]
+const rightZDeg = [30, 33, 37, 42, 47, 52, 57, 30, 10, 14, 20, 23, 26, 28, 30]
 
 // ── Wind sway params ──────────────────────────────────────────────────────────
 const leftWindParams = layers.map((_, i) => ({
@@ -237,83 +243,85 @@ onUnmounted(() => {
     rafId = null
   }
 })
+
+const sceneClasses = computed(() => props.sceneClass)
 </script>
 
 <template>
-  <div>
-    <svg
-      ref="heroSvgRef"
-      class="w-full"
-      style="opacity: 0; overflow: visible;"
-      viewBox="292 0 1494 1099"
-      preserveAspectRatio="xMidYMin meet"
-      overflow="visible"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <!-- 左扇 (藍/青色系, 15 張) -->
-      <g
-        v-for="i in layers"
-        :key="`tl-${i}`"
-        :ref="(el: unknown) => setLeftTileRef(el, i)"
-        :transform="leftInitialTransforms[i]"
+  <div :class="sceneClasses">
+      <svg
+        ref="heroSvgRef"
+        class="w-full"
+        style="opacity: 0; overflow: visible;"
+        viewBox="292 0 1494 1099"
+        preserveAspectRatio="xMidYMin meet"
+        overflow="visible"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <rect
-          :x="-TILE / 2"
-          :y="-TILE / 2"
-          :width="TILE"
-          :height="TILE"
-          :rx="TILE_RX"
-          :fill="leftLayerColors[i]"
-          :fill-opacity="leftLayerOpacities[i]"
-          transform="skewX(15)"
+        <!-- 左扇 (藍/青色系, 15 張) -->
+        <g
+          v-for="i in layers"
+          :key="`tl-${i}`"
+          :ref="(el: unknown) => setLeftTileRef(el, i)"
+          :transform="leftInitialTransforms[i]"
+        >
+          <rect
+            :x="-TILE / 2"
+            :y="-TILE / 2"
+            :width="TILE"
+            :height="TILE"
+            :rx="TILE_RX"
+            :fill="leftLayerColors[i]"
+            :fill-opacity="leftLayerOpacities[i]"
+            transform="skewX(15)"
+          />
+        </g>
+
+        <!-- 右扇 (粉/黃色系, 15 張) -->
+        <g
+          v-for="i in layers"
+          :key="`tr-${i}`"
+          :ref="(el: unknown) => setRightTileRef(el, i)"
+          :transform="rightInitialTransforms[i]"
+        >
+          <rect
+            :x="-TILE / 2"
+            :y="-TILE / 2"
+            :width="TILE"
+            :height="TILE"
+            :rx="TILE_RX"
+            :fill="rightLayerColors[i]"
+            :fill-opacity="rightLayerOpacities[i]"
+            transform="skewX(15)"
+          />
+        </g>
+
+        <!-- 電路板底圖 (GSAP 霓虹閃爍) -->
+        <image
+          ref="svgBgRef"
+          href="/home/hero-middle-bg.svg"
+          x="656.47"
+          y="286.628"
+          width="615.668"
+          height="646.435"
+          opacity="0"
         />
-      </g>
 
-      <!-- 右扇 (粉/黃色系, 15 張) -->
-      <g
-        v-for="i in layers"
-        :key="`tr-${i}`"
-        :ref="(el: unknown) => setRightTileRef(el, i)"
-        :transform="rightInitialTransforms[i]"
-      >
-        <rect
-          :x="-TILE / 2"
-          :y="-TILE / 2"
-          :width="TILE"
-          :height="TILE"
-          :rx="TILE_RX"
-          :fill="rightLayerColors[i]"
-          :fill-opacity="rightLayerOpacities[i]"
-          transform="skewX(15)"
+        <!-- 中心骨牌圖 -->
+        <image
+          href="/home/hero-middle.svg"
+          x="656.47"
+          y="286.628"
+          width="615.668"
+          height="646.435"
         />
-      </g>
+      </svg>
 
-      <!-- 電路板底圖 (GSAP 霓虹閃爍) -->
-      <image
-        ref="svgBgRef"
-        href="/home/hero-middle-bg.svg"
-        x="656.47"
-        y="286.628"
-        width="615.668"
-        height="646.435"
-        opacity="0"
+      <!-- 卡片主視覺下方的背景裝飾 -->
+      <img
+        src="/Hero-bg.svg"
+        class="mx-auto mt-[-29%] block w-full max-w-[1512px] translate-x-[9%]"
+        aria-hidden="true"
       />
-
-      <!-- 中心骨牌圖 -->
-      <image
-        href="/home/hero-middle.svg"
-        x="656.47"
-        y="286.628"
-        width="615.668"
-        height="646.435"
-      />
-    </svg>
-
-    <!-- 卡片主視覺下方的背景裝飾 -->
-    <img
-      src="/Hero-bg.svg"
-      class="mx-auto mt-[-28%] block w-full max-w-[1512px] translate-x-[7%]"
-      aria-hidden="true"
-    />
   </div>
 </template>
