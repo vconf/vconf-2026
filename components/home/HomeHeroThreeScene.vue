@@ -127,8 +127,9 @@ const rightInitialTransforms = layers.map(i =>
 
 // ── SVG refs ──────────────────────────────────────────────────────────────────
 const heroSvgRef = ref<SVGSVGElement | null>(null)
+const svgBgDotsRef = ref<SVGImageElement | null>(null)
 const svgBgRef = ref<SVGImageElement | null>(null)
-const heroBgImgRef = ref<HTMLImageElement | null>(null)
+let bgDotsRO: ResizeObserver | null = null
 const leftTileRefs = shallowRef<Array<SVGGElement | null>>([])
 const rightTileRefs = shallowRef<Array<SVGGElement | null>>([])
 
@@ -137,6 +138,22 @@ function setLeftTileRef(el: unknown, i: number) {
 }
 function setRightTileRef(el: unknown, i: number) {
   rightTileRefs.value[i] = el as SVGGElement | null
+}
+
+// 點陣圖頂端距 SVG 底部的固定 CSS px；數值越小 → 位置越低（越靠近 SVG 底部）
+// 325 ≈ 等同原本 y="760" 在 1440px viewport 的視覺位置
+const DOTS_OFFSET_PX = 460
+
+function updateBgDotsSize() {
+  if (!heroSvgRef.value || !svgBgDotsRef.value)
+    return
+  const w = heroSvgRef.value.getBoundingClientRect().width
+  if (w <= 0)
+    return
+  const s = w / 1494
+  svgBgDotsRef.value.setAttribute('y', String(Math.round(1099 - DOTS_OFFSET_PX / s)))
+  svgBgDotsRef.value.setAttribute('width', String(1478 / s))
+  svgBgDotsRef.value.setAttribute('height', String(707 / s))
 }
 
 // ── Domino trigger ────────────────────────────────────────────────────────────
@@ -218,12 +235,10 @@ onMounted(() => {
   prevTs = null
 
   if (heroSvgRef.value) {
-    const initialWidth = heroSvgRef.value.getBoundingClientRect().width
-    heroSvgRef.value.style.width = `${initialWidth}px`
-    heroSvgRef.value.style.position = 'relative'
-    heroSvgRef.value.style.left = '50%'
-    heroSvgRef.value.style.marginLeft = `-${initialWidth / 2}px`
     gsap.fromTo(heroSvgRef.value, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' })
+    updateBgDotsSize()
+    bgDotsRO = new ResizeObserver(updateBgDotsSize)
+    bgDotsRO.observe(heroSvgRef.value)
   }
 
   if (svgBgRef.value) {
@@ -246,15 +261,6 @@ onMounted(() => {
     })
   }
 
-  if (heroBgImgRef.value) {
-    const w = heroBgImgRef.value.getBoundingClientRect().width
-    heroBgImgRef.value.style.width = `${w}px`
-    heroBgImgRef.value.style.position = 'relative'
-    heroBgImgRef.value.style.left = '50%'
-    heroBgImgRef.value.style.marginLeft = `-${w / 2}px`
-    heroBgImgRef.value.style.marginRight = '0'
-  }
-
   rafId = requestAnimationFrame(svgTick)
 })
 
@@ -263,6 +269,8 @@ onUnmounted(() => {
     cancelAnimationFrame(rafId)
     rafId = null
   }
+  bgDotsRO?.disconnect()
+  bgDotsRO = null
 })
 
 const sceneClasses = computed(() => props.sceneClass)
@@ -272,13 +280,22 @@ const sceneClasses = computed(() => props.sceneClass)
   <div :class="sceneClasses">
     <svg
       ref="heroSvgRef"
-      class="w-full"
+      class="relative left-1/2 w-full min-w-[1400px] -translate-x-1/2"
       style="opacity: 0; overflow: visible;"
       viewBox="292 0 1494 1099"
       preserveAspectRatio="xMidYMin meet"
       overflow="visible"
       xmlns="http://www.w3.org/2000/svg"
     >
+      <!-- 背景裝飾點陣圖：JS 反縮放，icon 固定 16px 不隨 viewport 縮放 -->
+      <image
+        ref="svgBgDotsRef"
+        href="/hero-bg-md.svg"
+        x="630"
+        width="1478"
+        height="707"
+      />
+
       <!-- 左扇 (藍/青色系, 15 張) -->
       <g
         v-for="i in layers"
@@ -337,13 +354,5 @@ const sceneClasses = computed(() => props.sceneClass)
         height="646.435"
       />
     </svg>
-
-    <!-- 卡片主視覺下方的背景裝飾 -->
-    <img
-      ref="heroBgImgRef"
-      src="/hero-bg-md.svg"
-      class="mx-auto mt-[-557px] block w-full max-w-[1512px] translate-x-[9%]"
-      aria-hidden="true"
-    />
   </div>
 </template>
