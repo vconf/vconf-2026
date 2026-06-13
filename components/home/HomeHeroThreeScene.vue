@@ -259,14 +259,12 @@ onMounted(() => {
     leftTileRefs.value.forEach((el, i) => {
       if (!el)
         return
-      el.setAttribute('transform',
-        `translate(${leftPos[i].cx + leftDesktopOffset.x},${leftPos[i].cy + leftDesktopOffset.y}) rotate(${leftZDeg[i]}) scale(${leftDesktopScale})`)
+      el.setAttribute('transform', `translate(${leftPos[i].cx + leftDesktopOffset.x},${leftPos[i].cy + leftDesktopOffset.y}) rotate(${leftZDeg[i]}) scale(${leftDesktopScale})`)
     })
     rightTileRefs.value.forEach((el, i) => {
       if (!el)
         return
-      el.setAttribute('transform',
-        `translate(${rightPos[i].cx + rightDesktopOffset.x},${rightPos[i].cy + rightDesktopOffset.y}) rotate(${rightZDeg[i]}) scale(${rightDesktopScale})`)
+      el.setAttribute('transform', `translate(${rightPos[i].cx + rightDesktopOffset.x},${rightPos[i].cy + rightDesktopOffset.y}) rotate(${rightZDeg[i]}) scale(${rightDesktopScale})`)
     })
     if (svgBgRef.value)
       (svgBgRef.value as unknown as SVGElement).setAttribute('opacity', '0.6')
