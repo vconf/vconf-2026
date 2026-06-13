@@ -280,7 +280,7 @@ const sceneClasses = computed(() => props.sceneClass)
   <div :class="sceneClasses">
     <svg
       ref="heroSvgRef"
-      class="relative left-1/2 w-full min-w-[1400px] -translate-x-1/2"
+      class="relative left-1/2 w-full min-w-[900px] -translate-x-1/2 md:min-w-[1400px]"
       style="opacity: 0; overflow: visible;"
       viewBox="292 0 1494 1099"
       preserveAspectRatio="xMidYMin meet"
