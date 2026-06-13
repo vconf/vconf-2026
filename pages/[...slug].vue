@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="relative m-auto grid h-svh place-content-center overflow-hidden">
+  <div class="relative m-auto grid min-h-svh place-content-center overflow-hidden">
     <div class="z-10 flex flex-col items-center md:gap-4">
       <!-- 背景裝飾使用 -->
       <NuxtImg
