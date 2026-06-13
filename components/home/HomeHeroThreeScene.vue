@@ -141,8 +141,8 @@ function setRightTileRef(el: unknown, i: number) {
 }
 
 // 點陣圖頂端距 SVG 底部的固定 CSS px；數值越小 → 位置越低（越靠近 SVG 底部）
-// 325 ≈ 等同原本 y="760" 在 1440px viewport 的視覺位置
-const DOTS_OFFSET_PX = 460
+const DOTS_OFFSET_PX = 460 // 桌機：hero-bg-md.svg（icon 16px）
+const DOTS_OFFSET_PX_SM = 220 // 手機：hero-bg-sm.svg（icon 8px）
 
 function updateBgDotsSize() {
   if (!heroSvgRef.value || !svgBgDotsRef.value)
@@ -151,9 +151,25 @@ function updateBgDotsSize() {
   if (w <= 0)
     return
   const s = w / 1494
-  svgBgDotsRef.value.setAttribute('y', String(Math.round(1099 - DOTS_OFFSET_PX / s)))
-  svgBgDotsRef.value.setAttribute('width', String(1478 / s))
-  svgBgDotsRef.value.setAttribute('height', String(707 / s))
+  // 手機偵測：mobile min-w=900px，桌機 min-w=1400px，用 1000px 為分界
+  if (w < 1000) {
+    // hero-bg-sm.svg 原生 705×392，icon ~8px SVG units → 反縮放後固定 8px CSS
+    const dotW = Math.round(705 / s)
+    const dotH = Math.round(392 / s)
+    svgBgDotsRef.value.setAttribute('href', '/hero-bg-sm.svg')
+    svgBgDotsRef.value.setAttribute('x', String(Math.round(1039 - dotW / 2) + 200))
+    svgBgDotsRef.value.setAttribute('y', String(Math.round(1099 - DOTS_OFFSET_PX_SM / s)))
+    svgBgDotsRef.value.setAttribute('width', String(dotW))
+    svgBgDotsRef.value.setAttribute('height', String(dotH))
+  }
+  else {
+    // 桌機：hero-bg-md.svg 原生 1478×707，icon 16px SVG units → 反縮放後 16px CSS
+    svgBgDotsRef.value.setAttribute('href', '/hero-bg-md.svg')
+    svgBgDotsRef.value.setAttribute('x', '630')
+    svgBgDotsRef.value.setAttribute('y', String(Math.round(1099 - DOTS_OFFSET_PX / s)))
+    svgBgDotsRef.value.setAttribute('width', String(Math.round(1478 / s)))
+    svgBgDotsRef.value.setAttribute('height', String(Math.round(707 / s)))
+  }
 }
 
 // ── Domino trigger ────────────────────────────────────────────────────────────
@@ -229,6 +245,37 @@ onMounted(() => {
   if (!gsap)
     return
 
+  const svgWidth = heroSvgRef.value?.getBoundingClientRect().width ?? 0
+  const isMobile = svgWidth > 0 && svgWidth < 1000
+
+  if (heroSvgRef.value) {
+    updateBgDotsSize()
+    bgDotsRO = new ResizeObserver(updateBgDotsSize)
+    bgDotsRO.observe(heroSvgRef.value)
+  }
+
+  if (isMobile) {
+    // 手機靜態模式：直接顯示最終狀態，不跑任何動畫
+    leftTileRefs.value.forEach((el, i) => {
+      if (!el)
+        return
+      el.setAttribute('transform',
+        `translate(${leftPos[i].cx + leftDesktopOffset.x},${leftPos[i].cy + leftDesktopOffset.y}) rotate(${leftZDeg[i]}) scale(${leftDesktopScale})`)
+    })
+    rightTileRefs.value.forEach((el, i) => {
+      if (!el)
+        return
+      el.setAttribute('transform',
+        `translate(${rightPos[i].cx + rightDesktopOffset.x},${rightPos[i].cy + rightDesktopOffset.y}) rotate(${rightZDeg[i]}) scale(${rightDesktopScale})`)
+    })
+    if (svgBgRef.value)
+      (svgBgRef.value as unknown as SVGElement).setAttribute('opacity', '0.6')
+    if (heroSvgRef.value)
+      heroSvgRef.value.style.opacity = '1'
+    return
+  }
+
+  // 桌機動畫模式（原有邏輯）
   elapsed = dominoPlayed.value ? FALL_END + WIND_FADE_DURATION : 0
   ready = dominoPlayed.value
   frameCount = 0
@@ -236,9 +283,6 @@ onMounted(() => {
 
   if (heroSvgRef.value) {
     gsap.fromTo(heroSvgRef.value, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' })
-    updateBgDotsSize()
-    bgDotsRO = new ResizeObserver(updateBgDotsSize)
-    bgDotsRO.observe(heroSvgRef.value)
   }
 
   if (svgBgRef.value) {
@@ -280,7 +324,7 @@ const sceneClasses = computed(() => props.sceneClass)
   <div :class="sceneClasses">
     <svg
       ref="heroSvgRef"
-      class="relative left-1/2 w-full min-w-[1400px] -translate-x-1/2"
+      class="relative left-1/2 w-full min-w-[900px] -translate-x-1/2 md:min-w-[1400px]"
       style="opacity: 0; overflow: visible;"
       viewBox="292 0 1494 1099"
       preserveAspectRatio="xMidYMin meet"
