@@ -245,6 +245,37 @@ onMounted(() => {
   if (!gsap)
     return
 
+  const svgWidth = heroSvgRef.value?.getBoundingClientRect().width ?? 0
+  const isMobile = svgWidth > 0 && svgWidth < 1000
+
+  if (heroSvgRef.value) {
+    updateBgDotsSize()
+    bgDotsRO = new ResizeObserver(updateBgDotsSize)
+    bgDotsRO.observe(heroSvgRef.value)
+  }
+
+  if (isMobile) {
+    // 手機靜態模式：直接顯示最終狀態，不跑任何動畫
+    leftTileRefs.value.forEach((el, i) => {
+      if (!el)
+        return
+      el.setAttribute('transform',
+        `translate(${leftPos[i].cx + leftDesktopOffset.x},${leftPos[i].cy + leftDesktopOffset.y}) rotate(${leftZDeg[i]}) scale(${leftDesktopScale})`)
+    })
+    rightTileRefs.value.forEach((el, i) => {
+      if (!el)
+        return
+      el.setAttribute('transform',
+        `translate(${rightPos[i].cx + rightDesktopOffset.x},${rightPos[i].cy + rightDesktopOffset.y}) rotate(${rightZDeg[i]}) scale(${rightDesktopScale})`)
+    })
+    if (svgBgRef.value)
+      (svgBgRef.value as unknown as SVGElement).setAttribute('opacity', '0.6')
+    if (heroSvgRef.value)
+      heroSvgRef.value.style.opacity = '1'
+    return
+  }
+
+  // 桌機動畫模式（原有邏輯）
   elapsed = dominoPlayed.value ? FALL_END + WIND_FADE_DURATION : 0
   ready = dominoPlayed.value
   frameCount = 0
@@ -252,9 +283,6 @@ onMounted(() => {
 
   if (heroSvgRef.value) {
     gsap.fromTo(heroSvgRef.value, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' })
-    updateBgDotsSize()
-    bgDotsRO = new ResizeObserver(updateBgDotsSize)
-    bgDotsRO.observe(heroSvgRef.value)
   }
 
   if (svgBgRef.value) {
