@@ -35,6 +35,20 @@ const NAV_ITEMS = [
 const lenis = useLenis()
 const route = useRoute()
 const isMenuOpen = ref(false)
+const isHome = computed(() => route.path === '/')
+
+const headerBgClass = computed(() =>
+  isHome.value && !isMenuOpen.value ? 'bg-transparent' : 'bg-vconf-white',
+)
+
+function navItemClass(item: { href: string, mdHidden?: boolean }) {
+  return [
+    isNavItemActive(item.href)
+      ? 'after:origin-left after:scale-x-0 lg:after:scale-x-100'
+      : 'after:origin-right after:scale-x-0',
+    item.mdHidden && !isMenuOpen.value ? 'md:hidden lg:block' : '',
+  ]
+}
 
 const breakpoints = useBreakpoints({ lg: 1024 })
 const isLg = breakpoints.greaterOrEqual('lg')
@@ -88,8 +102,8 @@ watch(
 
 <template>
   <header
-    class="top-0 bg-vconf-white"
-    :class="{ 'z-50': isMenuOpen }"
+    class="top-0"
+    :class="[headerBgClass, { 'z-50': isMenuOpen }]"
   >
     <div class="container">
       <nav class="relative flex items-center px-6 py-4 md:py-6 md:pl-[34px] md:pr-4 lg:pl-16 lg:pr-8">
@@ -129,13 +143,8 @@ watch(
           <li
             v-for="NAV_ITEM in NAV_ITEMS"
             :key="NAV_ITEM.href"
-            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-4/5 after:-translate-x-1/2 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent md:hover:after:origin-left md:hover:after:scale-x-100"
-            :class="[
-              isNavItemActive(NAV_ITEM.href)
-                ? 'after:origin-left after:scale-x-100'
-                : 'after:origin-right after:scale-x-0',
-              NAV_ITEM.mdHidden && !isMenuOpen ? 'md:hidden lg:block' : '',
-            ]"
+            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-4/5 after:-translate-x-1/2 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent lg:hover:after:origin-left lg:hover:after:scale-x-100"
+            :class="navItemClass(NAV_ITEM)"
             @click="onClickNavItem()"
           >
             <NuxtLink

@@ -1,3 +1,11 @@
+<script setup lang="ts">
+onMounted(() => {
+  const colorMode = useColorMode()
+  // colorMode.preference = Math.random() > 0.5 ? 'light' : 'dark'  等 dark 設計稿完成再開啟
+  colorMode.preference = 'light'
+})
+</script>
+
 <template>
   <div>
     <ShareNavBar class="relative z-20" />
