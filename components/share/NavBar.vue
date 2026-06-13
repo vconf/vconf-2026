@@ -35,6 +35,7 @@ const NAV_ITEMS = [
 const lenis = useLenis()
 const route = useRoute()
 const isMenuOpen = ref(false)
+const isHome = computed(() => route.path === '/')
 
 const breakpoints = useBreakpoints({ lg: 1024 })
 const isLg = breakpoints.greaterOrEqual('lg')
@@ -88,8 +89,11 @@ watch(
 
 <template>
   <header
-    class="top-0 bg-vconf-white"
-    :class="{ 'z-50': isMenuOpen }"
+    class="top-0"
+    :class="[
+      isHome && !isMenuOpen ? 'bg-transparent' : 'bg-vconf-white',
+      { 'z-50': isMenuOpen },
+    ]"
   >
     <div class="container">
       <nav class="relative flex items-center px-6 py-4 md:py-6 md:pl-[34px] md:pr-4 lg:pl-16 lg:pr-8">
