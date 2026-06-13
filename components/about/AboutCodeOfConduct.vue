@@ -172,7 +172,7 @@ onBeforeUnmount(() => {
       </svg>
       <div class="relative ml-0 pt-[92px] font-serif text-[16px] text-vconf-text-read md:ml-[-420px] md:text-[21px] xl:ml-[-450px]">
         <div
-          class="pointer-events-none absolute left-1/2 top-[58px] h-[269px] w-[388px] -translate-x-1/2 md:hidden"
+          class="pointer-events-none absolute left-1/2 top-[58px] h-[269px] w-[min(388px,calc(100vw-32px))] -translate-x-1/2 md:hidden"
           aria-hidden="true"
         >
           <svg

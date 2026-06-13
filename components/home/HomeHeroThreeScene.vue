@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref, shallowRef } from 'vue'
+import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
 
-interface LayerMesh {
-  position: { x: number, y: number, z: number }
-  rotation: { x: number, y: number, z: number }
-  scale: { set: (_x: number, _y: number, _z: number) => void }
-  material: { opacity: number }
-}
+const props = withDefaults(defineProps<{
+  sceneClass?: string
+}>(), {
+  sceneClass: 'w-full',
+})
 
+// ── Colour / opacity tables ───────────────────────────────────────────────────
 const rightLayerColors = [
   '#FFFFFF',
   '#FCDFEC',
@@ -25,9 +25,7 @@ const rightLayerColors = [
   '#FAD02E',
   '#FCEE21',
 ]
-const rightLayerOpacities = [0, 11, 23, 34, 46, 57, 69, 80, 73, 66, 59, 51, 44, 37, 30]
-  .map(value => value / 100)
-const rightLayerScales = [1, 0.96, 0.92, 0.88, 0.84, 0.8, 0.76, 0.72, 0.79, 0.85, 0.92, 0.98, 1.04, 1.11, 1.17]
+const rightLayerOpacities = [0, 11, 23, 34, 46, 57, 69, 80, 71, 63, 54, 46, 37, 29, 20].map(v => v / 100)
 
 const leftLayerColors = [
   '#687A89',
@@ -46,48 +44,59 @@ const leftLayerColors = [
   '#3EB691',
   '#41B883',
 ]
-const leftLayerOpacities = [0, 11, 23, 34, 46, 57, 69, 80, 73, 66, 59, 51, 44, 37, 30]
-  .map(value => value / 100)
-const leftLayerScales = [1, 0.96, 0.92, 0.88, 0.84, 0.8, 0.76, 0.72, 0.79, 0.85, 0.92, 0.98, 1.04, 1.11, 1.17]
+const leftLayerOpacities = [0, 11, 23, 34, 46, 57, 69, 80, 73, 66, 59, 51, 44, 37, 30].map(v => v / 100)
 
 const layerCount = rightLayerColors.length
 const layers = Array.from({ length: layerCount }, (_, i) => i)
-const degToRad = Math.PI / 180
+const RAD_TO_DEG = 180 / Math.PI
 
-const leftZAngles = [26, 30, 34, 39, 44, 49, 54, 58, 61, 64, 67, 70, 73, 75, 77]
-  .map(a => a * degToRad)
-const rightZAngles = [30, 33, 36, 40, 44, 48, 52, 56, 60, 64, 67, 70, 73, 75, 77]
-  .map(a => a * degToRad)
+// ── SVG tile geometry ─────────────────────────────────────────────────────────
+const TILE = 228
+const TILE_RX = 12
+const leftDesktopScale = 1.14
+const rightDesktopScale = 1.14
+const leftDesktopOffset = { x: 33, y: 21 }
+const rightDesktopOffset = { x: -14, y: -40 }
 
-const leftTiltXBase = -6 * degToRad
-const leftTiltXSpread = 3 * degToRad
-const leftTiltYBase = 8 * degToRad
-const leftTiltYSpread = 9 * degToRad
+const leftPos = [
+  { cx: 165, cy: 1215 },
+  { cx: 190, cy: 1174 },
+  { cx: 210, cy: 1111 },
+  { cx: 240, cy: 1021 },
+  { cx: 281, cy: 905 },
+  { cx: 430, cy: 796 },
+  { cx: 453, cy: 757 },
+  { cx: 501, cy: 751 },
+  { cx: 481, cy: 757 },
+  { cx: 512, cy: 752 },
+  { cx: 573, cy: 760 },
+  { cx: 708, cy: 734 },
+  { cx: 767, cy: 730 },
+  { cx: 792, cy: 725 },
+  { cx: 825, cy: 725 },
+]
+const rightPos = [
+  { cx: 1120, cy: 580 },
+  { cx: 1173, cy: 528 },
+  { cx: 1200, cy: 503 },
+  { cx: 1245, cy: 479 },
+  { cx: 1299, cy: 453 },
+  { cx: 1360, cy: 431 },
+  { cx: 1421, cy: 423 },
+  { cx: 1476, cy: 443 },
+  { cx: 1564, cy: 472 },
+  { cx: 1648, cy: 437 },
+  { cx: 1715, cy: 385 },
+  { cx: 1772, cy: 331 },
+  { cx: 1817, cy: 277 },
+  { cx: 1856, cy: 243 },
+  { cx: 1911, cy: 279 },
+]
 
-const rightTiltXBase = -4 * degToRad
-const rightTiltXSpread = 2 * degToRad
-const rightTiltYBase = -9 * degToRad
-const rightTiltYSpread = 8 * degToRad
+const leftZDeg = [26, 28, 32, 37, 42, 48, 54, 55, 50, 45, 41, 38, 35, 32, 30]
+const rightZDeg = [30, 33, 37, 42, 47, 52, 57, 30, 10, 14, 20, 23, 26, 28, 30]
 
-const leftLayerRefs = shallowRef<Array<LayerMesh | null>>([])
-const rightLayerRefs = shallowRef<Array<LayerMesh | null>>([])
-const bgRef = ref<HTMLImageElement | null>(null)
-// 高度跟隨 Three.js 垂直 FOV 縮放（fov=24 → 59vh ≈ 531px at 900px viewport）
-// 寬度由 aspect-ratio 自動推算，保持原始 615.668 × 646.435 比例
-const mainImageSize = {
-  height: 'clamp(160px, 59vh, 576px)',
-  width: 'auto',
-  aspectRatio: '615.668 / 646.435',
-}
-
-// 跨頁面導航保持狀態，確保骨牌動畫整個 session 只播一次
-const dominoPlayed = useState('hero-domino-played', () => false)
-
-// 已播過則直接從最終角度初始化，否則從直立（π/2）開始等待動畫
-const leftAnimZ = leftZAngles.map(angle => ({ z: dominoPlayed.value ? angle : Math.PI / 2 }))
-const rightAnimZ = rightZAngles.map(angle => ({ z: dominoPlayed.value ? angle : Math.PI / 2 }))
-
-// 風吹參數，預先計算避免每幀重複運算
+// ── Wind sway params ──────────────────────────────────────────────────────────
 const leftWindParams = layers.map((_, i) => ({
   amp: 0.018 + (i % 4) * 0.006,
   freq: 0.28 + (i % 5) * 0.09,
@@ -99,239 +108,251 @@ const rightWindParams = layers.map((_, i) => ({
   phase: (i / layerCount) * Math.PI * 2.1 + 1.2,
 }))
 
-let animationStarted = false
-let frameCount = 0
-let elapsed = 0
-
-// 倒下動畫總時長：左鏈 0.3+(14×0.09) + 右鏈 0.09+(14×0.09) + 每張持續 0.48 ≈ 3.42s
 const FALL_END = 0.3 + 14 * 0.09 + 0.09 + 14 * 0.09 + 0.48
 const WIND_FADE_DURATION = 1.5
 
-function setLeftLayerRef(mesh: LayerMesh | null, index: number) {
-  leftLayerRefs.value[index] = mesh ?? null
+// ── Domino animation state ────────────────────────────────────────────────────
+const dominoPlayed = useState('hero-domino-played', () => false)
+
+const leftAnimDeg = leftZDeg.map(a => ({ deg: dominoPlayed.value ? a : 90 }))
+const rightAnimDeg = rightZDeg.map(a => ({ deg: dominoPlayed.value ? a : 90 }))
+
+// Pre-computed initial SVG transforms (prevents 1-frame position flash)
+const leftInitialTransforms = layers.map(i =>
+  `translate(${leftPos[i].cx + leftDesktopOffset.x},${leftPos[i].cy + leftDesktopOffset.y}) rotate(${leftAnimDeg[i].deg}) scale(${leftDesktopScale})`,
+)
+const rightInitialTransforms = layers.map(i =>
+  `translate(${rightPos[i].cx + rightDesktopOffset.x},${rightPos[i].cy + rightDesktopOffset.y}) rotate(${rightAnimDeg[i].deg}) scale(${rightDesktopScale})`,
+)
+
+// ── SVG refs ──────────────────────────────────────────────────────────────────
+const heroSvgRef = ref<SVGSVGElement | null>(null)
+const svgBgDotsRef = ref<SVGImageElement | null>(null)
+const svgBgRef = ref<SVGImageElement | null>(null)
+let bgDotsRO: ResizeObserver | null = null
+const leftTileRefs = shallowRef<Array<SVGGElement | null>>([])
+const rightTileRefs = shallowRef<Array<SVGGElement | null>>([])
+
+function setLeftTileRef(el: unknown, i: number) {
+  leftTileRefs.value[i] = el as SVGGElement | null
+}
+function setRightTileRef(el: unknown, i: number) {
+  rightTileRefs.value[i] = el as SVGGElement | null
 }
 
-function setRightLayerRef(mesh: LayerMesh | null, index: number) {
-  rightLayerRefs.value[index] = mesh ?? null
+// 點陣圖頂端距 SVG 底部的固定 CSS px；數值越小 → 位置越低（越靠近 SVG 底部）
+// 325 ≈ 等同原本 y="760" 在 1440px viewport 的視覺位置
+const DOTS_OFFSET_PX = 460
+
+function updateBgDotsSize() {
+  if (!heroSvgRef.value || !svgBgDotsRef.value)
+    return
+  const w = heroSvgRef.value.getBoundingClientRect().width
+  if (w <= 0)
+    return
+  const s = w / 1494
+  svgBgDotsRef.value.setAttribute('y', String(Math.round(1099 - DOTS_OFFSET_PX / s)))
+  svgBgDotsRef.value.setAttribute('width', String(1478 / s))
+  svgBgDotsRef.value.setAttribute('height', String(707 / s))
 }
 
+// ── Domino trigger ────────────────────────────────────────────────────────────
 function startDominoAnimation() {
-  // 已播過則跳過，tiles 已在最終角度
   if (dominoPlayed.value)
     return
-
   dominoPlayed.value = true
-
   const { gsap } = useGsap()
   if (!gsap)
     return
-
   const stagger = 0.09
-  const baseDuration = 0.48
+  const dur = 0.48
+  const leftEnd = 0.3 + (layerCount - 1) * stagger
 
-  // 左側：由外（0）向中心（14）依序倒下
-  leftAnimZ.forEach((state, i) => {
-    gsap.to(state, {
-      z: leftZAngles[i],
-      duration: baseDuration,
-      delay: 0.3 + i * stagger,
-      ease: 'power4.out',
-    })
-  })
-
-  // 右側：接續左側，由中心（0）向外（14）延伸，形成一波連鎖
-  const leftChainEnd = 0.3 + (layerCount - 1) * stagger
-  rightAnimZ.forEach((state, i) => {
-    gsap.to(state, {
-      z: rightZAngles[i],
-      duration: baseDuration,
-      delay: leftChainEnd + stagger + i * stagger,
-      ease: 'power4.out',
-    })
-  })
+  leftAnimDeg.forEach((s, i) =>
+    gsap.to(s, { deg: leftZDeg[i], duration: dur, delay: 0.3 + i * stagger, ease: 'power4.out' }))
+  rightAnimDeg.forEach((s, i) =>
+    gsap.to(s, { deg: rightZDeg[i], duration: dur, delay: leftEnd + stagger + i * stagger, ease: 'power4.out' }))
 }
 
-function onLoop(loopContext: unknown) {
-  const delta = (loopContext as { delta?: number })?.delta ?? 0.016
-  elapsed += delta
+// ── RAF loop ──────────────────────────────────────────────────────────────────
+let rafId: number | null = null
+let elapsed = dominoPlayed.value ? FALL_END + WIND_FADE_DURATION : 0
+let ready = false
+let frameCount = 0
+let prevTs: number | null = null
 
-  // Wind strength fades in smoothly after the fall animation finishes
+function svgTick(ts: number) {
+  const dt = prevTs ? (ts - prevTs) / 1000 : 0.016
+  prevTs = ts
+  elapsed += dt
   const windStrength = Math.max(0, Math.min(1, (elapsed - FALL_END) / WIND_FADE_DURATION))
 
-  const anchorX = -0.2
-  const anchorY = -1.2 // 貝茲曲線錨點（左右兩側的收束中心）
-
-  leftLayerRefs.value.forEach((mesh, index) => {
-    if (!mesh)
+  leftTileRefs.value.forEach((el, i) => {
+    if (!el)
       return
-
-    const depth = index / Math.max(layerCount - 1, 1)
-    const t = depth
-    const oneMinusT = 1 - t
-    const p0x = -10.2
-    const p0y = -5.9
-    const p1x = -6.4
-    const p1y = 0.8
-    const p2x = anchorX
-    const p2y = anchorY
-
-    mesh.position.x = oneMinusT * oneMinusT * p0x + 2 * oneMinusT * t * p1x + t * t * p2x
-    mesh.position.y = oneMinusT * oneMinusT * p0y + 2 * oneMinusT * t * p1y + t * t * p2y
-    mesh.position.z = -index * 0.085 - 0.18
-
-    mesh.rotation.x = leftTiltXBase + depth * leftTiltXSpread
-    mesh.rotation.y = leftTiltYBase + depth * leftTiltYSpread
-
-    const { amp, freq, phase } = leftWindParams[index]
-    const wind = windStrength * Math.sin(elapsed * freq * Math.PI * 2 + phase) * amp
-    mesh.rotation.z = leftAnimZ[index].z + wind
-
-    const scale = leftLayerScales[index]
-    mesh.scale.set(scale, scale, 1)
-    mesh.material.opacity = leftLayerOpacities[index]
+    const w = leftWindParams[i]
+    const wind = windStrength * Math.sin(elapsed * w.freq * Math.PI * 2 + w.phase) * w.amp * RAD_TO_DEG
+    el.setAttribute(
+      'transform',
+      `translate(${leftPos[i].cx + leftDesktopOffset.x},${leftPos[i].cy + leftDesktopOffset.y}) rotate(${leftAnimDeg[i].deg + wind}) scale(${leftDesktopScale})`,
+    )
   })
 
-  rightLayerRefs.value.forEach((mesh, index) => {
-    if (!mesh)
+  rightTileRefs.value.forEach((el, i) => {
+    if (!el)
       return
-
-    const depth = index / Math.max(layerCount - 1, 1)
-    const t = depth
-    const oneMinusT = 1 - t
-    const p0x = anchorX
-    const p0y = anchorY
-    const p1x = 4.8
-    const p1y = 1.9
-    const p2x = 10.6
-    const p2y = 3.1
-
-    mesh.position.x = oneMinusT * oneMinusT * p0x + 2 * oneMinusT * t * p1x + t * t * p2x
-    mesh.position.y = oneMinusT * oneMinusT * p0y + 2 * oneMinusT * t * p1y + t * t * p2y
-    mesh.position.z = -index * 0.085
-
-    mesh.rotation.x = rightTiltXBase + depth * rightTiltXSpread
-    mesh.rotation.y = rightTiltYBase - depth * rightTiltYSpread
-
-    const { amp, freq, phase } = rightWindParams[index]
-    const wind = windStrength * Math.sin(elapsed * freq * Math.PI * 2 + phase) * amp
-    mesh.rotation.z = rightAnimZ[index].z + wind
-
-    const scale = rightLayerScales[index]
-    mesh.scale.set(scale, scale, 1)
-    mesh.material.opacity = rightLayerOpacities[index]
+    const w = rightWindParams[i]
+    const wind = windStrength * Math.sin(elapsed * w.freq * Math.PI * 2 + w.phase) * w.amp * RAD_TO_DEG
+    el.setAttribute(
+      'transform',
+      `translate(${rightPos[i].cx + rightDesktopOffset.x},${rightPos[i].cy + rightDesktopOffset.y}) rotate(${rightAnimDeg[i].deg + wind}) scale(${rightDesktopScale})`,
+    )
   })
 
-  // mesh refs 就緒後才觸發骨牌動畫（等幾幀確保全部掛載）
-  if (!animationStarted) {
+  if (!ready) {
     frameCount++
     if (frameCount > 3) {
-      const leftReady = leftLayerRefs.value.filter(r => r !== null).length === layerCount
-      const rightReady = rightLayerRefs.value.filter(r => r !== null).length === layerCount
-      if (leftReady && rightReady) {
-        animationStarted = true
+      const allReady = leftTileRefs.value.filter(Boolean).length === layerCount
+        && rightTileRefs.value.filter(Boolean).length === layerCount
+      if (allReady) {
+        ready = true
         startDominoAnimation()
       }
     }
   }
+  rafId = requestAnimationFrame(svgTick)
 }
 
+// ── onMounted ─────────────────────────────────────────────────────────────────
 onMounted(() => {
   const { gsap } = useGsap()
-  const el = bgRef.value
-  if (!gsap || !el)
+  if (!gsap)
     return
 
-  // 進場淡入，結束後進入「慢呼吸 + 偶爾霓虹閃爍」循環
-  gsap.to(el, {
-    opacity: 0.85,
-    duration: 1.8,
-    ease: 'power2.out',
-    onComplete() {
-      const tl = gsap.timeline({ repeat: -1 })
+  elapsed = dominoPlayed.value ? FALL_END + WIND_FADE_DURATION : 0
+  ready = dominoPlayed.value
+  frameCount = 0
+  prevTs = null
 
-      // 呼吸
-      tl.to(el, { opacity: 0.45, duration: 1.4, ease: 'sine.inOut' })
-        .to(el, { opacity: 0.85, duration: 1.2, ease: 'sine.inOut' })
+  if (heroSvgRef.value) {
+    gsap.fromTo(heroSvgRef.value, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' })
+    updateBgDotsSize()
+    bgDotsRO = new ResizeObserver(updateBgDotsSize)
+    bgDotsRO.observe(heroSvgRef.value)
+  }
 
-      // 霓虹閃爍（快速斷訊再恢復）
-        .to(el, { opacity: 0.05, duration: 0.06, ease: 'none' })
-        .to(el, { opacity: 0.7, duration: 0.05, ease: 'none' })
-        .to(el, { opacity: 0.08, duration: 0.08, ease: 'none' })
-        .to(el, { opacity: 0.8, duration: 0.4, ease: 'power2.out' })
+  if (svgBgRef.value) {
+    const el = svgBgRef.value as unknown as Element
+    gsap.to(el, {
+      opacity: 0.85,
+      duration: 1.8,
+      ease: 'power2.out',
+      onComplete() {
+        const tl = gsap.timeline({ repeat: -1 })
+        tl.to(el, { opacity: 0.45, duration: 1.4, ease: 'sine.inOut' })
+          .to(el, { opacity: 0.85, duration: 1.2, ease: 'sine.inOut' })
+          .to(el, { opacity: 0.05, duration: 0.06, ease: 'none' })
+          .to(el, { opacity: 0.7, duration: 0.05, ease: 'none' })
+          .to(el, { opacity: 0.08, duration: 0.08, ease: 'none' })
+          .to(el, { opacity: 0.8, duration: 0.4, ease: 'power2.out' })
+          .to(el, { opacity: 0.4, duration: 1.5, ease: 'sine.inOut' })
+          .to(el, { opacity: 0.82, duration: 1.3, ease: 'sine.inOut' })
+      },
+    })
+  }
 
-      // 閃爍後繼續呼吸
-        .to(el, { opacity: 0.4, duration: 1.5, ease: 'sine.inOut' })
-        .to(el, { opacity: 0.82, duration: 1.3, ease: 'sine.inOut' })
-    },
-  })
+  rafId = requestAnimationFrame(svgTick)
 })
+
+onUnmounted(() => {
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId)
+    rafId = null
+  }
+  bgDotsRO?.disconnect()
+  bgDotsRO = null
+})
+
+const sceneClasses = computed(() => props.sceneClass)
 </script>
 
 <template>
-  <div class="grid size-full place-items-center overflow-hidden">
-    <TresCanvas
-      class="col-start-1 row-start-1 size-full"
-      :alpha="true"
-      :clear-alpha="0"
-      clear-color="#ffffff"
-      @loop="onLoop"
+  <div :class="sceneClasses">
+    <svg
+      ref="heroSvgRef"
+      class="relative left-1/2 w-full min-w-[1400px] -translate-x-1/2"
+      style="opacity: 0; overflow: visible;"
+      viewBox="292 0 1494 1099"
+      preserveAspectRatio="xMidYMin meet"
+      overflow="visible"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <TresPerspectiveCamera
-        :position="[0, 0, 24]"
-        :fov="24"
+      <!-- 背景裝飾點陣圖：JS 反縮放，icon 固定 16px 不隨 viewport 縮放 -->
+      <image
+        ref="svgBgDotsRef"
+        href="/hero-bg-md.svg"
+        x="630"
+        width="1478"
+        height="707"
       />
 
-      <TresMesh
-        v-for="index in layers"
-        :key="`left-${index}`"
-        :ref="(mesh: unknown) => setLeftLayerRef(mesh as LayerMesh | null, index)"
+      <!-- 左扇 (藍/青色系, 15 張) -->
+      <g
+        v-for="i in layers"
+        :key="`tl-${i}`"
+        :ref="(el: unknown) => setLeftTileRef(el, i)"
+        :transform="leftInitialTransforms[i]"
       >
-        <TresBoxGeometry :args="[3.2, 3.2, 0.16]" />
-        <TresMeshBasicMaterial
-          :color="leftLayerColors[index]"
-          transparent
-          :opacity="leftLayerOpacities[index]"
-          :side="2"
-          :depth-write="false"
+        <rect
+          :x="-TILE / 2"
+          :y="-TILE / 2"
+          :width="TILE"
+          :height="TILE"
+          :rx="TILE_RX"
+          :fill="leftLayerColors[i]"
+          :fill-opacity="leftLayerOpacities[i]"
+          transform="skewX(15)"
         />
-      </TresMesh>
+      </g>
 
-      <TresMesh
-        v-for="index in layers"
-        :key="`right-${index}`"
-        :ref="(mesh: unknown) => setRightLayerRef(mesh as LayerMesh | null, index)"
+      <!-- 右扇 (粉/黃色系, 15 張) -->
+      <g
+        v-for="i in layers"
+        :key="`tr-${i}`"
+        :ref="(el: unknown) => setRightTileRef(el, i)"
+        :transform="rightInitialTransforms[i]"
       >
-        <TresBoxGeometry :args="[3.2, 3.2, 0.16]" />
-        <TresMeshBasicMaterial
-          :color="rightLayerColors[index]"
-          transparent
-          :opacity="rightLayerOpacities[index]"
-          :side="2"
-          :depth-write="false"
+        <rect
+          :x="-TILE / 2"
+          :y="-TILE / 2"
+          :width="TILE"
+          :height="TILE"
+          :rx="TILE_RX"
+          :fill="rightLayerColors[i]"
+          :fill-opacity="rightLayerOpacities[i]"
+          transform="skewX(15)"
         />
-      </TresMesh>
-    </TresCanvas>
+      </g>
 
-    <!-- 中心元素：hero-middle-bg（電路板底圖）+ hero-middle（3D 骨牌本體） -->
-    <div
-      class="pointer-events-none relative col-start-1 row-start-1 grid place-items-center"
-      :style="mainImageSize"
-    >
-      <!-- 電路板背景：霓虹閃爍動畫，完整顯示 SVG -->
-      <img
-        ref="bgRef"
-        src="/home/hero-middle-bg.svg"
-        aria-hidden="true"
-        class="pointer-events-none absolute object-contain opacity-0"
-        style="width: 118%; height: 118%; top: -9%; left: -9%;"
+      <!-- 電路板底圖 (GSAP 霓虹閃爍) -->
+      <image
+        ref="svgBgRef"
+        href="/home/hero-middle-bg.svg"
+        x="656.47"
+        y="286.628"
+        width="615.668"
+        height="646.435"
+        opacity="0"
       />
 
-      <!-- 中心骨牌立體圖，壓在兩側扇形上方形成一體感 -->
-      <img
-        src="/home/hero-middle.svg"
-        alt=""
-        class="relative z-10 size-full object-contain"
+      <!-- 中心骨牌圖 -->
+      <image
+        href="/home/hero-middle.svg"
+        x="656.47"
+        y="286.628"
+        width="615.668"
+        height="646.435"
       />
-    </div>
+    </svg>
   </div>
 </template>

@@ -1,7 +1,5 @@
 <script setup lang="ts">
-const TARGET_DATE = new Date(
-  Date.now() + (((23 * 24) + 23) * 60 * 60 + 59 * 60 + 59) * 1000,
-)
+const TARGET_DATE = new Date('2026-10-17T09:30:00+08:00')
 
 interface CountdownState {
   days: string
@@ -82,7 +80,7 @@ const segments = computed(() => [
 </script>
 
 <template>
-  <section class="pt-[100px] text-center">
+  <section class="pt-[250px] text-center">
     <div class="container">
       <div class="mx-auto flex w-fit flex-col items-center">
         <!-- 上方 vite 裝飾物 -->
@@ -100,7 +98,7 @@ const segments = computed(() => [
         />
 
         <h2 class="mb-4 font-serif text-[32px] font-bold tracking-[0%] text-vconf-heading md:mb-8 md:text-[64px]">
-          Oct 31 2026
+          Oct 17 2026
         </h2>
         <p class="mb-4 font-serif text-[16px] font-bold tracking-[1%] text-vconf-heading md:mb-8 md:text-[32px]">
           即將，VUE 見未來
