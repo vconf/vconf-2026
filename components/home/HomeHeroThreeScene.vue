@@ -141,8 +141,8 @@ function setRightTileRef(el: unknown, i: number) {
 }
 
 // 點陣圖頂端距 SVG 底部的固定 CSS px；數值越小 → 位置越低（越靠近 SVG 底部）
-// 325 ≈ 等同原本 y="760" 在 1440px viewport 的視覺位置
-const DOTS_OFFSET_PX = 460
+const DOTS_OFFSET_PX = 460 // 桌機：hero-bg-md.svg（icon 16px）
+const DOTS_OFFSET_PX_SM = 220 // 手機：hero-bg-sm.svg（icon 8px）
 
 function updateBgDotsSize() {
   if (!heroSvgRef.value || !svgBgDotsRef.value)
@@ -151,9 +151,25 @@ function updateBgDotsSize() {
   if (w <= 0)
     return
   const s = w / 1494
-  svgBgDotsRef.value.setAttribute('y', String(Math.round(1099 - DOTS_OFFSET_PX / s)))
-  svgBgDotsRef.value.setAttribute('width', String(1478 / s))
-  svgBgDotsRef.value.setAttribute('height', String(707 / s))
+  // 手機偵測：mobile min-w=900px，桌機 min-w=1400px，用 1000px 為分界
+  if (w < 1000) {
+    // hero-bg-sm.svg 原生 705×392，icon ~8px SVG units → 反縮放後固定 8px CSS
+    const dotW = Math.round(705 / s)
+    const dotH = Math.round(392 / s)
+    svgBgDotsRef.value.setAttribute('href', '/hero-bg-sm.svg')
+    svgBgDotsRef.value.setAttribute('x', String(Math.round(1039 - dotW / 2) + 200))
+    svgBgDotsRef.value.setAttribute('y', String(Math.round(1099 - DOTS_OFFSET_PX_SM / s)))
+    svgBgDotsRef.value.setAttribute('width', String(dotW))
+    svgBgDotsRef.value.setAttribute('height', String(dotH))
+  }
+  else {
+    // 桌機：hero-bg-md.svg 原生 1478×707，icon 16px SVG units → 反縮放後 16px CSS
+    svgBgDotsRef.value.setAttribute('href', '/hero-bg-md.svg')
+    svgBgDotsRef.value.setAttribute('x', '630')
+    svgBgDotsRef.value.setAttribute('y', String(Math.round(1099 - DOTS_OFFSET_PX / s)))
+    svgBgDotsRef.value.setAttribute('width', String(Math.round(1478 / s)))
+    svgBgDotsRef.value.setAttribute('height', String(Math.round(707 / s)))
+  }
 }
 
 // ── Domino trigger ────────────────────────────────────────────────────────────

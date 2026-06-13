@@ -80,7 +80,7 @@ const segments = computed(() => [
 </script>
 
 <template>
-  <section class="pt-[250px] text-center">
+  <section class="pt-[200px] text-center md:pt-[250px]">
     <div class="container">
       <div class="mx-auto flex w-fit flex-col items-center">
         <!-- 上方 vite 裝飾物 -->
