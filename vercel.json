@@ -1,0 +1,51 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/fb",
+      "destination": "/?utm_source=facebook&utm_medium=social&utm_campaign=vconf2026",
+      "permanent": false
+    },
+    {
+      "source": "/ig",
+      "destination": "/?utm_source=instagram&utm_medium=social&utm_campaign=vconf2026",
+      "permanent": false
+    },
+    {
+      "source": "/threads",
+      "destination": "/?utm_source=threads&utm_medium=social&utm_campaign=vconf2026",
+      "permanent": false
+    },
+    {
+      "source": "/kuro",
+      "destination": "/?utm_source=speaker_kuro&utm_campaign=vconf2026",
+      "permanent": false
+    },
+    {
+      "source": "/ray",
+      "destination": "/?utm_source=speaker_ray&utm_campaign=vconf2026",
+      "permanent": false
+    },
+    {
+      "source": "/kuku",
+      "destination": "/?utm_source=speaker_kuku&utm_campaign=vconf2026",
+      "permanent": false
+    },
+    {
+      "source": "/serko",
+      "destination": "/?utm_source=speaker_serko&utm_campaign=vconf2026",
+      "permanent": false
+    },
+    {
+      "source": "/hunter",
+      "destination": "/?utm_source=speaker_hunter&utm_campaign=vconf2026",
+      "permanent": false
+    },
+    {
+      "source": "/evanyou",
+      "destination": "/?utm_source=speaker_evanyou&utm_campaign=vconf2026",
+      "permanent": false
+    }
+  ]
+}
