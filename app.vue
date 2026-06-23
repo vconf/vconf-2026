@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 useSeoMeta({
-  ogImage: 'https://vconf-2026.vercel.app/og-image.png',
+  ogImage: 'https://v-conf.vue.tw//og-image.png',
   ogImageAlt: 'vconf 2026',
   ogImageWidth: 1200,
   ogImageHeight: 630,
-  twitterImage: 'https://vconf-2026.vercel.app/og-image.png',
+  twitterImage: 'https://v-conf.vue.tw//og-image.png',
   twitterImageAlt: 'vconf 2026',
 })
 
 const isProduction = import.meta.env.PROD
-const { public: { umamiScriptUrl, umamiWebsiteId } } = useRuntimeConfig()
+const {
+  public: { umamiScriptUrl, umamiWebsiteId },
+} = useRuntimeConfig()
 
 if (isProduction && umamiWebsiteId) {
   useScript({
@@ -41,7 +43,9 @@ if (isProduction && umamiWebsiteId) {
 
 /* 離開時模糊消失 */
 .page-leave-active {
-  transition: opacity 0.4s, filter 0.4s;
+  transition:
+    opacity 0.4s,
+    filter 0.4s;
 }
 .page-leave-to {
   opacity: 0;

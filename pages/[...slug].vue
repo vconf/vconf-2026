@@ -2,10 +2,17 @@
 definePageMeta({
   layout: false,
 })
+
+useSeoMeta({
+  title: '404 找不到此頁面',
+  robots: 'noindex, nofollow',
+})
 </script>
 
 <template>
-  <div class="relative m-auto grid min-h-svh place-content-center overflow-hidden">
+  <div
+    class="relative m-auto grid min-h-svh place-content-center overflow-hidden"
+  >
     <div class="z-10 flex flex-col items-center md:gap-4">
       <!-- 背景裝飾使用 -->
       <NuxtImg
@@ -59,7 +66,9 @@ definePageMeta({
         src="/404/bg-small.png"
         class="mb-[8px] block md:hidden"
       />
-      <p class="mb-2 p-[5px] font-serif text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-text-read md:mb-4 md:p-[10px] md:text-[24px] md:leading-[1.2] md:tracking-[0em]">
+      <p
+        class="mb-2 p-[5px] font-serif text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-text-read md:mb-4 md:p-[10px] md:text-[24px] md:leading-[1.2] md:tracking-[0em]"
+      >
         Sorry, 找不到這個頁面
       </p>
       <!-- All Sponsors 按鈕 -->

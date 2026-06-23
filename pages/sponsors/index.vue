@@ -2,10 +2,16 @@
 definePageMeta({
   layout: false,
 })
+
+useSeoMeta({
+  robots: 'noindex, nofollow',
+})
 </script>
 
 <template>
-  <div class="relative m-auto grid min-h-svh place-content-center overflow-hidden">
+  <div
+    class="relative m-auto grid min-h-svh place-content-center overflow-hidden"
+  >
     <div class="z-10 flex flex-col items-center px-4">
       <!-- 背景圖 -->
       <NuxtImg
@@ -58,7 +64,9 @@ definePageMeta({
         src="/coming-soon/bg-small.png"
         class="mb-2 block p-4 md:hidden"
       />
-      <p class="mb-2 p-[5px] font-serif text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-text-read md:mb-4 md:p-[10px] md:text-[24px] md:leading-[1.2] md:tracking-[0em]">
+      <p
+        class="mb-2 p-[5px] font-serif text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-text-read md:mb-4 md:p-[10px] md:text-[24px] md:leading-[1.2] md:tracking-[0em]"
+      >
         建置中，敬請期待
       </p>
       <NuxtLink

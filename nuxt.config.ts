@@ -1,4 +1,4 @@
-import { site } from './config/seo.config'
+import { site, sitemap } from './config/seo.config'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -6,7 +6,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@tresjs/nuxt',
-    'nuxt-typed-router',
     'nuxt-swiper',
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
@@ -14,10 +13,15 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxt/scripts',
-    'nuxt-typed-router',
     '@nuxtjs/color-mode',
+    'nuxt-gtag',
   ],
+
   css: ['@/assets/css/main.css'],
+
+  gtag: {
+    id: process.env.NUXT_PUBLIC_GTAG_ID,
+  },
 
   runtimeConfig: {
     public: {
@@ -59,11 +63,11 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'icon',
-          href: 'https://vconf-2026.vercel.app/favicon.png', // 絕對路徑，網站圖示
+          href: 'https://v-conf.vue.tw//favicon.png', // 絕對路徑，網站圖示
         },
         {
           rel: 'apple-touch-icon',
-          href: 'https://vconf-2026.vercel.app/app-touch-icon.png', // 絕對路徑，Apple 設備加入主畫面的圖片
+          href: 'https://v-conf.vue.tw//app-touch-icon.png', // 絕對路徑，Apple 設備加入主畫面的圖片
         },
         {
           rel: 'stylesheet',
@@ -120,5 +124,6 @@ export default defineNuxtConfig({
     },
   },
 
+  sitemap,
   site,
 })
