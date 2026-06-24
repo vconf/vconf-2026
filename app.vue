@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 useSeoMeta({
-  ogImage: 'https://v-conf.vue.tw//og-image.png',
+  ogImage: 'https://v-conf.vue.tw/og-image.png',
   ogImageAlt: 'vconf 2026',
   ogImageWidth: 1200,
   ogImageHeight: 630,
-  twitterImage: 'https://v-conf.vue.tw//og-image.png',
+  twitterImage: 'https://v-conf.vue.tw/og-image.png',
   twitterImageAlt: 'vconf 2026',
 })
 
