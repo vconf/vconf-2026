@@ -29,7 +29,9 @@ watch(
 </script>
 
 <template>
-  <section class="relative isolate flex w-screen flex-col items-center [overflow-x:clip]">
+  <section
+    class="relative isolate flex w-screen flex-col items-center [overflow-x:clip]"
+  >
     <NuxtImg
       class="relative z-10 hidden pt-[50px] md:block"
       :width="heroBrand.desktop.width"
@@ -47,10 +49,12 @@ watch(
       placeholder
     />
 
-    <HomeHeroThreeScene class="pointer-events-none mt-[-140px] w-full md:mt-[-365px]" />
+    <HomeHeroThreeScene
+      class="pointer-events-none mt-[-140px] w-full md:mt-[-365px]"
+    />
 
-    <Teleport to="body">
+    <!-- <Teleport to="body">
       <ShareThemeToggle class="left-[17px] top-[166px]" />
-    </Teleport>
+    </Teleport> -->
   </section>
 </template>
