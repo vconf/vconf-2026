@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  shallowRef,
+} from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -149,7 +156,19 @@ const rootRef = ref<HTMLElement | null>(null)
 const heroSvgRef = ref<SVGSVGElement | null>(null)
 const svgBgDotsRef = ref<SVGImageElement | null>(null)
 const svgBgRef = ref<SVGImageElement | null>(null)
+const hasPlayedHomeHeroIntro = useState('home-hero-intro-played', () => false)
 let bgDotsRO: ResizeObserver | null = null
+const leftPolygonRefs = shallowRef<Array<SVGPolygonElement | null>>([])
+const rightPolygonRefs = shallowRef<Array<SVGPolygonElement | null>>([])
+const animationHandles: Array<{ kill: () => void }> = []
+
+function setLeftPolygonRef(el: unknown, i: number) {
+  leftPolygonRefs.value[i] = el as SVGPolygonElement | null
+}
+
+function setRightPolygonRef(el: unknown, i: number) {
+  rightPolygonRefs.value[i] = el as SVGPolygonElement | null
+}
 
 // 桌機點陣中心固定在 viewBox 座標（與扇形同步縮放）：往左/上調小，往右/下調大
 const DOTS_CX = 1130
@@ -209,22 +228,253 @@ function updateBgDotsSize() {
   }
 }
 
+function createSvgOrigin(el: SVGGraphicsElement, side: 'left' | 'right') {
+  const box = el.getBBox()
+  const originX
+    = side === 'left' ? box.x + box.width * 0.28 : box.x + box.width * 0.72
+  const originY = box.y + box.height * 0.92
+  return `${originX} ${originY}`
+}
+
+function applyFinalSceneState() {
+  const { gsap } = useGsap()
+  if (!gsap)
+    return
+
+  if (heroSvgRef.value)
+    gsap.set(heroSvgRef.value, { opacity: 1 })
+
+  if (svgBgRef.value)
+    gsap.set(svgBgRef.value, { opacity: 0.76 })
+
+  leftPolygonRefs.value.forEach((el) => {
+    if (!el)
+      return
+    gsap.set(el, {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+    })
+  })
+
+  rightPolygonRefs.value.forEach((el) => {
+    if (!el)
+      return
+    gsap.set(el, {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+    })
+  })
+}
+
+function startAmbientAnimation() {
+  const { gsap } = useGsap()
+  if (!gsap)
+    return
+
+  leftPolygonRefs.value.forEach((el, i) => {
+    if (!el)
+      return
+
+    gsap.set(el, {
+      transformBox: 'fill-box',
+      svgOrigin: createSvgOrigin(el, 'left'),
+    })
+
+    animationHandles.push(
+      gsap.to(el, {
+        x: -4 - (i % 3),
+        y: -3 - (i % 2),
+        rotation: -0.9 - i * 0.045,
+        duration: 2.4 + i * 0.08,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        delay: i * 0.05,
+      }),
+    )
+  })
+
+  rightPolygonRefs.value.forEach((el, i) => {
+    if (!el)
+      return
+
+    gsap.set(el, {
+      transformBox: 'fill-box',
+      svgOrigin: createSvgOrigin(el, 'right'),
+    })
+
+    animationHandles.push(
+      gsap.to(el, {
+        x: 4 + (i % 3),
+        y: 3 + (i % 2),
+        rotation: 0.95 + i * 0.04,
+        duration: 2.55 + i * 0.08,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        delay: 0.12 + i * 0.05,
+      }),
+    )
+  })
+
+  if (svgBgRef.value) {
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.18 })
+    tl.to(svgBgRef.value, { opacity: 0.44, duration: 1.3, ease: 'sine.inOut' })
+      .to(svgBgRef.value, { opacity: 0.84, duration: 1.05, ease: 'sine.inOut' })
+      .to(svgBgRef.value, { opacity: 0.18, duration: 0.09, ease: 'none' })
+      .to(svgBgRef.value, { opacity: 0.78, duration: 0.08, ease: 'none' })
+      .to(svgBgRef.value, {
+        opacity: 0.58,
+        duration: 1.45,
+        ease: 'sine.inOut',
+      })
+    animationHandles.push(tl)
+  }
+}
+
+function startIntroAnimation() {
+  const { gsap } = useGsap()
+  if (!gsap)
+    return 0
+
+  const svgWidth = heroSvgRef.value?.getBoundingClientRect().width ?? 0
+  const isMobile = svgWidth > 0 && svgWidth < 1000
+
+  if (isMobile) {
+    if (svgBgRef.value)
+      (svgBgRef.value as unknown as SVGElement).setAttribute('opacity', '1')
+    if (heroSvgRef.value)
+      heroSvgRef.value.style.opacity = '1'
+    hasPlayedHomeHeroIntro.value = true
+    return 0
+  }
+
+  const introYOffset = 54
+
+  const leftEls = layers
+    .map(i => leftPolygonRefs.value[i])
+    .filter(Boolean) as SVGPolygonElement[]
+  const rightEls = layers
+    .map(i => rightPolygonRefs.value[i])
+    .filter(Boolean) as SVGPolygonElement[]
+
+  if (heroSvgRef.value) {
+    animationHandles.push(
+      gsap.fromTo(
+        heroSvgRef.value,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.7, ease: 'power2.out' },
+      ),
+    )
+  }
+
+  leftEls.forEach((el, i) => {
+    const delay = i * 0.07
+    const tl = gsap.timeline()
+    tl.set(el, {
+      transformBox: 'fill-box',
+      svgOrigin: createSvgOrigin(el, 'left'),
+    })
+    tl.fromTo(
+      el,
+      {
+        opacity: 0,
+        y: introYOffset,
+        rotation: -16 + i * 0.35,
+        scale: 0.94,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        rotation: 0,
+        scale: 1,
+        duration: 0.72,
+        delay,
+        ease: 'power3.out',
+      },
+    )
+    animationHandles.push(tl)
+  })
+
+  const rightStartDelay = 0.18 + leftEls.length * 0.05
+  rightEls.forEach((el, i) => {
+    const delay = rightStartDelay + i * 0.07
+    const tl = gsap.timeline()
+    tl.set(el, {
+      transformBox: 'fill-box',
+      svgOrigin: createSvgOrigin(el, 'right'),
+    })
+    tl.fromTo(
+      el,
+      {
+        opacity: 0,
+        y: introYOffset,
+        rotation: 16 - i * 0.28,
+        scale: 0.94,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        rotation: 0,
+        scale: 1,
+        duration: 0.72,
+        delay,
+        ease: 'power3.out',
+      },
+    )
+    animationHandles.push(tl)
+  })
+
+  if (svgBgRef.value) {
+    const tl = gsap.timeline()
+    tl.fromTo(
+      svgBgRef.value,
+      { opacity: 0.05 },
+      { opacity: 0.82, duration: 1.2, ease: 'power2.out' },
+    ).to(svgBgRef.value, { opacity: 0.58, duration: 1.1, ease: 'sine.inOut' })
+    animationHandles.push(tl)
+  }
+
+  hasPlayedHomeHeroIntro.value = true
+  return 2.4
+}
+
 // ── onMounted ─────────────────────────────────────────────────────────────────
-onMounted(() => {
+onMounted(async () => {
   if (heroSvgRef.value) {
     updateBgDotsSize()
     bgDotsRO = new ResizeObserver(updateBgDotsSize)
     bgDotsRO.observe(heroSvgRef.value)
   }
 
-  // 靜態模式：卡片 transform 由 template :transform 綁定直接套用最終狀態
-  if (svgBgRef.value)
-    (svgBgRef.value as unknown as SVGElement).setAttribute('opacity', '1')
-  if (heroSvgRef.value)
-    heroSvgRef.value.style.opacity = '1'
+  await nextTick()
+  if (hasPlayedHomeHeroIntro.value) {
+    applyFinalSceneState()
+    startAmbientAnimation()
+  }
+  else {
+    const introDuration = startIntroAnimation()
+    const { gsap } = useGsap()
+    if (gsap && introDuration > 0) {
+      animationHandles.push(
+        gsap.delayedCall(introDuration, startAmbientAnimation),
+      )
+    }
+    else {
+      startAmbientAnimation()
+    }
+  }
 })
 
 onUnmounted(() => {
+  animationHandles.forEach(handle => handle.kill())
+  animationHandles.length = 0
   bgDotsRO?.disconnect()
   bgDotsRO = null
 })
@@ -262,6 +512,7 @@ const sceneClasses = computed(() => props.sceneClass)
           <polygon
             v-for="i in paintLayers"
             :key="`tl-${i}`"
+            :ref="(el: unknown) => setLeftPolygonRef(el, i)"
             :points="leftPolygons[i]"
             :fill="leftLayerColors[i]"
             :fill-opacity="leftLayerOpacities[i]"
@@ -273,6 +524,7 @@ const sceneClasses = computed(() => props.sceneClass)
           <polygon
             v-for="i in paintLayers"
             :key="`tr-${i}`"
+            :ref="(el: unknown) => setRightPolygonRef(el, i)"
             :points="rightPolygons[i]"
             :fill="rightLayerColors[i]"
             :fill-opacity="rightLayerOpacities[i]"
