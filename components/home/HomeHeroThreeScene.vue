@@ -158,6 +158,7 @@ const svgBgDotsRef = ref<SVGImageElement | null>(null)
 const svgBgRef = ref<SVGImageElement | null>(null)
 const hasPlayedHomeHeroIntro = useState('home-hero-intro-played', () => false)
 let bgDotsRO: ResizeObserver | null = null
+let pinnedMql: MediaQueryList | null = null // 視窗 < 1400（SVG 被 min-w 夾住、s 鎖死）
 const leftPolygonRefs = shallowRef<Array<SVGPolygonElement | null>>([])
 const rightPolygonRefs = shallowRef<Array<SVGPolygonElement | null>>([])
 const animationHandles: Array<{ kill: () => void }> = []
@@ -170,9 +171,17 @@ function setRightPolygonRef(el: unknown, i: number) {
   rightPolygonRefs.value[i] = el as SVGPolygonElement | null
 }
 
-// 桌機點陣中心固定在 viewBox 座標（與扇形同步縮放）：往左/上調小，往右/下調大
+// 桌機點陣：反縮放（icon 固定 16px），水平中心釘在 viewBox DOTS_CX。
+// 垂直：以 hero 基準線 DOTS_REF_Y（隨場景縮放）為錨，點陣中心固定在其下方
+//   DOTS_GAP_PX 的「CSS px」→ 間距不隨解析度改變（補償 s：centerY = REF_Y + GAP/s）。
+// DOTS_CX 調大 → 往右；DOTS_GAP_PX 調大 → 點陣往下、離 V 更遠（單位 ≈ 1px，固定不縮放）。
 const DOTS_CX = 1130
-const DOTS_CY = 990
+const DOTS_REF_Y = 933 // hero 基準線（g-local viewBox ≈ 中央 V 底），與 V 一起縮放
+const DOTS_GAP_PX = 65 // 點陣中心距基準線的固定間距（CSS px，鎖定、不隨解析度變）
+// pinned 區（視窗 768–1400px：SVG 被 md:min-w-[1400px] 撐住、s 鎖死 ≈0.937，
+//   點陣不隨視窗縮放）。用獨立 CX/GAP 可單獨定位、不影響 ≥1400 大螢幕；預設＝大螢幕值。
+const DOTS_PINNED_CX = 1130 // 此區水平中心；調大 → 往右
+const DOTS_PINNED_GAP_PX = 95 // 此區點陣中心距基準線間距；調大 → 往下、調小 → 往上
 // 手機點陣圖頂端距 SVG 底部的固定 CSS px；數值越小 → 位置越低
 const DOTS_OFFSET_PX_SM = 250 // 手機：hero-bg-sm.svg（icon 8px）；數字越大點陣越往上
 
@@ -209,21 +218,25 @@ function updateBgDotsSize() {
     svgBgDotsRef.value.setAttribute('height', String(dotH))
   }
   else {
-    // 桌機：hero-bg-md.svg 原生 1478×707，icon 16px SVG units → 反縮放後 16px CSS
-    // 位置：把點陣「中心」釘在固定 viewBox (DOTS_CX, DOTS_CY)，與扇形同座標系一起縮放
-    //       → 與 hero 圖維持固定相對距離，不隨寬度漂移（size 仍反縮放保持 icon 16px）
+    // 桌機：hero-bg-md.svg 原生 1478×707，icon 16px。
+    // 反縮放（icon 固定 16px）+ 水平置中；垂直把點陣中心鎖在 hero 基準線下方
+    //   固定 GAP 的 CSS px（centerY = REF_Y + GAP/s 補償縮放）→ 上下間距固定。
+    // pinned 區用獨立 CX/GAP，可單獨定位、不影響大螢幕。
+    // 偵測：對應 SVG 在視窗 <1400 被 md:min-w-[1400px] 夾住。用 matchMedia.matches（與 CSS
+    // 斷點同源），搭配 onMounted 掛的 change 事件可在重新整理/跨界時即時重算（SVG-RO 會漏）。
+    const isPinned = pinnedMql ? pinnedMql.matches : window.innerWidth < 1400
+    const cx = isPinned ? DOTS_PINNED_CX : DOTS_CX
+    const gapPx = isPinned ? DOTS_PINNED_GAP_PX : DOTS_GAP_PX
     const dotW = 1478 / s
     const dotH = 707 / s
+    const centerY = DOTS_REF_Y + gapPx / s
     svgBgDotsRef.value.setAttribute('href', '/hero-bg-md.svg')
     svgBgDotsRef.value.setAttribute('width', String(Math.round(dotW)))
     svgBgDotsRef.value.setAttribute('height', String(Math.round(dotH)))
-    svgBgDotsRef.value.setAttribute(
-      'x',
-      String(Math.round(DOTS_CX - dotW / 2)),
-    )
+    svgBgDotsRef.value.setAttribute('x', String(Math.round(cx - dotW / 2)))
     svgBgDotsRef.value.setAttribute(
       'y',
-      String(Math.round(DOTS_CY - dotH / 2)),
+      String(Math.round(centerY - dotH / 2)),
     )
   }
 }
@@ -448,12 +461,33 @@ function startIntroAnimation() {
 // ── onMounted ─────────────────────────────────────────────────────────────────
 onMounted(async () => {
   if (heroSvgRef.value) {
+    // 先建立 matchMedia 再首次量測，確保第一次就讀得到 matches。
+    // change 事件會在視窗跨越 1400 的當下重算 → 補上 SVG-ResizeObserver 漏掉的那次
+    // （SVG 在 pinned 區一直被夾在 1400、寬度不變 → RO 不觸發）。
+    pinnedMql = window.matchMedia('(max-width: 1399.98px)')
+    pinnedMql.addEventListener('change', updateBgDotsSize)
     updateBgDotsSize()
     bgDotsRO = new ResizeObserver(updateBgDotsSize)
     bgDotsRO.observe(heroSvgRef.value)
+    // 首屏視窗可能尚未定案（裝置模式會先用真實寬載入）→ 下一幀再校一次。
+    requestAnimationFrame(() => updateBgDotsSize())
   }
 
   await nextTick()
+
+  // 手機版（SVG < 1000）不跑任何動畫：直接顯示靜態最終狀態，不掛 intro / ambient。
+  // 多邊形本來就以 fill-opacity 靜態渲染（沒套 GSAP transform），只需把兩個預設藏起來的
+  // 元素（heroSvg 與電路板底圖）顯示出來即可。
+  const mobileWidth = heroSvgRef.value?.getBoundingClientRect().width ?? 0
+  if (mobileWidth > 0 && mobileWidth < 1000) {
+    if (heroSvgRef.value)
+      heroSvgRef.value.style.opacity = '1'
+    if (svgBgRef.value)
+      svgBgRef.value.setAttribute('opacity', '0.76')
+    hasPlayedHomeHeroIntro.value = true
+    return
+  }
+
   if (hasPlayedHomeHeroIntro.value) {
     applyFinalSceneState()
     startAmbientAnimation()
@@ -477,6 +511,8 @@ onUnmounted(() => {
   animationHandles.length = 0
   bgDotsRO?.disconnect()
   bgDotsRO = null
+  pinnedMql?.removeEventListener('change', updateBgDotsSize)
+  pinnedMql = null
 })
 
 const sceneClasses = computed(() => props.sceneClass)
