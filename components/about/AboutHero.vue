@@ -22,6 +22,7 @@
       >
         <NuxtImg
           src="/about/hero-bg-1.png"
+          alt=""
           width="1159"
           height="1171"
           loading="eager"
@@ -29,6 +30,7 @@
         />
         <NuxtImg
           src="/about/hero-bg-2.png"
+          alt=""
           width="1159"
           height="1175"
           loading="eager"
@@ -37,6 +39,7 @@
         <!-- 手機版 -->
         <NuxtImg
           src="/about/hero-bg-left-small.png"
+          alt=""
           width="810"
           height="817"
           loading="eager"
@@ -44,6 +47,7 @@
         />
         <NuxtImg
           src="/about/hero-bg-right-small.png"
+          alt=""
           width="807"
           height="818"
           loading="eager"

@@ -34,6 +34,7 @@ watch(
   >
     <NuxtImg
       class="relative z-10 hidden pt-[50px] md:block"
+      alt="v-conf Taiwan 2026"
       :width="heroBrand.desktop.width"
       :height="heroBrand.desktop.height"
       :src="isDark ? heroBrand.desktop.darkSrc : heroBrand.desktop.lightSrc"
@@ -42,6 +43,7 @@ watch(
     />
     <NuxtImg
       class="relative z-10 block pt-[50px] md:hidden"
+      alt="v-conf Taiwan 2026"
       :width="heroBrand.mobile.width"
       :height="heroBrand.mobile.height"
       :src="heroBrand.mobile.src"

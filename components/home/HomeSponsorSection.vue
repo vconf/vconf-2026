@@ -21,28 +21,88 @@ const SPONSOR_GROUPS = [
     label: '10x Sponsor',
     widthClass: 'w-[calc((100%-1.5rem)/2)]',
     sponsors: [
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '480', height: '162' },
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '480', height: '162' },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '480',
+        height: '162',
+      },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '480',
+        height: '162',
+      },
     ],
   },
   {
     label: '5x Sponsor',
     widthClass: 'w-[calc((100%-3rem)/3)]',
     sponsors: [
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '313',
+        height: '106',
+      },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '313',
+        height: '106',
+      },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '313',
+        height: '106',
+      },
     ],
   },
   {
     label: '3x Sponsor',
     widthClass: 'w-[calc((100%-3rem)/3)]',
     sponsors: [
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
-      { name: 'Google', href: '#', src: '/home/sponsor-logo-google-large.svg', width: '313', height: '106' },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '313',
+        height: '106',
+      },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '313',
+        height: '106',
+      },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '313',
+        height: '106',
+      },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '313',
+        height: '106',
+      },
+      {
+        name: 'Google',
+        href: '#',
+        src: '/home/sponsor-logo-google-large.svg',
+        width: '313',
+        height: '106',
+      },
     ],
   },
 ] as const
@@ -63,7 +123,9 @@ const activeTweens: Array<{ kill: () => void }> = []
 let orbitSyncRafId: number | null = null
 
 const maxOrbitRadius = computed(() =>
-  viewportWidth.value < MD_BREAKPOINT ? ORBIT_RADIUS_MOBILE : ORBIT_RADIUS_DESKTOP,
+  viewportWidth.value < MD_BREAKPOINT
+    ? ORBIT_RADIUS_MOBILE
+    : ORBIT_RADIUS_DESKTOP,
 )
 
 const orbitRadius = computed(() => {
@@ -78,7 +140,9 @@ const orbitViewBox = computed(() => {
   return `0 0 ${orbitSize.width} ${orbitSize.height}`
 })
 
-const isOrbitReady = computed(() => orbitSize.width > 0 && orbitSize.height > 0)
+const isOrbitReady = computed(
+  () => orbitSize.width > 0 && orbitSize.height > 0,
+)
 
 const orbitContentStyle = computed(() => ({
   paddingInline: `${ORBIT_CONTENT_INSET}px`,
@@ -227,7 +291,9 @@ onBeforeUnmount(() => {
         class="pb-[90px] md:pb-[162px]"
       />
 
-      <div class="relative mx-auto w-full overflow-visible px-4 pb-[52px] pt-[100px] md:px-12 md:pb-[111px] md:pt-[205px] lg:px-[90px]">
+      <div
+        class="relative mx-auto w-full overflow-visible px-4 pb-[52px] pt-[100px] md:px-12 md:pb-[111px] md:pt-[205px] lg:px-[90px]"
+      >
         <!-- 軌道 -->
         <div
           ref="orbitFrameRef"
@@ -293,15 +359,19 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- 錢財圖示 -->
-        <div class="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 before:absolute before:inset-y-0 before:left-[-15%] before:w-[15%] before:bg-vconf-white before:content-[''] after:absolute after:inset-y-0 after:right-[-15%] after:w-[15%] after:bg-vconf-white after:content-['']">
+        <div
+          class="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 before:absolute before:inset-y-0 before:left-[-15%] before:w-[15%] before:bg-vconf-white before:content-[''] after:absolute after:inset-y-0 after:right-[-15%] after:w-[15%] after:bg-vconf-white after:content-['']"
+        >
           <NuxtImg
             src="/home/sponsor-money.png"
+            alt=""
             width="273"
             height="386"
             class="relative hidden bg-vconf-white md:block"
           />
           <NuxtImg
             src="/home/money-small.png"
+            alt=""
             width="136"
             height="193"
             class="relative bg-vconf-white md:hidden"
@@ -318,12 +388,12 @@ onBeforeUnmount(() => {
             :key="group.label"
             class="w-full"
           >
-            <h3 class="mb-[17px] text-center font-serif text-[20px] font-bold leading-[1.6] tracking-[0em]  text-vconf-primary md:mb-6 md:text-[48px] md:leading-[auto]">
+            <h3
+              class="mb-[17px] text-center font-serif text-[20px] font-bold leading-[1.6] tracking-[0em] text-vconf-primary md:mb-6 md:text-[48px] md:leading-[auto]"
+            >
               {{ group.label }}
             </h3>
-            <div
-              class="flex flex-wrap justify-center gap-2 md:gap-6"
-            >
+            <div class="flex flex-wrap justify-center gap-2 md:gap-6">
               <a
                 v-for="sponsor in group.sponsors"
                 :key="sponsor.name"
@@ -356,12 +426,14 @@ onBeforeUnmount(() => {
       <!-- 背景 vite icon x2  -->
       <NuxtImg
         src="/share/vite-icon.svg"
+        alt=""
         width="16"
         height="15"
         class="absolute left-[238px] top-[81px] hidden lg:block"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
+        alt=""
         width="16"
         height="15"
         class="absolute right-[106px] top-[25px] hidden md:right-[145px] md:top-[87px] md:block"
