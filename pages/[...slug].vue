@@ -17,12 +17,16 @@ useSeoMeta({
       <!-- 背景裝飾使用 -->
       <NuxtImg
         src="/coming-soon/decorate-bg-left-large.png"
+        alt=""
+        loading="eager"
         width="1258"
         height="1150"
         class="pointer-events-none absolute left-[clamp(-990px,calc(53.32vw_-_1399.4px),-717px)] top-[-434px] hidden max-w-none md:block"
       />
       <NuxtImg
         src="/coming-soon/decorate-bg-right-large.png"
+        alt=""
+        loading="eager"
         width="1224"
         height="1293"
         class="pointer-events-none absolute right-[clamp(-942px,calc(57.03vw_-_1380.9px),-650px)] top-[-655px] hidden max-w-none md:block"
@@ -30,12 +34,16 @@ useSeoMeta({
       <!-- 手機版 -->
       <NuxtImg
         src="/coming-soon/decorate-bg-left-small.png"
+        alt=""
+        loading="eager"
         width="810"
         height="817"
         class="pointer-events-none absolute bottom-[-494px] left-[-422px] block max-w-none md:hidden"
       />
       <NuxtImg
         src="/coming-soon/decorate-bg-right-small.png"
+        alt=""
+        loading="eager"
         width="807"
         height="818"
         class="pointer-events-none absolute right-[-435px] top-[-510px] block max-w-none md:hidden"
@@ -44,12 +52,16 @@ useSeoMeta({
       <NuxtImg
         width="362"
         height="182"
+        alt="v-conf Taiwan 2026"
+        loading="eager"
         src="/coming-soon/logo-large.svg"
         class="mb-[5px] hidden md:block"
       />
       <NuxtImg
         width="265"
         height="134"
+        alt="v-conf Taiwan 2026"
+        loading="eager"
         src="/coming-soon/logo-small.svg"
         class="mb-[8px] block md:hidden"
       />
@@ -57,12 +69,16 @@ useSeoMeta({
       <NuxtImg
         width="919"
         height="370"
+        alt="404"
+        loading="eager"
         src="/404/bg-large.png"
         class="mb-[5px] hidden md:block"
       />
       <NuxtImg
         width="402"
         height="162"
+        alt="404"
+        loading="eager"
         src="/404/bg-small.png"
         class="mb-[8px] block md:hidden"
       />

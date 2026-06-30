@@ -106,7 +106,9 @@ watch(
     :class="[headerBgClass, { 'z-50': isMenuOpen }]"
   >
     <div class="container">
-      <nav class="relative flex items-center px-6 py-4 md:py-6 md:pl-[34px] md:pr-4 lg:pl-16 lg:pr-8">
+      <nav
+        class="relative flex items-center px-6 py-4 md:py-6 md:pl-[34px] md:pr-4 lg:pl-16 lg:pr-8"
+      >
         <!-- logo 顯示使用 -->
         <NuxtLink
           class="grid place-content-center md:py-[10px] lg:py-0"
@@ -115,6 +117,7 @@ watch(
         >
           <NuxtImg
             src="/share/nav-logo-md.svg"
+            alt="v-conf Taiwan 2026"
             height="38"
             width="220"
             loading="eager"
@@ -123,6 +126,7 @@ watch(
           />
           <NuxtImg
             src="/share/nav-logo-sm.svg"
+            alt="v-conf Taiwan 2026"
             height="19"
             width="110"
             loading="eager"
@@ -148,7 +152,6 @@ watch(
             @click="onClickNavItem()"
           >
             <NuxtLink
-
               :to="NAV_ITEM.href"
               class="inline-block w-full px-4 py-[10px] text-[24px] tracking-[0em] xl:w-auto xl:px-8"
             >
@@ -167,9 +170,11 @@ watch(
           @click="onToggleMenu()"
         >
           <div
-            :class="isMenuOpen
-              ? 'bg-transparent before:left-0 before:top-1/2 before:w-[35px] before:-translate-y-1/2 before:-rotate-45 before:bg-vconf-primary after:left-0 after:top-1/2 after:w-[35px] after:-translate-y-1/2 after:rotate-45 after:bg-vconf-primary'
-              : 'bg-vconf-primary before:right-0 before:top-[-6px] before:w-[15px] before:bg-vconf-primary after:left-0 after:bottom-[-6px] after:w-[15px] after:bg-vconf-primary'"
+            :class="
+              isMenuOpen
+                ? 'bg-transparent before:left-0 before:top-1/2 before:w-[35px] before:-translate-y-1/2 before:-rotate-45 before:bg-vconf-primary after:left-0 after:top-1/2 after:w-[35px] after:-translate-y-1/2 after:rotate-45 after:bg-vconf-primary'
+                : 'bg-vconf-primary before:right-0 before:top-[-6px] before:w-[15px] before:bg-vconf-primary after:left-0 after:bottom-[-6px] after:w-[15px] after:bg-vconf-primary'
+            "
             class="relative h-[1px] w-[35px] transition-colors duration-300 before:absolute before:h-[1px] before:content-[''] before:[transition:transform_300ms] after:absolute after:h-[1px] after:content-[''] after:[transition:transform_300ms]"
           ></div>
         </button>

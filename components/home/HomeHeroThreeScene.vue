@@ -531,6 +531,7 @@ const sceneClasses = computed(() => props.sceneClass)
       preserveAspectRatio="xMidYMin meet"
       overflow="visible"
       xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
     >
       <g :transform="`translate(0,${sceneYShift})`">
         <!-- 背景裝飾點陣圖：JS 反縮放，icon 固定 16px 不隨 viewport 縮放 -->

@@ -73,8 +73,13 @@ function initDesktopTweens() {
 }
 
 function initMobileTweens() {
-  if (!mobilePathRef.value || !mobileViteLargeRef.value || !mobileViteSmallRef.value)
+  if (
+    !mobilePathRef.value
+    || !mobileViteLargeRef.value
+    || !mobileViteSmallRef.value
+  ) {
     return
+  }
 
   activeTweens.push(
     createOrbitTween(mobileViteLargeRef.value, mobilePathRef.value, 0.12, 9),
@@ -98,10 +103,14 @@ onMounted(() => {
   syncOrbitTweensByViewport(isMdUp.value)
 })
 
-watch(isMdUp, async (mdUp) => {
-  await nextTick()
-  syncOrbitTweensByViewport(mdUp)
-}, { flush: 'post' })
+watch(
+  isMdUp,
+  async (mdUp) => {
+    await nextTick()
+    syncOrbitTweensByViewport(mdUp)
+  },
+  { flush: 'post' },
+)
 
 onBeforeUnmount(() => {
   clearActiveTweens()
@@ -111,7 +120,9 @@ onBeforeUnmount(() => {
 <template>
   <section class="relative isolate">
     <!-- 主要內容 -->
-    <div class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0">
+    <div
+      class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0"
+    >
       <svg
         class="ml-[clamp(-610px,calc(-610px+150*((100vw-768px)/256)),-460px)] hidden w-[620px] shrink-0 md:block lg:ml-[clamp(-390px,calc(-390px+140*((100vw-1024px)/256)),-250px)] xl:ml-[clamp(-340px,calc(-340px+210*((100vw-1280px)/256)),-130px)] 2xl:ml-[-30px]"
         viewBox="-10 0 620 920"
@@ -170,7 +181,9 @@ onBeforeUnmount(() => {
           />
         </g>
       </svg>
-      <div class="relative ml-0 pt-[92px] font-serif text-[16px] text-vconf-text-read md:ml-[-420px] md:text-[21px] xl:ml-[-450px]">
+      <div
+        class="relative ml-0 pt-[92px] font-serif text-[16px] text-vconf-text-read md:ml-[-420px] md:text-[21px] xl:ml-[-450px]"
+      >
         <div
           class="pointer-events-none absolute left-1/2 top-[58px] h-[269px] w-[min(388px,calc(100vw-32px))] -translate-x-1/2 md:hidden"
           aria-hidden="true"
@@ -208,51 +221,65 @@ onBeforeUnmount(() => {
           </svg>
         </div>
         <!-- 標題 -->
-        <div class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0">
+        <div
+          class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0"
+        >
           <ShareSectionTitle
             title="行為準則"
             :margin-bottom="24"
           />
-          <p class="text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]">
+          <p
+            class="text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]"
+          >
             <span class="text-vconf-primary">V-CONF Taiwan 2026 </span>
             <span>是致力於為所有與會者，包括講者、贊助商與工作人員，提供一個安全、無騷擾且相互尊重的活動環境。</span>
           </p>
         </div>
         <!-- 行為準則三條內容 -->
-        <div class="mx:m-0 mx-auto mt-[15px] flex max-w-[307px] flex-col gap-9 md:ml-[400px] md:max-w-[475px] md:gap-12 xl:ml-[430px] xl:max-w-[677px]">
+        <div
+          class="mx:m-0 mx-auto mt-[15px] flex max-w-[307px] flex-col gap-9 md:ml-[400px] md:max-w-[475px] md:gap-12 xl:ml-[430px] xl:max-w-[677px]"
+        >
           <div class="flex items-center">
             <NuxtImg
               width="15"
               height="14"
+              alt=""
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
-              loading="eager"
+              loading="lazy"
               placeholder
             />
-            <div class="relative min-w-0 flex-1 p-3 leading-[160%] tracking-[0.01em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:p-6 md:tracking-[0.02em]">
-              <p>我們堅決反對任何形式的騷擾行為，包括但不限於涉及性別、年齡、種族、宗教、身體外貌或性取向的冒犯性言論，以及跟蹤、不當肢體接觸或未受歡迎的性暗示等行為。</p>
+            <div
+              class="relative min-w-0 flex-1 p-3 leading-[160%] tracking-[0.01em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:p-6 md:tracking-[0.02em]"
+            >
+              <p>
+                我們堅決反對任何形式的騷擾行為，包括但不限於涉及性別、年齡、種族、宗教、身體外貌或性取向的冒犯性言論，以及跟蹤、不當肢體接觸或未受歡迎的性暗示等行為。
+              </p>
               <NuxtImg
                 width="713"
                 height="173"
+                alt=""
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
                 src="/about/icon-bg.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
                 width="549"
                 height="173"
+                alt=""
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none md:block xl:hidden"
                 src="/about/icon-bg-md.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
                 width="312"
                 height="137"
+                alt=""
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
                 src="/about/icon-bg-sm.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
             </div>
@@ -262,35 +289,43 @@ onBeforeUnmount(() => {
             <NuxtImg
               width="15"
               height="14"
+              alt=""
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
-              loading="eager"
+              loading="lazy"
               placeholder
             />
-            <div class="relative min-w-0 flex-1 translate-x-0 p-3 leading-[160%] tracking-[0.02em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:translate-x-[42px] md:p-6">
-              <p>所有參與者皆須同意並遵守本行為準則。若發生違規情形，主辦單位有權採取相應措施，包括警告或要求離場，且不予退費。</p>
+            <div
+              class="relative min-w-0 flex-1 translate-x-0 p-3 leading-[160%] tracking-[0.02em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:translate-x-[42px] md:p-6"
+            >
+              <p>
+                所有參與者皆須同意並遵守本行為準則。若發生違規情形，主辦單位有權採取相應措施，包括警告或要求離場，且不予退費。
+              </p>
               <NuxtImg
                 width="713"
                 height="138"
+                alt=""
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
                 src="/about/icon-bg-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
                 width="549"
                 height="138"
+                alt=""
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none md:block xl:hidden"
                 src="/about/icon-bg-md-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
                 width="312"
                 height="119"
+                alt=""
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
                 src="/about/icon-bg-sm-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
             </div>
@@ -300,35 +335,43 @@ onBeforeUnmount(() => {
             <NuxtImg
               width="15"
               height="14"
+              alt=""
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
-              loading="eager"
+              loading="lazy"
               placeholder
             />
-            <div class="relative min-w-0 flex-1 translate-x-0 p-3 leading-[160%] tracking-[0.02em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:translate-x-[10px] md:p-6 md:tracking-[0.02em]">
-              <p>若您遭受騷擾，或目睹他人遭受不當對待，請立即聯繫工作人員。我們將盡全力提供協助，確保每一位參與者都能安心參與活動。</p>
+            <div
+              class="relative min-w-0 flex-1 translate-x-0 p-3 leading-[160%] tracking-[0.02em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:translate-x-[10px] md:p-6 md:tracking-[0.02em]"
+            >
+              <p>
+                若您遭受騷擾，或目睹他人遭受不當對待，請立即聯繫工作人員。我們將盡全力提供協助，確保每一位參與者都能安心參與活動。
+              </p>
               <NuxtImg
                 width="713"
                 height="138"
+                alt=""
                 class="absolute right-[-75px] top-[-30px] hidden max-w-none xl:block"
                 src="/about/icon-bg-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
                 width="549"
                 height="138"
+                alt=""
                 class="absolute right-[-75px] top-[-30px] hidden max-w-none md:block xl:hidden"
                 src="/about/icon-bg-md-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
                 width="312"
                 height="119"
+                alt=""
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
                 src="/about/icon-bg-sm-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
             </div>
@@ -339,32 +382,44 @@ onBeforeUnmount(() => {
       <!-- 右側 -->
       <NuxtImg
         src="/share/vite-icon.svg"
+        alt=""
+        loading="lazy"
         width="16"
         height="15"
         class="absolute top-[-42px] hidden md:left-[200px] md:block lg:left-auto lg:right-[513px]"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
+        alt=""
+        loading="lazy"
         width="16"
         height="15"
         class="absolute top-0 hidden md:left-[350px] md:top-5 md:block lg:left-auto lg:right-[313px]"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
+        alt=""
+        loading="lazy"
         width="16"
         height="15"
         class="absolute right-[313px] top-[59px] hidden lg:block"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
+        alt=""
+        loading="lazy"
         width="16"
         height="15"
         class="absolute right-[313px] top-[182px] hidden lg:block"
       />
     </div>
     <!-- 感謝語 -->
-    <div class="container relative z-10 mt-[42px] hidden place-content-center font-serif md:grid xl:mt-0">
-      <p class="w-fit max-w-[677px] text-center text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary">
+    <div
+      class="container relative z-10 mt-[42px] hidden place-content-center font-serif md:grid xl:mt-0"
+    >
+      <p
+        class="w-fit max-w-[677px] text-center text-[16px] font-normal leading-[150%] tracking-[0.02em] text-vconf-primary"
+      >
         感謝您的配合與支持，讓我們共同打造開放、包容且充滿活力的 Vue.js 社群。
       </p>
     </div>
@@ -383,15 +438,15 @@ onBeforeUnmount(() => {
   user-select: none;
 }
 
-@media (min-width: 769px){
+@media (min-width: 769px) {
   .section-bg {
     transform: translate(69.8%, -42.5%) rotate(-5deg);
   }
 }
 
-@media (min-width: 1025px){
+@media (min-width: 1025px) {
   .section-bg {
-    transform: translate(56.8%, -38.5%) rotate(-5deg)
+    transform: translate(56.8%, -38.5%) rotate(-5deg);
   }
 }
 </style>

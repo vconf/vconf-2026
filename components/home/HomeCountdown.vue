@@ -44,9 +44,9 @@ function updateCountdown(totalSeconds?: number) {
   const nextState = getCountdownState()
 
   countdown.value = nextState
-  lastRenderedSecond = totalSeconds ?? Math.floor(
-    Math.max(TARGET_DATE.getTime() - Date.now(), 0) / 1000,
-  )
+  lastRenderedSecond
+    = totalSeconds
+      ?? Math.floor(Math.max(TARGET_DATE.getTime() - Date.now(), 0) / 1000)
 }
 
 function tickCountdown() {
@@ -86,21 +86,29 @@ const segments = computed(() => [
         <!-- 上方 vite 裝飾物 -->
         <NuxtImg
           src="/home/homeCountdown-top.png"
+          alt=""
+          loading="lazy"
           width="722"
           height="96"
           class="mb-5 hidden md:mb-10 md:block"
         />
         <NuxtImg
           src="/home/homeCountdown-top-small.png"
+          alt=""
+          loading="lazy"
           width="361"
           height="49"
           class="mb-3 block md:mb-10 md:hidden"
         />
 
-        <h2 class="mb-4 font-serif text-[32px] font-bold tracking-[0%] text-vconf-heading md:mb-8 md:text-[64px]">
+        <h2
+          class="mb-4 font-serif text-[32px] font-bold tracking-[0%] text-vconf-heading md:mb-8 md:text-[64px]"
+        >
           Oct 17 2026
         </h2>
-        <p class="mb-4 font-serif text-[16px] font-bold tracking-[1%] text-vconf-heading md:mb-8 md:text-[32px]">
+        <p
+          class="mb-4 font-serif text-[16px] font-bold tracking-[1%] text-vconf-heading md:mb-8 md:text-[32px]"
+        >
           即將，VUE 見未來
         </p>
         <div class="flex items-center gap-[20px] md:gap-[75px]">
@@ -110,14 +118,16 @@ const segments = computed(() => [
             class="countdown-item relative text-center font-avenir"
           >
             <div
-              class="countdown-number-frame  relative inline-block overflow-hidden pb-[21px] text-[50px] font-black leading-[1] tracking-[2%] text-vconf-primary md:pb-[37px] md:text-[100px]"
+              class="countdown-number-frame relative inline-block overflow-hidden pb-[21px] text-[50px] font-black leading-[1] tracking-[2%] text-vconf-primary md:pb-[37px] md:text-[100px]"
               :data-value="segment.value"
             >
               <p class="countdown-number">
                 {{ segment.value }}
               </p>
             </div>
-            <p class="text-[13px] font-medium tracking-[0%] text-vconf-primary md:text-[24px]">
+            <p
+              class="text-[13px] font-medium tracking-[0%] text-vconf-primary md:text-[24px]"
+            >
               {{ segment.label }}
             </p>
           </div>
@@ -126,12 +136,16 @@ const segments = computed(() => [
         <!-- 下方 vite 裝飾物 -->
         <NuxtImg
           src="/home/homeCountdown-bottom.png"
+          alt=""
+          loading="lazy"
           width="722"
           height="96"
           class="mt-5 hidden md:mt-10 md:block"
         />
         <NuxtImg
           src="/home/homeCountdown-bottom-small.png"
+          alt=""
+          loading="lazy"
           width="361"
           height="61"
           class="mt-3 block md:mt-10 md:hidden"
@@ -154,19 +168,29 @@ const segments = computed(() => [
   color: hsl(var(--color-primary));
   opacity: 0.35;
   overflow: hidden;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.45) 55%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.45) 55%, transparent 100%);
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0.45) 55%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0.45) 55%,
+    transparent 100%
+  );
   pointer-events: none;
 }
 
 .countdown-number-frame,
 .countdown-number {
   font-variant-numeric: tabular-nums;
-  font-feature-settings: 'tnum' 1;
+  font-feature-settings: "tnum" 1;
 }
 
 .countdown-item:not(:last-child)::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 12px;
   right: -13px;

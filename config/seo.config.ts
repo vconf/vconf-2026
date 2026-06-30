@@ -3,7 +3,7 @@ import type { ModuleOptions as SiteModuleOptions } from 'nuxt-site-config'
 
 export const site = {
   url: 'https://v-conf.vue.tw/',
-  name: '2026 vconf 技術研討會',
+  name: 'v-conf Taiwan 2026',
   description:
     '聚焦 Vue 生態系與現代前端開發體驗，分享 Vue、Vite、工具鏈與實務案例等前端議題，與開發者一同探索 Web 開發的下一個階段',
   defaultLocale: 'zh-TW',
@@ -30,6 +30,13 @@ export const sitemap = {
     { loc: '/about', priority: 0.9, lastmod: '2026-06-23' },
   ],
 } satisfies Partial<SitemapModuleOptions>
+
+export const siteImage = {
+  url: 'https://v-conf.vue.tw/og-image.png',
+  alt: 'v-conf Taiwan 2026',
+  width: 1200,
+  height: 630,
+} as const
 
 export const eventOrganizer = {
   '@id': 'https://v-conf.vue.tw/#organization',
@@ -60,6 +67,29 @@ export const eventLocation = {
   },
 } as const
 
+export const eventImage = {
+  '@id': 'https://v-conf.vue.tw/#event-image',
+  '@type': 'ImageObject',
+  'contentUrl': siteImage.url,
+  'inLanguage': 'zh-TW',
+  'url': siteImage.url,
+} as const
+
+export const websiteBasic = {
+  '@id': 'https://v-conf.vue.tw/#website',
+  '@type': 'WebSite',
+  'name': site.name,
+  'description': site.description,
+  'inLanguage': site.defaultLocale,
+  'url': site.url,
+  'image': {
+    '@id': 'https://v-conf.vue.tw/#event-image',
+  },
+  'publisher': {
+    '@id': 'https://v-conf.vue.tw/#organization',
+  },
+} as const
+
 export const eventBasic = {
   '@id': 'https://v-conf.vue.tw/#main-event',
   '@type': 'Event',
@@ -67,7 +97,9 @@ export const eventBasic = {
   'description':
     '聚焦 Vue 生態系與現代前端開發體驗,分享 Vue、Vite、工具鏈與實務案例等前端議題,與開發者一同探索 Web 開發的下一個階段',
   'inLanguage': 'zh-TW',
-  'image': 'https://v-conf.vue.tw/og-image.png',
+  'image': {
+    '@id': 'https://v-conf.vue.tw/#event-image',
+  },
   'startDate': '2026-10-17T09:30:00+08:00',
   'endDate': '2026-10-17T16:00:00+08:00',
   'eventStatus': 'https://schema.org/EventScheduled',

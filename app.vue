@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import { siteImage } from '~/config/seo.config'
+
 useSeoMeta({
-  ogImage: 'https://v-conf.vue.tw/og-image.png',
-  ogImageAlt: 'vconf 2026',
-  ogImageWidth: 1200,
-  ogImageHeight: 630,
-  twitterImage: 'https://v-conf.vue.tw/og-image.png',
-  twitterImageAlt: 'vconf 2026',
+  ogImage: siteImage.url,
+  ogImageAlt: siteImage.alt,
+  ogImageWidth: siteImage.width,
+  ogImageHeight: siteImage.height,
+  twitterImage: siteImage.url,
+  twitterImageAlt: siteImage.alt,
 })
 
 const isProduction = import.meta.env.PROD
