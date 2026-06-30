@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { eventBasic, eventLocation, eventOrganizer } from '~/config/seo.config'
+import {
+  eventBasic,
+  eventLocation,
+  eventOrganizer,
+  site,
+} from '~/config/seo.config'
 
 useSchemaOrg([
   eventOrganizer,
@@ -8,6 +13,11 @@ useSchemaOrg([
     ...eventBasic,
   },
 ])
+
+useSeoMeta({
+  title: '首頁',
+  description: site.description,
+})
 </script>
 
 <template>
