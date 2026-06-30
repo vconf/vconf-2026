@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import {
-  eventBasic,
-  eventLocation,
-  eventOrganizer,
-  site,
-} from '~/config/seo.config'
+import { eventBasic, eventLocation, site } from '~/config/seo.config'
 
 useSchemaOrg([
-  eventOrganizer,
   eventLocation,
   {
     ...eventBasic,
