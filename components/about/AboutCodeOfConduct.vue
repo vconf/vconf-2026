@@ -246,7 +246,7 @@ onBeforeUnmount(() => {
               alt=""
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
-              loading="eager"
+              loading="lazy"
               placeholder
             />
             <div
@@ -261,7 +261,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
                 src="/about/icon-bg.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
@@ -270,7 +270,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none md:block xl:hidden"
                 src="/about/icon-bg-md.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
@@ -279,7 +279,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
                 src="/about/icon-bg-sm.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
             </div>
@@ -292,7 +292,7 @@ onBeforeUnmount(() => {
               alt=""
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
-              loading="eager"
+              loading="lazy"
               placeholder
             />
             <div
@@ -307,7 +307,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none xl:block"
                 src="/about/icon-bg-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
@@ -316,7 +316,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-85px] top-[-30px] hidden max-w-none md:block xl:hidden"
                 src="/about/icon-bg-md-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
@@ -325,7 +325,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
                 src="/about/icon-bg-sm-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
             </div>
@@ -338,7 +338,7 @@ onBeforeUnmount(() => {
               alt=""
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
-              loading="eager"
+              loading="lazy"
               placeholder
             />
             <div
@@ -353,7 +353,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-75px] top-[-30px] hidden max-w-none xl:block"
                 src="/about/icon-bg-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
@@ -362,7 +362,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-75px] top-[-30px] hidden max-w-none md:block xl:hidden"
                 src="/about/icon-bg-md-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
               <NuxtImg
@@ -371,7 +371,7 @@ onBeforeUnmount(() => {
                 alt=""
                 class="absolute right-[-34px] top-[-15px] block max-w-none md:hidden"
                 src="/about/icon-bg-sm-2.png"
-                loading="eager"
+                loading="lazy"
                 placeholder
               />
             </div>
@@ -383,6 +383,7 @@ onBeforeUnmount(() => {
       <NuxtImg
         src="/share/vite-icon.svg"
         alt=""
+        loading="lazy"
         width="16"
         height="15"
         class="absolute top-[-42px] hidden md:left-[200px] md:block lg:left-auto lg:right-[513px]"
@@ -390,6 +391,7 @@ onBeforeUnmount(() => {
       <NuxtImg
         src="/share/vite-icon.svg"
         alt=""
+        loading="lazy"
         width="16"
         height="15"
         class="absolute top-0 hidden md:left-[350px] md:top-5 md:block lg:left-auto lg:right-[313px]"
@@ -397,6 +399,7 @@ onBeforeUnmount(() => {
       <NuxtImg
         src="/share/vite-icon.svg"
         alt=""
+        loading="lazy"
         width="16"
         height="15"
         class="absolute right-[313px] top-[59px] hidden lg:block"
@@ -404,6 +407,7 @@ onBeforeUnmount(() => {
       <NuxtImg
         src="/share/vite-icon.svg"
         alt=""
+        loading="lazy"
         width="16"
         height="15"
         class="absolute right-[313px] top-[182px] hidden lg:block"

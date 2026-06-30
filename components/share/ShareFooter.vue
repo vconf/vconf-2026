@@ -151,6 +151,7 @@ const { stop } = useIntersectionObserver(
                 height="29"
                 src="/share/map.svg"
                 alt=""
+                loading="lazy"
                 placeholder
               />
             </a>
@@ -184,6 +185,7 @@ const { stop } = useIntersectionObserver(
               <NuxtImg
                 :src="socialLink.ICON"
                 alt=""
+                loading="lazy"
                 :width="socialLink.WIDTH"
                 :height="socialLink.HEIGHT"
                 :class="socialLink.SIZE_CLASS"
@@ -198,6 +200,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-24px] top-[253px] block md:hidden"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -205,6 +208,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[271px] block xs:left-[-42px] md:hidden"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -212,6 +216,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[301px] block xs:left-[-42px] md:hidden"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -219,6 +224,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[331px] block xs:left-[-42px] md:hidden"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -226,6 +232,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[361px] block xs:left-[-42px] md:hidden"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -233,6 +240,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[391px] block xs:left-[-42px] md:hidden"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -240,6 +248,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[426px] block xs:left-[-42px] md:hidden"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -247,6 +256,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[452px] block xs:left-[-42px] md:hidden"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -265,6 +275,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-16px] top-[228px] block xs:top-[248px] md:hidden lg:top-[228px]"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -272,6 +283,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-29px] top-[202px] block xs:top-[222px] md:hidden lg:top-[202px]"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -279,6 +291,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-29px] top-[178px] block xs:top-[198px] md:hidden lg:top-[178px]"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -286,6 +299,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-29px] top-[154px] block xs:top-[174px] md:hidden lg:top-[154px]"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -293,6 +307,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-29px] top-[130px] block xs:top-[150px] md:hidden lg:top-[130px]"
           alt=""
+          loading="lazy"
           width="8"
           height="8"
           src="/share/vite-icon-small.svg"
@@ -302,6 +317,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          loading="lazy"
           width="16"
           height="15"
           class="absolute right-[-235px] top-[-15px] hidden lg:block"
@@ -309,6 +325,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          loading="lazy"
           width="16"
           height="15"
           class="absolute right-[-83px] top-[54px] hidden lg:block"
@@ -316,6 +333,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          loading="lazy"
           width="16"
           height="15"
           class="absolute right-[-235px] top-[416px] hidden md:right-[-165px] md:block lg:right-[-235px]"
@@ -323,6 +341,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          loading="lazy"
           width="16"
           height="15"
           class="absolute right-[-193px] top-[280px] hidden md:right-[-123px] md:block lg:right-[-193px]"
@@ -330,6 +349,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          loading="lazy"
           width="16"
           height="15"
           class="absolute bottom-[160px] right-[-180px] hidden lg:block"
@@ -338,6 +358,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          loading="lazy"
           width="16"
           height="15"
           class="absolute left-[-225px] top-[98px] hidden lg:block"
@@ -345,6 +366,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          loading="lazy"
           width="16"
           height="15"
           class="absolute left-[-280px] top-[190px] hidden lg:block"
@@ -354,6 +376,7 @@ const { stop } = useIntersectionObserver(
       <NuxtImg
         src="/share/fly-bg.png"
         alt=""
+        loading="lazy"
         width="891"
         height="418"
         sizes="480px md:891px"
@@ -363,6 +386,7 @@ const { stop } = useIntersectionObserver(
       <NuxtImg
         src="/share/fly-bg-sm.png"
         alt=""
+        loading="lazy"
         width="405"
         height="184"
         placeholder

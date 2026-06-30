@@ -77,6 +77,7 @@ useSwiper(swiperRef, {
         <NuxtImg
           src="/home/speakers-bg-left.png"
           alt=""
+          loading="lazy"
           width="220"
           height="842"
           class="pointer-events-none z-20 mr-[-60px] hidden shrink-0 xl:block"
@@ -85,6 +86,7 @@ useSwiper(swiperRef, {
         <NuxtImg
           src="/home/speakers-bg-left-md.png"
           alt=""
+          loading="lazy"
           width="191"
           height="842"
           class="pointer-events-none z-20 mr-[-80px] hidden shrink-0 md:block xl:hidden"
@@ -93,6 +95,7 @@ useSwiper(swiperRef, {
         <NuxtImg
           src="/home/speakers-bg-left-sm.png"
           alt=""
+          loading="lazy"
           width="93"
           height="421"
           class="pointer-events-none z-20 mr-[-24px] block shrink-0 md:hidden"
@@ -180,6 +183,7 @@ useSwiper(swiperRef, {
         <NuxtImg
           src="/home/speakers-bg-right.png"
           alt=""
+          loading="lazy"
           width="220"
           height="842"
           class="pointer-events-none z-20 ml-[-60px] hidden shrink-0 xl:block"
@@ -188,6 +192,7 @@ useSwiper(swiperRef, {
         <NuxtImg
           src="/home/speakers-bg-right-md.png"
           alt=""
+          loading="lazy"
           width="191"
           height="842"
           class="pointer-events-none z-20 ml-[-80px] hidden shrink-0 md:block xl:hidden"
@@ -196,6 +201,7 @@ useSwiper(swiperRef, {
         <NuxtImg
           src="/home/speakers-bg-right-sm.png"
           alt=""
+          loading="lazy"
           width="93"
           height="421"
           class="pointer-events-none z-20 ml-[-24px] block shrink-0 md:hidden"

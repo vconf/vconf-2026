@@ -17,6 +17,7 @@ useSeoMeta({
       <NuxtImg
         src="/coming-soon/decorate-bg-left-large.png"
         alt=""
+        loading="eager"
         width="1258"
         height="1150"
         class="pointer-events-none absolute left-[clamp(-990px,calc(53.32vw_-_1399.4px),-717px)] top-[-434px] hidden max-w-none md:block"
@@ -24,6 +25,7 @@ useSeoMeta({
       <NuxtImg
         src="/coming-soon/decorate-bg-right-large.png"
         alt=""
+        loading="eager"
         width="1224"
         height="1293"
         class="pointer-events-none absolute right-[clamp(-942px,calc(57.03vw_-_1380.9px),-650px)] top-[-655px] hidden max-w-none md:block"
@@ -31,6 +33,7 @@ useSeoMeta({
       <NuxtImg
         src="/coming-soon/decorate-bg-left-small.png"
         alt=""
+        loading="eager"
         width="810"
         height="817"
         class="pointer-events-none absolute bottom-[-494px] left-[-422px] block max-w-none md:hidden"
@@ -38,6 +41,7 @@ useSeoMeta({
       <NuxtImg
         src="/coming-soon/decorate-bg-right-small.png"
         alt=""
+        loading="eager"
         width="807"
         height="818"
         class="pointer-events-none absolute right-[-435px] top-[-510px] block max-w-none md:hidden"
@@ -47,6 +51,7 @@ useSeoMeta({
         width="362"
         height="182"
         alt="v-conf Taiwan 2026"
+        loading="eager"
         src="/coming-soon/logo-large.svg"
         class="mb-4 hidden md:block"
       />
@@ -54,6 +59,7 @@ useSeoMeta({
         width="265"
         height="134"
         alt="v-conf Taiwan 2026"
+        loading="eager"
         src="/coming-soon/logo-small.svg"
         class="mb-2 block md:hidden"
       />
@@ -62,6 +68,7 @@ useSeoMeta({
         width="772"
         height="133"
         alt=""
+        loading="eager"
         src="/coming-soon/bg-large.png"
         class="mb-4 hidden p-4 md:block"
       />
@@ -69,6 +76,7 @@ useSeoMeta({
         width="386"
         height="67"
         alt=""
+        loading="eager"
         src="/coming-soon/bg-small.png"
         class="mb-2 block p-4 md:hidden"
       />
