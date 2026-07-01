@@ -365,6 +365,7 @@ onBeforeUnmount(() => {
           <NuxtImg
             src="/home/sponsor-money.png"
             alt=""
+            aria-hidden="true"
             loading="lazy"
             width="273"
             height="386"
@@ -373,6 +374,7 @@ onBeforeUnmount(() => {
           <NuxtImg
             src="/home/money-small.png"
             alt=""
+            aria-hidden="true"
             loading="lazy"
             width="136"
             height="193"
@@ -430,6 +432,7 @@ onBeforeUnmount(() => {
       <NuxtImg
         src="/share/vite-icon.svg"
         alt=""
+        aria-hidden="true"
         loading="lazy"
         width="16"
         height="15"
@@ -438,6 +441,7 @@ onBeforeUnmount(() => {
       <NuxtImg
         src="/share/vite-icon.svg"
         alt=""
+        aria-hidden="true"
         loading="lazy"
         width="16"
         height="15"

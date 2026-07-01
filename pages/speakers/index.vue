@@ -17,6 +17,7 @@ useSeoMeta({
       <NuxtImg
         src="/coming-soon/decorate-bg-left-large.png"
         alt=""
+        aria-hidden="true"
         loading="eager"
         width="1258"
         height="1150"
@@ -25,6 +26,7 @@ useSeoMeta({
       <NuxtImg
         src="/coming-soon/decorate-bg-right-large.png"
         alt=""
+        aria-hidden="true"
         loading="eager"
         width="1224"
         height="1293"
@@ -33,6 +35,7 @@ useSeoMeta({
       <NuxtImg
         src="/coming-soon/decorate-bg-left-small.png"
         alt=""
+        aria-hidden="true"
         loading="eager"
         width="810"
         height="817"
@@ -41,6 +44,7 @@ useSeoMeta({
       <NuxtImg
         src="/coming-soon/decorate-bg-right-small.png"
         alt=""
+        aria-hidden="true"
         loading="eager"
         width="807"
         height="818"
@@ -68,6 +72,7 @@ useSeoMeta({
         width="772"
         height="133"
         alt=""
+        aria-hidden="true"
         loading="eager"
         src="/coming-soon/bg-large.png"
         class="mb-4 hidden p-4 md:block"
@@ -76,6 +81,7 @@ useSeoMeta({
         width="386"
         height="67"
         alt=""
+        aria-hidden="true"
         loading="eager"
         src="/coming-soon/bg-small.png"
         class="mb-2 block p-4 md:hidden"

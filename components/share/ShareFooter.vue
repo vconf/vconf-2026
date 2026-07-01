@@ -151,6 +151,7 @@ const { stop } = useIntersectionObserver(
                 height="29"
                 src="/share/map.svg"
                 alt=""
+                aria-hidden="true"
                 loading="lazy"
                 placeholder
               />
@@ -185,6 +186,7 @@ const { stop } = useIntersectionObserver(
               <NuxtImg
                 :src="socialLink.ICON"
                 alt=""
+                aria-hidden="true"
                 loading="lazy"
                 :width="socialLink.WIDTH"
                 :height="socialLink.HEIGHT"
@@ -200,6 +202,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-24px] top-[253px] block md:hidden"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -208,6 +211,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[271px] block xs:left-[-42px] md:hidden"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -216,6 +220,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[301px] block xs:left-[-42px] md:hidden"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -224,6 +229,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[331px] block xs:left-[-42px] md:hidden"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -232,6 +238,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[361px] block xs:left-[-42px] md:hidden"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -240,6 +247,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[391px] block xs:left-[-42px] md:hidden"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -248,6 +256,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[426px] block xs:left-[-42px] md:hidden"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -256,6 +265,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute left-[-36px] top-[452px] block xs:left-[-42px] md:hidden"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -275,6 +285,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-16px] top-[228px] block xs:top-[248px] md:hidden lg:top-[228px]"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -283,6 +294,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-29px] top-[202px] block xs:top-[222px] md:hidden lg:top-[202px]"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -291,6 +303,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-29px] top-[178px] block xs:top-[198px] md:hidden lg:top-[178px]"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -299,6 +312,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-29px] top-[154px] block xs:top-[174px] md:hidden lg:top-[154px]"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -307,6 +321,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           class="absolute right-[-29px] top-[130px] block xs:top-[150px] md:hidden lg:top-[130px]"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="8"
           height="8"
@@ -317,6 +332,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="16"
           height="15"
@@ -325,6 +341,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="16"
           height="15"
@@ -333,6 +350,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="16"
           height="15"
@@ -341,6 +359,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="16"
           height="15"
@@ -349,6 +368,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="16"
           height="15"
@@ -358,6 +378,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="16"
           height="15"
@@ -366,6 +387,7 @@ const { stop } = useIntersectionObserver(
         <NuxtImg
           src="/share/vite-icon.svg"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="16"
           height="15"
@@ -376,6 +398,7 @@ const { stop } = useIntersectionObserver(
       <NuxtImg
         src="/share/fly-bg.png"
         alt=""
+        aria-hidden="true"
         loading="lazy"
         width="891"
         height="418"
@@ -386,6 +409,7 @@ const { stop } = useIntersectionObserver(
       <NuxtImg
         src="/share/fly-bg-sm.png"
         alt=""
+        aria-hidden="true"
         loading="lazy"
         width="405"
         height="184"
