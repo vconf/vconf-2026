@@ -72,10 +72,10 @@ onBeforeUnmount(() => {
 })
 
 const segments = computed(() => [
-  { key: 'days', label: 'days', value: countdown.value.days },
-  { key: 'hours', label: 'hours', value: countdown.value.hours },
-  { key: 'minutes', label: 'minuts', value: countdown.value.minutes },
-  { key: 'seconds', label: 'seconds', value: countdown.value.seconds },
+  { key: 'Days', label: 'Days', value: countdown.value.days },
+  { key: 'Hours', label: 'Hours', value: countdown.value.hours },
+  { key: 'Minutes', label: 'Minutes', value: countdown.value.minutes },
+  { key: 'Seconds', label: 'Seconds', value: countdown.value.seconds },
 ])
 </script>
 
