@@ -23,6 +23,7 @@
         <NuxtImg
           src="/about/hero-bg-1.png"
           alt=""
+          aria-hidden="true"
           width="1159"
           height="1171"
           loading="eager"
@@ -31,6 +32,7 @@
         <NuxtImg
           src="/about/hero-bg-2.png"
           alt=""
+          aria-hidden="true"
           width="1159"
           height="1175"
           loading="eager"
@@ -40,6 +42,7 @@
         <NuxtImg
           src="/about/hero-bg-left-small.png"
           alt=""
+          aria-hidden="true"
           width="810"
           height="817"
           loading="eager"
@@ -48,6 +51,7 @@
         <NuxtImg
           src="/about/hero-bg-right-small.png"
           alt=""
+          aria-hidden="true"
           width="807"
           height="818"
           loading="eager"

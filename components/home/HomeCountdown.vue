@@ -87,6 +87,7 @@ const segments = computed(() => [
         <NuxtImg
           src="/home/homeCountdown-top.png"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="722"
           height="96"
@@ -95,6 +96,7 @@ const segments = computed(() => [
         <NuxtImg
           src="/home/homeCountdown-top-small.png"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="361"
           height="49"
@@ -137,6 +139,7 @@ const segments = computed(() => [
         <NuxtImg
           src="/home/homeCountdown-bottom.png"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="722"
           height="96"
@@ -145,6 +148,7 @@ const segments = computed(() => [
         <NuxtImg
           src="/home/homeCountdown-bottom-small.png"
           alt=""
+          aria-hidden="true"
           loading="lazy"
           width="361"
           height="61"
