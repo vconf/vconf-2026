@@ -45,7 +45,6 @@ export const eventOrganizer = {
   'url': 'https://v-conf.vue.tw/',
   'email': 'vuejs_taiwan@googlegroups.com',
   'sameAs': [
-    'https://www.facebook.com/groups/vuejs.tw',
     'https://www.threads.com/@vuejs_taiwan',
     'https://www.instagram.com/vuejs_taiwan',
   ],
