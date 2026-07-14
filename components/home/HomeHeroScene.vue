@@ -1,155 +1,31 @@
 <script setup lang="ts">
 import {
-  computed,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  ref,
-  shallowRef,
-} from 'vue'
-
-const props = withDefaults(
-  defineProps<{
-    sceneClass?: string
-  }>(),
-  {
-    sceneClass: 'w-full',
-  },
-)
-
-// ── Colour / opacity tables ───────────────────────────────────────────────────
-const rightLayerColors = [
-  '#FFFFFF',
-  '#FCDFEC',
-  '#FABFD9',
-  '#F79FC6',
-  '#F57EB2',
-  '#F25E9F',
-  '#F03E8C',
-  '#ED1E79',
-  '#EF3C6C',
-  '#F15960',
-  '#F37753',
-  '#F69547',
-  '#F8B33A',
-  '#FAD02E',
-  '#FCEE21',
-]
-// 對應 public/hero-0626-3.svg：內側 6 張全實心，往外側階梯式變淡
-const rightLayerOpacities = [
-  0,
-  100,
-  100,
-  100,
-  100,
-  100,
-  100,
-  60,
-  50,
-  50,
-  30,
-  30,
-  30,
-  30,
-  30,
-].map(v => v / 100)
-
-const leftLayerColors = [
-  '#687A89',
-  '#5F8196',
-  '#5688A2',
-  '#4D8FAF',
-  '#4496BC',
-  '#3B9DC9',
-  '#32A4D5',
-  '#29ABE2',
-  '#2CADD4',
-  '#30AFC7',
-  '#33B1B9',
-  '#37B2AC',
-  '#3AB49E',
-  '#3EB691',
-  '#41B883',
-]
-// 對應 public/hero-0626-4.svg：以 #29ABE2 (idx7) 為最亮高光，兩側遞減
-const leftLayerOpacities = [
-  0,
-  36,
-  36,
-  36,
-  50,
-  50,
-  70,
-  80,
-  36,
-  36,
-  36,
-  36,
-  20,
-  20,
-  20,
-].map(v => v / 100)
-
-const layerCount = rightLayerColors.length
-const layers = Array.from({ length: layerCount }, (_, i) => i)
-// 疊放順序：對齊設計稿（idx14 在最底 → idx1 在最上），讓內側卡片畫在最上層
-const paintLayers = [...layers].reverse()
-
-// ── SVG tile geometry ─────────────────────────────────────────────────────────
-// 每張卡片直接用設計稿四邊形的「四個頂點」(exact polygon)：右扇 public/hero-0626-3.svg、
-// 左扇 public/hero-0626-4.svg，經相似變換（等比縮放＋旋轉）對位到本 SVG 座標。
-// 用精確多邊形而非平行四邊形近似，可完全貼合設計稿的透視變化（避免轉折處出現「特別平」的卡）。
-// idx0 為 opacity 0 的隱形佔位卡。
-const leftPolygons = [
-  '84.8,1157.5 294.9,1297.7 301.3,1497.1 90.8,1355.3',
-  '114.1,1069.8 324.2,1210 330.6,1409.4 120.1,1267.6',
-  '171,985.1 359.4,1132.5 333.8,1318.1 142,1170.3',
-  '241.1,871.2 407.8,1025.7 350,1197.6 177.1,1043.8',
-  '320.2,752.3 465.3,914 375.4,1072.2 221.3,912.4',
-  '404,652.7 527.5,821.6 405.4,966 270.1,800.2',
-  '488.1,596.5 589.9,772.6 435.6,903.3 319.2,731.5',
-  '363.4,729.8 567.3,607.3 647.4,790.6 461,907.5',
-  '417.9,774.4 583.8,636.6 688.5,818.8 539.2,954.3',
-  '473.2,789 601.1,635.9 730.4,816.9 618.3,971',
-  '529.8,784.4 619.7,615.9 773.6,795.7 698.6,968.5',
-  '588.8,772.3 640.7,588.5 819.3,767.2 781.5,958.6',
-  '644.3,763.9 658.3,564.8 861.4,742.3 860.7,952.3',
-  '712,772.5 688,558.1 915.7,734.4 952.2,963.1',
-  '785.7,809.2 723.6,579.4 975.9,754.5 1049.6,1001.9',
-]
-const rightPolygons = [
-  '1024.1,335.1 1273.1,505.5 1175.5,679.5 931.4,534',
-  '1063.3,315 1312.3,485.4 1214.7,659.4 970.6,513.9',
-  '1115.7,299.2 1343.5,483 1242.1,629.9 1016.6,481.3',
-  '1181.1,275 1387.7,472.2 1282.5,591.9 1075.7,440.4',
-  '1253.9,249.6 1439.3,460 1330.3,552.6 1142.1,398.1',
-  '1328.5,230 1492.7,453.8 1379.9,519.1 1210.4,361.7',
-  '1399.3,223.4 1542.3,460.5 1425.7,498.8 1274.9,338.3',
-  '1461.8,498.5 1329.6,335 1460.4,236.9 1582.2,487.4',
-  '1540.2,516 1418,321.5 1576.7,265.3 1691.5,536',
-  '1605.6,486 1493.4,260.5 1679.9,246.2 1787.9,537.1',
-  '1656.2,440.1 1554.1,183.6 1768.5,211.2 1869.5,522.3',
-  '1692.9,392.1 1600.8,104.6 1843,174.1 1937.1,505.4',
-  '1716.5,346.8 1634.5,28.3 1904.6,139.7 1991.7,491.2',
-  '1728,318.8 1656,-30.6 1953.9,122.6 2034.1,494.3',
-  '1727.9,322.9 1666,-57.6 1991.7,137.6 2065,529.5',
-]
-
-// 左扇整體上移量（負值往上；數字越小越往上）
-const leftYShift = -40
-// 右扇整體位移：往下＋微左，讓粉扇內側貼住中央 V、與左扇連成一條波（對齊設計稿）
-const rightShift = { x: -20, y: 135 }
-// hero 場景垂直位移（負值往上）。註：桌機會被下方 ANCHOR_Y 的 margin 補償完全抵消，
-// 所以這個值「實際上只影響手機版」（手機沒有補償）。手機要上移就調更小/更負。
-const sceneYShift = -120
-
-// 固定「中央 V ↔ 上方 logo」距離（不隨解析度縮放改變）
-// SVG 會隨寬度等比縮放（s = svg寬/1494），故 marginTop 也要跟著補償：
-//   marginTop = heroVGapPx - ANCHOR_Y * s
-// ANCHOR_Y = 中央 V 頂端在 viewBox 的 y（含 sceneYShift）
-const ANCHOR_Y = 286.628 + sceneYShift
-// 校準值：往 0 加 → 場景下移、距 logo 更遠；更負 → 上移、更近（1 單位 ≈ 1px）
-const heroVGapPx = -110
+  useDocumentVisibility,
+  useIntersectionObserver,
+  usePreferredReducedMotion,
+} from '@vueuse/core'
+import { nextTick, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import {
+  ANCHOR_Y,
+  DOTS_CX,
+  DOTS_GAP_PX,
+  DOTS_OFFSET_PX_SM,
+  DOTS_PINNED_CX,
+  DOTS_PINNED_GAP_PX,
+  DOTS_REF_Y,
+  heroVGapPx,
+  layers,
+  leftLayerColors,
+  leftLayerOpacities,
+  leftPolygons,
+  leftYShift,
+  paintLayers,
+  rightLayerColors,
+  rightLayerOpacities,
+  rightPolygons,
+  rightShift,
+  sceneYShift,
+} from './heroScene.config'
 
 // ── SVG refs ──────────────────────────────────────────────────────────────────
 const rootRef = ref<HTMLElement | null>(null)
@@ -161,7 +37,35 @@ let bgDotsRO: ResizeObserver | null = null
 let pinnedMql: MediaQueryList | null = null // 視窗 < 1400（SVG 被 min-w 夾住、s 鎖死）
 const leftPolygonRefs = shallowRef<Array<SVGPolygonElement | null>>([])
 const rightPolygonRefs = shallowRef<Array<SVGPolygonElement | null>>([])
-const animationHandles: Array<{ kill: () => void }> = []
+interface AnimationHandle {
+  kill: () => void
+  pause: () => void
+  resume: () => void
+}
+const animationHandles: Array<AnimationHandle> = []
+
+// ── 播放狀態（全用 VueUse，避免直接碰 matchMedia / IntersectionObserver / 事件監聽）──────
+const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
+const documentVisibility = useDocumentVisibility() // 'visible' | 'hidden'
+const isHeroInViewport = ref(true)
+
+useIntersectionObserver(
+  rootRef,
+  ([entry]) => {
+    isHeroInViewport.value = entry?.isIntersecting ?? true
+  },
+  { threshold: 0 },
+)
+
+// 只有「在視窗內 且 分頁在前景」才播放，否則暫停全部動畫 → 省 CPU / 電力。
+function syncPlayState() {
+  const shouldPlay
+    = isHeroInViewport.value && documentVisibility.value !== 'hidden'
+  animationHandles.forEach(handle =>
+    shouldPlay ? handle.resume() : handle.pause(),
+  )
+}
+watch([isHeroInViewport, documentVisibility], syncPlayState)
 
 function setLeftPolygonRef(el: unknown, i: number) {
   leftPolygonRefs.value[i] = el as SVGPolygonElement | null
@@ -170,20 +74,6 @@ function setLeftPolygonRef(el: unknown, i: number) {
 function setRightPolygonRef(el: unknown, i: number) {
   rightPolygonRefs.value[i] = el as SVGPolygonElement | null
 }
-
-// 桌機點陣：反縮放（icon 固定 16px），水平中心釘在 viewBox DOTS_CX。
-// 垂直：以 hero 基準線 DOTS_REF_Y（隨場景縮放）為錨，點陣中心固定在其下方
-//   DOTS_GAP_PX 的「CSS px」→ 間距不隨解析度改變（補償 s：centerY = REF_Y + GAP/s）。
-// DOTS_CX 調大 → 往右；DOTS_GAP_PX 調大 → 點陣往下、離 V 更遠（單位 ≈ 1px，固定不縮放）。
-const DOTS_CX = 1130
-const DOTS_REF_Y = 933 // hero 基準線（g-local viewBox ≈ 中央 V 底），與 V 一起縮放
-const DOTS_GAP_PX = 65 // 點陣中心距基準線的固定間距（CSS px，鎖定、不隨解析度變）
-// pinned 區（視窗 768–1400px：SVG 被 md:min-w-[1400px] 撐住、s 鎖死 ≈0.937，
-//   點陣不隨視窗縮放）。用獨立 CX/GAP 可單獨定位、不影響 ≥1400 大螢幕；預設＝大螢幕值。
-const DOTS_PINNED_CX = 1130 // 此區水平中心；調大 → 往右
-const DOTS_PINNED_GAP_PX = 95 // 此區點陣中心距基準線間距；調大 → 往下、調小 → 往上
-// 手機點陣圖頂端距 SVG 底部的固定 CSS px；數值越小 → 位置越低
-const DOTS_OFFSET_PX_SM = 250 // 手機：hero-bg-sm.svg（icon 8px）；數字越大點陣越往上
 
 function updateBgDotsSize() {
   if (!heroSvgRef.value || !svgBgDotsRef.value)
@@ -475,6 +365,16 @@ onMounted(async () => {
 
   await nextTick()
 
+  // 尊重「減少動態效果」：不論裝置寬度，直接顯示靜態最終畫面，不掛 intro / ambient（同時省效能）。
+  if (reducedMotion.value === 'reduce') {
+    if (heroSvgRef.value)
+      heroSvgRef.value.style.opacity = '1'
+    if (svgBgRef.value)
+      svgBgRef.value.setAttribute('opacity', '0.76')
+    hasPlayedHomeHeroIntro.value = true
+    return
+  }
+
   // 手機版（SVG < 1000）不跑任何動畫：直接顯示靜態最終狀態，不掛 intro / ambient。
   // 多邊形本來就以 fill-opacity 靜態渲染（沒套 GSAP transform），只需把兩個預設藏起來的
   // 元素（heroSvg 與電路板底圖）顯示出來即可。
@@ -504,6 +404,10 @@ onMounted(async () => {
       startAmbientAnimation()
     }
   }
+
+  // 動畫是在此刻才建立的，watch(immediate) 當時陣列還空 → 依目前可見狀態補同步一次
+  // （涵蓋「載入時 hero 已在畫面外／分頁在背景」就不該空轉的情況）。
+  syncPlayState()
 })
 
 onUnmounted(() => {
@@ -514,14 +418,12 @@ onUnmounted(() => {
   pinnedMql?.removeEventListener('change', updateBgDotsSize)
   pinnedMql = null
 })
-
-const sceneClasses = computed(() => props.sceneClass)
 </script>
 
 <template>
   <div
     ref="rootRef"
-    :class="sceneClasses"
+    class="w-full"
   >
     <svg
       ref="heroSvgRef"
@@ -542,6 +444,7 @@ const sceneClasses = computed(() => props.sceneClass)
           y="637"
           width="1478"
           height="707"
+          fetchpriority="high"
         />
 
         <!-- 左扇 (藍/青色系, 15 張) -->
@@ -577,6 +480,7 @@ const sceneClasses = computed(() => props.sceneClass)
           width="615.668"
           height="646.435"
           opacity="0"
+          fetchpriority="high"
         />
 
         <!-- 中心骨牌圖：放最後 → 疊在最前面 -->
@@ -586,6 +490,7 @@ const sceneClasses = computed(() => props.sceneClass)
           y="286.628"
           width="615.668"
           height="646.435"
+          fetchpriority="high"
         />
       </g>
     </svg>

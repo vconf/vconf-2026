@@ -31,6 +31,7 @@ const heroBrand = {
         :height="heroBrand.desktop.height"
         :src="isDark ? heroBrand.desktop.darkSrc : heroBrand.desktop.lightSrc"
         loading="eager"
+        fetchpriority="high"
       />
       <NuxtImg
         class="relative z-10 block pt-[50px] md:hidden"
@@ -40,10 +41,11 @@ const heroBrand = {
         :height="heroBrand.mobile.height"
         :src="heroBrand.mobile.src"
         loading="eager"
+        fetchpriority="high"
       />
     </h1>
 
-    <HomeHeroThreeScene
+    <HomeHeroScene
       class="pointer-events-none mt-[-140px] w-full md:mt-[-365px]"
     />
 
