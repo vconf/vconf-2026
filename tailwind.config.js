@@ -24,7 +24,7 @@ export default {
       },
       fontFamily: {
         serif: ['"Noto Sans TC"', 'serif'],
-        sans: ['"avenir-next-lt-pro"', '"Noto Sans TC"', 'sans-serif'],
+        sans: ['"Avenir Next LT Pro"', '"Noto Sans TC"', 'sans-serif'],
         avenir: ['"Avenir"', 'serif'],
       },
       clipPath: {
