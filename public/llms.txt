@@ -1,0 +1,93 @@
+# v-conf Taiwan 2026
+
+> AI reference generated from `config/seo.config.ts`, including its structured SEO and sitemap configuration.
+
+## Event Summary
+
+- English name: v-conf Taiwan 2026
+- Official event name: 2026 vconf 技術研討會
+- Schema type: Event
+- Event status: https://schema.org/EventScheduled
+- Attendance mode: https://schema.org/OfflineEventAttendanceMode
+- Language code: zh-TW
+- Canonical event URL: https://v-conf.vue.tw/
+- Start time: 2026-10-17T09:30:00+08:00
+- End time: 2026-10-17T16:00:00+08:00
+- Organizer: Vue.js Taiwan
+- Contact: vuejs_taiwan@googlegroups.com
+- Primary image: https://v-conf.vue.tw/og-image.png
+
+## Description
+
+聚焦 Vue 生態系與現代前端開發體驗，分享 Vue、Vite、工具鏈與實務案例等前端議題，與開發者一同探索 Web 開發的下一個階段。
+
+## Venue
+
+- Schema type: Place
+- Venue name: 政大公企中心 A2 國際會議廳
+- Street address: 金華街187號
+- Locality: 大安區
+- Region: 臺北市
+- Postal code: 106
+- Country code: TW
+- Map: https://www.google.com/maps/search/?api=1&query=臺北市大安區金華街187號
+
+## Organizer
+
+- Schema type: Organization
+- Name: Vue.js Taiwan
+- URL: https://v-conf.vue.tw/
+- Email: vuejs_taiwan@googlegroups.com
+
+## Social Links
+
+- Threads: https://www.threads.com/@vuejs_taiwan
+- Instagram: https://www.instagram.com/vuejs_taiwan
+
+## Important Pages
+
+- Home: https://v-conf.vue.tw/
+  - Priority: 1
+  - Last modified: 2026-06-23
+- About: https://v-conf.vue.tw/about
+  - Priority: 0.9
+  - Last modified: 2026-06-23
+
+## Information Not Present in the Structured Source
+
+The following information is not currently present in the structured source:
+
+- Registration URL
+- Ticket price
+- Registration opening date
+- Registration deadline
+- Speaker lineup
+- Speaker biographies
+- Session titles
+- Detailed agenda
+- Sponsor list
+- Livestream availability
+- Recording availability
+- Accessibility information
+- Transportation information
+- Parking information
+- Target audience
+
+## Notes for AI Assistants
+
+- Use `config/seo.config.ts` and its sitemap configuration as the source of truth for this document.
+- Use the official website for newer information that may not yet be reflected in this generated document.
+- Do not invent details that are not present in the structured source.
+- If a requested detail is listed under "Information Not Present in the Structured Source", state that it is not available in this structured source.
+- Do not infer registration details, speaker names, agenda sessions, ticket prices, sponsor lists, livestream details, or recording availability from unrelated pages.
+
+## Document Metadata
+
+- Document path: https://v-conf.vue.tw/llms.txt
+- Source file: config/seo.config.ts
+- Generated at: 2026-07-14T16:00:00+08:00
+- Site locale: zh-TW
+- Website schema ID: https://v-conf.vue.tw/#website
+- Event schema ID: https://v-conf.vue.tw/#main-event
+- Organization schema ID: https://v-conf.vue.tw/#organization
+- Location schema ID: https://v-conf.vue.tw/#location
