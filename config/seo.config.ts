@@ -42,7 +42,6 @@ export const eventOrganizer = {
   '@id': 'https://v-conf.vue.tw/#organization',
   '@type': 'Organization',
   'name': 'Vue.js Taiwan',
-  'url': 'https://v-conf.vue.tw/',
   'email': 'vuejs_taiwan@googlegroups.com',
   'sameAs': [
     'https://www.threads.com/@vuejs_taiwan',
@@ -92,7 +91,7 @@ export const websiteBasic = {
 export const eventBasic = {
   '@id': 'https://v-conf.vue.tw/#main-event',
   '@type': 'Event',
-  'name': '2026 vconf 技術研討會',
+  'name': 'v-conf Taiwan 2026',
   'description':
     '聚焦 Vue 生態系與現代前端開發體驗,分享 Vue、Vite、工具鏈與實務案例等前端議題,與開發者一同探索 Web 開發的下一個階段',
   'inLanguage': 'zh-TW',

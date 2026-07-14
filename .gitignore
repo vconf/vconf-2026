@@ -34,3 +34,4 @@ components/assets/*.jpg
 components/assets/*.jpeg
 .claude/settings.local.json
 CLAUDE.md
+AGENTS.md
