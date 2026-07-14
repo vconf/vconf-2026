@@ -9,7 +9,8 @@ useSchemaOrg([
 ])
 
 useSeoMeta({
-  title: '首頁',
+  title: 'v-conf Taiwan 2026｜Vue.js',
+  titleTemplate: '%s',
   description: site.description,
 })
 </script>

@@ -1,4 +1,24 @@
+import type { FontFaceData } from '@nuxt/fonts'
 import { site, sitemap } from './config/seo.config'
+
+interface FontResolveResult {
+  fonts: FontFaceData[]
+  fallbacks?: string[]
+}
+
+interface ResolvedFontProvider {
+  resolveFont?: (..._args: unknown[]) => FontResolveResult | undefined | Promise<FontResolveResult | undefined>
+}
+
+interface FontProviderInitializer {
+  (..._args: unknown[]): ResolvedFontProvider | undefined | Promise<ResolvedFontProvider | undefined>
+  _name?: string
+  _options?: unknown
+}
+
+interface FontProviderFactory {
+  (_options?: unknown): FontProviderInitializer
+}
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -35,6 +55,9 @@ export default defineNuxtConfig({
   },
 
   fonts: {
+    adobe: {
+      id: 'zyp0lum',
+    },
     families: [
       {
         name: 'Afacad',
@@ -50,7 +73,54 @@ export default defineNuxtConfig({
         styles: ['normal'],
         display: 'swap',
       },
+      {
+        name: 'Avenir Next LT Pro',
+        provider: 'adobe',
+        weights: [700, 900],
+        styles: ['normal'],
+      },
     ],
+  },
+
+  hooks: {
+    'fonts:providers': (providers) => {
+      const adobeProvider = providers.adobe as FontProviderFactory
+
+      providers.adobe = ((options?: unknown) => {
+        const provider = adobeProvider(options)
+
+        return Object.assign(
+          async (...args: unknown[]) => {
+            const resolvedProvider = await provider(...args)
+
+            if (!resolvedProvider)
+              return resolvedProvider
+
+            return {
+              ...resolvedProvider,
+              async resolveFont(...resolveArgs: unknown[]) {
+                const result = await resolvedProvider.resolveFont?.(...resolveArgs)
+
+                if (!result)
+                  return result
+
+                return {
+                  ...result,
+                  fonts: result.fonts.map((font: FontFaceData) => ({
+                    ...font,
+                    display: 'swap',
+                  })),
+                }
+              },
+            }
+          },
+          {
+            _name: provider._name,
+            _options: provider._options,
+          },
+        )
+      }) as typeof providers.adobe
+    },
   },
 
   // 全域設定
@@ -68,10 +138,6 @@ export default defineNuxtConfig({
         {
           rel: 'apple-touch-icon',
           href: 'https://v-conf.vue.tw/app-touch-icon.png', // 絕對路徑，Apple 設備加入主畫面的圖片
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://use.typekit.net/zyp0lum.css', // Adobe Fonts 的 CSS 連結
         },
       ],
     },

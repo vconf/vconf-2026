@@ -4,6 +4,7 @@ definePageMeta({
 })
 
 useSeoMeta({
+  title: '議程即將公開',
   robots: 'noindex, nofollow',
 })
 </script>
