@@ -231,7 +231,7 @@ onBeforeUnmount(() => {
           aria-hidden="true"
         >
           <svg
-            class="size-full"
+            class="size-full overflow-visible"
             viewBox="-8 -8 388 273"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -264,14 +264,16 @@ onBeforeUnmount(() => {
         </div>
         <!-- 標題 -->
         <div
-          class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0"
+          class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:bg-vconf-section-bg md:py-8 lg:translate-x-0"
         >
-          <ShareSectionTitle
-            title="行為準則"
-            :margin-bottom="24"
-          />
+          <div class="mx-auto w-fit bg-vconf-section-bg md:mx-0 md:w-auto">
+            <ShareSectionTitle
+              title="行為準則"
+              :margin-bottom="24"
+            />
+          </div>
           <p
-            class="text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]"
+            class="bg-vconf-section-bg text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]"
           >
             <span class="text-vconf-primary">V-CONF Taiwan 2026 </span>
             <span>是致力於為所有與會者，包括講者、贊助商與工作人員，提供一個安全、無騷擾且相互尊重的活動環境。</span>
