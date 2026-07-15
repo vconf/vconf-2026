@@ -13,7 +13,7 @@ useSeoMeta({
 <template>
   <main>
     <HomeHero />
-    <HomeCountdown />
+    <LazyHomeCountdown hydrate-on-visible />
     <!-- <HomeSpeakers /> -->
     <!-- <HomeSponsorSection /> -->
   </main>
