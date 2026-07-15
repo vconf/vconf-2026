@@ -44,9 +44,8 @@ const heroBrand = {
         fetchpriority="high"
       />
     </h1>
-
     <HomeHeroScene
-      class="pointer-events-none mt-[-140px] w-full md:mt-[-365px]"
+      class="pointer-events-none mt-[-140px] w-full md:mt-[-266px] min-[1400px]:mt-[calc(-110px_-_11.1531%)]"
     />
 
     <!-- <Teleport to="body">

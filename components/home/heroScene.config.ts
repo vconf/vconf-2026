@@ -132,6 +132,11 @@ export const sceneYShift = -120
 // SVG 會隨寬度等比縮放（s = svg寬/1494），故 marginTop 也要跟著補償：
 //   marginTop = heroVGapPx - ANCHOR_Y * s
 // ANCHOR_Y = 中央 V 頂端在 viewBox 的 y（含 sceneYShift）
+//
+// ⚠️ 同步提醒：此補償現以「純 CSS」實作於 HomeHero.vue 的 HomeHeroScene class
+//   （min-[1400px]:mt-[calc(-110px_-_11.1531%)] 與 md:mt-[-266px]），以消除 JS 量測競態。
+//   其中 11.1531% = ANCHOR_Y / 1494、-110px = heroVGapPx、-266px = -110 - ANCHOR_Y*(1400/1494)。
+//   若調整 sceneYShift / heroVGapPx，務必一併更新 HomeHero.vue 的這兩個 CSS 值。
 export const ANCHOR_Y = 286.628 + sceneYShift
 // 校準值：往 0 加 → 場景下移、距 logo 更遠；更負 → 上移、更近（1 單位 ≈ 1px）
 export const heroVGapPx = -110
@@ -143,7 +148,9 @@ export const heroVGapPx = -110
 // DOTS_CX 調大 → 往右；DOTS_GAP_PX 調大 → 點陣往下、離 V 更遠（單位 ≈ 1px，固定不縮放）。
 export const DOTS_CX = 1130
 export const DOTS_REF_Y = 933 // hero 基準線（g-local viewBox ≈ 中央 V 底），與 V 一起縮放
-export const DOTS_GAP_PX = 65 // 點陣中心距基準線的固定間距（CSS px，鎖定、不隨解析度變）
+export const DOTS_GAP_PX = 100 // 點陣中心距基準線的固定間距（CSS px，鎖定、不隨解析度變）
+// ↑ 2026-07 從 65 調成 100：65 時弧線頂端的 icon 會貼齊（甚至咬到）粉扇下緣，
+//   加大讓「icon 與扇形色塊」保持明確白色間隙（使用者回報不要重疊）。
 // pinned 區（視窗 768–1400px：SVG 被 md:min-w-[1400px] 撐住、s 鎖死 ≈0.937，
 //   點陣不隨視窗縮放）。用獨立 CX/GAP 可單獨定位、不影響 ≥1400 大螢幕；預設＝大螢幕值。
 export const DOTS_PINNED_CX = 1130 // 此區水平中心；調大 → 往右
