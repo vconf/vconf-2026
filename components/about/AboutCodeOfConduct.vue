@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { useBreakpoints } from '@vueuse/core'
+import {
+  useBreakpoints,
+  useDocumentVisibility,
+  useIntersectionObserver,
+  usePreferredReducedMotion,
+} from '@vueuse/core'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
@@ -17,12 +22,40 @@ const mobileViteSmallRef = ref<SVGImageElement | null>(null)
 const bigPathRef = ref<SVGPathElement | null>(null)
 const smallPathRef = ref<SVGPathElement | null>(null)
 const mobilePathRef = ref<SVGPathElement | null>(null)
+const sectionRef = ref<HTMLElement | null>(null)
 
-const activeTweens: Array<{ kill: () => void }> = []
+interface OrbitHandle {
+  kill: () => void
+  pause: () => void
+  resume: () => void
+}
+const activeTweens: Array<OrbitHandle> = []
 const breakpoints = useBreakpoints({
   md: 768,
 })
 const isMdUp = breakpoints.greaterOrEqual('md')
+
+// ── 播放狀態（VueUse）：離開視窗或分頁切到背景時暫停無限繞行動畫 → 省 CPU / 電力 ─────────────
+const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
+const documentVisibility = useDocumentVisibility() // 'visible' | 'hidden'
+const isInViewport = ref(true)
+
+useIntersectionObserver(
+  sectionRef,
+  ([entry]) => {
+    isInViewport.value = entry?.isIntersecting ?? true
+  },
+  { threshold: 0 },
+)
+
+function syncPlayState() {
+  const shouldPlay
+    = isInViewport.value && documentVisibility.value !== 'hidden'
+  activeTweens.forEach(tween =>
+    shouldPlay ? tween.resume() : tween.pause(),
+  )
+}
+watch([isInViewport, documentVisibility], syncPlayState)
 
 function createOrbitTween(
   element: SVGImageElement,
@@ -30,18 +63,24 @@ function createOrbitTween(
   start: number,
   duration: number,
 ) {
+  const motionPath = {
+    path,
+    align: path,
+    alignOrigin: [0.5, 0.5] as [number, number],
+    autoRotate: false,
+    start,
+    end: start + 1,
+  }
+
+  // 減少動態效果：不做無限繞行，只把 icon 靜態擺放在軌道起點（維持設計構圖，不空轉）。
+  if (reducedMotion.value === 'reduce')
+    return gsap.set(element, { motionPath })
+
   return gsap.to(element, {
     duration,
     repeat: -1,
     ease: 'none',
-    motionPath: {
-      path,
-      align: path,
-      alignOrigin: [0.5, 0.5],
-      autoRotate: false,
-      start,
-      end: start + 1,
-    },
+    motionPath,
   })
 }
 
@@ -90,12 +129,12 @@ function initMobileTweens() {
 function syncOrbitTweensByViewport(mdUp: boolean) {
   clearActiveTweens()
 
-  if (mdUp) {
+  if (mdUp)
     initDesktopTweens()
-    return
-  }
+  else initMobileTweens()
 
-  initMobileTweens()
+  // 剛（重）建的動畫依目前可見狀態同步一次（此區在折線下方，載入時通常不在視窗內）。
+  syncPlayState()
 }
 
 onMounted(() => {
@@ -118,7 +157,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="relative isolate">
+  <section
+    ref="sectionRef"
+    class="relative isolate"
+  >
     <!-- 主要內容 -->
     <div
       class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0"
@@ -189,7 +231,7 @@ onBeforeUnmount(() => {
           aria-hidden="true"
         >
           <svg
-            class="size-full"
+            class="size-full overflow-visible"
             viewBox="-8 -8 388 273"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -222,14 +264,16 @@ onBeforeUnmount(() => {
         </div>
         <!-- 標題 -->
         <div
-          class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 bg-vconf-section-bg p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:py-8 lg:translate-x-0"
+          class="z-1 relative mb-[47px] max-w-[354px] translate-x-0 p-6 font-bold md:mb-0 md:max-w-[542px] md:translate-x-[250px] md:bg-vconf-section-bg md:py-8 lg:translate-x-0"
         >
-          <ShareSectionTitle
-            title="行為準則"
-            :margin-bottom="24"
-          />
+          <div class="mx-auto w-fit bg-vconf-section-bg md:mx-0 md:w-auto">
+            <ShareSectionTitle
+              title="行為準則"
+              :margin-bottom="24"
+            />
+          </div>
           <p
-            class="text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]"
+            class="bg-vconf-section-bg text-[16px] font-medium leading-[160%] tracking-[0.02em] md:text-[21px]"
           >
             <span class="text-vconf-primary">V-CONF Taiwan 2026 </span>
             <span>是致力於為所有與會者，包括講者、贊助商與工作人員，提供一個安全、無騷擾且相互尊重的活動環境。</span>

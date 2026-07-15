@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { usePreferredReducedMotion } from '@vueuse/core'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const sectionRef = ref<HTMLElement | null>(null)
 const textRef = ref<HTMLElement | null>(null)
 const colorMode = useColorMode()
 const isDark = computed(() => colorMode.value === 'dark')
+const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
 
 const { gsap, ScrollTrigger } = useGsap()
 
@@ -29,8 +31,7 @@ function buildColorTimeline(targetColor: string, progress = 0) {
   colorTimeline?.scrollTrigger?.kill()
   colorTimeline?.kill()
 
-  for (const charNode of charNodes.value)
-    charNode.style.color = ''
+  for (const charNode of charNodes.value) charNode.style.color = ''
 
   colorTimeline = gsap.timeline({
     scrollTrigger: {
@@ -55,6 +56,13 @@ function buildColorTimeline(targetColor: string, progress = 0) {
 onMounted(() => {
   if (!sectionRef.value || !textRef.value || !ScrollTrigger)
     return
+
+  // 減少動態效果：略過逐字上色的 scroll 動畫，直接把內文設為最終「已讀」色（可讀即可）。
+  // 只設父層 color → 繼承文字變已讀色，.text-vconf-primary 因自帶 class 顏色不受影響。
+  if (reducedMotion.value === 'reduce') {
+    textRef.value.style.color = resolveTargetColor()
+    return
+  }
 
   originalTextHtml = textRef.value.innerHTML
 
@@ -106,19 +114,32 @@ onMounted(() => {
     textNode.parentNode?.replaceChild(fragment, textNode)
   }
 
-  charNodes.value = [...textRef.value.querySelectorAll<HTMLElement>('.char-read')]
+  charNodes.value = [
+    ...textRef.value.querySelectorAll<HTMLElement>('.char-read'),
+  ]
   buildColorTimeline(resolveTargetColor())
 })
 
-watch(isDark, () => {
-  requestAnimationFrame(() => {
-    if (!charNodes.value.length)
-      return
+watch(
+  isDark,
+  () => {
+    requestAnimationFrame(() => {
+      // reduced-motion 沒有拆字/timeline，改直接重新套用靜態已讀色。
+      if (reducedMotion.value === 'reduce') {
+        if (textRef.value)
+          textRef.value.style.color = resolveTargetColor()
+        return
+      }
 
-    const progress = colorTimeline?.progress() ?? 0
-    buildColorTimeline(resolveTargetColor(), progress)
-  })
-}, { flush: 'post' })
+      if (!charNodes.value.length)
+        return
+
+      const progress = colorTimeline?.progress() ?? 0
+      buildColorTimeline(resolveTargetColor(), progress)
+    })
+  },
+  { flush: 'post' },
+)
 
 onBeforeUnmount(() => {
   colorTimeline?.scrollTrigger?.kill()
@@ -135,7 +156,9 @@ onBeforeUnmount(() => {
     class="overflow-hidden"
   >
     <div class="community relative">
-      <div class="absolute left-1/2 top-1/2 min-h-[486px] w-full min-w-0 -translate-x-1/2 -translate-y-1/2 px-6 py-8 text-center font-serif xs:w-screen lg:min-h-[520px] lg:w-full">
+      <div
+        class="absolute left-1/2 top-1/2 min-h-[486px] w-full min-w-0 -translate-x-1/2 -translate-y-1/2 px-6 py-8 text-center font-serif xs:w-screen lg:min-h-[520px] lg:w-full"
+      >
         <ShareSectionTitle
           title="連結社群 啟發未來"
           :margin-bottom="24"
@@ -152,12 +175,14 @@ onBeforeUnmount(() => {
             <span class="inline lg:block">在前端技術快速迭代的浪潮中，我們將一同回顧 Vue 的成長歷程，</span>
             <span class="inline lg:block">梳理實際改變開發模式的關鍵技術與轉折。</span>
             <span class="inline lg:block">除了回顧過去，我們也關注未來，</span>
-            <span class="inline lg:block">深入探討以 Vite 為核心的開發流程，以及新一代工具鏈如何帶來更快速、更流暢的開發體驗，</span>
+            <span class="inline lg:block">深入探討以 Vite
+              為核心的開發流程，以及新一代工具鏈如何帶來更快速、更流暢的開發體驗，</span>
             <span class="inline lg:block">並透過實務案例分享最新技術趨勢。</span>
           </p>
           <p>
             <span class="inline lg:block">在這裡，你將有機會與來自各地的開發者建立連結，</span>
-            <span class="inline lg:block">一同探索 Vue 與 Vite 的更多可能，並共同想像前端開發的下一個階段。</span>
+            <span class="inline lg:block">一同探索 Vue 與 Vite
+              的更多可能，並共同想像前端開發的下一個階段。</span>
           </p>
         </div>
       </div>
@@ -166,21 +191,21 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-  .community {
-    background-image: url('/about/community-bg.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    height: 637px;
-    width: 100%;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+.community {
+  background-image: url("/about/community-bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 637px;
+  width: 100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 @media (min-width: 480px) {
   .community {
-    background-image: url('/about/community-md-bg.png');
+    background-image: url("/about/community-md-bg.png");
     background-position: center;
     height: 912px;
     width: 1512px;

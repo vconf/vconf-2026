@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { eventBasic, eventLocation, site } from '~/config/seo.config'
 
-useSchemaOrg([
-  eventLocation,
-  {
-    ...eventBasic,
-  },
-])
+useSchemaOrg([eventLocation, eventBasic])
 
 useSeoMeta({
   title: 'v-conf Taiwan 2026｜Vue.js',
@@ -18,7 +13,7 @@ useSeoMeta({
 <template>
   <main>
     <HomeHero />
-    <HomeCountdown />
+    <LazyHomeCountdown hydrate-on-visible />
     <!-- <HomeSpeakers /> -->
     <!-- <HomeSponsorSection /> -->
   </main>
