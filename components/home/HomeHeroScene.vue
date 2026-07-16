@@ -93,7 +93,7 @@ function updateBgDotsSize() {
   const s = w / 1494
 
   // 註：hero 場景與上方 logo 的固定距離（marginTop 補償 SVG 等比縮放）已改為純 CSS
-  // 計算，見 HomeHero.vue 的 min-[1400px]:mt-[calc(...)]。因 margin-top 百分比以containing
+  // 計算，見 HomeHero.vue 的 min-[1400px]:mt-[calc(-110px_-_11.1531%)]。因 margin-top 百分比以containing
   // block 寬度為基準、而 SVG 寬＝containing block 寬，故 ANCHOR_Y*s 可等價表示為寬度的百分比，
   // 不再依賴 JS 量測時機 → 重新整理與 SPA 切回位置一致（消除量測競態）。
 

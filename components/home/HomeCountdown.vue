@@ -91,6 +91,8 @@ const segments = computed(() => [
           loading="lazy"
           width="722"
           height="96"
+          format="avif,webp"
+          densities="x1 x2"
           class="mb-5 hidden md:mb-10 md:block"
         />
         <NuxtImg
@@ -100,6 +102,8 @@ const segments = computed(() => [
           loading="lazy"
           width="361"
           height="49"
+          format="avif,webp"
+          densities="x1 x2"
           class="mb-3 block md:mb-10 md:hidden"
         />
 
@@ -143,6 +147,8 @@ const segments = computed(() => [
           loading="lazy"
           width="722"
           height="96"
+          format="avif,webp"
+          densities="x1 x2"
           class="mt-5 hidden md:mt-10 md:block"
         />
         <NuxtImg
@@ -152,6 +158,8 @@ const segments = computed(() => [
           loading="lazy"
           width="361"
           height="61"
+          format="avif,webp"
+          densities="x1 x2"
           class="mt-3 block md:mt-10 md:hidden"
         />
       </div>

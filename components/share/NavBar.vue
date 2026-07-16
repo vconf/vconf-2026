@@ -121,7 +121,6 @@ watch(
             height="38"
             width="220"
             loading="eager"
-            placeholder
             class="hidden md:block"
           />
           <NuxtImg
@@ -130,7 +129,6 @@ watch(
             height="19"
             width="110"
             loading="eager"
-            placeholder
             class="md:hidden"
           />
         </NuxtLink>

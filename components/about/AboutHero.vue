@@ -27,6 +27,8 @@
           width="1159"
           height="1171"
           loading="eager"
+          format="avif,webp"
+          densities="x1 x2"
           class="absolute left-[clamp(-800px,calc(-1562px+99.22vw),-546px)] top-[-164px] hidden max-w-none md:block"
         />
         <NuxtImg
@@ -36,6 +38,8 @@
           width="1159"
           height="1175"
           loading="eager"
+          format="avif,webp"
+          densities="x1 x2"
           class="absolute right-[clamp(-800px,calc(-1475px+87.89vw),-575px)] top-[-394px] hidden max-w-none md:block"
         />
         <!-- 手機版 -->
@@ -46,6 +50,8 @@
           width="810"
           height="817"
           loading="eager"
+          format="avif,webp"
+          densities="x1 x2"
           class="absolute left-[-434px] top-[116px] block max-w-none md:hidden"
         />
         <NuxtImg
@@ -55,6 +61,8 @@
           width="807"
           height="818"
           loading="eager"
+          format="avif,webp"
+          densities="x1 x2"
           class="absolute right-[-437px] top-[-301px] block max-w-none md:hidden"
         />
       </div>
