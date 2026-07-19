@@ -24,7 +24,7 @@ export default {
       },
       fontFamily: {
         serif: ['"Noto Sans TC"', 'serif'],
-        sans: ['"Avenir Next LT Pro"', '"Noto Sans TC"', 'sans-serif'],
+        sans: ['"Avenir Next LT Pro"', 'sans-serif'],
         avenir: ['"Avenir"', 'serif'],
       },
       clipPath: {
@@ -45,7 +45,9 @@ export default {
           'black': 'hsl(var(--color-black))',
           'white': 'hsl(var(--background))',
           'primary': 'hsl(var(--color-primary))',
+          'primary-light': 'hsl(var(--color-primary-light))',
           'purple': 'hsl(var(--color-purple))',
+          'purple-ultralight': 'hsl(var(--color-purple-ultralight))',
           'sun': 'hsl(var(--color-sun))',
           'sun-background': 'hsl(var(--color-sun-background))',
           'moon': 'hsl(var(--color-moon))',
@@ -55,6 +57,7 @@ export default {
           'gray-light': 'hsl(var(--color-gray-light))',
           'section-bg': 'hsl(var(--color-section-bg))',
           'gray-exlight': 'hsl(var(--color-gray-exlight))',
+          'gray-ultralight': 'hsl(var(--color-gray-ultralight))',
         },
       },
     },
