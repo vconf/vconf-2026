@@ -173,7 +173,7 @@ const breakThemeClass: Record<BreakItem['theme'], string> = {
             <div
               class="flex flex-col items-start gap-4 md:flex-row md:items-center"
             >
-              <span class="flex items-center justify-center">
+              <p class="flex items-center justify-center">
                 <span
                   class="pr-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
                 >{</span>
@@ -183,12 +183,12 @@ const breakThemeClass: Record<BreakItem['theme'], string> = {
                 <span
                   class="pl-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
                 >}</span>
-              </span>
-              <span
+              </p>
+              <p
                 class="font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read"
               >
                 {{ item.speaker.title }}
-              </span>
+              </p>
             </div>
           </div>
           <!-- More 按鈕 -->
