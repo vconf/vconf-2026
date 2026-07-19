@@ -162,8 +162,13 @@ const breakThemeClass: Record<BreakItem['theme'], string> = {
           <div class="mb-3 flex items-center justify-start gap-4 md:mb-4">
             <NuxtImg
               class="size-[100px] rounded-full object-cover"
+              width="100"
+              height="100"
               :src="item.speaker.avatar"
               :alt="item.speaker.avatarAlt"
+              loading="lazy"
+              format="avif,webp"
+              densities="x1 x2"
             />
             <div
               class="flex flex-col items-start gap-4 md:flex-row md:items-center"
