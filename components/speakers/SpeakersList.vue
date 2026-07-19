@@ -71,7 +71,7 @@ const speakers: SpeakerCard[] = [
 </script>
 
 <template>
-  <div class="mx-auto max-w-[984px] px-6">
+  <div class="mx-auto max-w-[1032px] px-6">
     <div class="grid grid-cols-2 gap-4 md:gap-[33px] lg:grid-cols-3">
       <div
         v-for="speaker in speakers"
