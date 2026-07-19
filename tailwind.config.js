@@ -15,6 +15,8 @@ export default {
       },
       aspectRatio: {
         'speaker-card': '267 / 374',
+        'speaker-photo': '306 / 366',
+        'speaker-photo-sm': '169 / 311',
       },
       container: {
         center: true,
