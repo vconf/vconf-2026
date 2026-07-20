@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { usePreferredReducedMotion } from '@vueuse/core'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+
 interface Sponsor {
   name: string
   logo: string
@@ -66,17 +69,107 @@ const sponsorTiers: SponsorTier[] = [
     sponsors: Array.from({ length: 10 }, () => ({ ...hexschoolSponsor })),
   },
 ]
+
+const listRef = ref<HTMLElement | null>(null)
+const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
+const { gsap, ScrollTrigger } = useGsap()
+
+let timelines: Array<ReturnType<typeof gsap.timeline>> = []
+
+onMounted(() => {
+  if (
+    !listRef.value
+    || !gsap
+    || !ScrollTrigger
+    || reducedMotion.value === 'reduce'
+  ) {
+    return
+  }
+
+  const sections = Array.from(
+    listRef.value.querySelectorAll<HTMLElement>('[data-sponsor-tier]'),
+  )
+
+  for (const section of sections) {
+    const title = section.querySelector('[data-sponsor-title]')
+    const cards = section.querySelectorAll('[data-sponsor-card]')
+    const logos = section.querySelectorAll('[data-sponsor-logo]')
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        // top 65%：觸發線往畫面上方一點，區塊要稍微捲進來才播（10x 不會一載入就觸發）
+        start: 'top 65%',
+        // 捲入 → 播放；往回捲離開 → 反向退場（參照 Speakers 的進退場，不用 once）
+        toggleActions: 'play none none reverse',
+      },
+    })
+
+    tl.fromTo(
+      title,
+      { opacity: 0, y: 12 },
+      { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+    )
+      .fromTo(
+        cards,
+        {
+          y: 36,
+          opacity: 0,
+          scale: 0.97,
+          rotateX: 6,
+          transformOrigin: 'center bottom',
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          rotateX: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          stagger: { amount: 0.3 },
+        },
+        '-=0.25',
+      )
+      // logo 只淡入（不動 transform），才不會留下 inline 樣式擋住 hover 放大，也讓時間軸能乾淨反向
+      .fromTo(
+        logos,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+          stagger: { amount: 0.2 },
+        },
+        '-=0.35',
+      )
+
+    timelines.push(tl)
+  }
+})
+
+onBeforeUnmount(() => {
+  for (const tl of timelines) {
+    tl.scrollTrigger?.kill()
+    tl.kill()
+  }
+  timelines = []
+})
 </script>
 
 <template>
-  <div class="mx-auto max-w-[1032px] px-6">
+  <div
+    ref="listRef"
+    class="mx-auto max-w-[1032px] px-6"
+  >
     <section
       v-for="tier in sponsorTiers"
       :key="tier.title"
+      data-sponsor-tier
       class="mb-[48px] last:mb-0 md:mb-[88px]"
     >
       <!-- 標題 -->
       <h2
+        data-sponsor-title
         class="mb-4 flex items-center justify-center font-serif font-bold md:mb-6"
       >
         <span
@@ -91,24 +184,28 @@ const sponsorTiers: SponsorTier[] = [
       </h2>
       <!-- 贊助商區塊 -->
       <div
-        class="flex flex-wrap justify-center"
+        class="flex flex-wrap justify-center [perspective:1000px]"
         :class="tier.gapClass"
       >
         <div
           v-for="(sponsor, index) in tier.sponsors"
           :key="index"
+          data-sponsor-card
+          class="group"
           :class="tier.cardWidthClass"
         >
+          <!-- 只讓 Logo 圖框與 Logo 變化，卡片本身不位移，避免命中範圍抖動 -->
           <div
-            class="mb-4 flex aspect-square items-center justify-center border border-vconf-gray-exlight"
+            class="mb-4 flex aspect-square transform-gpu items-center justify-center border border-vconf-gray-exlight transition-[transform,box-shadow] duration-300 ease-out motion-safe:group-hover:-translate-y-1.5 motion-safe:group-hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
           >
             <NuxtImg
+              data-sponsor-logo
               :src="sponsor.logo"
               :alt="sponsor.logoAlt"
               width="228"
               height="141"
-              loading="lazy"
-              class="h-auto w-4/5"
+              loading="eager"
+              class="h-auto w-4/5 transition-[scale] duration-300 ease-out motion-safe:group-hover:[scale:1.02]"
             />
           </div>
           <h3
@@ -119,7 +216,7 @@ const sponsorTiers: SponsorTier[] = [
           </h3>
           <p
             v-if="sponsor.description"
-            class="font-serif font-semibold leading-[1.6] tracking-[0em]"
+            class="px-4 font-serif font-semibold leading-[1.6] tracking-[0em] md:px-12"
           >
             {{ sponsor.description }}
           </p>
