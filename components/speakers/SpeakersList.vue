@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { usePreferredReducedMotion } from '@vueuse/core'
+
 interface SpeakerCard {
   name: string
   title: string
@@ -68,11 +70,69 @@ const speakers: SpeakerCard[] = [
     endTime: '16:00',
   },
 ]
+
+const gridRef = ref<HTMLElement | null>(null)
+const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
+const { gsap, ScrollTrigger } = useGsap()
+
+// ScrollTrigger.batch 建立的 trigger，卸載時要逐一 kill
+let batchTriggers: Array<{ kill: () => void }> = []
+
+onMounted(() => {
+  if (!gridRef.value || !gsap || !ScrollTrigger)
+    return
+
+  // 減少動態效果：略過進場動畫，卡片直接顯示最終狀態
+  if (reducedMotion.value === 'reduce')
+    return
+
+  const cards = Array.from(gridRef.value.children)
+
+  // 初始隱藏狀態用 JS 設定（不寫在 CSS），SSR / 無 JS 環境下內容仍完整可見
+  gsap.set(cards, { scale: 0.8, opacity: 0, filter: 'blur(10px)' })
+
+  batchTriggers = ScrollTrigger.batch(cards, {
+    start: 'top bottom-=300',
+    onEnter: (batch: Element[]) => {
+      gsap.killTweensOf(batch)
+      gsap.to(batch, {
+        scale: 1,
+        opacity: 1,
+        filter: 'blur(0px)',
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power2.out',
+      })
+    },
+    onLeaveBack: (batch: Element[]) => {
+      gsap.killTweensOf(batch)
+      gsap.to(batch, {
+        scale: 0.8,
+        opacity: 0,
+        filter: 'blur(10px)',
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out',
+      })
+    },
+  })
+})
+
+onBeforeUnmount(() => {
+  for (const trigger of batchTriggers) trigger.kill()
+  batchTriggers = []
+
+  if (gridRef.value)
+    gsap?.killTweensOf(Array.from(gridRef.value.children))
+})
 </script>
 
 <template>
   <div class="mx-auto max-w-[1032px] px-6">
-    <div class="grid grid-cols-2 gap-4 md:gap-[33px] lg:grid-cols-3">
+    <div
+      ref="gridRef"
+      class="grid grid-cols-2 gap-4 md:gap-[33px] lg:grid-cols-3"
+    >
       <div
         v-for="speaker in speakers"
         :key="speaker.talkNumber"
