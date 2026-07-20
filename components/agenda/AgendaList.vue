@@ -122,7 +122,7 @@ const breakThemeClass: Record<BreakItem['theme'], string> = {
     >
       <!-- 議程時段（獨立一排） -->
       <time
-        class="block font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[18px] md:leading-[1]"
+        class="sticky top-0 block font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[18px] md:leading-[1]"
         :datetime="`2026-10-17T${item.time}:00+08:00`"
       >{{ item.time }}</time>
       <div
