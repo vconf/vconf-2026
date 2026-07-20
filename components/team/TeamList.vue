@@ -202,6 +202,8 @@ function onLeave(event: MouseEvent) {
               width="211"
               height="211"
               loading="lazy"
+              format="avif,webp"
+              densities="x1 x2"
               class="mb-[10px] aspect-square max-w-[171px] rounded-[72px] border border-vconf-gray-light object-cover shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-300 ease-out [transform:translateZ(0)] group-hover:shadow-[0_18px_35px_rgba(0,0,0,0.12)] motion-safe:group-hover:[transform:translateZ(18px)] md:max-w-[211px] md:rounded-[80px]"
             />
             <!-- 成員名稱 -->
