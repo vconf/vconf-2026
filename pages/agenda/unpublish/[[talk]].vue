@@ -2,11 +2,6 @@
 import { onKeyStroke } from '@vueuse/core'
 import AgendaTalkModal from '~/components/agenda/AgendaTalkModal.vue'
 
-useSeoMeta({
-  title: '議程資訊',
-  robots: 'noindex, nofollow',
-})
-
 const route = useRoute()
 const lenis = useLenis()
 const { findTalkById } = useAgenda()
@@ -15,13 +10,24 @@ const talkId = computed(() => {
   const value = route.params.talk
   return Array.isArray(value) ? value[0] : value
 })
-const talk = computed(() => (talkId.value ? findTalkById(talkId.value) : null))
+const isTalkModalOpen = computed(() => Boolean(talkId.value))
+const activeTalk = computed(() =>
+  talkId.value ? findTalkById(talkId.value) : null,
+)
+
+useSeoMeta({
+  title: () =>
+    activeTalk.value
+      ? `${activeTalk.value.speaker.name} ${activeTalk.value.title}`
+      : '議程資訊',
+  robots: 'noindex, nofollow',
+})
+
 const visible = ref(false)
 const closeRequested = ref(false)
 let isScrollLockedByModal = false
 
 function lockBackgroundScroll() {
-  // 路由變更時 NavBar 會呼叫 start()，因此鎖定期間仍需再次 stop()。
   lenis.stop()
   isScrollLockedByModal = true
 }
@@ -41,7 +47,7 @@ function open() {
 }
 
 onMounted(() => {
-  if (talkId.value)
+  if (isTalkModalOpen.value)
     open()
 })
 
@@ -82,10 +88,9 @@ onBeforeUnmount(unlockBackgroundScroll)
   <main>
     <ShareHero title="Agenda" />
     <AgendaList />
-
     <AgendaTalkModal
       :visible="visible"
-      :talk="talk"
+      :talk="activeTalk"
       :talk-id="talkId"
       @close="close"
       @after-leave="afterLeave"
