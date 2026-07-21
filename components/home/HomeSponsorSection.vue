@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useResizeObserver, useWindowSize } from '@vueuse/core'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
+import { homeSponsorGroups } from '~/config/sponsors'
 
 const { gsap } = useGsap()
 const ORBIT_RADIUS_MOBILE = 72
@@ -16,96 +17,12 @@ const ORBIT_CONTENT_INSET = ORBIT_FRAME_INSET + ORBIT_CONTENT_GAP
 
 const { width: viewportWidth } = useWindowSize()
 
-const SPONSOR_GROUPS = [
-  {
-    label: '10x Sponsor',
-    widthClass: 'w-[calc((100%-1.5rem)/2)]',
-    sponsors: [
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '480',
-        height: '162',
-      },
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '480',
-        height: '162',
-      },
-    ],
-  },
-  {
-    label: '5x Sponsor',
-    widthClass: 'w-[calc((100%-3rem)/3)]',
-    sponsors: [
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '313',
-        height: '106',
-      },
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '313',
-        height: '106',
-      },
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '313',
-        height: '106',
-      },
-    ],
-  },
-  {
-    label: '3x Sponsor',
-    widthClass: 'w-[calc((100%-3rem)/3)]',
-    sponsors: [
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '313',
-        height: '106',
-      },
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '313',
-        height: '106',
-      },
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '313',
-        height: '106',
-      },
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '313',
-        height: '106',
-      },
-      {
-        name: 'Google',
-        href: '#',
-        src: '/home/sponsor-logo-google-large.svg',
-        width: '313',
-        height: '106',
-      },
-    ],
-  },
-] as const
+const sponsorWidthClasses = {
+  10: 'w-[calc((100%-1.5rem)/2)]',
+  5: 'w-[calc((100%-3rem)/3)]',
+  3: 'w-[calc((100%-3rem)/3)]',
+  1: 'w-[calc((100%-3rem)/3)]',
+} as const
 
 const orbitFrameRef = ref<HTMLDivElement | null>(null)
 const orbitPathRef = ref<SVGPathElement | null>(null)
@@ -388,8 +305,8 @@ onBeforeUnmount(() => {
           :style="orbitContentStyle"
         >
           <div
-            v-for="group in SPONSOR_GROUPS"
-            :key="group.label"
+            v-for="group in homeSponsorGroups"
+            :key="group.level"
             class="w-full"
           >
             <h3
@@ -398,24 +315,21 @@ onBeforeUnmount(() => {
               {{ group.label }}
             </h3>
             <div class="flex flex-wrap justify-center gap-2 md:gap-6">
-              <a
+              <div
                 v-for="sponsor in group.sponsors"
                 :key="sponsor.name"
-                :href="sponsor.href"
-                target="_blank"
-                rel="noopener noreferrer"
                 class="flex aspect-square items-center justify-center border border-vconf-gray-exlight"
-                :class="group.widthClass"
+                :class="sponsorWidthClasses[group.level]"
               >
                 <NuxtImg
-                  :src="sponsor.src"
+                  :src="sponsor.logo"
                   :width="sponsor.width"
                   :height="sponsor.height"
                   class="h-auto w-full object-contain"
                   :alt="sponsor.name"
                   loading="lazy"
                 />
-              </a>
+              </div>
             </div>
           </div>
         </div>
