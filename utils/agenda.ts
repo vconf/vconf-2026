@@ -27,7 +27,7 @@ export type AgendaItem = TalkItem | BreakItem
 const placeholderAvatar
   = 'https://images.unsplash.com/photo-1778844648458-129cfdf980a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 
-const agendaItems: AgendaItem[] = [
+export const agendaItems: AgendaItem[] = [
   {
     type: 'talk',
     time: '09:30',
@@ -84,25 +84,21 @@ const agendaItems: AgendaItem[] = [
   { type: 'break', time: '16:00', label: '閉幕', theme: 'primary' },
 ]
 
-const breakThemeClass: Record<BreakItem['theme'], string> = {
+export const breakThemeClass: Record<BreakItem['theme'], string> = {
   gray: 'bg-vconf-gray-ultralight rounded-[24px]',
   purple: 'bg-vconf-purple-ultralight rounded-[24px]',
   primary: 'bg-vconf-primary-light rounded-[24px]',
 }
 
-// 網址 id 使用英文 slug（避免中文網址）
 export function agendaTalkId(talk: TalkItem): string {
   return talk.slug
 }
 
-export function useAgenda() {
-  const findTalkById = (id: string): TalkItem | null => {
-    for (const item of agendaItems) {
-      if (item.type === 'talk' && item.slug === id)
-        return item
-    }
-    return null
+export function findAgendaTalkById(id: string): TalkItem | null {
+  for (const item of agendaItems) {
+    if (item.type === 'talk' && item.slug === id)
+      return item
   }
 
-  return { agendaItems, breakThemeClass, talkId: agendaTalkId, findTalkById }
+  return null
 }

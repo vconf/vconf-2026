@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import AgendaTalkModal from '~/components/agenda/AgendaTalkModal.vue'
+import { findAgendaTalkById } from '~/utils/agenda'
 
 const route = useRoute()
 const lenis = useLenis()
-const { findTalkById } = useAgenda()
 
 const talkId = computed(() => {
   const value = route.params.talk
@@ -12,7 +12,7 @@ const talkId = computed(() => {
 })
 const isTalkModalOpen = computed(() => Boolean(talkId.value))
 const activeTalk = computed(() =>
-  talkId.value ? findTalkById(talkId.value) : null,
+  talkId.value ? findAgendaTalkById(talkId.value) : null,
 )
 
 useSeoMeta({

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TalkItem } from '~/composables/useAgenda'
+import type { TalkItem } from '~/utils/agenda'
 
 defineProps<{
   visible: boolean

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// 議程資料與 id 規則集中在 composable，讓清單與彈窗共用
-const { agendaItems, breakThemeClass, talkId } = useAgenda()
+import { agendaItems, agendaTalkId, breakThemeClass } from '~/utils/agenda'
 </script>
 
 <template>
@@ -29,7 +28,7 @@ const { agendaItems, breakThemeClass, talkId } = useAgenda()
         <!-- 整張卡片為連結，點擊任一處都開啟彈窗 -->
         <NuxtLink
           v-else
-          :to="`/agenda/unpublish/${talkId(item)}`"
+          :to="`/agenda/unpublish/${agendaTalkId(item)}`"
           class="col-start-2 block w-fit max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
         >
           <!-- 標籤 -->
