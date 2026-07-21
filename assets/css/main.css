@@ -32,7 +32,9 @@
     --text-muted: 0 0% 34%;
     --color-black: 0 0% 0%;
     --color-primary: 153 48% 49%;
+    --color-primary-light: 151 79% 89%; /* #CBF9E3 */
     --color-purple: 263 100% 62%;
+    --color-purple-ultralight: 263 100% 97%; /* #F6F0FF */
     --color-sun: 56 94% 59%;
     --color-sun-background: 0 0% 100%;
     --color-moon: 0 0% 89%;
@@ -43,6 +45,7 @@
     --color-text-unread: 0 0% 79%; /* gray-light */
     --color-text-read: 210 26% 28%; /* blue-dark */
     --color-gray-exlight: 0 0% 94.5%; /* gray-exlight */
+    --color-gray-ultralight: 0 0% 98%;
     --color-gray-light: 0 0% 79%;
     --color-section-bg: 0 0% 100%;
   }
@@ -81,7 +84,7 @@
   }
 
   body {
-    font-family: 'Afacad', sans-serif;
+    font-family: "Afacad", sans-serif;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     letter-spacing: 0.02em;

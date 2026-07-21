@@ -33,7 +33,10 @@ useSchemaOrg([
 
 <template>
   <main>
-    <AboutHero />
+    <ShareHero
+      title="About"
+      is-about
+    />
     <LazyAboutCommunityDiamond hydrate-on-visible />
     <!-- 軌道 icon 靠 motionPath 定位，提早一點水合避免捲到時 icon 從 0,0 彈上軌道 -->
     <LazyAboutCodeOfConduct :hydrate-on-visible="{ rootMargin: '200px' }" />

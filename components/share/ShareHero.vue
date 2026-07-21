@@ -1,3 +1,15 @@
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    title: string
+    isAbout?: boolean
+  }>(),
+  {
+    isAbout: false,
+  },
+)
+</script>
+
 <template>
   <section
     class="relative overflow-hidden overflow-x-clip text-clip pb-[266px] pt-[238px] text-center md:pb-[288px] md:pt-[166px]"
@@ -9,11 +21,15 @@
     >
       <span
         class="pr-[7px] text-[clamp(48px,calc(-5.44px+9.32vw),106px)] leading-[-2%] text-vconf-heading md:pr-[17px]"
-      >About</span>
-      <span
-        class="pr-[2px] text-[clamp(48px,calc(-5.44px+9.32vw),106px)] leading-[-2%] md:pr-4"
-      >VCONF</span>
-      <span class="text-[clamp(24px,calc(5.26px+4.662vw),53px)] tracking-[0em]">TW</span>
+      >{{ title }}</span>
+      <template v-if="isAbout">
+        <span
+          class="pr-[2px] text-[clamp(48px,calc(-5.44px+9.32vw),106px)] leading-[-2%] md:pr-4"
+        >VCONF</span>
+        <span
+          class="text-[clamp(24px,calc(5.26px+4.662vw),53px)] tracking-[0em]"
+        >TW</span>
+      </template>
     </h1>
     <Teleport to="body">
       <div
@@ -27,6 +43,8 @@
           width="1159"
           height="1171"
           loading="eager"
+          format="avif,webp"
+          densities="x1 x2"
           class="absolute left-[clamp(-800px,calc(-1562px+99.22vw),-546px)] top-[-164px] hidden max-w-none md:block"
         />
         <NuxtImg
@@ -36,6 +54,8 @@
           width="1159"
           height="1175"
           loading="eager"
+          format="avif,webp"
+          densities="x1 x2"
           class="absolute right-[clamp(-800px,calc(-1475px+87.89vw),-575px)] top-[-394px] hidden max-w-none md:block"
         />
         <!-- 手機版 -->
@@ -46,6 +66,8 @@
           width="810"
           height="817"
           loading="eager"
+          format="avif,webp"
+          densities="x1 x2"
           class="absolute left-[-434px] top-[116px] block max-w-none md:hidden"
         />
         <NuxtImg
@@ -55,6 +77,8 @@
           width="807"
           height="818"
           loading="eager"
+          format="avif,webp"
+          densities="x1 x2"
           class="absolute right-[-437px] top-[-301px] block max-w-none md:hidden"
         />
       </div>

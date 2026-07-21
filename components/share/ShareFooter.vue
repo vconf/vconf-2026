@@ -153,7 +153,6 @@ const { stop } = useIntersectionObserver(
                 alt=""
                 aria-hidden="true"
                 loading="lazy"
-                placeholder
               />
             </a>
           </address>
@@ -191,7 +190,6 @@ const { stop } = useIntersectionObserver(
                 :width="socialLink.WIDTH"
                 :height="socialLink.HEIGHT"
                 :class="socialLink.SIZE_CLASS"
-                placeholder
               />
             </a>
           </div>
@@ -403,7 +401,8 @@ const { stop } = useIntersectionObserver(
         width="891"
         height="418"
         sizes="480px md:891px"
-        placeholder
+        format="avif,webp"
+        densities="x1 x2"
         class="absolute bottom-[-265px] right-[-80px] z-[-1] hidden max-w-none md:right-[-180px] md:block lg:right-[-80px]"
       />
       <NuxtImg
@@ -413,7 +412,8 @@ const { stop } = useIntersectionObserver(
         loading="lazy"
         width="405"
         height="184"
-        placeholder
+        format="avif,webp"
+        densities="x1 x2"
         class="absolute bottom-[-186px] right-[-4px] z-[-1] block max-w-none md:hidden"
       />
       <!-- 飛機圖示 -->

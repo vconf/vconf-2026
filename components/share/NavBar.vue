@@ -35,7 +35,15 @@ const NAV_ITEMS = [
 const lenis = useLenis()
 const route = useRoute()
 const isMenuOpen = ref(false)
-const isHome = computed(() => route.path === '/')
+
+const displayedPath = ref(route.path)
+const removeTransitionHook = useNuxtApp().hook('page:transition:finish', () => {
+  displayedPath.value = route.path
+})
+onUnmounted(() => removeTransitionHook())
+const isHome = computed(
+  () => route.path === '/' || displayedPath.value === '/',
+)
 
 const headerBgClass = computed(() =>
   isHome.value && !isMenuOpen.value ? 'bg-transparent' : 'bg-vconf-white',
@@ -121,7 +129,6 @@ watch(
             height="38"
             width="220"
             loading="eager"
-            placeholder
             class="hidden md:block"
           />
           <NuxtImg
@@ -130,7 +137,6 @@ watch(
             height="19"
             width="110"
             loading="eager"
-            placeholder
             class="md:hidden"
           />
         </NuxtLink>

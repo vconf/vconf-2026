@@ -1,12 +1,15 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  title: string
-  marginBottom?: -85 | 24 | 32 | 56 | 249
-  breakpoint?: 'xs' | 'md'
-}>(), {
-  marginBottom: 32,
-  breakpoint: 'xs',
-})
+const props = withDefaults(
+  defineProps<{
+    title: string
+    marginBottom?: -85 | 24 | 32 | 56 | 249
+    breakpoint?: 'xs' | 'md'
+  }>(),
+  {
+    marginBottom: 32,
+    breakpoint: 'xs',
+  },
+)
 
 const marginBottomClass = computed(() => {
   if (props.marginBottom === 24)
@@ -32,8 +35,12 @@ const marginBottomClass = computed(() => {
     class="flex items-center justify-center whitespace-nowrap text-center font-serif text-[clamp(32px,calc(11.111vw-21.333px),64px)] font-bold leading-[1.2] tracking-[0.01em] text-vconf-heading xs:tracking-[0em]"
     :class="marginBottomClass"
   >
-    <span class="translate-y-[2px] pr-2 text-[clamp(16px,calc(5.556vw-10.667px),32px)] lg:pr-6">(</span>
-    <span class="pr-2 lg:pr-6">{{ title }}</span>
-    <span class="translate-y-[2px] text-[clamp(16px,calc(5.556vw-10.667px),32px)]">)</span>
+    <span
+      class="translate-y-[2px] pr-2 text-[clamp(16px,calc(5.556vw-10.667px),32px)] lg:pr-4"
+    >(</span>
+    <span class="pr-2 lg:pr-4">{{ title }}</span>
+    <span
+      class="translate-y-[2px] text-[clamp(16px,calc(5.556vw-10.667px),32px)]"
+    >)</span>
   </h2>
 </template>

@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { siteImage } from '~/config/seo.config'
+import { isAgendaUnpublishPath } from '~/utils/agendaModalRoute'
 
 useSeoMeta({
   ogImage: siteImage.url,
@@ -22,12 +24,19 @@ if (isProduction && umamiWebsiteId) {
     'data-website-id': umamiWebsiteId,
   })
 }
+
+function pageKey(route: RouteLocationNormalizedLoaded) {
+  if (isAgendaUnpublishPath(route.path))
+    return '/agenda/unpublish'
+
+  return route.fullPath
+}
 </script>
 
 <template>
   <Body class="main-body">
     <NuxtLayout>
-      <NuxtPage />
+      <NuxtPage :page-key="pageKey" />
     </NuxtLayout>
   </Body>
 </template>
