@@ -182,7 +182,9 @@ function onLeave(event: MouseEvent) {
         >)</span>
       </h2>
       <!-- 成員 -->
-      <div class="flex flex-wrap justify-center gap-x-[45px] gap-y-[24px]">
+      <div
+        class="flex flex-wrap justify-center gap-x-[12px] gap-y-[24px] md:gap-x-[45px]"
+      >
         <!-- 每位成員：外層負責透視，內層卡片做進場與 hover tilt -->
         <div
           v-for="(member, index) in group.members"
