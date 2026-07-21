@@ -1,117 +1,6 @@
 <script setup lang="ts">
-interface Speaker {
-  name: string
-  title: string
-  avatar: string
-  avatarAlt: string
-}
-
-interface TalkItem {
-  type: 'talk'
-  time: string
-  talkNumber: number
-  title: string
-  speaker: Speaker
-}
-
-interface BreakItem {
-  type: 'break'
-  time: string
-  label: string
-  theme: 'gray' | 'purple' | 'primary'
-}
-
-type AgendaItem = TalkItem | BreakItem
-
-const placeholderAvatar
-  = 'https://images.unsplash.com/photo-1778844648458-129cfdf980a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-
-const agendaItems: AgendaItem[] = [
-  {
-    type: 'talk',
-    time: '09:30',
-    talkNumber: 1,
-    title: '我們如何將資料從父層 Component 傳遞到子層 Component ？',
-    speaker: {
-      name: '尤雨溪',
-      title: 'Creator of Vue.js',
-      avatar: placeholderAvatar,
-      avatarAlt: '尤雨溪頭像',
-    },
-  },
-  { type: 'break', time: '10:15', label: '休息一下', theme: 'gray' },
-  {
-    type: 'talk',
-    time: '10:25',
-    talkNumber: 2,
-    title: '我們如何將資料從父層 Component 傳遞到子層 Component ？',
-    speaker: {
-      name: 'Hunter',
-      title: 'Creator of Vue.js',
-      avatar: placeholderAvatar,
-      avatarAlt: 'Hunter 頭像',
-    },
-  },
-  { type: 'break', time: '11:10', label: '休息一下', theme: 'gray' },
-  {
-    type: 'talk',
-    time: '11:20',
-    talkNumber: 3,
-    title: '我們如何將資料從父層 Component 傳遞到子層 Component ？',
-    speaker: {
-      name: 'SerKo',
-      title: 'Creator of Vue.js',
-      avatar: placeholderAvatar,
-      avatarAlt: 'SerKo 頭像',
-    },
-  },
-  { type: 'break', time: '12:05', label: '午餐', theme: 'purple' },
-  {
-    type: 'talk',
-    time: '13:05',
-    talkNumber: 4,
-    title: '我們如何將資料從父層 Component 傳遞到子層 Component ？',
-    speaker: {
-      name: 'KuKu',
-      title: 'Creator of Vue.js',
-      avatar: placeholderAvatar,
-      avatarAlt: 'KuKu頭像',
-    },
-  },
-  { type: 'break', time: '13:50', label: '休息一下', theme: 'gray' },
-  {
-    type: 'talk',
-    time: '14:00',
-    talkNumber: 5,
-    title: '我們如何將資料從父層 Component 傳遞到子層 Component ？',
-    speaker: {
-      name: 'KuKu',
-      title: 'Creator of Vue.js',
-      avatar: placeholderAvatar,
-      avatarAlt: 'KuKu頭像',
-    },
-  },
-  { type: 'break', time: '14:45', label: '點心', theme: 'purple' },
-  {
-    type: 'talk',
-    time: '15:15',
-    talkNumber: 6,
-    title: '我們如何將資料從父層 Component 傳遞到子層 Component ？',
-    speaker: {
-      name: 'Alex 宅幹嘛',
-      title: 'Creator of Vue.js',
-      avatar: placeholderAvatar,
-      avatarAlt: 'Alex 宅幹嘛頭像',
-    },
-  },
-  { type: 'break', time: '16:00', label: '閉幕', theme: 'primary' },
-]
-
-const breakThemeClass: Record<BreakItem['theme'], string> = {
-  gray: 'bg-vconf-gray-ultralight rounded-[24px]',
-  purple: 'bg-vconf-purple-ultralight rounded-[24px]',
-  primary: 'bg-vconf-primary-light rounded-[24px]',
-}
+// 議程資料與 id 規則集中在 composable，讓清單與彈窗共用
+const { agendaItems, breakThemeClass, talkId } = useAgenda()
 </script>
 
 <template>
@@ -137,9 +26,11 @@ const breakThemeClass: Record<BreakItem['theme'], string> = {
           {{ item.label }}
         </p>
         <!-- 講者議程 -->
-        <div
+        <!-- 整張卡片為連結，點擊任一處都開啟彈窗 -->
+        <NuxtLink
           v-else
-          class="col-start-2 w-fit max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif md:max-w-[668px] md:px-6 md:pb-6"
+          :to="`/agenda/unpublish/${talkId(item)}`"
+          class="col-start-2 block w-fit max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
         >
           <!-- 標籤 -->
           <div
@@ -173,7 +64,7 @@ const breakThemeClass: Record<BreakItem['theme'], string> = {
             <div
               class="flex flex-col items-start gap-4 md:flex-row md:items-center"
             >
-              <p class="flex items-center justify-center">
+              <p class="flex w-fit items-center justify-center">
                 <span
                   class="pr-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
                 >{</span>
@@ -191,14 +82,13 @@ const breakThemeClass: Record<BreakItem['theme'], string> = {
               </p>
             </div>
           </div>
-          <!-- More 按鈕 -->
-          <NuxtLink
-            to="#"
+          <!-- More（整張卡片已是連結，這裡只是視覺按鈕） -->
+          <span
             class="ml-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-extrabold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[20px] md:leading-[1.5]"
           >
             More
-          </NuxtLink>
-        </div>
+          </span>
+        </NuxtLink>
       </div>
     </div>
   </div>
