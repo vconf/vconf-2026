@@ -8,6 +8,7 @@ useSeoMeta({
 <template>
   <main>
     <ShareHero title="Staff" />
+    <TeamStaffIntro />
     <TeamList />
   </main>
 </template>

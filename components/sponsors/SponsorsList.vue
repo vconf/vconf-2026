@@ -1,74 +1,21 @@
 <script setup lang="ts">
 import { usePreferredReducedMotion } from '@vueuse/core'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { visibleSponsorGroups } from '~/config/sponsors'
 
-interface Sponsor {
-  name: string
-  logo: string
-  logoAlt: string
-  description?: string
-}
+const gapClasses = {
+  10: 'gap-[23px]',
+  5: 'gap-3 md:gap-[23px]',
+  3: 'gap-2 md:gap-[23px]',
+  1: 'gap-2 md:gap-[23px]',
+} as const
 
-interface SponsorTier {
-  title: string
-  /** 容器 gap（手機/桌機） */
-  gapClass: string
-  /** 卡片寬度，與 gap 成對：calc 扣掉的 px = 該斷點 gap × (每排張數 - 1) */
-  cardWidthClass: string
-  /** 只顯示 logo，不顯示贊助商名稱 */
-  logoOnly?: boolean
-  sponsors: Sponsor[]
-}
-
-const placeholderLogo = '/sponsors/hexschool.svg'
-
-const placeholderDescription
-  = 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it.'
-
-const hexschoolSponsor: Sponsor = {
-  name: 'Hexschool',
-  logo: placeholderLogo,
-  logoAlt: 'Hexschool logo',
-}
-
-const sponsorTiers: SponsorTier[] = [
-  {
-    // 手機 1 張/排；桌機 2 張/排、gap 23px
-    title: '10x Sponsor',
-    gapClass: 'gap-[23px]',
-    cardWidthClass: 'md:w-[calc((100%-23px)/2)] w-full',
-    sponsors: Array.from({ length: 2 }, () => ({
-      name: 'Google Inc',
-      logo: placeholderLogo,
-      logoAlt: 'Google Inc logo',
-      description: placeholderDescription,
-    })),
-  },
-  {
-    // 手機 2 張/排、gap 12px；桌機 3 張/排、gap 23px
-    title: '5x Sponsor',
-    gapClass: 'gap-3 md:gap-[23px]',
-    cardWidthClass: 'md:w-[calc((100%-46px)/3)] w-[calc((100%-12px)/2)]',
-    logoOnly: true,
-    sponsors: Array.from({ length: 3 }, () => ({ ...hexschoolSponsor })),
-  },
-  {
-    // 手機 2 張/排、gap 8px；桌機 3 張/排、gap 23px
-    title: '3x Sponsor',
-    gapClass: 'gap-2 md:gap-[23px]',
-    cardWidthClass: 'md:w-[calc((100%-46px)/3)] w-[calc((100%-8px)/2)]',
-    logoOnly: true,
-    sponsors: Array.from({ length: 5 }, () => ({ ...hexschoolSponsor })),
-  },
-  {
-    // 手機 3 張/排、gap 8px；桌機 5 張/排、gap 23px
-    title: '1x Sponsor',
-    gapClass: 'gap-2 md:gap-[23px]',
-    cardWidthClass: 'md:w-[calc((100%-92px)/5)] w-[calc((100%-16px)/3)]',
-    logoOnly: true,
-    sponsors: Array.from({ length: 10 }, () => ({ ...hexschoolSponsor })),
-  },
-]
+const cardWidthClasses = {
+  10: 'w-full md:w-[calc((100%-23px)/2)]',
+  5: 'w-[calc((100%-12px)/2)] md:w-[calc((100%-46px)/3)]',
+  3: 'w-[calc((100%-8px)/2)] md:w-[calc((100%-46px)/3)]',
+  1: 'w-[calc((100%-16px)/3)] md:w-[calc((100%-92px)/5)]',
+} as const
 
 const listRef = ref<HTMLElement | null>(null)
 const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
@@ -162,8 +109,8 @@ onBeforeUnmount(() => {
     class="mx-auto max-w-[1032px] px-6"
   >
     <section
-      v-for="tier in sponsorTiers"
-      :key="tier.title"
+      v-for="group in visibleSponsorGroups"
+      :key="group.level"
       data-sponsor-tier
       class="mb-[48px] last:mb-0 md:mb-[88px]"
     >
@@ -177,7 +124,7 @@ onBeforeUnmount(() => {
         >(</span>
         <span
           class="text-[32px] font-bold leading-[auto] tracking-[0.01em] text-vconf-primary md:text-[48px] md:tracking-[0em]"
-        >{{ tier.title }}</span>
+        >{{ group.label }}</span>
         <span
           class="hidden pl-4 text-[32px] font-bold leading-[auto] tracking-[0em] text-vconf-gray-light md:block"
         >)</span>
@@ -185,14 +132,14 @@ onBeforeUnmount(() => {
       <!-- 贊助商區塊 -->
       <div
         class="flex flex-wrap justify-center [perspective:1000px]"
-        :class="tier.gapClass"
+        :class="gapClasses[group.level]"
       >
         <div
-          v-for="(sponsor, index) in tier.sponsors"
-          :key="index"
+          v-for="sponsor in group.sponsors"
+          :key="sponsor.name"
           data-sponsor-card
           class="group"
-          :class="tier.cardWidthClass"
+          :class="cardWidthClasses[group.level]"
         >
           <!-- 只讓 Logo 圖框與 Logo 變化，卡片本身不位移，避免命中範圍抖動 -->
           <div
@@ -201,25 +148,13 @@ onBeforeUnmount(() => {
             <NuxtImg
               data-sponsor-logo
               :src="sponsor.logo"
-              :alt="sponsor.logoAlt"
-              width="228"
-              height="141"
+              :alt="`${sponsor.name} logo`"
+              :width="sponsor.width"
+              :height="sponsor.height"
               loading="eager"
               class="h-auto w-4/5 transition-[scale] duration-300 ease-out motion-safe:group-hover:[scale:1.02]"
             />
           </div>
-          <h3
-            v-if="!tier.logoOnly"
-            class="mb-4 text-center font-serif text-[18px] leading-[1] tracking-[0.02em] text-vconf-text-read md:text-[24px] md:leading-[1.2] md:tracking-[0em]"
-          >
-            {{ sponsor.name }}
-          </h3>
-          <p
-            v-if="sponsor.description"
-            class="px-4 font-serif font-semibold leading-[1.6] tracking-[0em] md:px-12"
-          >
-            {{ sponsor.description }}
-          </p>
         </div>
       </div>
     </section>
