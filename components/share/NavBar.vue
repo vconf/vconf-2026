@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import { useBreakpoints } from '@vueuse/core'
 import { ref } from 'vue'
-import { prerenderConfig } from '~/config/prerender.config'
 
-const publicRoutes = new Set<string>(prerenderConfig.routes)
 const NAV_ITEMS = [
   {
     name: 'About',
@@ -32,7 +30,7 @@ const NAV_ITEMS = [
     href: '/recap',
     mdHidden: true,
   },
-].filter(item => publicRoutes.has(item.href))
+]
 
 const lenis = useLenis()
 const route = useRoute()

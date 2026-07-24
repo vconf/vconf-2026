@@ -114,18 +114,6 @@ export default defineNuxtConfig({
   },
 
   hooks: {
-    'pages:extend': (pages) => {
-      const publicRoutes = new Set<string>(prerenderConfig.routes)
-
-      for (let index = pages.length - 1; index >= 0; index--) {
-        const page = pages[index]
-        const isNotFoundPage = page.file?.endsWith('/pages/[...slug].vue')
-
-        if (!publicRoutes.has(page.path) && !isNotFoundPage)
-          pages.splice(index, 1)
-      }
-    },
-
     'fonts:providers': (providers) => {
       const adobeProvider = providers.adobe as FontProviderFactory
 

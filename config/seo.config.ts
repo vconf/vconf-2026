@@ -12,6 +12,7 @@ export const site = {
 
 export const sitemap = {
   excludeAppSources: true,
+  zeroRuntime: true,
   defaults: {
     changefreq: 'weekly',
   },
