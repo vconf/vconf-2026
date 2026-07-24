@@ -4,6 +4,7 @@ import { Buffer } from 'node:buffer'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { optimize } from 'svgo'
+import { prerenderConfig } from './config/prerender.config'
 import { site, sitemap } from './config/seo.config'
 
 const svgoConfig: SvgoConfig = {
@@ -113,6 +114,18 @@ export default defineNuxtConfig({
   },
 
   hooks: {
+    'pages:extend': (pages) => {
+      const publicRoutes = new Set<string>(prerenderConfig.routes)
+
+      for (let index = pages.length - 1; index >= 0; index--) {
+        const page = pages[index]
+        const isNotFoundPage = page.file?.endsWith('/pages/[...slug].vue')
+
+        if (!publicRoutes.has(page.path) && !isNotFoundPage)
+          pages.splice(index, 1)
+      }
+    },
+
     'fonts:providers': (providers) => {
       const adobeProvider = providers.adobe as FontProviderFactory
 
@@ -214,6 +227,9 @@ export default defineNuxtConfig({
     compressPublicAssets: {
       gzip: true,
       brotli: true,
+    },
+    prerender: {
+      routes: [...prerenderConfig.routes],
     },
   },
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+setResponseStatus(404, 'Page Not Found')
+
 definePageMeta({
   layout: false,
 })
