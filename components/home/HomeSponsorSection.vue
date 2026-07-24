@@ -287,6 +287,8 @@ onBeforeUnmount(() => {
             width="273"
             height="386"
             class="relative hidden bg-vconf-white md:block"
+            format="avif,webp"
+            densities="x1 x2"
           />
           <NuxtImg
             src="/home/money-small.png"
@@ -296,6 +298,8 @@ onBeforeUnmount(() => {
             width="136"
             height="193"
             class="relative bg-vconf-white md:hidden"
+            format="avif,webp"
+            densities="x1 x2"
           />
         </div>
 
@@ -325,7 +329,7 @@ onBeforeUnmount(() => {
                   :src="sponsor.logo"
                   :width="sponsor.width"
                   :height="sponsor.height"
-                  class="h-auto w-full object-contain"
+                  class="h-auto w-4/5"
                   :alt="sponsor.name"
                   loading="lazy"
                 />

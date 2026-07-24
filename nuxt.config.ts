@@ -4,6 +4,7 @@ import { Buffer } from 'node:buffer'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { optimize } from 'svgo'
+import { prerenderConfig } from './config/prerender.config'
 import { site, sitemap } from './config/seo.config'
 
 const svgoConfig: SvgoConfig = {
@@ -214,6 +215,9 @@ export default defineNuxtConfig({
     compressPublicAssets: {
       gzip: true,
       brotli: true,
+    },
+    prerender: {
+      routes: [...prerenderConfig.routes],
     },
   },
 

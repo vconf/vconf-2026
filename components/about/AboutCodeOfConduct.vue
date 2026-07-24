@@ -292,8 +292,6 @@ onBeforeUnmount(() => {
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
               loading="lazy"
-              format="avif,webp"
-              densities="x1 x2"
             />
             <div
               class="relative min-w-0 flex-1 p-3 leading-[160%] tracking-[0.01em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:p-6 md:tracking-[0.02em]"
@@ -346,8 +344,6 @@ onBeforeUnmount(() => {
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
               loading="lazy"
-              format="avif,webp"
-              densities="x1 x2"
             />
             <div
               class="relative min-w-0 flex-1 translate-x-0 p-3 leading-[160%] tracking-[0.02em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:translate-x-[42px] md:p-6"
@@ -400,8 +396,6 @@ onBeforeUnmount(() => {
               class="mr-2 block h-[14px] w-[15px] min-w-[15px] shrink-0 md:hidden"
               src="/about/vue-icon.svg"
               loading="lazy"
-              format="avif,webp"
-              densities="x1 x2"
             />
             <div
               class="relative min-w-0 flex-1 translate-x-0 p-3 leading-[160%] tracking-[0.02em] before:pointer-events-none before:absolute before:inset-0 before:border before:border-vconf-gray-light before:content-[''] md:translate-x-[10px] md:p-6 md:tracking-[0.02em]"
@@ -456,8 +450,6 @@ onBeforeUnmount(() => {
         width="16"
         height="15"
         class="absolute top-[-42px] hidden md:left-[200px] md:block lg:left-auto lg:right-[513px]"
-        format="avif,webp"
-        densities="x1 x2"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
@@ -467,8 +459,6 @@ onBeforeUnmount(() => {
         width="16"
         height="15"
         class="absolute top-0 hidden md:left-[350px] md:top-5 md:block lg:left-auto lg:right-[313px]"
-        format="avif,webp"
-        densities="x1 x2"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
@@ -478,8 +468,6 @@ onBeforeUnmount(() => {
         width="16"
         height="15"
         class="absolute right-[313px] top-[59px] hidden lg:block"
-        format="avif,webp"
-        densities="x1 x2"
       />
       <NuxtImg
         src="/share/vite-icon.svg"
@@ -489,8 +477,6 @@ onBeforeUnmount(() => {
         width="16"
         height="15"
         class="absolute right-[313px] top-[182px] hidden lg:block"
-        format="avif,webp"
-        densities="x1 x2"
       />
     </div>
     <!-- 感謝語 -->
