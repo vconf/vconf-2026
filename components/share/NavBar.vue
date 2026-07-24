@@ -123,6 +123,7 @@ watch(
         <NuxtLink
           class="grid place-content-center md:py-[10px] lg:py-0"
           to="/"
+          aria-label="回到 v-conf Taiwan 2026 首頁"
           @click="onClickIcon()"
         >
           <NuxtImg
