@@ -104,7 +104,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div
+  <section
     ref="listRef"
     class="mx-auto max-w-[1032px] px-6"
   >
@@ -158,5 +158,5 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </section>
-  </div>
+  </section>
 </template>

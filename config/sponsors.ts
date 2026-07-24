@@ -22,7 +22,7 @@ export const sponsorGroups: SponsorGroup[] = [
     label: '5x Sponsor',
     sponsors: [
       {
-        name: 'TITANSOFT',
+        name: '新加坡商鈦坦科技',
         logo: '/sponsors/titansoft.svg',
         width: 260,
         height: 218,
@@ -34,13 +34,13 @@ export const sponsorGroups: SponsorGroup[] = [
     label: '3x Sponsor',
     sponsors: [
       {
-        name: '六角學院',
+        name: '六角學院 Hexschool',
         logo: '/sponsors/hexschool.svg',
         width: 228,
         height: 141,
       },
       {
-        name: '雷霆',
+        name: '雷麒科技有限公司',
         logo: '/sponsors/leichi.svg',
         width: 233,
         height: 232,
@@ -52,7 +52,7 @@ export const sponsorGroups: SponsorGroup[] = [
     label: '1x Sponsor',
     sponsors: [
       {
-        name: '一客學院',
+        name: '來一課線上學院',
         logo: '/sponsors/bluemonkey.svg',
         width: 156,
         height: 156,

@@ -24,10 +24,11 @@ export const sitemap = {
   ],
   urls: [
     // 核心頁面
-    { loc: '/', priority: 1, lastmod: '2026-06-23' },
+    { loc: '/', priority: 1, lastmod: '2026-07-24' },
 
     // 主要內容頁面
-    { loc: '/about', priority: 0.9, lastmod: '2026-06-23' },
+    { loc: '/about', priority: 0.9, lastmod: '2026-07-24' },
+    { loc: '/sponsors', priority: 0.9, lastmod: '2026-07-24' },
   ],
 } satisfies Partial<SitemapModuleOptions>
 
@@ -77,6 +78,11 @@ export const websiteBasic = {
   '@id': 'https://v-conf.vue.tw/#website',
   '@type': 'WebSite',
   'name': site.name,
+  'alternateName': [
+    'v-conf Taiwan',
+    'v-conf',
+    'v-conf.vue.tw',
+  ],
   'description': site.description,
   'inLanguage': site.defaultLocale,
   'url': site.url,

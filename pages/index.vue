@@ -15,6 +15,6 @@ useSeoMeta({
     <HomeHero />
     <LazyHomeCountdown hydrate-on-visible />
     <!-- <HomeSpeakers /> -->
-    <!-- <HomeSponsorSection /> -->
+    <LazyHomeSponsorSection hydrate-on-visible />
   </main>
 </template>
