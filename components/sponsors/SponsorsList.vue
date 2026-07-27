@@ -144,6 +144,7 @@ onBeforeUnmount(() => {
           <!-- 只讓 Logo 圖框與 Logo 變化，卡片本身不位移，避免命中範圍抖動 -->
           <div
             class="mb-4 flex aspect-square transform-gpu items-center justify-center border border-vconf-gray-exlight transition-[transform,box-shadow] duration-300 ease-out motion-safe:group-hover:-translate-y-1.5 motion-safe:group-hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+            :class="sponsor.backgroundClass"
           >
             <NuxtImg
               data-sponsor-logo

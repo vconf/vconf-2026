@@ -3,6 +3,7 @@ export interface Sponsor {
   logo: string
   width: number
   height: number
+  backgroundClass?: string
 }
 
 export interface SponsorGroup {
@@ -44,6 +45,13 @@ export const sponsorGroups: SponsorGroup[] = [
         logo: '/sponsors/leichi.svg',
         width: 233,
         height: 232,
+      },
+      {
+        name: '104 人力銀行',
+        logo: '/sponsors/104.svg',
+        width: 181,
+        height: 146,
+        backgroundClass: 'bg-sponsor-104',
       },
     ],
   },
