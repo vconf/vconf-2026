@@ -5,6 +5,7 @@ export default {
     './components/**/*.{js,jsx,ts,tsx,vue}',
     './app.vue',
     './pages/**/*.{js,ts,vue}',
+    './config/**/*.{js,ts}',
     './.storybook/**/*.{js,ts}',
   ],
   theme: {
@@ -39,6 +40,9 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        sponsor: {
+          104: '#FF7800',
+        },
         vconf: {
           'heading': 'hsl(var(--color-heading))',
           'text-muted': 'hsl(var(--text-muted))',

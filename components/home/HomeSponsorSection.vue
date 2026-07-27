@@ -323,7 +323,10 @@ onBeforeUnmount(() => {
                 v-for="sponsor in group.sponsors"
                 :key="sponsor.name"
                 class="flex aspect-square items-center justify-center border border-vconf-gray-exlight"
-                :class="sponsorWidthClasses[group.level]"
+                :class="[
+                  sponsorWidthClasses[group.level],
+                  sponsor.backgroundClass,
+                ]"
               >
                 <NuxtImg
                   :src="sponsor.logo"
