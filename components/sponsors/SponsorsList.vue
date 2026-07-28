@@ -48,7 +48,7 @@ onMounted(() => {
         // top 65%：觸發線往畫面上方一點，區塊要稍微捲進來才播（10x 不會一載入就觸發）
         start: 'top 65%',
         // 捲入 → 播放；往回捲離開 → 反向退場（參照 Speakers 的進退場，不用 once）
-        toggleActions: 'play none none reverse',
+        toggleActions: 'play none none none',
       },
     })
 
