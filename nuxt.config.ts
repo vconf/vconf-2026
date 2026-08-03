@@ -196,10 +196,6 @@ export default defineNuxtConfig({
           rel: 'icon',
           href: 'https://v-conf.vue.tw/favicon.png', // 絕對路徑，網站圖示
         },
-        {
-          rel: 'apple-touch-icon',
-          href: 'https://v-conf.vue.tw/app-touch-icon.png', // 絕對路徑，Apple 設備加入主畫面的圖片
-        },
       ],
     },
     pageTransition: {
