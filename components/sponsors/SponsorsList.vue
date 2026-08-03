@@ -120,13 +120,13 @@ onBeforeUnmount(() => {
         class="mb-4 flex items-center justify-center font-serif font-bold md:mb-6"
       >
         <span
-          class="hidden pr-4 text-[32px] font-bold leading-[auto] tracking-[0em] text-vconf-gray-light md:block"
+          class="hidden pr-4 text-[32px] font-bold leading-normal tracking-[0em] text-vconf-gray-light md:block"
         >(</span>
         <span
-          class="text-[32px] font-bold leading-[auto] tracking-[0.01em] text-vconf-primary md:text-[48px] md:tracking-[0em]"
+          class="text-[32px] font-bold leading-normal tracking-[0.01em] text-vconf-primary md:text-[48px] md:tracking-[0em]"
         >{{ group.label }}</span>
         <span
-          class="hidden pl-4 text-[32px] font-bold leading-[auto] tracking-[0em] text-vconf-gray-light md:block"
+          class="hidden pl-4 text-[32px] font-bold leading-normal tracking-[0em] text-vconf-gray-light md:block"
         >)</span>
       </h2>
       <!-- 贊助商區塊 -->

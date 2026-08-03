@@ -2,7 +2,7 @@
 const props = withDefaults(
   defineProps<{
     title: string
-    marginBottom?: -85 | 24 | 32 | 56 | 249
+    marginBottom?: -85 | 0 | 24 | 32 | 56 | 249
     breakpoint?: 'xs' | 'md'
   }>(),
   {
@@ -12,6 +12,9 @@ const props = withDefaults(
 )
 
 const marginBottomClass = computed(() => {
+  if (props.marginBottom === 0)
+    return 'mb-0'
+
   if (props.marginBottom === 24)
     return 'mb-6'
 
