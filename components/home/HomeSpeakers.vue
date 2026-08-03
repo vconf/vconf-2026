@@ -1,32 +1,10 @@
 <script setup lang="ts">
-const SPEAKERS = [
-  {
-    name: '尤雨溪',
-    topic: 'Creator of Vue.js',
-    image:
-      'https://images.unsplash.com/photo-1778844648458-129cfdf980a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Hunter',
-    topic: 'Creator of Vue.js',
-    image:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'SerKo',
-    topic: 'Creator of Vue.js',
-    image:
-      'https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'KuKu',
-    topic: 'Creator of Vue.js',
-    image:
-      'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-] as const
+const { data: speakers } = await useSpeakers()
 
-const DISPLAY_SPEAKERS = [...SPEAKERS, ...SPEAKERS]
+const DISPLAY_SPEAKERS = computed(() => [
+  ...(speakers.value ?? []),
+  ...(speakers.value ?? []),
+])
 
 const swiperRef = ref(null)
 
@@ -140,7 +118,7 @@ useSwiper(swiperRef, {
                         </clipPath>
                       </defs>
                       <image
-                        :href="speaker.image"
+                        :href="speaker.avatar"
                         x="0"
                         y="0"
                         width="267"
@@ -166,7 +144,7 @@ useSwiper(swiperRef, {
                       <p
                         class="font-serif text-[16px] leading-[1.6] tracking-[0%] text-vconf-text-read"
                       >
-                        {{ speaker.topic }}
+                        {{ speaker.jobTitle }}
                       </p>
                     </div>
                   </div>

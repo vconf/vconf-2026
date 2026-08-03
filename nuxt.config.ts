@@ -66,6 +66,7 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     'nuxt-gtag',
+    '@nuxt/content',
   ],
 
   css: ['@/assets/css/main.css'],

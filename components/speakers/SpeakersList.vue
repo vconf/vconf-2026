@@ -1,75 +1,7 @@
 <script setup lang="ts">
 import { usePreferredReducedMotion } from '@vueuse/core'
 
-interface SpeakerCard {
-  name: string
-  title: string
-  avatar: string
-  avatarAlt: string
-  talkNumber: number
-  startTime: string
-  endTime: string
-}
-
-const placeholderAvatar
-  = 'https://images.unsplash.com/photo-1778844648458-129cfdf980a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-
-const speakers: SpeakerCard[] = [
-  {
-    name: '尤雨溪',
-    title: 'Creator of Vue.js',
-    avatar: placeholderAvatar,
-    avatarAlt: '尤雨溪頭像',
-    talkNumber: 1,
-    startTime: '09:30',
-    endTime: '10:15',
-  },
-  {
-    name: 'Hunter',
-    title: 'Creator of Vue.js',
-    avatar: placeholderAvatar,
-    avatarAlt: 'Hunter 頭像',
-    talkNumber: 2,
-    startTime: '10:25',
-    endTime: '11:10',
-  },
-  {
-    name: 'SerKo',
-    title: 'Creator of Vue.js',
-    avatar: placeholderAvatar,
-    avatarAlt: 'SerKo 頭像',
-    talkNumber: 3,
-    startTime: '11:20',
-    endTime: '12:05',
-  },
-  {
-    name: 'KuKu',
-    title: 'Creator of Vue.js',
-    avatar: placeholderAvatar,
-    avatarAlt: 'KuKu 頭像',
-    talkNumber: 4,
-    startTime: '13:05',
-    endTime: '13:50',
-  },
-  {
-    name: 'KuKu',
-    title: 'Creator of Vue.js',
-    avatar: placeholderAvatar,
-    avatarAlt: 'KuKu 頭像',
-    talkNumber: 5,
-    startTime: '14:00',
-    endTime: '14:45',
-  },
-  {
-    name: 'Alex 宅幹嘛',
-    title: 'Creator of Vue.js',
-    avatar: placeholderAvatar,
-    avatarAlt: 'Alex 宅幹嘛頭像',
-    talkNumber: 6,
-    startTime: '15:15',
-    endTime: '16:00',
-  },
-]
+const { data: speakers } = await useSpeakers()
 
 const gridRef = ref<HTMLElement | null>(null)
 const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
@@ -135,7 +67,7 @@ onBeforeUnmount(() => {
     >
       <div
         v-for="speaker in speakers"
-        :key="speaker.talkNumber"
+        :key="speaker.id"
       >
         <NuxtImg
           :src="speaker.avatar"
@@ -164,7 +96,7 @@ onBeforeUnmount(() => {
           <p
             class="mx-auto mb-4 w-fit font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read"
           >
-            {{ speaker.title }}
+            {{ speaker.jobTitle }}
           </p>
           <!-- 講者時刻 -->
           <p
@@ -187,7 +119,7 @@ onBeforeUnmount(() => {
           </p>
           <!-- More 按鈕 -->
           <NuxtLink
-            to="#"
+            :to="`/agenda/unpublish/${speaker.talkSlug}`"
             class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[16px] md:leading-[1.6]"
           >
             More
