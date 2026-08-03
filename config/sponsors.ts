@@ -1,6 +1,7 @@
 export interface Sponsor {
   name: string
   logo: string
+  url?: string
   width: number
   height: number
   backgroundClass?: string
@@ -25,6 +26,7 @@ export const sponsorGroups: SponsorGroup[] = [
       {
         name: '新加坡商鈦坦科技',
         logo: '/sponsors/titansoft.svg',
+        url: 'https://titansoft.com/tw',
         width: 260,
         height: 218,
       },
@@ -37,21 +39,31 @@ export const sponsorGroups: SponsorGroup[] = [
       {
         name: '六角學院 Hexschool',
         logo: '/sponsors/hexschool.svg',
+        url: 'https://www.hexschool.com/',
         width: 228,
         height: 141,
       },
       {
         name: '雷麒科技有限公司',
         logo: '/sponsors/leichi.svg',
+        url: 'https://www.lctech.com.tw/',
         width: 233,
         height: 232,
       },
       {
         name: '104 人力銀行',
         logo: '/sponsors/104.svg',
+        url: 'https://www.104.com.tw/',
         width: 181,
         height: 146,
         backgroundClass: 'bg-sponsor-104',
+      },
+      {
+        name: 'WISH甜心私覓',
+        logo: '/sponsors/wish.svg',
+        url: 'https://wish.cat/',
+        width: 313,
+        height: 313,
       },
     ],
   },
@@ -62,6 +74,7 @@ export const sponsorGroups: SponsorGroup[] = [
       {
         name: '來一課線上學院',
         logo: '/sponsors/bluemonkey.svg',
+        url: 'https://bluemonkey.tw/tech-integration/',
         width: 156,
         height: 156,
       },

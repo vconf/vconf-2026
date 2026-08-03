@@ -319,9 +319,13 @@ onBeforeUnmount(() => {
               {{ group.label }}
             </h3>
             <div class="flex flex-wrap justify-center gap-2 md:gap-6">
-              <div
+              <component
+                :is="sponsor.url ? 'a' : 'div'"
                 v-for="sponsor in group.sponsors"
                 :key="sponsor.name"
+                :href="sponsor.url"
+                :target="sponsor.url ? '_blank' : undefined"
+                :rel="sponsor.url ? 'noopener noreferrer' : undefined"
                 class="flex aspect-square items-center justify-center border border-vconf-gray-exlight"
                 :class="[
                   sponsorWidthClasses[group.level],
@@ -336,7 +340,7 @@ onBeforeUnmount(() => {
                   :alt="sponsor.name"
                   loading="lazy"
                 />
-              </div>
+              </component>
             </div>
           </div>
         </div>
