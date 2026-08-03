@@ -4,29 +4,29 @@ import { ref } from 'vue'
 
 const NAV_ITEMS = [
   {
-    name: 'About',
+    name: '關於 VCONF 台灣',
     href: '/about',
   },
   {
-    name: 'Agenda',
+    name: '議程',
     href: '/agenda',
   },
   {
-    name: 'Speakers',
+    name: '講者',
     href: '/speakers',
   },
   {
-    name: 'Sponsors',
+    name: '贊助',
     href: '/sponsors',
     mdHidden: true,
   },
   {
-    name: 'Team',
+    name: '成員',
     href: '/team',
     mdHidden: true,
   },
   {
-    name: 'Recap',
+    name: '花絮',
     href: '/recap',
     mdHidden: true,
   },
@@ -173,7 +173,7 @@ watch(
           class="mr-2 w-[43px] flex-none py-3 pl-3 lg:hidden"
           :class="isMenuOpen ? 'ml-auto' : 'ml-auto md:ml-0'"
           :aria-expanded="isMenuOpen"
-          aria-label="Toggle navigation"
+          aria-label="切換導覽選單"
           @click="onToggleMenu()"
         >
           <div
