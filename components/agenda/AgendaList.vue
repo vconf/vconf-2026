@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { agendaItems, agendaTalkId, breakThemeClass } from '~/utils/agenda'
+import {
+  agendaTalkId,
+  breakThemeClass,
+  createAgendaItems,
+} from '~/utils/agenda'
+
+const { data: speakers } = await useSpeakers()
+const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
 </script>
 
 <template>
@@ -29,7 +36,7 @@ import { agendaItems, agendaTalkId, breakThemeClass } from '~/utils/agenda'
         <NuxtLink
           v-else
           :to="`/agenda/unpublish/${agendaTalkId(item)}`"
-          class="col-start-2 block w-fit max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
+          class="col-start-2 block w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
         >
           <!-- 標籤 -->
           <div
@@ -39,12 +46,12 @@ import { agendaItems, agendaTalkId, breakThemeClass } from '~/utils/agenda'
               class="block text-[14px] leading-[1.6] tracking-[0.02em] md:text-[16px]"
             >Talk</span>
             <span
-              class="block text-[24px] leading-[1.2] tracking-[0em] md:text-[32px] md:leading-[auto] md:tracking-[0.01em]"
+              class="block text-[24px] leading-[1.2] tracking-[0em] md:text-[32px] md:leading-normal md:tracking-[0.01em]"
             >{{ item.talkNumber }}</span>
           </div>
           <!-- 講者議程名稱 -->
           <h3
-            class="mb:mb-4 mb-3 text-[24px] font-bold leading-[1.2] tracking-[0em] text-vconf-text-read md:text-[32px] md:leading-[auto] md:tracking-[0.01em]"
+            class="mb:mb-4 mb-3 text-[24px] font-bold leading-[1.2] tracking-[0em] text-vconf-text-read md:text-[32px] md:leading-normal md:tracking-[0.01em]"
           >
             {{ item.title }}
           </h3>
@@ -77,7 +84,7 @@ import { agendaItems, agendaTalkId, breakThemeClass } from '~/utils/agenda'
               <p
                 class="font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read"
               >
-                {{ item.speaker.title }}
+                {{ item.speaker.jobTitle }}
               </p>
             </div>
           </div>

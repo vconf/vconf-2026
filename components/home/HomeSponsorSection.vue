@@ -199,17 +199,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="overflow-x-clip pt-[178px] md:pt-[224px]">
+  <section class="overflow-x-clip pt-[64px] md:pt-[100px]">
     <div class="container relative">
       <ShareSectionTitle
         title="Sponsor"
-        :margin-bottom="56"
+        :margin-bottom="0"
         breakpoint="md"
-        class="pb-[90px] md:pb-[162px]"
+        class="pb-[119px] md:pb-[226px]"
       />
 
       <div
-        class="relative mx-auto w-full overflow-visible px-4 pb-[52px] pt-[100px] md:px-12 md:pb-[111px] md:pt-[205px] lg:px-[90px]"
+        class="relative mx-auto w-full overflow-visible px-4 pb-[52px] pt-[127px] md:px-12 md:pb-[111px] md:pt-[268px] lg:px-[90px]"
       >
         <!-- 軌道 -->
         <div
@@ -277,7 +277,7 @@ onBeforeUnmount(() => {
 
         <!-- 錢財圖示 -->
         <div
-          class="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 before:absolute before:inset-y-0 before:left-[-15%] before:w-[15%] before:bg-vconf-white before:content-[''] after:absolute after:inset-y-0 after:right-[-15%] after:w-[15%] after:bg-vconf-white after:content-['']"
+          class="absolute left-1/2 top-0 z-10 -translate-x-1/2 translate-y-[-43%] before:absolute before:inset-y-0 before:right-full before:w-10 before:bg-vconf-white before:content-[''] after:absolute after:inset-y-0 after:left-full after:w-[45px] after:bg-vconf-white after:content-[''] md:before:w-20 md:after:w-[89px]"
         >
           <NuxtImg
             src="/home/sponsor-money.png"
@@ -314,14 +314,18 @@ onBeforeUnmount(() => {
             class="w-full"
           >
             <h3
-              class="mb-[17px] text-center font-serif text-[20px] font-bold leading-[1.6] tracking-[0em] text-vconf-primary md:mb-6 md:text-[48px] md:leading-[auto]"
+              class="mb-[17px] text-center font-serif text-[20px] font-bold leading-[1.6] tracking-[0em] text-vconf-primary md:mb-6 md:text-[48px] md:leading-normal"
             >
               {{ group.label }}
             </h3>
             <div class="flex flex-wrap justify-center gap-2 md:gap-6">
-              <div
+              <component
+                :is="sponsor.url ? 'a' : 'div'"
                 v-for="sponsor in group.sponsors"
                 :key="sponsor.name"
+                :href="sponsor.url"
+                :target="sponsor.url ? '_blank' : undefined"
+                :rel="sponsor.url ? 'noopener noreferrer' : undefined"
                 class="flex aspect-square items-center justify-center border border-vconf-gray-exlight"
                 :class="[
                   sponsorWidthClasses[group.level],
@@ -336,7 +340,7 @@ onBeforeUnmount(() => {
                   :alt="sponsor.name"
                   loading="lazy"
                 />
-              </div>
+              </component>
             </div>
           </div>
         </div>

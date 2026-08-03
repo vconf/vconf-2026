@@ -30,6 +30,12 @@ export default {
         sans: ['"Avenir Next LT Pro"', 'sans-serif'],
         avenir: ['"Avenir"', 'serif'],
       },
+      fontWeight: {
+        'demi-light': '350',
+      },
+      width: {
+        scrollbar: '12px',
+      },
       clipPath: {
         mypolygon: 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem))',
         fancycut: 'polygon(32px 0%, 100% 0%, 100% 100%, 0% 100%)',
@@ -64,9 +70,17 @@ export default {
           'section-bg': 'hsl(var(--color-section-bg))',
           'gray-exlight': 'hsl(var(--color-gray-exlight))',
           'gray-ultralight': 'hsl(var(--color-gray-ultralight))',
+          'scrollbar': '#DBDBDB',
         },
       },
     },
   },
-  plugins: [require('tailwind-scrollbar'), require('tailwind-clip-path'), require('tailwindcss-animate')],
+  plugins: [
+    require('tailwind-scrollbar')({
+      nocompatible: true,
+      preferredStrategy: 'pseudoelements',
+    }),
+    require('tailwind-clip-path'),
+    require('tailwindcss-animate'),
+  ],
 }

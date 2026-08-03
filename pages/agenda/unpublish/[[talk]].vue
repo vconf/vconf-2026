@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import AgendaTalkModal from '~/components/agenda/AgendaTalkModal.vue'
-import { findAgendaTalkById } from '~/utils/agenda'
+import { createAgendaItems, findAgendaTalkById } from '~/utils/agenda'
 
 const route = useRoute()
 const lenis = useLenis()
+const { data: speakers } = await useSpeakers()
+const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
 
 const talkId = computed(() => {
   const value = route.params.talk
@@ -12,7 +14,7 @@ const talkId = computed(() => {
 })
 const isTalkModalOpen = computed(() => Boolean(talkId.value))
 const activeTalk = computed(() =>
-  talkId.value ? findAgendaTalkById(talkId.value) : null,
+  talkId.value ? findAgendaTalkById(agendaItems.value, talkId.value) : null,
 )
 
 useSeoMeta({

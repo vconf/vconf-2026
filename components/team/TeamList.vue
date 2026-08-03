@@ -171,14 +171,14 @@ function onLeave(event: MouseEvent) {
       >
         <span
           data-team-paren
-          class="pr-1 text-[16px] font-bold leading-[auto] tracking-[0em] text-vconf-gray-light md:pr-4 md:text-[32px]"
+          class="pr-1 text-[16px] font-bold leading-normal tracking-[0em] text-vconf-gray-light md:pr-4 md:text-[32px]"
         >(</span>
         <span
-          class="text-[32px] leading-[auto] tracking-[0.01em] text-vconf-primary md:text-[48px] md:tracking-[0em]"
+          class="text-[32px] leading-normal tracking-[0.01em] text-vconf-primary md:text-[48px] md:tracking-[0em]"
         >{{ group.title }}</span>
         <span
           data-team-paren
-          class="pl-1 text-[16px] font-bold leading-[auto] tracking-[0em] text-vconf-gray-light md:pl-4 md:text-[32px]"
+          class="pl-1 text-[16px] font-bold leading-normal tracking-[0em] text-vconf-gray-light md:pl-4 md:text-[32px]"
         >)</span>
       </h2>
       <!-- 成員 -->

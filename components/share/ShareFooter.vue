@@ -95,7 +95,7 @@ const { stop } = useIntersectionObserver(
 </script>
 
 <template>
-  <footer class="overflow-hidden pb-[13px] pt-[99px] md:pb-[31px]">
+  <footer class="overflow-hidden pb-[13px] pt-[100px] md:pb-[31px]">
     <div class="container relative mb-[130px] max-w-[891px] md:mb-[220px]">
       <div class="relative m-auto w-fit">
         <ShareSectionTitle title="Information" />

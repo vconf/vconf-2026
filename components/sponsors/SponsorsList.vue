@@ -120,13 +120,13 @@ onBeforeUnmount(() => {
         class="mb-4 flex items-center justify-center font-serif font-bold md:mb-6"
       >
         <span
-          class="hidden pr-4 text-[32px] font-bold leading-[auto] tracking-[0em] text-vconf-gray-light md:block"
+          class="hidden pr-4 text-[32px] font-bold leading-normal tracking-[0em] text-vconf-gray-light md:block"
         >(</span>
         <span
-          class="text-[32px] font-bold leading-[auto] tracking-[0.01em] text-vconf-primary md:text-[48px] md:tracking-[0em]"
+          class="text-[32px] font-bold leading-normal tracking-[0.01em] text-vconf-primary md:text-[48px] md:tracking-[0em]"
         >{{ group.label }}</span>
         <span
-          class="hidden pl-4 text-[32px] font-bold leading-[auto] tracking-[0em] text-vconf-gray-light md:block"
+          class="hidden pl-4 text-[32px] font-bold leading-normal tracking-[0em] text-vconf-gray-light md:block"
         >)</span>
       </h2>
       <!-- 贊助商區塊 -->
@@ -142,8 +142,12 @@ onBeforeUnmount(() => {
           :class="cardWidthClasses[group.level]"
         >
           <!-- 只讓 Logo 圖框與 Logo 變化，卡片本身不位移，避免命中範圍抖動 -->
-          <div
-            class="mb-4 flex aspect-square transform-gpu items-center justify-center border border-vconf-gray-exlight transition-[transform,box-shadow] duration-300 ease-out motion-safe:group-hover:-translate-y-1.5 motion-safe:group-hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+          <component
+            :is="sponsor.url ? 'a' : 'div'"
+            :href="sponsor.url"
+            :target="sponsor.url ? '_blank' : undefined"
+            :rel="sponsor.url ? 'noopener noreferrer' : undefined"
+            class="flex aspect-square transform-gpu items-center justify-center border border-vconf-gray-exlight transition-[transform,box-shadow] duration-300 ease-out motion-safe:group-hover:-translate-y-1.5 motion-safe:group-hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
             :class="sponsor.backgroundClass"
           >
             <NuxtImg
@@ -155,7 +159,7 @@ onBeforeUnmount(() => {
               loading="eager"
               class="h-auto w-4/5 transition-[scale] duration-300 ease-out motion-safe:group-hover:[scale:1.02]"
             />
-          </div>
+          </component>
         </div>
       </div>
     </section>
