@@ -93,14 +93,14 @@ const speakerSocialLinks = computed(() => {
             <!-- 關閉按鈕 -->
             <button
               type="button"
-              class="absolute right-[-25px] top-[-25px] z-10 grid size-[30px] place-items-center rounded-full bg-vconf-white text-vconf-purple md:right-[-35px] md:top-[-35px] md:size-10"
+              class="absolute right-[-7px] top-[-40px] z-10 grid size-[30px] place-items-center rounded-full bg-vconf-white text-vconf-purple md:right-[-35px] md:top-[-35px] md:size-10"
               aria-label="關閉議程資訊"
               @click="emit('close')"
             >
               <svg
                 viewBox="0 0 28 28"
                 aria-hidden="true"
-                class="size-[14px] md:size-7"
+                class="size-3.5 md:size-6"
               >
                 <path
                   d="M1 1L27 27M27 1L1 27"
