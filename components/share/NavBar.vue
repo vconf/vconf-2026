@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useBreakpoints } from '@vueuse/core'
+import { useBreakpoints, useWindowScroll } from '@vueuse/core'
 import { ref } from 'vue'
 
 const NAV_ITEMS = [
@@ -36,18 +36,12 @@ const lenis = useLenis()
 const route = useRoute()
 const isMenuOpen = ref(false)
 
-const displayedPath = ref(route.path)
-const removeTransitionHook = useNuxtApp().hook('page:transition:finish', () => {
-  displayedPath.value = route.path
-})
-onUnmounted(() => removeTransitionHook())
-const isHome = computed(
-  () => route.path === '/' || displayedPath.value === '/',
+const headerBgClass = computed(() =>
+  isMenuOpen.value ? 'bg-vconf-white' : 'bg-transparent',
 )
 
-const headerBgClass = computed(() =>
-  isHome.value && !isMenuOpen.value ? 'bg-transparent' : 'bg-vconf-white',
-)
+const { y: scrollY } = useWindowScroll()
+const isGlass = computed(() => scrollY.value > 10 && !isMenuOpen.value)
 
 function navItemClass(item: { href: string, mdHidden?: boolean }) {
   return [
@@ -110,8 +104,8 @@ watch(
 
 <template>
   <header
-    class="top-0"
-    :class="[headerBgClass, { 'z-50': isMenuOpen }]"
+    class="sticky top-0 z-50 transition-[backdrop-filter] duration-300"
+    :class="isGlass ? 'bg-white/20 backdrop-blur-[5px]' : headerBgClass"
   >
     <div class="container">
       <nav

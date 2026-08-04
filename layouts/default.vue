@@ -12,7 +12,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <ShareNavBar class="relative z-20" />
+    <ShareNavBar />
     <slot></slot>
     <LazyShareFooter hydrate-on-visible />
   </div>
