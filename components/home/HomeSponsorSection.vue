@@ -314,7 +314,7 @@ onBeforeUnmount(() => {
             class="w-full"
           >
             <h3
-              class="mb-[17px] text-center font-serif text-[20px] font-bold leading-[1.6] tracking-[0em] text-vconf-primary md:mb-6 md:text-[48px] md:leading-normal"
+              class="mb-[17px] text-center font-serif text-[20px] font-bold leading-[1.6] tracking-[0em] text-vconf-primary md:mb-6 md:text-[48px] md:leading-[1]"
             >
               {{ group.label }}
             </h3>

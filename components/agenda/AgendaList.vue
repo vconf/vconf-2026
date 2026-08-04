@@ -46,12 +46,12 @@ const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
               class="block text-[14px] leading-[1.6] tracking-[0.02em] md:text-[16px]"
             >Talk</span>
             <span
-              class="block text-[24px] leading-[1.2] tracking-[0em] md:text-[32px] md:leading-normal md:tracking-[0.01em]"
+              class="block text-[24px] leading-[1.2] tracking-[0em] md:text-[32px] md:leading-[1] md:tracking-[0.01em]"
             >{{ item.talkNumber }}</span>
           </div>
           <!-- 講者議程名稱 -->
           <h3
-            class="mb:mb-4 mb-3 text-[24px] font-bold leading-[1.2] tracking-[0em] text-vconf-text-read md:text-[32px] md:leading-normal md:tracking-[0.01em]"
+            class="mb:mb-4 mb-3 text-[24px] font-bold leading-[1.2] tracking-[0em] text-vconf-text-read md:text-[32px] md:leading-[1] md:tracking-[0.01em]"
           >
             {{ item.title }}
           </h3>
