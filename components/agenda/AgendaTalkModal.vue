@@ -23,6 +23,14 @@ const speakerLinkIcons = [
     mobileHeight: 24,
   },
   {
+    label: 'X',
+    icon: '/agenda/x.svg',
+    width: 28,
+    height: 28,
+    mobileWidth: 24,
+    mobileHeight: 24,
+  },
+  {
     label: 'FB',
     icon: '/agenda/fb.svg',
     width: 17,
