@@ -23,6 +23,14 @@ const speakerLinkIcons = [
     mobileHeight: 24,
   },
   {
+    label: 'X',
+    icon: '/agenda/x.svg',
+    width: 28,
+    height: 28,
+    mobileWidth: 24,
+    mobileHeight: 24,
+  },
+  {
     label: 'FB',
     icon: '/agenda/fb.svg',
     width: 17,
@@ -100,7 +108,7 @@ const speakerSocialLinks = computed(() => {
               <svg
                 viewBox="0 0 28 28"
                 aria-hidden="true"
-                class="size-3.5 md:size-6"
+                class="size-3.5 md:size-[20px]"
               >
                 <path
                   d="M1 1L27 27M27 1L1 27"
@@ -153,11 +161,11 @@ const speakerSocialLinks = computed(() => {
                       class="block text-[14px] leading-[1.6] tracking-[0.02em] md:text-[16px]"
                     >Talk</span>
                     <span
-                      class="block text-[24px] leading-[1.2] tracking-[0em] md:text-[32px] md:leading-normal md:tracking-[0.01em]"
+                      class="block text-[24px] leading-[1.2] tracking-[0em] md:text-[32px] md:leading-[1] md:tracking-[0.01em]"
                     >{{ talk.talkNumber }}</span>
                   </p>
                   <time
-                    class="text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-purple md:text-[18px] md:font-medium md:leading-normal md:tracking-[0.01em]"
+                    class="text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-purple md:text-[18px] md:font-medium md:leading-[1] md:tracking-[0.01em]"
                     :datetime="`2026-10-17T${talk.time}:00+08:00`"
                   >
                     10/17 {{ talk.time }}～{{ talk.endTime }}
@@ -174,7 +182,7 @@ const speakerSocialLinks = computed(() => {
                     <section>
                       <h2
                         id="agenda-talk-title"
-                        class="mb-4 text-[24px] font-bold leading-normal tracking-[0.01em] text-vconf-text-read md:mb-8 md:text-[32px]"
+                        class="mb-4 text-[24px] font-bold leading-[1] tracking-[0.01em] text-vconf-text-read md:mb-8 md:text-[32px]"
                       >
                         {{ talk.title }}
                       </h2>
