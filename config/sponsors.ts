@@ -72,9 +72,9 @@ export const sponsorGroups: SponsorGroup[] = [
     label: '1x Sponsor',
     sponsors: [
       {
-        name: '來一課線上學院',
+        name: 'teacher.place',
         logo: '/sponsors/bluemonkey.svg',
-        url: 'https://bluemonkey.tw/tech-integration/',
+        url: 'https://teacher.place/?openExternalBrowser=1',
         width: 156,
         height: 156,
       },
