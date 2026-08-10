@@ -65,9 +65,11 @@ onBeforeUnmount(() => {
       ref="gridRef"
       class="grid grid-cols-2 gap-4 md:gap-[33px] lg:grid-cols-3"
     >
-      <div
+      <NuxtLink
         v-for="speaker in speakers"
         :key="speaker.id"
+        :to="`/agenda/unpublish/${speaker.talkSlug}`"
+        class="group block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vconf-primary"
       >
         <NuxtImg
           :src="speaker.avatar"
@@ -117,15 +119,14 @@ onBeforeUnmount(() => {
               {{ speaker.startTime }}~{{ speaker.endTime }}
             </time>
           </p>
-          <!-- More 按鈕 -->
-          <NuxtLink
-            :to="`/agenda/unpublish/${speaker.talkSlug}`"
-            class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[16px] md:leading-[1.6]"
+          <!-- More 按鈕外觀；整張卡片皆可點擊 -->
+          <span
+            class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
           >
             More
-          </NuxtLink>
+          </span>
         </div>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>
