@@ -3,7 +3,16 @@ import type { SpeakersCollectionItem } from '@nuxt/content'
 export interface SpeakerSummary {
   name: string
   jobTitle: string
+  /** 預設／桌機講者照 */
   avatar: string
+  /** 手機版講者照（講者介紹頁） */
+  avatarMobile?: string
+  /** 議程列表圓形頭像 */
+  agendaAvatar?: string
+  /** 議程彈窗桌機講者照 */
+  modalAvatar?: string
+  /** 議程彈窗手機圓形頭像 */
+  modalAvatarMobile?: string
   avatarAlt: string
 }
 
@@ -114,6 +123,40 @@ export function findAgendaTalkById(
   }
 
   return null
+}
+
+type AnySpeaker = SpeakerSummary | SpeakersCollectionItem
+
+/**
+ * 講者照的使用場景，每個場景有自己的裁切比例與圖檔尺寸：
+ * - `introMobile`：講者介紹頁（手機）
+ * - `agenda`：議程列表圓形頭像
+ * - `modal`：議程彈窗（桌機直式）
+ * - `modalMobile`：議程彈窗（手機圓形）
+ *
+ * 桌機版講者介紹頁直接用 `avatar`，不需要經過 speakerPhoto()。
+ */
+export type SpeakerPhotoSlot = 'introMobile' | 'agenda' | 'modal' | 'modalMobile'
+
+/**
+ * 取指定場景的講者照。
+ * 該場景沒有專屬圖檔時（佔位講者、尚未提供的講者）退回同裝置的
+ * 講者介紹照，最後一定退到 avatar，畫面不會缺圖。
+ */
+export function speakerPhoto(
+  speaker: AnySpeaker,
+  slot: SpeakerPhotoSlot,
+): string {
+  switch (slot) {
+    case 'introMobile':
+      return speaker.avatarMobile ?? speaker.avatar
+    case 'agenda':
+      return speaker.agendaAvatar ?? speaker.avatar
+    case 'modal':
+      return speaker.modalAvatar ?? speaker.avatar
+    case 'modalMobile':
+      return speaker.modalAvatarMobile ?? speaker.avatarMobile ?? speaker.avatar
+  }
 }
 
 export function isContentSpeaker(

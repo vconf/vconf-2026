@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { usePreferredReducedMotion } from '@vueuse/core'
+import { speakerPhoto } from '~/utils/agenda'
 
 const { data: speakers } = await useSpeakers()
 
@@ -71,15 +72,26 @@ onBeforeUnmount(() => {
         :to="`/agenda/unpublish/${speaker.talkSlug}`"
         class="group block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vconf-primary"
       >
+        <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
         <NuxtImg
-          :src="speaker.avatar"
+          :src="speakerPhoto(speaker, 'introMobile')"
           :alt="speaker.avatarAlt"
-          width="785"
-          height="413"
+          width="169"
+          height="239"
           loading="lazy"
           format="avif,webp"
           densities="x1 x2"
-          class="mb-4 aspect-speaker-photo-sm object-cover md:aspect-speaker-photo"
+          class="mb-4 block aspect-speaker-photo-sm w-full object-cover md:hidden"
+        />
+        <NuxtImg
+          :src="speaker.avatar"
+          :alt="speaker.avatarAlt"
+          width="306"
+          height="433"
+          loading="lazy"
+          format="avif,webp"
+          densities="x1 x2"
+          class="mb-4 hidden aspect-speaker-photo w-full object-cover md:block"
         />
         <div>
           <!-- 講者名稱 -->

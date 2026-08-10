@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TalkItem } from '~/utils/agenda'
-import { isContentSpeaker } from '~/utils/agenda'
+import { isContentSpeaker, speakerPhoto } from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
@@ -200,15 +200,26 @@ const speakerSocialLinks = computed(() => {
                       aria-label="講者資訊"
                     >
                       <div class="flex gap-4 md:block">
+                        <!-- 手機圓形頭像、桌機直式講者照；未提供彈窗專用圖時退回講者介紹照 -->
                         <NuxtImg
-                          :src="talk.speaker.avatar"
+                          :src="speakerPhoto(talk.speaker, 'modalMobile')"
                           :alt="talk.speaker.avatarAlt"
-                          width="306"
-                          height="366"
+                          width="120"
+                          height="120"
                           loading="lazy"
                           format="avif,webp"
                           densities="x1 x2"
-                          class="size-[120px] rounded-full object-cover md:h-[400px] md:w-full md:rounded-none"
+                          class="block size-[120px] rounded-full object-cover md:hidden"
+                        />
+                        <NuxtImg
+                          :src="speakerPhoto(talk.speaker, 'modal')"
+                          :alt="talk.speaker.avatarAlt"
+                          width="253"
+                          height="400"
+                          loading="lazy"
+                          format="avif,webp"
+                          densities="x1 x2"
+                          class="hidden h-[400px] w-full object-cover md:block"
                         />
                         <div class="mt-6">
                           <p class="mb-2 flex items-center md:mb-0">

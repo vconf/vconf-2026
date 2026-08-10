@@ -3,6 +3,7 @@ import {
   agendaTalkId,
   breakThemeClass,
   createAgendaItems,
+  speakerPhoto,
 } from '~/utils/agenda'
 
 const { data: speakers } = await useSpeakers()
@@ -61,7 +62,7 @@ const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
               class="size-[100px] rounded-full object-cover"
               width="100"
               height="100"
-              :src="item.speaker.avatar"
+              :src="speakerPhoto(item.speaker, 'agenda')"
               :alt="item.speaker.avatarAlt"
               loading="lazy"
               format="avif,webp"
