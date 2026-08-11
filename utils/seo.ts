@@ -52,13 +52,20 @@ function buildImageNode(id: string, url: string) {
   }
 }
 
+/**
+ * speakerInfo 在 content 裡用換行分段（彈窗會以 pre-line 呈現），
+ */
+function toSingleLine(text: string) {
+  return text.replace(/\s*\n\s*/g, '').trim()
+}
+
 function buildPersonNode(speaker: SpeakersCollectionItem) {
   const node: Record<string, unknown> = {
     '@id': personId(speaker),
     '@type': 'Person',
     'name': speaker.name,
     'jobTitle': speaker.jobTitle,
-    'description': speaker.speakerInfo,
+    'description': toSingleLine(speaker.speakerInfo),
     'image': buildImageNode(
       absoluteUrl(`#image/speaker-${speaker.speakerId}`),
       speaker.avatar,
@@ -111,7 +118,7 @@ export function buildSpeakerSeo(
     ?? (options.type === 'agenda'
       ? `${speaker.name}｜${speaker.topic}`
       : speaker.name)
-  const description = override.description ?? speaker.speakerInfo
+  const description = override.description ?? toSingleLine(speaker.speakerInfo)
   const ogUrl = absoluteUrl(options.path)
   const ogImage = override.ogImage ? absoluteUrl(override.ogImage) : siteImage.url
   const ogImageAlt = override.ogImageAlt ?? speaker.name

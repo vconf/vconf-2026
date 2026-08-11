@@ -12,7 +12,7 @@ withDefaults(
 
 <template>
   <section>
-    <div class="mb-3 flex items-center gap-2">
+    <div class="mb-2 flex items-center gap-2">
       <component
         :is="as"
         class="w-fit rounded-xl bg-vconf-purple px-3 py-1 text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-gray-exlight"

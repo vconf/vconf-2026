@@ -22,6 +22,10 @@ export default defineContentConfig({
         modalAvatar: z.string().optional(),
         /** 議程彈窗手機圓形頭像 */
         modalAvatarMobile: z.string().optional(),
+        /** 講者彈窗桌機講者照（333×560） */
+        profileAvatar: z.string().optional(),
+        /** 講者彈窗手機講者照（260×370） */
+        profileAvatarMobile: z.string().optional(),
         avatarAlt: z.string(),
         speakerInfo: z.string(),
         experiences: z.array(z.string()).default([]),

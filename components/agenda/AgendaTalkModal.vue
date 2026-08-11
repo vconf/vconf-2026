@@ -93,10 +93,10 @@ const speakerSocialLinks = computed(() => {
         @click.self="emit('close')"
       >
         <div
-          class="grid size-full place-items-center px-6 py-[51px] md:px-[44px]"
+          class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px]"
         >
           <div
-            class="relative mx-auto flex h-[80svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:flex-row"
+            class="relative mx-auto flex h-[90svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[80svh] md:flex-row"
           >
             <!-- 關閉按鈕 -->
             <button
@@ -322,14 +322,20 @@ const speakerSocialLinks = computed(() => {
   }
 }
 
+/* 段落之後緊接列表時不加間距：帶冒號的引導句要和它的列表視覺上黏在一起 */
 [data-agenda-description] :deep(p + p),
-[data-agenda-description] :deep(p + ol),
-[data-agenda-description] :deep(ol + p) {
+[data-agenda-description] :deep(ol + p),
+[data-agenda-description] :deep(ul + p) {
   margin-top: 1.5rem;
 }
 
 [data-agenda-description] :deep(ol) {
   list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+[data-agenda-description] :deep(ul) {
+  list-style: disc;
   padding-left: 1.5rem;
 }
 </style>

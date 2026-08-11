@@ -19,6 +19,7 @@ export default {
         'speaker-photo': '306 / 366',
         'speaker-photo-sm': '169 / 311',
         'speaker-photo-modal': '333 / 560',
+        'speaker-photo-modal-sm': '260 / 370',
       },
       container: {
         center: true,

@@ -13,6 +13,10 @@ export interface SpeakerSummary {
   modalAvatar?: string
   /** 議程彈窗手機圓形頭像 */
   modalAvatarMobile?: string
+  /** 講者彈窗桌機講者照（333×560） */
+  profileAvatar?: string
+  /** 講者彈窗手機講者照（260×370） */
+  profileAvatarMobile?: string
   avatarAlt: string
 }
 
@@ -133,10 +137,18 @@ type AnySpeaker = SpeakerSummary | SpeakersCollectionItem
  * - `agenda`：議程列表圓形頭像
  * - `modal`：議程彈窗（桌機直式）
  * - `modalMobile`：議程彈窗（手機圓形）
+ * - `profile`：講者彈窗（桌機 333×560）
+ * - `profileMobile`：講者彈窗（手機 260×370）
  *
  * 桌機版講者介紹頁直接用 `avatar`，不需要經過 speakerPhoto()。
  */
-export type SpeakerPhotoSlot = 'introMobile' | 'agenda' | 'modal' | 'modalMobile'
+export type SpeakerPhotoSlot
+  = | 'introMobile'
+    | 'agenda'
+    | 'modal'
+    | 'modalMobile'
+    | 'profile'
+    | 'profileMobile'
 
 /**
  * 取指定場景的講者照。
@@ -156,6 +168,14 @@ export function speakerPhoto(
       return speaker.modalAvatar ?? speaker.avatar
     case 'modalMobile':
       return speaker.modalAvatarMobile ?? speaker.avatarMobile ?? speaker.avatar
+    // 退回順序按裁切比例的接近程度挑：議程彈窗桌機照 253×400 比 avatar 306×433 接近 333×560
+    case 'profile':
+      return speaker.profileAvatar ?? speaker.modalAvatar ?? speaker.avatar
+    // avatarMobile 169×239 與 260×370 幾乎同比例，modalAvatarMobile 是圓形裁切不能用
+    case 'profileMobile':
+      return (
+        speaker.profileAvatarMobile ?? speaker.avatarMobile ?? speaker.avatar
+      )
   }
 }
 

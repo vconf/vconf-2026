@@ -51,17 +51,29 @@ const socialLinks = computed(() => {
         :aria-labelledby="speaker ? 'speaker-profile-title' : undefined"
         @click.self="emit('close')"
       >
-        <!-- 背景裝飾圖可在這一層補上 -->
+        <!-- 手機裝飾背景釘在遮罩層（fixed）的正中央，內容捲動時不跟著移動 -->
+        <NuxtImg
+          src="/speaker/speaker-modal-bg-mobile.png"
+          alt=""
+          aria-hidden="true"
+          width="402"
+          height="504"
+          loading="lazy"
+          format="avif,webp"
+          densities="x1 x2"
+          class="pointer-events-none absolute left-1/2 top-[75%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2 md:hidden"
+        />
         <div
-          class="relative grid size-full place-items-center px-6 py-[52px] md:px-12"
+          class="relative grid size-full place-items-start overflow-y-auto overflow-x-hidden overscroll-contain px-6 pt-[32px] md:place-items-center md:overflow-visible md:px-12"
+          data-lenis-prevent
           @click.self="emit('close')"
         >
           <div
-            class="relative mx-auto flex h-[80svh] max-h-[710px] w-full flex-col gap-5 md:max-w-[917px] md:flex-row md:items-start md:gap-[40px]"
+            class="relative isolate mx-auto flex w-full flex-col gap-5 md:h-[80svh] md:max-h-[710px] md:max-w-[965px] md:flex-row md:items-start md:gap-[40px]"
           >
             <button
               type="button"
-              class="absolute right-[-7px] top-[-40px] z-10 grid size-[30px] place-items-center rounded-full bg-vconf-white text-vconf-purple md:right-[-35px] md:top-[-35px] md:size-10"
+              class="absolute right-[-7px] top-[-20px] z-10 grid size-[30px] place-items-center rounded-full bg-vconf-white text-vconf-purple md:right-[-35px] md:top-[-35px] md:size-10"
               aria-label="關閉講者介紹"
               @click="emit('close')"
             >
@@ -80,68 +92,78 @@ const socialLinks = computed(() => {
               </svg>
             </button>
 
+            <!-- 桌機裝飾背景跟著彈窗盒子定位（桌機盒子不會捲動），手機那張在遮罩層 -->
             <NuxtImg
-              src="/speaker/speakerModalBg.png"
+              src="/speaker/speaker-modal-bg-desktop.png"
               alt=""
               aria-hidden="true"
               width="788"
-              height="717"
+              height="483"
               loading="lazy"
               format="avif,webp"
               densities="x1 x2"
-              class="absolute inset-0"
+              class="pointer-events-none absolute bottom-[-106px] left-[-265px] -z-10 hidden h-[483px] w-[788px] max-w-none md:block"
             />
 
             <template v-if="speaker">
               <aside
-                class="aspect-speaker-photo-modal h-[550px] max-h-full min-h-0 overflow-hidden rounded-[12px] md:shrink-0"
+                class="mx-auto aspect-speaker-photo-modal-sm w-full max-w-[260px] overflow-hidden rounded-[12px] md:mx-0 md:aspect-speaker-photo-modal md:h-[560px] md:max-h-full md:min-h-0 md:w-auto md:max-w-none md:shrink-0"
                 aria-label="講者照片"
               >
+                <!-- 手機 260×370、桌機 333×560，比例與 aside 的 aspect-ratio 一致，object-cover 不會裁到 -->
                 <NuxtImg
-                  :src="speakerPhoto(speaker, 'modal')"
+                  :src="speakerPhoto(speaker, 'profileMobile')"
                   :alt="speaker.avatarAlt"
-                  width="300"
-                  height="610"
+                  width="260"
+                  height="370"
                   loading="lazy"
                   format="avif,webp"
                   densities="x1 x2"
-                  class="size-full object-cover object-top"
+                  class="block size-full object-cover object-top md:hidden"
+                />
+                <NuxtImg
+                  :src="speakerPhoto(speaker, 'profile')"
+                  :alt="speaker.avatarAlt"
+                  width="333"
+                  height="560"
+                  loading="lazy"
+                  format="avif,webp"
+                  densities="x1 x2"
+                  class="hidden size-full object-cover object-top md:block"
                 />
               </aside>
 
               <article
-                class="min-h-0 flex-1 overflow-hidden rounded-[20px] bg-vconf-white font-serif md:h-full"
+                class="overflow-hidden rounded-[20px] bg-vconf-white font-serif md:h-full md:min-h-0 md:flex-1"
               >
                 <div
-                  class="h-full overflow-y-auto overscroll-contain px-6 py-7 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:p-8"
+                  class="overscroll-contain px-6 py-7 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:h-full md:overflow-y-auto md:p-8"
                   data-lenis-prevent
                 >
-                  <header class="mb-6">
+                  <header class="mb-4 md:mb-6">
                     <h2
                       id="speaker-profile-title"
-                      class="mb-4 flex items-center"
+                      class="mb-2 flex items-center md:mb-4"
                     >
                       <span
-                        class="pr-4 font-sans text-[32px] font-medium leading-[1] text-vconf-gray-light"
+                        class="pr-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light md:pr-4 md:text-[32px] md:tracking-[0em]"
                       >{</span>
                       <span
-                        class="text-[48px] font-bold leading-normal text-vconf-primary"
+                        class="font-sans text-[20px] font-bold leading-[1.2] text-vconf-primary md:text-[48px]"
                       >{{ speaker.name }}</span>
                       <span
-                        class="pl-4 font-sans text-[32px] font-medium leading-[1] text-vconf-gray-light"
+                        class="pl-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light md:pl-4 md:text-[32px] md:tracking-[0em]"
                       >}</span>
                     </h2>
 
-                    <div
-                      class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between"
-                    >
+                    <div class="flex flex-col gap-4 md:gap-5">
                       <div
                         class="text-[16px] font-demi-light leading-[1.6] tracking-[0em] text-vconf-text-read"
                         :class="{ 'mb-6': socialLinks.length }"
                       >
                         <p
                           v-if="speaker.company && speaker.company !== '-'"
-                          class="mb-1"
+                          class="md:mb-1"
                         >
                           {{ speaker.company }}
                         </p>
@@ -150,7 +172,7 @@ const socialLinks = computed(() => {
 
                       <ul
                         v-if="socialLinks.length"
-                        class="flex shrink-0 items-center gap-4"
+                        class="ml-auto flex shrink-0 items-center gap-4"
                       >
                         <li
                           v-for="link in socialLinks"
@@ -180,20 +202,25 @@ const socialLinks = computed(() => {
 
                   <SpeakerProfileSection
                     label="講者個人介紹"
-                    class="mb-6"
+                    class="mb-2 md:mb-6"
                   >
-                    <p>{{ speaker.speakerInfo }}</p>
+                    <p
+                      class="whitespace-pre-line font-serif text-[16px] font-demi-light leading-[1.6] tracking-[0.01em] text-black"
+                    >
+                      {{ speaker.speakerInfo }}
+                    </p>
                   </SpeakerProfileSection>
 
                   <SpeakerProfileSection
                     v-if="speaker.experiences.length"
                     label="經歷"
-                    class="mb-6"
+                    class="mb-2 md:mb-6"
                   >
-                    <ul>
+                    <ul role="list">
                       <li
                         v-for="experience in speaker.experiences"
                         :key="experience"
+                        class="flex items-center gap-2 font-serif text-[16px] font-demi-light leading-[1.6] tracking-[0em] before:size-1 before:shrink-0 before:rounded-full before:bg-current"
                       >
                         {{ experience }}
                       </li>
@@ -221,6 +248,7 @@ const socialLinks = computed(() => {
                     <ContentRenderer
                       :value="speaker"
                       data-speaker-description
+                      class="font-serif font-demi-light leading-[1.6] tracking-[0.01em] text-black"
                     />
                   </SpeakerProfileSection>
                 </div>
@@ -251,9 +279,8 @@ const socialLinks = computed(() => {
   opacity: 0;
 }
 
+/* 段落之後緊接列表時不加間距：帶冒號的引導句要和它的列表視覺上黏在一起 */
 [data-speaker-description] :deep(p + p),
-[data-speaker-description] :deep(p + ol),
-[data-speaker-description] :deep(p + ul),
 [data-speaker-description] :deep(ol + p),
 [data-speaker-description] :deep(ul + p) {
   margin-top: 1.5rem;
