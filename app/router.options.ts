@@ -1,10 +1,10 @@
 import type { RouterConfig } from '@nuxt/schema'
-import { isAgendaModalNavigation } from '~/utils/agendaModalRoute'
+import { isModalNavigation } from '~/utils/modalRoute'
 
 export default <RouterConfig>{
   scrollBehavior(to, from, savedPosition) {
-    // 開/關議程彈窗時只切換 overlay，不改變背景頁捲動位置。
-    if (isAgendaModalNavigation(to.path, from.path))
+    // 開/關彈窗時只切換 overlay，不改變背景頁捲動位置。
+    if (isModalNavigation(to.path, from.path))
       return false
 
     if (savedPosition)

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { siteImage } from '~/config/seo.config'
-import { isAgendaUnpublishPath } from '~/utils/agendaModalRoute'
+import { getModalBasePath } from '~/utils/modalRoute'
 
 useSeoMeta({
   ogImage: siteImage.url,
@@ -25,11 +25,9 @@ if (isProduction && umamiWebsiteId) {
   })
 }
 
+// 彈窗路由固定用父路徑當 key，避免開/關彈窗時整頁重新掛載並播放頁面轉場
 function pageKey(route: RouteLocationNormalizedLoaded) {
-  if (isAgendaUnpublishPath(route.path))
-    return '/agenda/unpublish'
-
-  return route.fullPath
+  return getModalBasePath(route.path) ?? route.fullPath
 }
 </script>
 

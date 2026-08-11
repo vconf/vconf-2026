@@ -1,7 +1,7 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
-import { isAgendaModalNavigation } from '~/utils/agendaModalRoute'
+import { isModalNavigation } from '~/utils/modalRoute'
 
 export default defineNuxtPlugin({
   name: 'lenis',
@@ -32,11 +32,11 @@ export default defineNuxtPlugin({
     gsap.ticker.add(onTick)
     gsap.ticker.lagSmoothing(0)
 
-    // 開/關議程彈窗只更新同一個頁面的可選參數，不觸發 Lenis 回頂。
+    // 開/關彈窗只更新同一個頁面的可選參數，不觸發 Lenis 回頂。
     let skipScrollReset = false
 
     nuxtApp.$router.beforeEach((to, from) => {
-      skipScrollReset = isAgendaModalNavigation(to.path, from.path)
+      skipScrollReset = isModalNavigation(to.path, from.path)
     })
 
     // 切換頁面時先立即回到頂部

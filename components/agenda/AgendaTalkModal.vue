@@ -96,7 +96,7 @@ const speakerSocialLinks = computed(() => {
           class="grid size-full place-items-center px-6 py-[51px] md:px-[44px]"
         >
           <div
-            class="relative mx-auto flex h-[90svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:flex-row"
+            class="relative mx-auto flex h-[80svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:flex-row"
           >
             <!-- 關閉按鈕 -->
             <button
