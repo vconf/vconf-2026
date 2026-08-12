@@ -26,6 +26,8 @@ onMounted(() => {
 
   batchTriggers = ScrollTrigger.batch(cards, {
     start: 'top bottom-=300',
+    // 卡片只進場一次：不做往回捲的退場，trigger 觸發後自行銷毀、不再監聽捲動
+    once: true,
     onEnter: (batch: Element[]) => {
       gsap.killTweensOf(batch)
       gsap.to(batch, {
@@ -34,17 +36,6 @@ onMounted(() => {
         filter: 'blur(0px)',
         duration: 1,
         stagger: 0.2,
-        ease: 'power2.out',
-      })
-    },
-    onLeaveBack: (batch: Element[]) => {
-      gsap.killTweensOf(batch)
-      gsap.to(batch, {
-        scale: 0.8,
-        opacity: 0,
-        filter: 'blur(10px)',
-        duration: 0.6,
-        stagger: 0.1,
         ease: 'power2.out',
       })
     },
