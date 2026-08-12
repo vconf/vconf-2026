@@ -16,5 +16,6 @@ useSeoMeta({
     <LazyHomeCountdown hydrate-on-visible />
     <!-- <HomeSpeakers /> -->
     <LazyHomeSponsorSection hydrate-on-visible />
+    <ShareFloatingCta text="早鳥優惠" />
   </main>
 </template>
