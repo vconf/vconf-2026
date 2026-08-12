@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { useBreakpoints, useWindowScroll } from '@vueuse/core'
-import { ref } from 'vue'
+import { onKeyStroke, useBreakpoints, useWindowScroll } from '@vueuse/core'
 
 const NAV_ITEMS = [
   {
@@ -31,7 +30,6 @@ const NAV_ITEMS = [
     mdHidden: true,
   },
 ]
-
 const lenis = useLenis()
 const route = useRoute()
 const isMenuOpen = ref(false)
@@ -43,63 +41,42 @@ const headerBgClass = computed(() =>
 const { y: scrollY } = useWindowScroll()
 const isGlass = computed(() => scrollY.value > 10 && !isMenuOpen.value)
 
+const breakpoints = useBreakpoints({ lg: 1024 })
+const isLg = breakpoints.greaterOrEqual('lg')
+
+function closeMenu() {
+  isMenuOpen.value = false
+}
+
+function isNavItemActive(href: string) {
+  return route.path === href || route.path.startsWith(`${href}/`)
+}
+
 function navItemClass(item: { href: string, mdHidden?: boolean }) {
   return [
     isNavItemActive(item.href)
-      ? 'after:origin-left after:scale-x-0 lg:after:scale-x-100'
-      : 'after:origin-right after:scale-x-0',
+      ? 'after:origin-left lg:after:scale-x-100'
+      : 'after:origin-right',
     item.mdHidden && !isMenuOpen.value ? 'md:hidden lg:block' : '',
   ]
 }
 
-const breakpoints = useBreakpoints({ lg: 1024 })
-const isLg = breakpoints.greaterOrEqual('lg')
-
-watch(isLg, (lg) => {
-  if (lg && isMenuOpen.value) {
-    isMenuOpen.value = false
-    lenis.start()
-  }
+// 選單開合是背景捲動鎖定的唯一來源，各 handler 只改狀態、不各自呼叫 lenis
+watch(isMenuOpen, (open) => {
+  if (open)
+    lenis.stop()
+  else lenis.start()
 })
 
-function onClickIcon() {
-  lenis.start()
-}
+// 換頁、以及放大到 lg（改由桌機版排版接手）都要收掉殘留的展開狀態
+watch(() => route.fullPath, closeMenu)
+watch(isLg, (lg) => {
+  if (lg)
+    closeMenu()
+})
 
-function onToggleMenu() {
-  const nextOpen = !isMenuOpen.value
-  isMenuOpen.value = !isMenuOpen.value
-
-  if (nextOpen) {
-    lenis.stop()
-  }
-  else {
-    lenis.start()
-  }
-}
-
-function onClickNavItem() {
-  if (!isMenuOpen.value)
-    return
-
-  isMenuOpen.value = false
-  lenis.start()
-}
-
-function isNavItemActive(href: string) {
-  if (href === '#')
-    return false
-
-  return route.path === href || route.path.startsWith(`${href}/`)
-}
-
-watch(
-  () => route.fullPath,
-  () => {
-    isMenuOpen.value = false
-    lenis.start()
-  },
-)
+// 全螢幕選單在視覺上等同彈窗，鍵盤使用者要能直接按 Esc 離開
+onKeyStroke('Escape', closeMenu)
 </script>
 
 <template>
@@ -113,14 +90,15 @@ watch(
       >
         <!-- logo 顯示使用 -->
         <NuxtLink
-          class="grid place-content-center md:py-[10px] lg:py-0"
+          class="grid place-content-center md:py-2.5 lg:py-0"
           to="/"
           aria-label="回到 v-conf Taiwan 2026 首頁"
-          @click="onClickIcon()"
+          @click="closeMenu()"
         >
           <NuxtImg
             src="/share/nav-logo-md.svg"
-            alt="v-conf Taiwan 2026"
+            alt=""
+            aria-hidden="true"
             height="38"
             width="220"
             loading="eager"
@@ -128,7 +106,8 @@ watch(
           />
           <NuxtImg
             src="/share/nav-logo-sm.svg"
-            alt="v-conf Taiwan 2026"
+            alt=""
+            aria-hidden="true"
             height="19"
             width="110"
             loading="eager"
@@ -138,7 +117,8 @@ watch(
 
         <!-- 導覽列項目 -->
         <ul
-          class="nav-menu z-40 ml-auto gap-8 px-6 text-vconf-text-muted"
+          id="nav-menu"
+          class="nav-menu z-40 ml-auto gap-8 px-6 font-serif text-vconf-text-muted"
           :class="[
             isMenuOpen
               ? 'active fixed left-0 top-[57px] flex h-[calc(100svh-57px)] w-full flex-col bg-vconf-white'
@@ -148,13 +128,13 @@ watch(
           <li
             v-for="NAV_ITEM in NAV_ITEMS"
             :key="NAV_ITEM.href"
-            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-[1px] after:w-4/5 after:-translate-x-1/2 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent lg:hover:after:origin-left lg:hover:after:scale-x-100"
+            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-4/5 after:-translate-x-1/2 after:scale-x-0 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent lg:hover:after:origin-left lg:hover:after:scale-x-100"
             :class="navItemClass(NAV_ITEM)"
-            @click="onClickNavItem()"
+            @click="closeMenu()"
           >
             <NuxtLink
               :to="NAV_ITEM.href"
-              class="inline-block w-full px-4 py-[10px] text-[24px] tracking-[0em] xl:w-auto xl:px-8"
+              class="inline-block w-full px-4 py-2.5 text-24 leading-[normal] md:leading-snug xl:w-auto xl:px-8"
             >
               {{ NAV_ITEM.name }}
             </NuxtLink>
@@ -167,16 +147,17 @@ watch(
           class="mr-2 w-[43px] flex-none py-3 pl-3 lg:hidden"
           :class="isMenuOpen ? 'ml-auto' : 'ml-auto md:ml-0'"
           :aria-expanded="isMenuOpen"
+          aria-controls="nav-menu"
           aria-label="切換導覽選單"
-          @click="onToggleMenu()"
+          @click="isMenuOpen = !isMenuOpen"
         >
           <div
             :class="
               isMenuOpen
                 ? 'bg-transparent before:left-0 before:top-1/2 before:w-[35px] before:-translate-y-1/2 before:-rotate-45 before:bg-vconf-primary after:left-0 after:top-1/2 after:w-[35px] after:-translate-y-1/2 after:rotate-45 after:bg-vconf-primary'
-                : 'bg-vconf-primary before:right-0 before:top-[-6px] before:w-[15px] before:bg-vconf-primary after:left-0 after:bottom-[-6px] after:w-[15px] after:bg-vconf-primary'
+                : 'bg-vconf-primary before:right-0 before:-top-1.5 before:w-[15px] before:bg-vconf-primary after:left-0 after:-bottom-1.5 after:w-[15px] after:bg-vconf-primary'
             "
-            class="relative h-[1px] w-[35px] transition-colors duration-300 before:absolute before:h-[1px] before:content-[''] before:[transition:transform_300ms] after:absolute after:h-[1px] after:content-[''] after:[transition:transform_300ms]"
+            class="relative h-px w-[35px] transition-colors duration-300 before:absolute before:h-px before:transition-transform before:duration-300 before:content-[''] after:absolute after:h-px after:transition-transform after:duration-300 after:content-['']"
           ></div>
         </button>
       </nav>
