@@ -27,6 +27,8 @@ export interface SpeakerSeoMeta {
   ogUrl: string
   ogImage: string
   ogImageAlt: string
+  ogImageWidth: number
+  ogImageHeight: number
 }
 
 export interface SpeakerSeoResult {
@@ -96,6 +98,8 @@ function buildFallbackSeo(options: SpeakerSeoOptions): SpeakerSeoResult {
       ogUrl: absoluteUrl(options.path),
       ogImage: siteImage.url,
       ogImageAlt: siteImage.alt,
+      ogImageWidth: siteImage.width,
+      ogImageHeight: siteImage.height,
     },
     schema: [],
   }
@@ -122,6 +126,9 @@ export function buildSpeakerSeo(
   const ogUrl = absoluteUrl(options.path)
   const ogImage = override.ogImage ? absoluteUrl(override.ogImage) : siteImage.url
   const ogImageAlt = override.ogImageAlt ?? speaker.name
+  // 自訂 OG 圖與全站預設圖比例不同，出圖時連同尺寸一起覆寫；沒填就沿用全站尺寸
+  const ogImageWidth = override.ogImageWidth ?? siteImage.width
+  const ogImageHeight = override.ogImageHeight ?? siteImage.height
 
   const meta: SpeakerSeoMeta = {
     title,
@@ -129,6 +136,8 @@ export function buildSpeakerSeo(
     ogUrl,
     ogImage,
     ogImageAlt,
+    ogImageWidth,
+    ogImageHeight,
   }
 
   const schema: Record<string, unknown>[] = [buildPersonNode(speaker)]
