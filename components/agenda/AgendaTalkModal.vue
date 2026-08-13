@@ -173,7 +173,7 @@ const speakerSocialLinks = computed(() => {
                 </header>
 
                 <div
-                  class="min-h-0 flex-1 overflow-y-auto overscroll-contain scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar"
+                  class="min-h-0 flex-1 overflow-y-auto overscroll-contain scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:scrollbar-w-scrollbar-md"
                   data-lenis-prevent
                 >
                   <div

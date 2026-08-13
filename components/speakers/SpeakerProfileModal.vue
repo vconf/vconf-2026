@@ -51,7 +51,6 @@ const socialLinks = computed(() => {
         :aria-labelledby="speaker ? 'speaker-profile-title' : undefined"
         @click.self="emit('close')"
       >
-        <!-- 手機裝飾背景釘在遮罩層（fixed）的正中央，內容捲動時不跟著移動 -->
         <NuxtImg
           src="/speaker/speaker-modal-bg-mobile.png"
           alt=""
@@ -64,7 +63,7 @@ const socialLinks = computed(() => {
           class="pointer-events-none absolute left-1/2 top-[75%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2 md:hidden"
         />
         <div
-          class="relative grid size-full place-items-start overflow-y-auto overflow-x-hidden overscroll-contain px-6 pt-[32px] md:place-items-center md:overflow-visible md:px-12"
+          class="relative grid size-full place-items-start overflow-y-auto overflow-x-hidden overscroll-contain px-6 pt-[32px] scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:place-items-center md:overflow-visible md:px-12"
           data-lenis-prevent
           @click.self="emit('close')"
         >
@@ -91,8 +90,6 @@ const socialLinks = computed(() => {
                 />
               </svg>
             </button>
-
-            <!-- 桌機裝飾背景跟著彈窗盒子定位（桌機盒子不會捲動），手機那張在遮罩層 -->
             <NuxtImg
               src="/speaker/speaker-modal-bg-desktop.png"
               alt=""
@@ -107,37 +104,54 @@ const socialLinks = computed(() => {
 
             <template v-if="speaker">
               <aside
-                class="mx-auto aspect-speaker-photo-modal-sm w-full max-w-[260px] overflow-hidden rounded-[12px] md:mx-0 md:aspect-speaker-photo-modal md:h-[560px] md:max-h-full md:min-h-0 md:w-auto md:max-w-none md:shrink-0"
+                class="relative mx-auto aspect-speaker-photo-modal-sm w-full max-w-[260px] md:mx-0 md:aspect-speaker-photo-modal md:h-[560px] md:max-h-full md:min-h-0 md:w-auto md:max-w-none md:shrink-0"
                 aria-label="講者照片"
               >
-                <!-- 手機 260×370、桌機 333×560，比例與 aside 的 aspect-ratio 一致，object-cover 不會裁到 -->
-                <NuxtImg
-                  :src="speakerPhoto(speaker, 'profileMobile')"
-                  :alt="speaker.avatarAlt"
-                  width="260"
-                  height="370"
-                  loading="lazy"
-                  format="avif,webp"
-                  densities="x1 x2"
-                  class="block size-full object-cover object-top md:hidden"
-                />
-                <NuxtImg
-                  :src="speakerPhoto(speaker, 'profile')"
-                  :alt="speaker.avatarAlt"
-                  width="333"
-                  height="560"
-                  loading="lazy"
-                  format="avif,webp"
-                  densities="x1 x2"
-                  class="hidden size-full object-cover object-top md:block"
-                />
+                <div class="size-full overflow-hidden rounded-[12px]">
+                  <NuxtImg
+                    :src="speakerPhoto(speaker, 'profileMobile')"
+                    :alt="speaker.avatarAlt"
+                    width="260"
+                    height="370"
+                    loading="lazy"
+                    format="avif,webp"
+                    densities="x1 x2"
+                    class="block size-full object-cover object-top md:hidden"
+                  />
+                  <NuxtImg
+                    :src="speakerPhoto(speaker, 'profile')"
+                    :alt="speaker.avatarAlt"
+                    width="333"
+                    height="560"
+                    loading="lazy"
+                    format="avif,webp"
+                    densities="x1 x2"
+                    class="hidden size-full object-cover object-top md:block"
+                  />
+                </div>
+
+                <div
+                  class="speaker-reflection pointer-events-none absolute inset-x-0 top-full hidden size-full overflow-hidden rounded-[12px] md:block"
+                  aria-hidden="true"
+                >
+                  <NuxtImg
+                    :src="speakerPhoto(speaker, 'profile')"
+                    alt=""
+                    width="333"
+                    height="560"
+                    loading="lazy"
+                    format="avif,webp"
+                    densities="x1 x2"
+                    class="size-full -scale-y-100 object-cover object-top"
+                  />
+                </div>
               </aside>
 
               <article
                 class="overflow-hidden rounded-[20px] bg-vconf-white font-serif md:h-full md:min-h-0 md:flex-1"
               >
                 <div
-                  class="overscroll-contain px-6 py-7 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:h-full md:overflow-y-auto md:p-8"
+                  class="overscroll-contain px-6 py-7 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:h-full md:overflow-y-auto md:p-8 md:scrollbar-w-scrollbar-md"
                   data-lenis-prevent
                 >
                   <header class="mb-4 md:mb-6">
@@ -244,7 +258,6 @@ const socialLinks = computed(() => {
                     >
                       {{ speaker.topic }}
                     </p>
-                    <!-- 議程介紹來自講者 md 的正文，需用 ContentRenderer 渲染 AST -->
                     <ContentRenderer
                       :value="speaker"
                       data-speaker-description
@@ -269,6 +282,22 @@ const socialLinks = computed(() => {
 </template>
 
 <style scoped>
+.speaker-reflection {
+  opacity: 0.35;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0.45) 55%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0.45) 55%,
+    transparent 100%
+  );
+}
+
 .speaker-modal-enter-active,
 .speaker-modal-leave-active {
   transition: opacity 0.3s ease;
@@ -279,7 +308,6 @@ const socialLinks = computed(() => {
   opacity: 0;
 }
 
-/* 段落之後緊接列表時不加間距：帶冒號的引導句要和它的列表視覺上黏在一起 */
 [data-speaker-description] :deep(p + p),
 [data-speaker-description] :deep(ol + p),
 [data-speaker-description] :deep(ul + p) {
