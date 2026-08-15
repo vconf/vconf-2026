@@ -88,18 +88,18 @@ onBeforeUnmount(() => {
           <!-- 講者名稱 -->
           <p class="mb-[14px] flex items-center justify-center">
             <span
-              class="pr-1 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+              class="pr-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
             >{</span>
             <span
-              class="text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
+              class="font-serif text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
             >{{ speaker.name }}</span>
             <span
-              class="pl-1 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+              class="pl-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
             >}</span>
           </p>
           <!-- 講者抬頭 -->
           <p
-            class="mx-auto mb-4 w-fit font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read"
+            class="mx-auto mb-4 w-fit font-serif font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read"
           >
             {{ speaker.jobTitle }}
           </p>
@@ -124,7 +124,7 @@ onBeforeUnmount(() => {
           </p>
           <!-- More 按鈕外觀；整張卡片皆可點擊 -->
           <span
-            class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
+            class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
           >
             More
           </span>
