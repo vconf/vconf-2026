@@ -99,7 +99,7 @@ onBeforeUnmount(() => {
           </p>
           <!-- 講者抬頭 -->
           <p
-            class="mx-auto mb-4 w-fit font-serif font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read"
+            class="mx-auto mb-4 w-fit font-serif text-[14px] font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read md:text-[16px]"
           >
             {{ speaker.jobTitle }}
           </p>
@@ -122,7 +122,7 @@ onBeforeUnmount(() => {
               {{ speaker.startTime }}~{{ speaker.endTime }}
             </time>
           </p>
-          <!-- More 按鈕外觀；整張卡片皆可點擊 -->
+          <!-- More -->
           <span
             class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
           >
