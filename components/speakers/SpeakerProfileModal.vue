@@ -61,10 +61,10 @@ const socialLinks = computed(() => {
           loading="lazy"
           format="avif,webp"
           densities="x1 x2"
-          class="pointer-events-none absolute left-1/2 top-[75%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2 md:hidden"
+          class="pointer-events-none absolute left-1/2 top-[70%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2 md:hidden"
         />
         <div
-          class="relative grid size-full place-items-start overflow-y-auto overflow-x-hidden overscroll-contain px-6 pt-[32px] scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:place-items-center md:overflow-visible md:px-12"
+          class="relative grid size-full place-items-start overflow-y-auto overflow-x-hidden overscroll-contain px-6 py-8 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:place-items-center md:overflow-visible md:px-12"
           data-lenis-prevent
           @click.self="emit('close')"
         >
