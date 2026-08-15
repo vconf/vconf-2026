@@ -1,7 +1,13 @@
 export function useSpeakers() {
   return useAsyncData(
     'all-speakers',
-    () => queryCollection('speakers').order('talkNumber', 'ASC').all(),
+    async () => {
+      const speakers = await queryCollection('speakers')
+        .order('talkNumber', 'ASC')
+        .all()
+
+      return speakers.filter(speaker => !speaker.draft)
+    },
     {
       getCachedData: key =>
         useNuxtApp().payload.data[key] ?? useNuxtApp().static.data[key],

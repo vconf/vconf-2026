@@ -1,6 +1,7 @@
 import type { SpeakersCollectionItem } from '@nuxt/content'
 import type { SpeakerSeoType } from '~/config/seo.speakers.config'
 import type { SpeakerSeoOptions } from '~/utils/seo'
+import { site } from '~/config/seo.config'
 
 type SpeakerSeoInput = SpeakersCollectionItem | null | undefined
 
@@ -31,10 +32,12 @@ export function useSpeakerSeo(
     }),
   )
 
+  const ogTitle = computed(() => `${seo.value.meta.title} | ${site.name}`)
+
   useSeoMeta({
     title: () => seo.value.meta.title,
     description: () => seo.value.meta.description,
-    ogTitle: () => seo.value.meta.title,
+    ogTitle: () => ogTitle.value,
     ogDescription: () => seo.value.meta.description,
     ogUrl: () => seo.value.meta.ogUrl,
     ogImage: () => seo.value.meta.ogImage,

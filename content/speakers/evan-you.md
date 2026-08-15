@@ -1,5 +1,6 @@
 ---
 speakerId: evan-you
+draft: true
 name: Evan You
 slug: evan-you
 company: VoidZero

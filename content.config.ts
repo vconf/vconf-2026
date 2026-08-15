@@ -8,6 +8,7 @@ export default defineContentConfig({
       source: 'speakers/*.md',
       schema: z.object({
         speakerId: z.string(),
+        draft: z.boolean().default(false),
         name: z.string(),
         slug: z.string(),
         company: z.string(),
