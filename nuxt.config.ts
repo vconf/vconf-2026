@@ -101,7 +101,8 @@ export default defineNuxtConfig({
       {
         name: 'Noto Sans TC',
         provider: 'google',
-        weights: [400, 500, 700],
+        // 350 = DemiLight，對應 Tailwind 的 font-demi-light
+        weights: [350, 400, 500, 700],
         styles: ['normal'],
         display: 'swap',
       },

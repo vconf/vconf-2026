@@ -139,21 +139,37 @@ const { stop } = useIntersectionObserver(
               :href="MAP_LINK"
               target="_blank"
               rel="noopener noreferrer"
-              class="relative isolate m-auto flex w-fit items-center gap-4 rounded-full px-5 py-3 before:absolute before:inset-0 before:-z-10 before:rounded-full before:border before:border-vconf-primary before:content-['']"
+              class="group relative isolate m-auto flex w-fit items-center gap-4 rounded-full px-5 py-3 before:absolute before:inset-0 before:-z-10 before:rounded-full before:border before:border-vconf-primary before:transition-colors before:content-[''] hover:before:bg-vconf-primary"
             >
               <p
-                class="text-[16px] not-italic leading-[1.6] tracking-[0.02em] text-vconf-primary"
+                class="text-[16px] not-italic leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:text-white"
               >
                 {{ MAP_ADDRESS }}
               </p>
-              <NuxtImg
-                width="21"
-                height="29"
-                src="/share/map.svg"
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-              />
+              <!--
+                綠色圖標在填滿的底色上會看不見，改用白色版交叉淡入。
+                淡入與底色同步，避免白圖標短暫壓在還沒變色的白底上。
+              -->
+              <span class="relative block h-[29px] w-[21px] shrink-0">
+                <NuxtImg
+                  width="21"
+                  height="29"
+                  src="/share/map.svg"
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  class="absolute inset-0 transition-opacity group-hover:opacity-0"
+                />
+                <NuxtImg
+                  width="21"
+                  height="29"
+                  src="/share/map-white.svg"
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  class="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+                />
+              </span>
             </a>
           </address>
           <p

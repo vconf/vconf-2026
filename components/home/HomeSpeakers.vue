@@ -156,7 +156,7 @@ useSwiper(swiperRef, {
           <!-- 全部講者按鈕 -->
           <NuxtLink
             to="/speakers"
-            class="absolute bottom-0 left-1/2 z-30 w-fit -translate-x-1/2 whitespace-nowrap rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:px-12 md:py-3 md:text-[21px]"
+            class="absolute bottom-0 left-1/2 z-30 w-fit -translate-x-1/2 whitespace-nowrap rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors hover:bg-vconf-primary hover:text-white md:px-12 md:py-3 md:text-[21px]"
           >
             All Spekers
           </NuxtLink>

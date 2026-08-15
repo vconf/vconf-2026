@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { usePreferredReducedMotion } from '@vueuse/core'
+import { speakerPhoto } from '~/utils/agenda'
 
 const { data: speakers } = await useSpeakers()
 
@@ -25,6 +26,8 @@ onMounted(() => {
 
   batchTriggers = ScrollTrigger.batch(cards, {
     start: 'top bottom-=300',
+    // 卡片只進場一次：不做往回捲的退場，trigger 觸發後自行銷毀、不再監聽捲動
+    once: true,
     onEnter: (batch: Element[]) => {
       gsap.killTweensOf(batch)
       gsap.to(batch, {
@@ -33,17 +36,6 @@ onMounted(() => {
         filter: 'blur(0px)',
         duration: 1,
         stagger: 0.2,
-        ease: 'power2.out',
-      })
-    },
-    onLeaveBack: (batch: Element[]) => {
-      gsap.killTweensOf(batch)
-      gsap.to(batch, {
-        scale: 0.8,
-        opacity: 0,
-        filter: 'blur(10px)',
-        duration: 0.6,
-        stagger: 0.1,
         ease: 'power2.out',
       })
     },
@@ -65,19 +57,32 @@ onBeforeUnmount(() => {
       ref="gridRef"
       class="grid grid-cols-2 gap-4 md:gap-[33px] lg:grid-cols-3"
     >
-      <div
+      <NuxtLink
         v-for="speaker in speakers"
         :key="speaker.id"
+        :to="`/speakers/unpublish/${speaker.talkSlug}`"
+        class="group block rounded-lg outline-none"
       >
+        <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
         <NuxtImg
-          :src="speaker.avatar"
+          :src="speakerPhoto(speaker, 'introMobile')"
           :alt="speaker.avatarAlt"
-          width="785"
-          height="413"
+          width="169"
+          height="239"
           loading="lazy"
           format="avif,webp"
           densities="x1 x2"
-          class="mb-4 aspect-speaker-photo-sm object-cover md:aspect-speaker-photo"
+          class="mb-4 block aspect-speaker-photo-sm w-full object-cover md:hidden"
+        />
+        <NuxtImg
+          :src="speaker.avatar"
+          :alt="speaker.avatarAlt"
+          width="306"
+          height="433"
+          loading="lazy"
+          format="avif,webp"
+          densities="x1 x2"
+          class="mb-4 hidden aspect-speaker-photo w-full object-cover md:block"
         />
         <div>
           <!-- 講者名稱 -->
@@ -117,15 +122,14 @@ onBeforeUnmount(() => {
               {{ speaker.startTime }}~{{ speaker.endTime }}
             </time>
           </p>
-          <!-- More 按鈕 -->
-          <NuxtLink
-            :to="`/agenda/unpublish/${speaker.talkSlug}`"
-            class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[16px] md:leading-[1.6]"
+          <!-- More 按鈕外觀；整張卡片皆可點擊 -->
+          <span
+            class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
           >
             More
-          </NuxtLink>
+          </span>
         </div>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>

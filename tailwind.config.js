@@ -18,6 +18,8 @@ export default {
         'speaker-card': '267 / 374',
         'speaker-photo': '306 / 366',
         'speaker-photo-sm': '169 / 311',
+        'speaker-photo-modal': '333 / 560',
+        'speaker-photo-modal-sm': '260 / 370',
       },
       container: {
         center: true,
@@ -33,8 +35,21 @@ export default {
       fontWeight: {
         'demi-light': '350',
       },
+      fontSize: {
+        12: ['12px', { lineHeight: '1.6', letterSpacing: '0.02em' }], // 2
+        14: ['14px', { lineHeight: '1', letterSpacing: '0.02em' }], // 10；行高 1(×5) / 1.6(×3) 分歧，取多數
+        16: ['16px', { lineHeight: '1.6', letterSpacing: '0.02em' }], // 39
+        17: ['17px', { lineHeight: '1', letterSpacing: '0.02em' }], // 12
+        18: ['18px', { lineHeight: '1', letterSpacing: '0.02em' }], // 14
+        20: ['20px', { lineHeight: '1.2', letterSpacing: '0em' }], // 7
+        21: ['21px', { lineHeight: '1.6', letterSpacing: '0.02em' }], // 12
+        24: ['24px', { lineHeight: '1.2', letterSpacing: '0em' }], // 20
+        32: ['32px', { lineHeight: '1', letterSpacing: '0em' }], // 14；字距 0em / 0.01em 各半，取較中性者
+        48: ['48px', { lineHeight: '1', letterSpacing: '0em' }], // 4
+      },
       width: {
-        scrollbar: '12px',
+        'scrollbar': '6px',
+        'scrollbar-md': '12px',
       },
       clipPath: {
         mypolygon: 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem))',

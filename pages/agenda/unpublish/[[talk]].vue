@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import AgendaTalkModal from '~/components/agenda/AgendaTalkModal.vue'
-import { createAgendaItems, findAgendaTalkById } from '~/utils/agenda'
+import {
+  createAgendaItems,
+  findAgendaTalkById,
+  isContentSpeaker,
+} from '~/utils/agenda'
 
 const route = useRoute()
 const lenis = useLenis()
@@ -17,11 +21,17 @@ const activeTalk = computed(() =>
   talkId.value ? findAgendaTalkById(agendaItems.value, talkId.value) : null,
 )
 
-useSeoMeta({
-  title: () =>
-    activeTalk.value
-      ? `${activeTalk.value.speaker.name} ${activeTalk.value.title}`
-      : '議程資訊',
+// 佔位講者沒有 content 資料，只有正式講者才有完整 SEO 來源
+const activeSpeaker = computed(() => {
+  const speaker = activeTalk.value?.speaker
+
+  return speaker && isContentSpeaker(speaker) ? speaker : null
+})
+
+useSpeakerSeo(activeSpeaker, {
+  type: 'agenda',
+  fallback: { title: '議程資訊' },
+  // 議程尚未公開，正式上線時移除並補上 sitemap
   robots: 'noindex, nofollow',
 })
 

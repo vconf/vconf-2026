@@ -99,6 +99,8 @@ export default antfu(
             'active',
             'nav-menu',
             'speaker-slide',
+            'gold-stroke',
+            'speaker-reflection',
           ], // 允許自定義的 CSS 類名
         },
       ],

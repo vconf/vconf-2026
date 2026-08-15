@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TalkItem } from '~/utils/agenda'
-import { isContentSpeaker } from '~/utils/agenda'
+import { isContentSpeaker, speakerPhoto } from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
@@ -13,7 +13,16 @@ const emit = defineEmits<{
   afterLeave: []
 }>()
 
+// 排列順序即畫面順序：希望宣傳連結排最前面，與個人網站共用地球圖示
 const speakerLinkIcons = [
+  {
+    label: '希望宣傳連結',
+    icon: '/agenda/website-icon.svg',
+    width: 28,
+    height: 28,
+    mobileWidth: 24,
+    mobileHeight: 24,
+  },
   {
     label: '個人網站',
     icon: '/agenda/website-icon.svg',
@@ -67,13 +76,11 @@ const speakerSocialLinks = computed(() => {
   if (!speakerDetails.value)
     return []
 
-  return speakerLinkIcons.flatMap((iconConfig) => {
-    const link = speakerDetails.value?.links.find(
-      item => item.label === iconConfig.label,
-    )
-
-    return link ? [{ ...link, ...iconConfig }] : []
-  })
+  return speakerLinkIcons.flatMap(iconConfig =>
+    (speakerDetails.value?.links ?? [])
+      .filter(item => item.label === iconConfig.label)
+      .map(link => ({ ...link, ...iconConfig })),
+  )
 })
 </script>
 
@@ -93,10 +100,10 @@ const speakerSocialLinks = computed(() => {
         @click.self="emit('close')"
       >
         <div
-          class="grid size-full place-items-center px-6 py-[51px] md:px-[44px]"
+          class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px]"
         >
           <div
-            class="relative mx-auto flex h-[90svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:flex-row"
+            class="relative mx-auto flex h-[90svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[80svh] md:flex-row"
           >
             <!-- 關閉按鈕 -->
             <button
@@ -173,7 +180,7 @@ const speakerSocialLinks = computed(() => {
                 </header>
 
                 <div
-                  class="min-h-0 flex-1 overflow-y-auto overscroll-contain scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar"
+                  class="min-h-0 flex-1 overflow-y-auto overscroll-contain scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:scrollbar-w-scrollbar-md"
                   data-lenis-prevent
                 >
                   <div
@@ -200,15 +207,26 @@ const speakerSocialLinks = computed(() => {
                       aria-label="講者資訊"
                     >
                       <div class="flex gap-4 md:block">
+                        <!-- 手機圓形頭像、桌機直式講者照；未提供彈窗專用圖時退回講者介紹照 -->
                         <NuxtImg
-                          :src="talk.speaker.avatar"
+                          :src="speakerPhoto(talk.speaker, 'modalMobile')"
                           :alt="talk.speaker.avatarAlt"
-                          width="306"
-                          height="366"
+                          width="120"
+                          height="120"
                           loading="lazy"
                           format="avif,webp"
                           densities="x1 x2"
-                          class="size-[120px] rounded-full object-cover md:h-[400px] md:w-full md:rounded-none"
+                          class="block size-[120px] rounded-full object-cover md:hidden"
+                        />
+                        <NuxtImg
+                          :src="speakerPhoto(talk.speaker, 'modal')"
+                          :alt="talk.speaker.avatarAlt"
+                          width="253"
+                          height="400"
+                          loading="lazy"
+                          format="avif,webp"
+                          densities="x1 x2"
+                          class="hidden h-[400px] w-full object-cover md:block"
                         />
                         <div class="mt-6">
                           <p class="mb-2 flex items-center md:mb-0">
@@ -311,14 +329,20 @@ const speakerSocialLinks = computed(() => {
   }
 }
 
+/* 段落之後緊接列表時不加間距：帶冒號的引導句要和它的列表視覺上黏在一起 */
 [data-agenda-description] :deep(p + p),
-[data-agenda-description] :deep(p + ol),
-[data-agenda-description] :deep(ol + p) {
+[data-agenda-description] :deep(ol + p),
+[data-agenda-description] :deep(ul + p) {
   margin-top: 1.5rem;
 }
 
 [data-agenda-description] :deep(ol) {
   list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+[data-agenda-description] :deep(ul) {
+  list-style: disc;
   padding-left: 1.5rem;
 }
 </style>

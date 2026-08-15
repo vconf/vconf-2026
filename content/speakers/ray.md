@@ -4,7 +4,9 @@ name: Ray
 slug: ray
 company: 六角學院
 jobTitle: 資深軟體工程師
-avatar: /speaker/ray.png
+avatar: /speaker/ray-intro-desktop.png
+avatarMobile: /speaker/ray-intro-mobile.png
+agendaAvatar: /agenda/ray-agenda.png
 avatarAlt: Ray 頭像
 speakerInfo: 目前擔任六角學院資深軟體工程師，除此之外也是課程講師、教練以及助教，工作上主要負責 Web 前端開發，主要使用 Vue/Nuxt 為主。個人喜歡把自己一些經驗重新內化之後輸出成文章，或系列文章，也喜歡把自己遇到的一些 Bug 轉成文章作為記錄。
 experiences:

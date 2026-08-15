@@ -10,6 +10,17 @@ export const site = {
   twitter: '@vuejs_taiwan',
 } satisfies Partial<SiteModuleOptions>
 
+/**
+ * 以 site.url 組出絕對網址，避免各處硬編網域。
+ * 已經是完整網址（http/https）則原樣回傳。
+ */
+export function absoluteUrl(path: string = '') {
+  if (/^https?:\/\//.test(path))
+    return path
+
+  return `${site.url.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`
+}
+
 export const sitemap = {
   excludeAppSources: true,
   zeroRuntime: true,
@@ -34,14 +45,14 @@ export const sitemap = {
 } satisfies Partial<SitemapModuleOptions>
 
 export const siteImage = {
-  url: 'https://v-conf.vue.tw/og-image.png',
+  url: absoluteUrl('og-image.png'),
   alt: 'v-conf Taiwan 2026',
   width: 1200,
   height: 630,
 } as const
 
 export const eventOrganizer = {
-  '@id': 'https://v-conf.vue.tw/#organization',
+  '@id': absoluteUrl('#organization'),
   '@type': 'Organization',
   'name': 'Vue.js Taiwan',
   'email': 'vuejs_taiwan@googlegroups.com',
@@ -52,7 +63,7 @@ export const eventOrganizer = {
 } as const
 
 export const eventLocation = {
-  '@id': 'https://v-conf.vue.tw/#location',
+  '@id': absoluteUrl('#location'),
   '@type': 'Place',
   'name': '政大公企中心 A2 國際會議廳',
   'hasMap':
@@ -68,7 +79,7 @@ export const eventLocation = {
 } as const
 
 export const eventImage = {
-  '@id': 'https://v-conf.vue.tw/#event-image',
+  '@id': absoluteUrl('#event-image'),
   '@type': 'ImageObject',
   'contentUrl': siteImage.url,
   'inLanguage': 'zh-TW',
@@ -76,7 +87,7 @@ export const eventImage = {
 } as const
 
 export const websiteBasic = {
-  '@id': 'https://v-conf.vue.tw/#website',
+  '@id': absoluteUrl('#website'),
   '@type': 'WebSite',
   'name': site.name,
   'alternateName': [
@@ -88,32 +99,32 @@ export const websiteBasic = {
   'inLanguage': site.defaultLocale,
   'url': site.url,
   'image': {
-    '@id': 'https://v-conf.vue.tw/#event-image',
+    '@id': eventImage['@id'],
   },
   'publisher': {
-    '@id': 'https://v-conf.vue.tw/#organization',
+    '@id': eventOrganizer['@id'],
   },
 } as const
 
 export const eventBasic = {
-  '@id': 'https://v-conf.vue.tw/#main-event',
+  '@id': absoluteUrl('#main-event'),
   '@type': 'Event',
   'name': 'v-conf Taiwan 2026',
   'description':
     '聚焦 Vue 生態系與現代前端開發體驗,分享 Vue、Vite、工具鏈與實務案例等前端議題,與開發者一同探索 Web 開發的下一個階段',
   'inLanguage': 'zh-TW',
   'image': {
-    '@id': 'https://v-conf.vue.tw/#event-image',
+    '@id': eventImage['@id'],
   },
   'startDate': '2026-10-17T09:30:00+08:00',
   'endDate': '2026-10-17T16:00:00+08:00',
   'eventStatus': 'https://schema.org/EventScheduled',
   'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
-  'url': 'https://v-conf.vue.tw/',
+  'url': site.url,
   'location': {
-    '@id': 'https://v-conf.vue.tw/#location',
+    '@id': eventLocation['@id'],
   },
   'organizer': {
-    '@id': 'https://v-conf.vue.tw/#organization',
+    '@id': eventOrganizer['@id'],
   },
 } as const

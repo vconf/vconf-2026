@@ -48,6 +48,14 @@
     --color-gray-ultralight: 0 0% 98%;
     --color-gray-light: 0 0% 79%;
     --color-section-bg: 0 0% 100%;
+    --gradient-gold: linear-gradient(
+      to bottom,
+      #dcd1a3 0%,
+      #fffcd6 27%,
+      #f3e48e 50%,
+      #fffcd6 75%,
+      #dcd1a3 100%
+    );
   }
 
   .dark {
