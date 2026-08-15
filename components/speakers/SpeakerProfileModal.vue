@@ -14,7 +14,9 @@ const emit = defineEmits<{
   afterLeave: []
 }>()
 
+// 排列順序即畫面順序：希望宣傳連結排最前面，與個人網站共用地球圖示
 const speakerLinkIcons = [
+  { label: '希望宣傳連結', icon: '/agenda/website-icon.svg' },
   { label: '個人網站', icon: '/agenda/website-icon.svg' },
   { label: 'X', icon: '/agenda/x.svg' },
   { label: 'FB', icon: '/agenda/fb.svg' },
@@ -26,13 +28,12 @@ const socialLinks = computed(() => {
   if (!props.speaker)
     return []
 
-  return speakerLinkIcons.flatMap((iconConfig) => {
-    const link = props.speaker?.links.find(
-      item => item.label === iconConfig.label,
-    )
-
-    return link ? [{ ...link, ...iconConfig }] : []
-  })
+  // 同一個 label 可能有多筆（例如兩個希望宣傳連結），全部都要顯示
+  return speakerLinkIcons.flatMap(iconConfig =>
+    (props.speaker?.links ?? [])
+      .filter(item => item.label === iconConfig.label)
+      .map(link => ({ ...link, ...iconConfig })),
+  )
 })
 </script>
 

@@ -7,7 +7,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  text: '早鳥優惠',
+  text: '優惠文字',
   href: '#',
 })
 </script>
