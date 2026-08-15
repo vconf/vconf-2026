@@ -164,7 +164,7 @@ const socialLinks = computed(() => {
                         class="pr-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light md:pr-4 md:text-[32px] md:tracking-[0em]"
                       >{</span>
                       <span
-                        class="font-sans text-[20px] font-bold leading-[1.2] text-vconf-primary md:text-[48px]"
+                        class="font-serif text-[20px] font-bold leading-[1.2] text-vconf-primary md:text-[48px]"
                       >{{ speaker.name }}</span>
                       <span
                         class="pl-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light md:pl-4 md:text-[32px] md:tracking-[0em]"
