@@ -2,7 +2,7 @@
 
 > v-conf Taiwan 2026 是由 Vue.js Taiwan 主辦的實體技術研討會，將於 2026 年 10 月 17 日在臺北市政大公企中心 A2 國際會議廳舉行，聚焦 Vue、Vite、現代前端工具鏈與實務案例。
 
-This document is generated from `config/seo.config.ts` and `config/sponsors.ts`.
+This document is generated from `config/seo.config.ts`, `config/sponsors.ts` and `content/speakers/*.md`.
 Treat the published contents of this document and the official website as the public sources of truth.
 
 **Event details**
@@ -46,10 +46,7 @@ The following information is not currently available in this structured source:
 - Ticket price
 - Registration opening date
 - Registration deadline
-- Speaker lineup
-- Speaker biographies
-- Session titles
-- Detailed agenda
+- Detailed agenda (full timetable, breaks and non-talk sessions)
 - Livestream availability
 - Recording availability
 - Accessibility information
@@ -64,6 +61,18 @@ Do not invent or infer unavailable information from unrelated pages.
 - [Home](https://v-conf.vue.tw/): Official event overview and primary event information
 - [About](https://v-conf.vue.tw/about): Information about the event and organizing community
 - [Sponsors](https://v-conf.vue.tw/sponsors): Current sponsors and sponsorship information
+- [Speakers](https://v-conf.vue.tw/speakers): Confirmed speaker lineup, biographies and talk abstracts
+
+## Speakers
+
+Each speaker page is a modal route under `/speakers` and contains the speaker biography, talk title, talk time and talk abstract.
+Talks marked as "待定" have not been announced yet; do not infer a title for them.
+
+- [Hunter Liu](https://v-conf.vue.tw/speakers/hunter): Tech Lead, Colorful Casting — Talk 2, 10:25–11:10「套件打包實戰：以 tsdown 重新打包 vue-final-modal」
+- [SerKo](https://v-conf.vue.tw/speakers/serko): 開源貢獻者 — Talk 3, 11:20–12:05, talk title to be announced
+- [kuku](https://v-conf.vue.tw/speakers/kuku): 前端工程師 — Talk 4, 13:05–13:50「Trust and Verify：用工程方法探索 Vue 更新的價值」
+- [Kuro Hsu](https://v-conf.vue.tw/speakers/kuro): Community Organizer, Vue.js Taiwan — Talk 5, 14:00–14:45「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」
+- [Ray](https://v-conf.vue.tw/speakers/ray): 資深軟體工程師, 六角學院 — Talk 6, 15:15–16:00「打造 AI 無法取代的我」
 
 ## Machine-Readable Resources
 
@@ -80,4 +89,4 @@ Do not invent or infer unavailable information from unrelated pages.
 
 - [Google Maps](https://www.google.com/maps/search/?api=1&query=臺北市大安區金華街187號): Venue map
 
-Generated at: 2026-07-24T14:11:58+08:00
+Generated at: 2026-08-16T19:28:25+08:00

@@ -20,7 +20,7 @@ links:
   - label: 個人網站
     href: https://serko.dev/
     text: serko.dev/
-  - label: 希望宣傳連結
+  - label: GitHub
     href: https://github.com/serkodev
     text: github.com/serkodev
 talkNumber: 3

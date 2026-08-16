@@ -30,7 +30,7 @@ links:
   - label: 個人網站
     href: https://hunterliu.tw/
     text: hunterliu.tw/
-  - label: 希望宣傳連結
+  - label: GitHub
     href: https://github.com/hunterliu1003
     text: github.com/hunterliu1003
 talkNumber: 2

@@ -6,7 +6,6 @@ import { speakerPhoto } from '~/utils/agenda'
 const props = defineProps<{
   visible: boolean
   speaker: SpeakersCollectionItem | null
-  speakerId?: string
 }>()
 
 const emit = defineEmits<{
@@ -14,8 +13,8 @@ const emit = defineEmits<{
   afterLeave: []
 }>()
 
-// 排列順序即畫面順序：希望宣傳連結排最前面，與個人網站共用地球圖示
 const speakerLinkIcons = [
+  { label: 'GitHub', icon: '/agenda/github-icon.svg' },
   { label: '希望宣傳連結', icon: '/agenda/website-icon.svg' },
   { label: '個人網站', icon: '/agenda/website-icon.svg' },
   { label: 'X', icon: '/agenda/x.svg' },
@@ -171,10 +170,9 @@ const socialLinks = computed(() => {
                       >}</span>
                     </h2>
 
-                    <div class="flex flex-col gap-4 md:gap-5">
+                    <div class="flex flex-col gap-4 md:gap-6">
                       <div
                         class="text-[16px] font-demi-light leading-[1.6] tracking-[0em] text-vconf-text-read"
-                        :class="{ 'mb-6': socialLinks.length }"
                       >
                         <p
                           v-if="speaker.company && speaker.company !== '-'"
@@ -268,13 +266,6 @@ const socialLinks = computed(() => {
                 </div>
               </article>
             </template>
-
-            <article
-              v-else
-              class="w-full rounded-[20px] bg-vconf-white px-6 py-16 text-center text-vconf-text-read"
-            >
-              找不到此講者（id：{{ speakerId }}）
-            </article>
           </div>
         </div>
       </div>

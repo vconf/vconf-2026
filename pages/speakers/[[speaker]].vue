@@ -16,10 +16,16 @@ const activeSpeaker = computed(
     ?? null,
 )
 
+function backToList() {
+  return navigateTo('/speakers', { replace: true })
+}
+
+if (speakerId.value && !activeSpeaker.value)
+  await backToList()
+
 useSpeakerSeo(activeSpeaker, {
   type: 'speakers',
   fallback: { title: '講者介紹' },
-  robots: 'noindex, nofollow',
 })
 
 const visible = ref(false)
@@ -46,15 +52,26 @@ function open() {
 }
 
 onMounted(() => {
-  if (speakerId.value)
+  if (!speakerId.value)
+    return
+
+  if (activeSpeaker.value)
     open()
+  else backToList()
 })
 
 watch(speakerId, (value) => {
   if (value) {
-    open()
+    if (activeSpeaker.value)
+      open()
+    else backToList()
+
     return
   }
+
+  // 彈窗沒開就沒有鎖過捲動（例如剛從不存在的講者退回列表），不需要收尾
+  if (!visible.value)
+    return
 
   if (!closeRequested.value) {
     lockBackgroundScroll()
@@ -72,7 +89,7 @@ function close() {
 
 async function afterLeave() {
   if (closeRequested.value && speakerId.value)
-    await navigateTo('/speakers/unpublish', { replace: true })
+    await navigateTo('/speakers', { replace: true })
 
   closeRequested.value = false
   unlockBackgroundScroll()
@@ -89,7 +106,6 @@ onBeforeUnmount(unlockBackgroundScroll)
     <SpeakerProfileModal
       :visible="visible"
       :speaker="activeSpeaker"
-      :speaker-id="speakerId"
       @close="close"
       @after-leave="afterLeave"
     />
