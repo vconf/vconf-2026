@@ -171,10 +171,9 @@ const socialLinks = computed(() => {
                       >}</span>
                     </h2>
 
-                    <div class="flex flex-col gap-4 md:gap-5">
+                    <div class="flex flex-col gap-4 md:gap-6">
                       <div
                         class="text-[16px] font-demi-light leading-[1.6] tracking-[0em] text-vconf-text-read"
-                        :class="{ 'mb-6': socialLinks.length }"
                       >
                         <p
                           v-if="speaker.company && speaker.company !== '-'"
