@@ -1,5 +1,5 @@
 // 彈窗式路由：父路徑與 /父路徑/:id 共用同一個頁面元件，只切換 overlay
-const MODAL_BASE_PATHS = ['/agenda/unpublish', '/speakers/unpublish']
+const MODAL_BASE_PATHS = ['/agenda/unpublish', '/speakers']
 
 function normalizePath(path: string) {
   return path.endsWith('/') && path !== '/' ? path.slice(0, -1) : path

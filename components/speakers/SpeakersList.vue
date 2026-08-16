@@ -60,7 +60,7 @@ onBeforeUnmount(() => {
       <NuxtLink
         v-for="speaker in speakers"
         :key="speaker.id"
-        :to="`/speakers/unpublish/${speaker.talkSlug}`"
+        :to="`/speakers/${speaker.talkSlug}`"
         class="group block rounded-lg outline-none"
       >
         <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->

@@ -6,7 +6,6 @@ import { speakerPhoto } from '~/utils/agenda'
 const props = defineProps<{
   visible: boolean
   speaker: SpeakersCollectionItem | null
-  speakerId?: string
 }>()
 
 const emit = defineEmits<{
@@ -267,13 +266,6 @@ const socialLinks = computed(() => {
                 </div>
               </article>
             </template>
-
-            <article
-              v-else
-              class="w-full rounded-[20px] bg-vconf-white px-6 py-16 text-center text-vconf-text-read"
-            >
-              找不到此講者（id：{{ speakerId }}）
-            </article>
           </div>
         </div>
       </div>

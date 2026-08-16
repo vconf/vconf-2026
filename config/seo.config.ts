@@ -41,6 +41,14 @@ export const sitemap = {
     // 主要內容頁面
     { loc: '/about', priority: 0.9, lastmod: '2026-07-24' },
     { loc: '/sponsors', priority: 0.9, lastmod: '2026-07-24' },
+    { loc: '/speakers', priority: 0.9, lastmod: '2026-08-16' },
+
+    // 講者介紹（彈窗式路由，talkSlug 對應 content/speakers/*.md，draft 的不列入）
+    { loc: '/speakers/kuku', priority: 0.8, lastmod: '2026-08-16' },
+    { loc: '/speakers/hunter', priority: 0.8, lastmod: '2026-08-16' },
+    { loc: '/speakers/serko', priority: 0.8, lastmod: '2026-08-16' },
+    { loc: '/speakers/ray', priority: 0.8, lastmod: '2026-08-16' },
+    { loc: '/speakers/kuro', priority: 0.8, lastmod: '2026-08-16' },
   ],
 } satisfies Partial<SitemapModuleOptions>
 
