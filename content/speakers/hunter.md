@@ -4,8 +4,10 @@ name: Hunter Liu
 slug: hunter
 company: Colorful Casting
 jobTitle: Tech Lead
-avatar: /speaker/hunterLiu-profile-desktop.png
-profileAvatar: /speaker/hunterLiu-profile-desktop.png
+avatar: /speaker/hunterLiu-intro-desktop.png
+avatarMobile: /speaker/hunterLiu-intro-mobile.png
+profileAvatar: /speaker/hunterLiu-profile.png
+profileAvatarMobile: /speaker/hunterLiu-profile.png
 avatarAlt: Hunter Liu 頭像
 speakerInfo: 現任日本新創 Colorful Casting 的 Tech Lead，擁有 9 年軟體開發經驗，專注於 Vue、Vite、TypeScript、Nuxt 與產品架構。除了前端，也具備後端與資料庫開發經驗，參與過非關聯式及關聯式資料庫系統的設計與建置。工作涵蓋架構設計、程式碼審查、自動化測試、CI/CD，以及 Web、iOS、Android 跨平台產品開發，重視可維護性、開發體驗與團隊協作。
 experiences:

@@ -5,6 +5,9 @@ slug: serko
 company: "-"
 jobTitle: 開源貢獻者
 avatar: /speaker/serko-intro-desktop.png
+avatarMobile: /speaker/serko-intro-mobile.png
+profileAvatar: /speaker/serko-profile.png
+profileAvatarMobile: /speaker/serko-profile.png
 avatarAlt: SerKo 頭像
 speakerInfo: SerKo 在 Vue.js 參與開發 Vue Language Tools 以及改善 Vue 在 AI 方面的開發體驗，也有參與貢獻 VueUse 及 Nuxt 生態的開源專案。
 experiences:

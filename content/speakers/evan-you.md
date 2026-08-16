@@ -5,7 +5,10 @@ name: Evan You
 slug: evan-you
 company: VoidZero
 jobTitle: 創始人
-avatar: /speaker/evanyou-intro-desktop.jpg
+avatar: /speaker/evanYou-intro-desktop.png
+avatarMobile: /speaker/evanYou-intro-mobile.png
+profileAvatar: /speaker/evanYou-profile.png
+profileAvatarMobile: /speaker/evanYou-profile.png
 avatarAlt: Evan You 頭像
 speakerInfo: Vue.js 和 Vite 的作者，VoidZero 創始人
 experiences: []

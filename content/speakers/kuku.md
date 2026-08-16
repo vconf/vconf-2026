@@ -9,8 +9,8 @@ avatarMobile: /speaker/kuku-intro-mobile.png
 agendaAvatar: /agenda/kuku-agenda.png
 modalAvatar: /agenda/kuku-modal-desktop.png
 modalAvatarMobile: /agenda/kuku-modal-mobile.png
-profileAvatar: /speaker/kuku-profile-desktop.png
-profileAvatarMobile: /speaker/kuku-profile-mobile.png
+profileAvatar: /speaker/kuku-profile.png
+profileAvatarMobile: /speaker/kuku-profile.png
 avatarAlt: kuku 頭像
 speakerInfo: |-
   曾任友達良率提升副理，三年前轉職成為前端工程師，將過去改善流程、提升效率的思維帶進軟體開發，目前主要使用 Vue.js 開發商業專案。
