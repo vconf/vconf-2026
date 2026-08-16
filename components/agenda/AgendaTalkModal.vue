@@ -13,8 +13,15 @@ const emit = defineEmits<{
   afterLeave: []
 }>()
 
-// 排列順序即畫面順序：希望宣傳連結排最前面，與個人網站共用地球圖示
 const speakerLinkIcons = [
+  {
+    label: 'GitHub',
+    icon: '/agenda/github-icon.svg',
+    width: 28,
+    height: 28,
+    mobileWidth: 24,
+    mobileHeight: 24,
+  },
   {
     label: '希望宣傳連結',
     icon: '/agenda/website-icon.svg',

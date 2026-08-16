@@ -19,7 +19,7 @@ links:
   - label: 個人網站
     href: https://evanyou.me/
     text: evanyou.me/
-  - label: 希望宣傳連結
+  - label: GitHub
     href: https://github.com/yyx990803
     text: github.com/yyx990803
 talkNumber: 1
