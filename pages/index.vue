@@ -19,7 +19,7 @@ useSeoMeta({
   <main>
     <HomeHero />
     <LazyHomeCountdown hydrate-on-visible />
-    <!-- <HomeSpeakers /> -->
+    <HomeSpeakers />
     <LazyHomeSponsorSection hydrate-on-visible />
     <ShareFloatingCta
       :text="ctaInfo.text"
