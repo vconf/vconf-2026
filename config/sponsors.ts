@@ -73,7 +73,7 @@ export const sponsorGroups: SponsorGroup[] = [
     sponsors: [
       {
         name: 'teacher.place',
-        logo: '/sponsors/bluemonkey.svg',
+        logo: '/sponsors/bluemonkey-2.svg',
         url: 'https://teacher.place/?openExternalBrowser=1',
         width: 156,
         height: 156,
