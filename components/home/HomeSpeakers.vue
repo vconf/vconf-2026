@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useResizeObserver } from '@vueuse/core'
+
 const { data: speakers } = await useSpeakers()
 
 const DISPLAY_SPEAKERS = computed(() => [
@@ -6,9 +8,7 @@ const DISPLAY_SPEAKERS = computed(() => [
   ...(speakers.value ?? []),
 ])
 
-const swiperRef = ref(null)
-
-useSwiper(swiperRef, {
+const SWIPER_OPTIONS = {
   loop: true,
   centeredSlides: true,
   slidesPerView: 1.35,
@@ -36,7 +36,22 @@ useSwiper(swiperRef, {
     modifier: 1.05,
     slideShadows: false,
   },
-})
+}
+
+const swiperRef = ref<(HTMLElement & { initialize: () => void }) | null>(null)
+const swiperWrapperRef = ref<HTMLElement | null>(null)
+
+function ensureSwiperInitialized() {
+  const el = swiperRef.value
+
+  if (!el?.isConnected || !swiperWrapperRef.value?.clientWidth)
+    return
+
+  el.initialize()
+}
+
+onMounted(() => nextTick(ensureSwiperInitialized))
+useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
 </script>
 
 <template>
@@ -90,10 +105,12 @@ useSwiper(swiperRef, {
           <!-- 輪播卡片 -->
           <ClientOnly>
             <div
+              ref="swiperWrapperRef"
               class="relative flex min-w-0 items-center before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-10 before:w-6 before:bg-gradient-to-r before:from-vconf-white before:to-transparent before:content-[''] after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-10 after:w-6 after:bg-gradient-to-l after:from-vconf-white after:to-transparent after:content-[''] md:h-full"
             >
               <swiper-container
                 ref="swiperRef"
+                v-bind="SWIPER_OPTIONS"
                 :init="false"
                 data-swiper="speakers"
                 class="mx-auto grid place-content-center md:h-full"
@@ -104,31 +121,37 @@ useSwiper(swiperRef, {
                   class="speaker-slide flex justify-center md:h-full"
                 >
                   <div class="flex w-full max-w-[228px] flex-col md:max-w-none">
-                    <svg
-                      data-speaker-image-frame
-                      viewBox="0 0 267 374"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="aspect-speaker-card w-full min-w-0"
-                      aria-hidden="true"
+                    <NuxtLink
+                      :to="`/speakers/${speaker.talkSlug}`"
+                      :aria-label="`查看講者 ${speaker.name} 的介紹`"
+                      class="block w-full min-w-0"
                     >
-                      <defs>
-                        <clipPath
-                          :id="`speaker-mask-${index}`"
-                          clipPathUnits="userSpaceOnUse"
-                        >
-                          <path d="M4 28.8947L263 0V366L4 313.026V28.8947Z" />
-                        </clipPath>
-                      </defs>
-                      <image
-                        :href="speaker.avatar"
-                        x="0"
-                        y="0"
-                        width="267"
-                        height="374"
-                        preserveAspectRatio="xMidYMid slice"
-                        :clip-path="`url(#speaker-mask-${index})`"
-                      />
-                    </svg>
+                      <svg
+                        data-speaker-image-frame
+                        viewBox="0 0 267 374"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="aspect-speaker-card w-full min-w-0"
+                        aria-hidden="true"
+                      >
+                        <defs>
+                          <clipPath
+                            :id="`speaker-mask-${index}`"
+                            clipPathUnits="userSpaceOnUse"
+                          >
+                            <path d="M4 28.8947L263 0V366L4 313.026V28.8947Z" />
+                          </clipPath>
+                        </defs>
+                        <image
+                          :href="speaker.avatar"
+                          x="0"
+                          y="0"
+                          width="267"
+                          height="374"
+                          preserveAspectRatio="xMidYMid slice"
+                          :clip-path="`url(#speaker-mask-${index})`"
+                        />
+                      </svg>
+                    </NuxtLink>
                     <div class="flex-1 px-6 pt-4 text-center md:px-[45px]">
                       <h3
                         class="mb-[14px] flex items-center justify-center font-serif text-[20px] font-bold leading-[1.2] tracking-[0%] md:text-[24px]"
