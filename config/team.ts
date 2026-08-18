@@ -212,6 +212,23 @@ export const teamGroups: TeamGroup[] = teamGroupOrder
   }))
   .filter(group => group.members.length > 0)
 
+export interface TeamMemberRole {
+  team: TeamName
+  role: TeamRole
+}
+
+export function findTeamMemberRoles(slug: string): TeamMemberRole[] {
+  return teamGroups.flatMap((group) => {
+    const member = group.members.find(item => item.slug === slug)
+
+    return member ? [{ team: group.title, role: member.role }] : []
+  })
+}
+
+export function teamRoleLabel({ team, role }: TeamMemberRole): string {
+  return role === '總召' ? role : `${team}${role}`
+}
+
 /** 依 slug 取得成員，供成員彈窗（/team/[slug]）使用 */
 export function findTeamMember(slug: string): TeamMember | undefined {
   return teamMembers.find(member => member.slug === slug)

@@ -1,5 +1,6 @@
 import type { SpeakersCollectionItem } from '@nuxt/content'
 import type { SpeakerSeoType } from '~/config/seo.speakers.config'
+import type { TeamMember } from '~/config/team'
 import {
   absoluteUrl,
   eventBasic,
@@ -9,6 +10,7 @@ import {
   siteImage,
 } from '~/config/seo.config'
 import { getSpeakerSeoOverride } from '~/config/seo.speakers.config'
+import { findTeamMemberRoles, teamPhoto, teamRoleLabel } from '~/config/team'
 
 export interface SpeakerSeoOptions {
   type: SpeakerSeoType
@@ -170,4 +172,79 @@ export function buildSpeakerSeo(
   })
 
   return { meta, schema }
+}
+
+export interface TeamMemberSeoResult {
+  /** 頁面標題（不含站名，站名由 titleTemplate 補上） */
+  title: string
+  schema: Record<string, unknown>[]
+  /** Person 節點的 @id，供頁面把 ProfilePage 的 mainEntity 指過來 */
+  personId?: string
+}
+
+/** 團隊成員與講者可能是同一人，@id 加前綴避免兩邊節點互相覆蓋 */
+function teamPersonId(member: TeamMember) {
+  return absoluteUrl(`#person/team-${member.slug}`)
+}
+
+function buildTeamPersonNode(member: TeamMember) {
+  const node: Record<string, unknown> = {
+    '@id': teamPersonId(member),
+    '@type': 'Person',
+    'name': member.name,
+    'jobTitle': member.jobTitle,
+  }
+
+  // Person.description 就是「這個人的自我描述」，直接用成員自己寫的自我介紹；沒寫就不輸出
+  if (member.bio)
+    node.description = toSingleLine(member.bio)
+
+  const photo = teamPhoto(member, 'popup')
+
+  if (photo)
+    node.image = buildImageNode(absoluteUrl(`#image/team-${member.slug}`), photo)
+
+  if (member.company) {
+    node.worksFor = {
+      '@type': 'Organization',
+      'name': member.company,
+    }
+  }
+
+  const sameAs = Object.values(member.links ?? {}).filter(Boolean)
+
+  if (sameAs.length)
+    node.sameAs = sameAs
+
+  // Role 節點才能同時表達「隸屬 Vue.js Taiwan」與「在籌備團隊擔任的職務」
+  const roles = findTeamMemberRoles(member.slug)
+
+  if (roles.length) {
+    node.memberOf = roles.map(role => ({
+      '@type': 'OrganizationRole',
+      'roleName': teamRoleLabel(role),
+      'memberOf': { '@id': eventOrganizer['@id'] },
+    }))
+  }
+
+  return node
+}
+
+/**
+ * 由 config/team.ts 的成員資料組出成員彈窗的標題與 schema.org 節點。
+ *
+ * 與 buildSpeakerSeo() 一樣是純函式，不依賴 Nuxt composable。
+ */
+export function buildTeamMemberSeo(
+  member: TeamMember | null | undefined,
+  options: { fallbackTitle?: string } = {},
+): TeamMemberSeoResult {
+  if (!member)
+    return { title: options.fallbackTitle ?? site.name, schema: [] }
+
+  return {
+    title: member.name,
+    schema: [buildTeamPersonNode(member)],
+    personId: teamPersonId(member),
+  }
 }
