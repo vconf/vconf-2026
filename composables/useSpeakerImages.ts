@@ -1,4 +1,4 @@
-import type { SpeakersCollectionItem } from '@nuxt/content'
+import type { AnySpeaker } from '~/utils/agenda'
 import { speakerPhoto } from '~/utils/agenda'
 
 interface ImageSpec {
@@ -35,12 +35,19 @@ const requested = new Set<string>()
 
 /** SpeakerProfileModal 的講者照 */
 function profileSpec(
-  speaker: SpeakersCollectionItem,
+  speaker: AnySpeaker,
   viewport: Viewport,
 ): ImageSpec {
   return viewport === 'mobile'
     ? { src: speakerPhoto(speaker, 'profileMobile'), width: 260, height: 370 }
     : { src: speakerPhoto(speaker, 'profile'), width: 333, height: 560 }
+}
+
+/** AgendaTalkModal 的講者照 */
+function agendaSpec(speaker: AnySpeaker, viewport: Viewport): ImageSpec {
+  return viewport === 'mobile'
+    ? { src: speakerPhoto(speaker, 'modalMobile'), width: 120, height: 120 }
+    : { src: speakerPhoto(speaker, 'modal'), width: 253, height: 400 }
 }
 
 export function useSpeakerImages() {
@@ -77,7 +84,7 @@ export function useSpeakerImages() {
   /**
    * prerender 時把彈窗會用到的圖註冊進靜態產出。
    */
-  function registerModalImages(speakers: SpeakersCollectionItem[]) {
+  function registerModalImages(speakers: AnySpeaker[]) {
     for (const viewport of VIEWPORTS) {
       for (const density of DENSITIES) {
         toUrl(MODAL_BACKGROUNDS[viewport], density)
@@ -97,7 +104,7 @@ export function useSpeakerImages() {
 
   /** 預載單一講者的彈窗照片；游標碰到卡片時用 high */
   function preloadSpeakerModal(
-    speaker: SpeakersCollectionItem,
+    speaker: AnySpeaker,
     priority: Priority = 'low',
   ) {
     const { viewport, density } = currentTarget()
@@ -105,13 +112,32 @@ export function useSpeakerImages() {
     request(toUrl(profileSpec(speaker, viewport), density), priority)
   }
 
+  /** 同 registerModalImages，對象換成議程彈窗 */
+  function registerAgendaModalImages(speakers: AnySpeaker[]) {
+    for (const viewport of VIEWPORTS) {
+      for (const density of DENSITIES) {
+        for (const speaker of speakers)
+          toUrl(agendaSpec(speaker, viewport), density)
+      }
+    }
+  }
+
+  /** 預載議程彈窗的講者照；游標碰到議程卡片時用 high */
+  function preloadAgendaTalk(speaker: AnySpeaker, priority: Priority = 'low') {
+    const { viewport, density } = currentTarget()
+
+    request(toUrl(agendaSpec(speaker, viewport), density), priority)
+  }
+
   /** 首頁輪播的 SVG <image> 用；SVG 不吃 srcset，直接給 2x */
-  function cardPhotoUrl(speaker: SpeakersCollectionItem) {
+  function cardPhotoUrl(speaker: AnySpeaker) {
     return toUrl({ src: speaker.avatar, ...CARD_PHOTO_SIZE }, 2)
   }
 
   return {
     registerModalImages,
+    registerAgendaModalImages,
+    preloadAgendaTalk,
     preloadModalBackground,
     preloadSpeakerModal,
     cardPhotoUrl,

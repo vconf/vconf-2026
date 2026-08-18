@@ -107,10 +107,10 @@ const speakerSocialLinks = computed(() => {
         @click.self="emit('close')"
       >
         <div
-          class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px]"
+          class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px] md:pb-6 md:pt-0"
         >
           <div
-            class="relative mx-auto flex h-[90svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[80svh] md:flex-row"
+            class="relative m-auto flex h-[85svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[80svh] md:flex-row"
           >
             <!-- 關閉按鈕 -->
             <button
@@ -137,7 +137,7 @@ const speakerSocialLinks = computed(() => {
             <ShareAdSlot
               v-if="talk"
               placement="agenda-talk-modal"
-              class="w-full shrink-0 overflow-hidden rounded-[24px] md:h-full md:w-[300px]"
+              class="h-[110px] w-full shrink-0 overflow-hidden rounded-[24px] md:h-full md:w-[300px]"
               image-class="block h-[110px] w-full object-cover md:h-full md:object-top"
             />
             <!-- 講者議程 -->
@@ -200,7 +200,7 @@ const speakerSocialLinks = computed(() => {
                           :alt="talk.speaker.avatarAlt"
                           width="120"
                           height="120"
-                          loading="lazy"
+                          loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
                           class="block size-[120px] rounded-full object-cover md:hidden"
@@ -210,7 +210,7 @@ const speakerSocialLinks = computed(() => {
                           :alt="talk.speaker.avatarAlt"
                           width="253"
                           height="400"
-                          loading="lazy"
+                          loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
                           class="hidden h-[400px] w-full object-cover md:block"

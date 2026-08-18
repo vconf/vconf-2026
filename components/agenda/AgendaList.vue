@@ -8,6 +8,15 @@ import {
 
 const { data: speakers } = await useSpeakers()
 const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
+const { preloadAgendaTalk } = useSpeakerImages()
+
+// 這裡是進議程彈窗的唯一入口，hydration 結束後閒置時就先把講者照抓回來
+onNuxtReady(() => {
+  for (const item of agendaItems.value) {
+    if (item.type === 'talk')
+      preloadAgendaTalk(item.speaker)
+  }
+})
 </script>
 
 <template>
@@ -38,6 +47,8 @@ const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
           v-else
           :to="`/agenda/unpublish/${agendaTalkId(item)}`"
           class="group col-start-2 block w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
+          @mouseenter="preloadAgendaTalk(item.speaker, 'high')"
+          @focus="preloadAgendaTalk(item.speaker, 'high')"
         >
           <!-- 標籤 -->
           <div

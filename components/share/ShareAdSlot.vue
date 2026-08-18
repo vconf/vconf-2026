@@ -109,7 +109,7 @@ function handleClick() {
     ref="adSlot"
     aria-label="贊助廣告"
   >
-    <!-- 還沒抽到廣告時留白，維持呼叫端保留好的版位尺寸 -->
+    <!-- 廣告是掛載後才非同步抽出，先用灰底把版位佔住，避免內容跳動 -->
     <a
       v-if="draw"
       :href="draw.ad.targetUrl"
@@ -130,10 +130,15 @@ function handleClick() {
           :alt="draw.ad.title"
           :width="draw.ad.images.mobile.width"
           :height="draw.ad.images.mobile.height"
-          loading="lazy"
+          loading="eager"
           :class="imageClass"
         />
       </picture>
     </a>
+    <div
+      v-else
+      aria-hidden="true"
+      class="size-full bg-vconf-gray-ultralight"
+    ></div>
   </aside>
 </template>
