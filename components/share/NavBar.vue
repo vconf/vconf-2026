@@ -134,7 +134,7 @@ onKeyStroke('Escape', closeMenu)
           >
             <NuxtLink
               :to="NAV_ITEM.href"
-              class="inline-block w-full px-4 py-2.5 text-24 leading-[normal] md:leading-snug xl:w-auto xl:px-8"
+              class="inline-block w-full px-4 py-2.5 text-[22px] leading-[1.5] xl:w-auto xl:px-8"
             >
               {{ NAV_ITEM.name }}
             </NuxtLink>
