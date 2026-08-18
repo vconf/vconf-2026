@@ -115,10 +115,30 @@ function handleClick() {
       :href="draw.ad.targetUrl"
       target="_blank"
       rel="sponsored noopener noreferrer"
-      class="block size-full"
+      class="relative block size-full overflow-hidden"
       @click="handleClick"
     >
-      <picture class="block size-full">
+      <!--
+        廣告一律完整呈現不裁切，版位比例對不上時會留白（素材是固定比例、版位會隨視窗浮動）。
+        這層用同一張素材放大模糊墊底把留白補滿：同一個 URL 只會下載一次，
+        scale-110 是為了避免模糊把邊緣的透明糊進畫面。
+      -->
+      <picture
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 block size-full"
+      >
+        <source
+          :media="DESKTOP_MEDIA"
+          :srcset="draw.ad.images.desktop.url"
+        />
+        <img
+          :src="draw.ad.images.mobile.url"
+          alt=""
+          loading="eager"
+          class="size-full scale-110 object-cover blur-xl"
+        />
+      </picture>
+      <picture class="relative block size-full">
         <source
           :media="DESKTOP_MEDIA"
           :srcset="draw.ad.images.desktop.url"

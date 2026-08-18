@@ -138,7 +138,7 @@ const speakerSocialLinks = computed(() => {
               v-if="talk"
               placement="agenda-talk-modal"
               class="h-[110px] w-full shrink-0 overflow-hidden rounded-[24px] md:h-full md:w-[300px]"
-              image-class="block h-[110px] w-full object-cover md:h-full md:object-top"
+              image-class="block h-[110px] w-full object-contain md:h-full"
             />
             <!-- 講者議程 -->
             <article
