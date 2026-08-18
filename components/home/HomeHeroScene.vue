@@ -26,7 +26,6 @@ import {
   sceneYShift,
 } from './heroScene.config'
 
-// ── SVG refs ──────────────────────────────────────────────────────────────────
 const rootRef = ref<HTMLElement | null>(null)
 const heroSvgRef = ref<SVGSVGElement | null>(null)
 const svgBgDotsRef = ref<SVGImageElement | null>(null)
@@ -42,7 +41,6 @@ interface AnimationHandle {
 }
 const animationHandles: Array<AnimationHandle> = []
 
-// ── 播放狀態（全用 VueUse，避免直接碰 matchMedia / IntersectionObserver / 事件監聽）──────
 const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
 const documentVisibility = useDocumentVisibility() // 'visible' | 'hidden'
 const isHeroInViewport = ref(true)
@@ -55,11 +53,8 @@ useIntersectionObserver(
   { threshold: 0 },
 )
 
-// 同時觀測父容器 rootRef 與 heroSvgRef：父容器寬度會隨捲軸出現/消失變化，
-// 可在 SVG 被 min-w 夾住（自身寬度不變）時仍觸發重算。VueUse 會自動於卸載時清理。
 useResizeObserver([rootRef, heroSvgRef], () => updateBgDotsSize())
 
-// 只有「在視窗內 且 分頁在前景」才播放，否則暫停全部動畫 → 省 CPU / 電力。
 function syncPlayState() {
   const shouldPlay
     = isHeroInViewport.value && documentVisibility.value !== 'hidden'
@@ -77,10 +72,6 @@ function setRightPolygonRef(el: unknown, i: number) {
   rightPolygonRefs.value[i] = el as SVGPolygonElement | null
 }
 
-// SVG 寬度由 CSS 決定（w-screen 容器 + w-full + min-w），直接用同一條公式推導，
-// 不做 DOM 量測：getBoundingClientRect 在轉場/初載期間可能量到暫態值（例如被
-// min-w 夾住的 1400），一旦被記住就會讓點陣整體偏上、疊到扇形色塊。
-// 768 = Tailwind md 斷點（md:min-w-[1400px]），900 = 手機 min-w-[900px]。
 function getHeroSvgCssWidth() {
   const vw = window.innerWidth
   return vw < 768 ? Math.max(900, vw) : Math.max(1400, vw)
@@ -92,18 +83,10 @@ function updateBgDotsSize() {
   const w = getHeroSvgCssWidth()
   const s = w / 1494
 
-  // 註：hero 場景與上方 logo 的固定距離（marginTop 補償 SVG 等比縮放）已改為純 CSS
-  // 計算，見 HomeHero.vue 的 min-[1400px]:mt-[calc(-110px_-_11.1531%)]。因 margin-top 百分比以containing
-  // block 寬度為基準、而 SVG 寬＝containing block 寬，故 ANCHOR_Y*s 可等價表示為寬度的百分比，
-  // 不再依賴 JS 量測時機 → 重新整理與 SPA 切回位置一致（消除量測競態）。
-
-  // 手機偵測：mobile min-w=900px，桌機 min-w=1400px，用 1000px 為分界
   if (w < 1000) {
-    // hero-bg-sm.svg 原生 705×392，icon ~8px SVG units → 反縮放後固定 8px CSS
     const dotW = Math.round(705 / s)
     const dotH = Math.round(392 / s)
     svgBgDotsRef.value.setAttribute('href', '/hero-bg-sm.svg')
-    // +150 = 點陣中心相對 viewBox 1039 往右的位移；調小 → 往左、調大 → 往右
     svgBgDotsRef.value.setAttribute(
       'x',
       String(Math.round(1039 - dotW / 2) + 170),
@@ -116,11 +99,6 @@ function updateBgDotsSize() {
     svgBgDotsRef.value.setAttribute('height', String(dotH))
   }
   else {
-    // 桌機：hero-bg-md.svg 原生 1478×707，icon 16px。
-    // 反縮放（icon 固定 16px）+ 水平置中；垂直把點陣中心鎖在 hero 基準線下方
-    //   固定 GAP 的 CSS px（centerY = REF_Y + GAP/s 補償縮放）→ 上下間距固定。
-    // pinned 區用獨立 CX/GAP，可單獨定位、不影響大螢幕。
-    // 偵測：視窗 <1400 時 SVG 被 md:min-w-[1400px] 夾住（與 getHeroSvgCssWidth 同源）。
     const isPinned = window.innerWidth < 1400
     const cx = isPinned ? DOTS_PINNED_CX : DOTS_CX
     const gapPx = isPinned ? DOTS_PINNED_GAP_PX : DOTS_GAP_PX
@@ -232,20 +210,6 @@ function startAmbientAnimation() {
       }),
     )
   })
-
-  if (svgBgRef.value) {
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.18 })
-    tl.to(svgBgRef.value, { opacity: 0.44, duration: 1.3, ease: 'sine.inOut' })
-      .to(svgBgRef.value, { opacity: 0.84, duration: 1.05, ease: 'sine.inOut' })
-      .to(svgBgRef.value, { opacity: 0.18, duration: 0.09, ease: 'none' })
-      .to(svgBgRef.value, { opacity: 0.78, duration: 0.08, ease: 'none' })
-      .to(svgBgRef.value, {
-        opacity: 0.58,
-        duration: 1.45,
-        ease: 'sine.inOut',
-      })
-    animationHandles.push(tl)
-  }
 }
 
 function startIntroAnimation() {
@@ -341,25 +305,21 @@ function startIntroAnimation() {
   })
 
   if (svgBgRef.value) {
-    const tl = gsap.timeline()
-    tl.fromTo(
-      svgBgRef.value,
-      { opacity: 0.05 },
-      { opacity: 0.82, duration: 1.2, ease: 'power2.out' },
-    ).to(svgBgRef.value, { opacity: 0.58, duration: 1.1, ease: 'sine.inOut' })
-    animationHandles.push(tl)
+    animationHandles.push(
+      gsap.fromTo(
+        svgBgRef.value,
+        { opacity: 0.05 },
+        { opacity: 0.76, duration: 1.2, ease: 'power2.out' },
+      ),
+    )
   }
 
   hasPlayedHomeHeroIntro.value = true
   return 2.4
 }
 
-// ── onMounted ─────────────────────────────────────────────────────────────────
 onMounted(async () => {
   if (heroSvgRef.value) {
-    // 位置計算已不依賴 DOM 量測（見 getHeroSvgCssWidth）→ 任何時機呼叫結果都一致。
-    // 首載先算一次；視窗尺寸變化由 useResizeObserver（rootRef 隨 100vw 變動）觸發重算；
-    // 轉場 hook 為保險（涵蓋轉場期間 innerWidth 曾變化的邊角情況）。
     updateBgDotsSize()
     removeTransitionHook = useNuxtApp().hook(
       'page:transition:finish',
@@ -369,7 +329,6 @@ onMounted(async () => {
 
   await nextTick()
 
-  // 尊重「減少動態效果」：不論裝置寬度，直接顯示靜態最終畫面，不掛 intro / ambient（同時省效能）。
   if (reducedMotion.value === 'reduce') {
     if (heroSvgRef.value)
       heroSvgRef.value.style.opacity = '1'
@@ -379,9 +338,6 @@ onMounted(async () => {
     return
   }
 
-  // 手機版（SVG < 1000）不跑任何動畫：直接顯示靜態最終狀態，不掛 intro / ambient。
-  // 多邊形本來就以 fill-opacity 靜態渲染（沒套 GSAP transform），只需把兩個預設藏起來的
-  // 元素（heroSvg 與電路板底圖）顯示出來即可。
   if (getHeroSvgCssWidth() < 1000) {
     if (heroSvgRef.value)
       heroSvgRef.value.style.opacity = '1'
@@ -408,8 +364,6 @@ onMounted(async () => {
     }
   }
 
-  // 動畫是在此刻才建立的，watch(immediate) 當時陣列還空 → 依目前可見狀態補同步一次
-  // （涵蓋「載入時 hero 已在畫面外／分頁在背景」就不該空轉的情況）。
   syncPlayState()
 })
 
@@ -472,7 +426,7 @@ onUnmounted(() => {
           />
         </g>
 
-        <!-- 電路板底圖 (GSAP 霓虹閃爍)：放中央 V 之前 → 疊在 V 後面 -->
+        <!-- 電路板底圖：放中央 V 之前 → 疊在 V 後面 -->
         <image
           ref="svgBgRef"
           href="/home/hero-middle-bg.svg"

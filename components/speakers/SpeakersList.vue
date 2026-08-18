@@ -3,6 +3,14 @@ import { usePreferredReducedMotion } from '@vueuse/core'
 import { speakerPhoto } from '~/utils/agenda'
 
 const { data: speakers } = await useSpeakers()
+const { preloadModalBackground, preloadSpeakerModal } = useSpeakerImages()
+
+// 這裡是進彈窗的主要入口，hydration 結束後閒置時就先把彈窗的圖抓回來
+onNuxtReady(() => {
+  preloadModalBackground()
+
+  for (const speaker of speakers.value ?? []) preloadSpeakerModal(speaker)
+})
 
 const gridRef = ref<HTMLElement | null>(null)
 const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
@@ -62,10 +70,13 @@ onBeforeUnmount(() => {
         :key="speaker.id"
         :to="`/speakers/${speaker.talkSlug}`"
         class="group block rounded-lg outline-none"
+        @mouseenter="preloadSpeakerModal(speaker, 'high')"
+        @focus="preloadSpeakerModal(speaker, 'high')"
       >
         <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
         <NuxtImg
           :src="speakerPhoto(speaker, 'introMobile')"
+          placeholder
           :alt="speaker.avatarAlt"
           width="169"
           height="239"
@@ -76,6 +87,7 @@ onBeforeUnmount(() => {
         />
         <NuxtImg
           :src="speaker.avatar"
+          placeholder
           :alt="speaker.avatarAlt"
           width="306"
           height="433"

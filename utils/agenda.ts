@@ -129,7 +129,7 @@ export function findAgendaTalkById(
   return null
 }
 
-type AnySpeaker = SpeakerSummary | SpeakersCollectionItem
+export type AnySpeaker = SpeakerSummary | SpeakersCollectionItem
 
 /**
  * 講者照的使用場景，每個場景有自己的裁切比例與圖檔尺寸：

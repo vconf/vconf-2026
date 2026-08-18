@@ -101,20 +101,22 @@ const socialLinks = computed(() => {
                       <template v-if="teamPhoto(member, 'avatar')">
                         <NuxtImg
                           :src="teamPhoto(member, 'popupMobile')"
+                          placeholder
                           :alt="`${member.name}（${member.jobTitle}）照片`"
                           width="149"
                           height="149"
-                          loading="lazy"
+                          loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
                           class="block size-[149px] rounded-[42%] object-cover md:hidden"
                         />
                         <NuxtImg
                           :src="teamPhoto(member, 'popup')"
+                          placeholder
                           :alt="`${member.name}（${member.jobTitle}）照片`"
                           width="333"
                           height="506"
-                          loading="lazy"
+                          loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
                           class="hidden h-[506px] w-[333px] rounded-[12px] object-cover md:block"
@@ -193,7 +195,7 @@ const socialLinks = computed(() => {
                       class="col-span-2 md:col-span-1 md:col-start-2 md:row-start-2"
                     >
                       <p
-                        class="whitespace-pre-line font-avenir font-light leading-[1.5] tracking-[-0.05em] text-black"
+                        class="whitespace-pre-line font-serif font-light leading-[1.5] tracking-[0em] text-black"
                       >
                         {{ member.bio }}
                       </p>

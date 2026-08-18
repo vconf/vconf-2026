@@ -12,6 +12,10 @@ const lenis = useLenis()
 const { data: speakers } = await useSpeakers()
 const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
 
+// 彈窗是 v-if 開啟、SSR 不渲染，這裡主動註冊讓 prerender 產出靜態圖檔
+if (import.meta.server)
+  useSpeakerImages().registerAgendaModalImages(speakers.value ?? [])
+
 const talkId = computed(() => {
   const value = route.params.talk
   return Array.isArray(value) ? value[0] : value

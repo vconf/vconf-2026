@@ -4,6 +4,7 @@
   >
     <NuxtImg
       src="/team/staff-bg.png"
+      placeholder
       width="744"
       height="432"
       loading="lazy"
@@ -13,6 +14,7 @@
     />
     <NuxtImg
       src="/team/staff-mobile-bg.png"
+      placeholder
       width="372"
       height="310"
       loading="lazy"

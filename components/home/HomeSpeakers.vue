@@ -2,6 +2,8 @@
 import { useResizeObserver } from '@vueuse/core'
 
 const { data: speakers } = await useSpeakers()
+const { preloadModalBackground, preloadSpeakerModal, cardPhotoUrl }
+  = useSpeakerImages()
 
 const DISPLAY_SPEAKERS = computed(() => [
   ...(speakers.value ?? []),
@@ -52,6 +54,13 @@ function ensureSwiperInitialized() {
 
 onMounted(() => nextTick(ensureSwiperInitialized))
 useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
+
+// hydration 結束、瀏覽器閒置時才預載彈窗要用的圖，點卡片時就不用等
+onNuxtReady(() => {
+  preloadModalBackground()
+
+  for (const speaker of speakers.value ?? []) preloadSpeakerModal(speaker)
+})
 </script>
 
 <template>
@@ -71,6 +80,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
       >
         <NuxtImg
           src="/home/speakers-bg-left.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -81,6 +91,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
 
         <NuxtImg
           src="/home/speakers-bg-left-md.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -91,6 +102,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
 
         <NuxtImg
           src="/home/speakers-bg-left-sm.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -125,6 +137,8 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
                       :to="`/speakers/${speaker.talkSlug}`"
                       :aria-label="`查看講者 ${speaker.name} 的介紹`"
                       class="block w-full min-w-0"
+                      @mouseenter="preloadSpeakerModal(speaker, 'high')"
+                      @focus="preloadSpeakerModal(speaker, 'high')"
                     >
                       <svg
                         data-speaker-image-frame
@@ -142,7 +156,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
                           </clipPath>
                         </defs>
                         <image
-                          :href="speaker.avatar"
+                          :href="cardPhotoUrl(speaker)"
                           x="0"
                           y="0"
                           width="267"
@@ -188,6 +202,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
         </div>
         <NuxtImg
           src="/home/speakers-bg-right.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -198,6 +213,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
 
         <NuxtImg
           src="/home/speakers-bg-right-md.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -208,6 +224,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
 
         <NuxtImg
           src="/home/speakers-bg-right-sm.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"

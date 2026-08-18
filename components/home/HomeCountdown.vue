@@ -86,6 +86,7 @@ const segments = computed(() => [
         <!-- 上方 vite 裝飾物 -->
         <NuxtImg
           src="/home/homeCountdown-top.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -97,6 +98,7 @@ const segments = computed(() => [
         />
         <NuxtImg
           src="/home/homeCountdown-top-small.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -142,6 +144,7 @@ const segments = computed(() => [
         <!-- 下方 vite 裝飾物 -->
         <NuxtImg
           src="/home/homeCountdown-bottom.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -153,6 +156,7 @@ const segments = computed(() => [
         />
         <NuxtImg
           src="/home/homeCountdown-bottom-small.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"

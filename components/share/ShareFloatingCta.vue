@@ -13,27 +13,29 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <a
-    :href="href"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="gold-stroke fixed bottom-12 right-0 z-10 flex flex-col items-center rounded-l-3xl py-[15px] pl-[19px] pr-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-vconf-white md:py-[19px] md:pl-6 md:pr-[13px]"
-  >
-    <NuxtImg
-      width="37"
-      height="38"
-      alt=""
-      aria-hidden="true"
-      src="/home/download.svg"
-      loading="lazy"
-      class="mb-2 w-[29px] md:mb-2.5 md:w-[37px]"
-    />
-    <p
-      class="font-serif text-[17px] leading-[1.6] tracking-[0.02em] text-vconf-gray-exlight md:text-[22px]"
+  <Teleport to="body">
+    <a
+      :href="href"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="gold-stroke fixed bottom-12 right-0 z-10 flex flex-col items-center rounded-l-3xl py-[15px] pl-[19px] pr-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-vconf-white md:py-[19px] md:pl-6 md:pr-[13px]"
     >
-      {{ text }}
-    </p>
-  </a>
+      <NuxtImg
+        width="37"
+        height="38"
+        alt=""
+        aria-hidden="true"
+        src="/home/download.svg"
+        loading="lazy"
+        class="mb-2 w-[29px] md:mb-2.5 md:w-[37px]"
+      />
+      <p
+        class="font-serif text-[17px] leading-[1.6] tracking-[0.02em] text-vconf-gray-exlight md:text-[22px]"
+      >
+        {{ text }}
+      </p>
+    </a>
+  </Teleport>
 </template>
 
 <style scoped>

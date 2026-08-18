@@ -57,7 +57,7 @@ const socialLinks = computed(() => {
           aria-hidden="true"
           width="402"
           height="504"
-          loading="lazy"
+          loading="eager"
           format="avif,webp"
           densities="x1 x2"
           class="pointer-events-none absolute left-1/2 top-[70%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2 md:hidden"
@@ -96,7 +96,7 @@ const socialLinks = computed(() => {
               aria-hidden="true"
               width="788"
               height="483"
-              loading="lazy"
+              loading="eager"
               format="avif,webp"
               densities="x1 x2"
               class="pointer-events-none absolute bottom-[-106px] left-[-265px] -z-10 hidden h-[483px] w-[788px] max-w-none md:block"
@@ -110,20 +110,22 @@ const socialLinks = computed(() => {
                 <div class="size-full overflow-hidden rounded-[12px]">
                   <NuxtImg
                     :src="speakerPhoto(speaker, 'profileMobile')"
+                    placeholder
                     :alt="speaker.avatarAlt"
                     width="260"
                     height="370"
-                    loading="lazy"
+                    loading="eager"
                     format="avif,webp"
                     densities="x1 x2"
                     class="block size-full object-cover object-top md:hidden"
                   />
                   <NuxtImg
                     :src="speakerPhoto(speaker, 'profile')"
+                    placeholder
                     :alt="speaker.avatarAlt"
                     width="333"
                     height="560"
-                    loading="lazy"
+                    loading="eager"
                     format="avif,webp"
                     densities="x1 x2"
                     class="hidden size-full object-cover object-top md:block"
@@ -136,10 +138,11 @@ const socialLinks = computed(() => {
                 >
                   <NuxtImg
                     :src="speakerPhoto(speaker, 'profile')"
+                    placeholder
                     alt=""
                     width="333"
                     height="560"
-                    loading="lazy"
+                    loading="eager"
                     format="avif,webp"
                     densities="x1 x2"
                     class="size-full -scale-y-100 object-cover object-top"
