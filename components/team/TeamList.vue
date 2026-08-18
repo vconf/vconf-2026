@@ -138,18 +138,18 @@ function onLeave(event: MouseEvent) {
       <!-- 群組標題 -->
       <h2
         data-team-title
-        class="mb-8 flex items-center justify-center font-serif font-bold"
+        class="mb-6 flex items-center justify-center font-serif font-bold md:mb-8"
       >
         <span
           data-team-paren
-          class="pr-1 text-[16px] font-bold leading-[1] tracking-[0em] text-vconf-gray-light md:pr-4 md:text-[32px]"
+          class="pr-2 text-[16px] font-bold leading-[1] tracking-[0em] text-vconf-gray-light md:pr-4 md:text-[32px]"
         >(</span>
         <span
           class="text-[32px] leading-[1] tracking-[0.01em] text-vconf-primary md:text-[48px] md:tracking-[0em]"
         >{{ group.title }}</span>
         <span
           data-team-paren
-          class="pl-1 text-[16px] font-bold leading-[1] tracking-[0em] text-vconf-gray-light md:pl-4 md:text-[32px]"
+          class="pl-2 text-[16px] font-bold leading-[1] tracking-[0em] text-vconf-gray-light md:pl-4 md:text-[32px]"
         >)</span>
       </h2>
       <!-- 成員 -->
@@ -166,8 +166,9 @@ function onLeave(event: MouseEvent) {
             data-team-card
             class="group [transform-style:preserve-3d]"
           >
-            <div
-              class="flex flex-col items-center [transform-style:preserve-3d]"
+            <NuxtLink
+              :to="`/team/unpublish/${member.slug}`"
+              class="flex flex-col items-center outline-none [transform-style:preserve-3d]"
               @mousemove="onTilt"
               @mouseleave="onLeave"
             >
@@ -197,22 +198,22 @@ function onLeave(event: MouseEvent) {
                 class="mb-4 flex items-center justify-center font-serif transition-transform duration-300 ease-out [transform:translateZ(0)] motion-safe:group-hover:[transform:translateZ(12px)]"
               >
                 <span
-                  class="pr-1 text-[17px] font-medium leading-[1] tracking-[0em] text-vconf-gray-light"
-                >(</span>
+                  class="pr-1 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+                >{</span>
                 <span
                   class="text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-primary"
                 >{{ member.name }}</span>
                 <span
-                  class="pl-1 text-[17px] font-bold leading-[1] tracking-[0em] text-vconf-gray-light"
-                >)</span>
+                  class="pl-1 font-sans text-[17px] font-bold leading-[1] tracking-[0.02em] text-vconf-gray-light"
+                >}</span>
               </p>
               <!-- 職稱 -->
               <p
                 class="font-serif font-bold leading-[1.6] tracking-[0.02em] text-vconf-text-read transition-transform duration-300 ease-out [transform:translateZ(0)] motion-safe:group-hover:[transform:translateZ(6px)]"
               >
-                {{ member.jobTitle }}
+                {{ member.role }}
               </p>
-            </div>
+            </NuxtLink>
           </div>
         </div>
       </div>

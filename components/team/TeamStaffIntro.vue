@@ -1,5 +1,7 @@
 <template>
-  <div class="relative mx-auto max-w-[372px] md:max-w-[744px]">
+  <div
+    class="relative mx-auto mb-[6px] max-w-[372px] md:mb-[17px] md:max-w-[744px]"
+  >
     <NuxtImg
       src="/team/staff-bg.png"
       width="744"
@@ -31,7 +33,7 @@
         href="https://forms.gle/xC6cvKJMwzKeFJbi9"
         target="_blank"
         rel="noopener noreferrer"
-        class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-12 py-3 font-serif text-[12px] font-extrabold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[16px]"
+        class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-12 py-3 font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[21px]"
       >
         入坑啊，哪次不入
       </a>

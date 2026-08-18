@@ -1,4 +1,5 @@
 export type TeamName = '總召組' | '議程組' | '行銷組' | '贊助組' | '場務組'
+export type TeamRole = '總召' | '組長' | '組員'
 
 export interface TeamMemberLinks {
   website?: string
@@ -14,6 +15,8 @@ export interface TeamMember {
   name: string
   /** 所屬組別，可跨組（例：組長兼總召組） */
   teams: TeamName[]
+  /** 個人層級職務標記，目前僅總召需要；未標記者由組內排序推導組長／組員 */
+  role?: Extract<TeamRole, '總召'>
   /** 職稱 */
   jobTitle: string
   company?: string
@@ -28,9 +31,14 @@ export interface TeamMember {
   popupAvatarMobile?: string
 }
 
+/** 分組後的成員，role 已解析成該組實際職務 */
+export interface TeamGroupMember extends Omit<TeamMember, 'role'> {
+  role: TeamRole
+}
+
 export interface TeamGroup {
   title: TeamName
-  members: TeamMember[]
+  members: TeamGroupMember[]
 }
 
 /** 組別在頁面上的排列順序 */
@@ -47,6 +55,7 @@ export const teamMembers: TeamMember[] = [
     slug: 'alex-liu',
     name: 'Alex Liu',
     teams: ['總召組'],
+    role: '總召',
     jobTitle: '資深前端工程師',
     company: '網際網路相關業',
     bio: '嗨！我是 Alex Liu，一個沉浸在前端網頁技術的 nerd，主要專注在 Vue 與 Nuxt。除了前端技術外，最大的興趣應該就是吸貓了！',
@@ -117,7 +126,7 @@ export const teamMembers: TeamMember[] = [
     jobTitle: '工程師',
     company: '上市櫃公司',
     bio: '一名熱愛旅行的前端工程師',
-    avatar: '/team/avatar/hannah.png',
+    avatar: '/team/avatar/hannah.webp',
     popupAvatar: '/team/popup-desktop/hannah.png',
     popupAvatarMobile: '/team/popup-mobile/hannah.png',
   },
@@ -187,15 +196,42 @@ export const teamMembers: TeamMember[] = [
   },
 ]
 
-/** 依 teamGroupOrder 分組；跨組成員會出現在各自所屬的每一組 */
+/**
+ * 依 teamGroupOrder 分組；跨組成員會出現在各自所屬的每一組。
+ * 各組排第一位是組長、其餘為組員；已標記 role 的成員（總召）沿用自己的職務。
+ */
 export const teamGroups: TeamGroup[] = teamGroupOrder
   .map(title => ({
     title,
-    members: teamMembers.filter(member => member.teams.includes(title)),
+    members: teamMembers
+      .filter(member => member.teams.includes(title))
+      .map(({ role, ...member }, index): TeamGroupMember => ({
+        ...member,
+        role: role ?? (index === 0 ? '組長' : '組員'),
+      })),
   }))
   .filter(group => group.members.length > 0)
 
 /** 依 slug 取得成員，供成員彈窗（/team/[slug]）使用 */
 export function findTeamMember(slug: string): TeamMember | undefined {
   return teamMembers.find(member => member.slug === slug)
+}
+
+export type TeamPhotoKind = 'avatar' | 'popup' | 'popupMobile'
+
+/**
+ * 取成員照片；三種尺寸分別對應列表頭像、彈窗桌機、彈窗手機。
+ * 缺彈窗專用圖時退回列表頭像；連頭像都沒有的成員回傳 undefined，由畫面以名稱首字遞補。
+ */
+export function teamPhoto(
+  member: TeamMember,
+  kind: TeamPhotoKind,
+): string | undefined {
+  if (kind === 'popup')
+    return member.popupAvatar ?? member.avatar
+
+  if (kind === 'popupMobile')
+    return member.popupAvatarMobile ?? member.avatar
+
+  return member.avatar
 }
