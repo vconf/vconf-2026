@@ -22,8 +22,8 @@ links: []
 talkNumber: 4
 talkSlug: kuku
 topic: "Trust and Verify：用工程方法探索 Vue 更新的價值"
-startTime: "13:05"
-endTime: "13:50"
+startTime: "13:15"
+endTime: "14:00"
 ---
 
 新版本發布後，我們總是在討論新增了哪些功能；但真正重要的是，它是否改善了專案裡每天都會遇到的問題。

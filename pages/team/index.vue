@@ -94,7 +94,7 @@ useSeoMeta({
       </p>
       <NuxtLink
         to="/"
-        class="rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:px-12 md:py-3 md:text-[21px]"
+        class="rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors hover:bg-vconf-primary hover:text-white md:px-12 md:py-3 md:text-[21px]"
       >
         回首頁
       </NuxtLink>

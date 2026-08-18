@@ -23,11 +23,11 @@ links:
   - label: GitHub
     href: https://github.com/serkodev
     text: github.com/serkodev
-talkNumber: 3
+talkNumber: 2
 talkSlug: serko
 topic: 待定
-startTime: "11:20"
-endTime: "12:05"
+startTime: "10:30"
+endTime: "11:15"
 ---
 
 待定
