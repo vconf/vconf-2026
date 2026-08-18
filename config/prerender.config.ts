@@ -3,6 +3,8 @@ const routes = [
   '/about',
   '/sponsors',
   '/speakers',
+  '/agenda/unpublish',
+  '/team/unpublish',
   '/speakers/kuku',
   '/speakers/hunter',
   '/speakers/serko',

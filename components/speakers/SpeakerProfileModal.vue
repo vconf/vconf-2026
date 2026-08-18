@@ -110,6 +110,7 @@ const socialLinks = computed(() => {
                 <div class="size-full overflow-hidden rounded-[12px]">
                   <NuxtImg
                     :src="speakerPhoto(speaker, 'profileMobile')"
+                    placeholder
                     :alt="speaker.avatarAlt"
                     width="260"
                     height="370"
@@ -120,6 +121,7 @@ const socialLinks = computed(() => {
                   />
                   <NuxtImg
                     :src="speakerPhoto(speaker, 'profile')"
+                    placeholder
                     :alt="speaker.avatarAlt"
                     width="333"
                     height="560"
@@ -136,6 +138,7 @@ const socialLinks = computed(() => {
                 >
                   <NuxtImg
                     :src="speakerPhoto(speaker, 'profile')"
+                    placeholder
                     alt=""
                     width="333"
                     height="560"

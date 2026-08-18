@@ -74,6 +74,7 @@ onNuxtReady(() => {
               width="100"
               height="100"
               :src="speakerPhoto(item.speaker, 'agenda')"
+              placeholder
               :alt="item.speaker.avatarAlt"
               loading="lazy"
               format="avif,webp"

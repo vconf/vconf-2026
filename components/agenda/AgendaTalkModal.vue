@@ -197,6 +197,7 @@ const speakerSocialLinks = computed(() => {
                         <!-- 手機圓形頭像、桌機直式講者照；未提供彈窗專用圖時退回講者介紹照 -->
                         <NuxtImg
                           :src="speakerPhoto(talk.speaker, 'modalMobile')"
+                          placeholder
                           :alt="talk.speaker.avatarAlt"
                           width="120"
                           height="120"
@@ -207,6 +208,7 @@ const speakerSocialLinks = computed(() => {
                         />
                         <NuxtImg
                           :src="speakerPhoto(talk.speaker, 'modal')"
+                          placeholder
                           :alt="talk.speaker.avatarAlt"
                           width="253"
                           height="400"

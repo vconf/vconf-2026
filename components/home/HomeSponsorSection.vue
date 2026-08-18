@@ -281,6 +281,7 @@ onBeforeUnmount(() => {
         >
           <NuxtImg
             src="/home/sponsor-money.png"
+            placeholder
             alt=""
             aria-hidden="true"
             loading="lazy"
@@ -292,6 +293,7 @@ onBeforeUnmount(() => {
           />
           <NuxtImg
             src="/home/money-small.png"
+            placeholder
             alt=""
             aria-hidden="true"
             loading="lazy"

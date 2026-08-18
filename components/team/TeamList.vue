@@ -246,6 +246,7 @@ function onLeave(event: MouseEvent) {
               <NuxtImg
                 v-if="member.avatar"
                 :src="member.avatar"
+                placeholder
                 :alt="`${member.name}（${member.jobTitle}）頭像`"
                 width="211"
                 height="211"

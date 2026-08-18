@@ -101,6 +101,7 @@ const socialLinks = computed(() => {
                       <template v-if="teamPhoto(member, 'avatar')">
                         <NuxtImg
                           :src="teamPhoto(member, 'popupMobile')"
+                          placeholder
                           :alt="`${member.name}（${member.jobTitle}）照片`"
                           width="149"
                           height="149"
@@ -111,6 +112,7 @@ const socialLinks = computed(() => {
                         />
                         <NuxtImg
                           :src="teamPhoto(member, 'popup')"
+                          placeholder
                           :alt="`${member.name}（${member.jobTitle}）照片`"
                           width="333"
                           height="506"

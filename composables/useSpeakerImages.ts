@@ -61,6 +61,17 @@ export function useSpeakerImages() {
     })
   }
 
+  /** NuxtImg placeholder 產生的模糊小圖，URL 參數與元件內部一致 */
+  function toPlaceholderUrl(spec: ImageSpec) {
+    return img(spec.src, {
+      format: 'avif,webp',
+      quality: 50,
+      blur: 3,
+      width: 10,
+      height: 10,
+    })
+  }
+
   /** 目前裝置實際會用到的斷點與像素密度，只預載這一組 */
   function currentTarget(): { viewport: Viewport, density: Density } {
     return {
@@ -86,11 +97,15 @@ export function useSpeakerImages() {
    */
   function registerModalImages(speakers: AnySpeaker[]) {
     for (const viewport of VIEWPORTS) {
+      toPlaceholderUrl(MODAL_BACKGROUNDS[viewport])
+
       for (const density of DENSITIES) {
         toUrl(MODAL_BACKGROUNDS[viewport], density)
 
-        for (const speaker of speakers)
+        for (const speaker of speakers) {
+          toPlaceholderUrl(profileSpec(speaker, viewport))
           toUrl(profileSpec(speaker, viewport), density)
+        }
       }
     }
   }
@@ -116,8 +131,10 @@ export function useSpeakerImages() {
   function registerAgendaModalImages(speakers: AnySpeaker[]) {
     for (const viewport of VIEWPORTS) {
       for (const density of DENSITIES) {
-        for (const speaker of speakers)
+        for (const speaker of speakers) {
+          toPlaceholderUrl(agendaSpec(speaker, viewport))
           toUrl(agendaSpec(speaker, viewport), density)
+        }
       }
     }
   }

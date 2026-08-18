@@ -80,6 +80,7 @@ onNuxtReady(() => {
       >
         <NuxtImg
           src="/home/speakers-bg-left.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -90,6 +91,7 @@ onNuxtReady(() => {
 
         <NuxtImg
           src="/home/speakers-bg-left-md.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -100,6 +102,7 @@ onNuxtReady(() => {
 
         <NuxtImg
           src="/home/speakers-bg-left-sm.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -199,6 +202,7 @@ onNuxtReady(() => {
         </div>
         <NuxtImg
           src="/home/speakers-bg-right.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -209,6 +213,7 @@ onNuxtReady(() => {
 
         <NuxtImg
           src="/home/speakers-bg-right-md.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -219,6 +224,7 @@ onNuxtReady(() => {
 
         <NuxtImg
           src="/home/speakers-bg-right-sm.png"
+          placeholder
           alt=""
           aria-hidden="true"
           loading="lazy"

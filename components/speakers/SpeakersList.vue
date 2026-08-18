@@ -76,6 +76,7 @@ onBeforeUnmount(() => {
         <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
         <NuxtImg
           :src="speakerPhoto(speaker, 'introMobile')"
+          placeholder
           :alt="speaker.avatarAlt"
           width="169"
           height="239"
@@ -86,6 +87,7 @@ onBeforeUnmount(() => {
         />
         <NuxtImg
           :src="speaker.avatar"
+          placeholder
           :alt="speaker.avatarAlt"
           width="306"
           height="433"

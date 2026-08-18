@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import TeamMemberModal from '~/components/team/TeamMemberModal.vue'
-import { findTeamMember } from '~/config/team'
+import { findTeamMember, teamMembers } from '~/config/team'
 
 const route = useRoute()
 const lenis = useLenis()
@@ -13,6 +13,10 @@ const memberSlug = computed(() => {
 const activeMember = computed(() =>
   memberSlug.value ? (findTeamMember(memberSlug.value) ?? null) : null,
 )
+
+// 彈窗是 v-if 開啟、SSR 不渲染，這裡主動註冊讓 prerender 產出靜態圖檔
+if (import.meta.server)
+  useTeamImages().registerTeamModalImages(teamMembers)
 
 function backToList() {
   return navigateTo('/team/unpublish', { replace: true })
