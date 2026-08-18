@@ -21,9 +21,8 @@ function backToList() {
 if (memberSlug.value && !activeMember.value)
   await backToList()
 
-useSeoMeta({
-  title: () =>
-    activeMember.value ? `${activeMember.value.name}｜籌備團隊` : '籌備團隊',
+useTeamMemberSeo(activeMember, {
+  fallbackTitle: '籌備團隊',
   // 籌備團隊頁尚未公開，正式上線時移除並補上 sitemap
   robots: 'noindex, nofollow',
 })

@@ -133,33 +133,13 @@ const speakerSocialLinks = computed(() => {
                 />
               </svg>
             </button>
-            <!-- 廣告 -->
-            <aside
+            <!-- 廣告：由 /api/ads/next 抽出，載入失敗時整個版位不顯示 -->
+            <ShareAdSlot
               v-if="talk"
-              class="w-full shrink-0 overflow-hidden rounded-[24px] object-top md:size-full md:w-[300px] md:object-center"
-              aria-label="贊助廣告"
-            >
-              <NuxtImg
-                width="354"
-                height="110"
-                src="/agenda/mobile-ad.png"
-                alt="贊助廣告"
-                loading="lazy"
-                format="avif,webp"
-                densities="x1 x2"
-                class="block h-[110px] w-full rounded-[24px] object-cover md:hidden"
-              />
-              <NuxtImg
-                width="300"
-                height="710"
-                src="/agenda/desktop-ad.png"
-                alt="贊助廣告"
-                loading="lazy"
-                format="avif,webp"
-                densities="x1 x2"
-                class="hidden h-[710px] w-full rounded-[24px] object-cover object-top md:block"
-              />
-            </aside>
+              placement="agenda-talk-modal"
+              class="w-full shrink-0 overflow-hidden rounded-[24px] md:h-full md:w-[300px]"
+              image-class="block h-[110px] w-full object-cover md:h-full md:object-top"
+            />
             <!-- 講者議程 -->
             <article
               class="relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] bg-vconf-white font-serif"

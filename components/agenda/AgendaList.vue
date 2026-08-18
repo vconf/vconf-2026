@@ -37,7 +37,7 @@ const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
         <NuxtLink
           v-else
           :to="`/agenda/unpublish/${agendaTalkId(item)}`"
-          class="col-start-2 block w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
+          class="group col-start-2 block w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
         >
           <!-- 標籤 -->
           <div
@@ -91,7 +91,7 @@ const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
           </div>
           <!-- More（整張卡片已是連結，這裡只是視覺按鈕） -->
           <span
-            class="ml-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-extrabold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[20px] md:leading-[1.5]"
+            class="ml-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-avenir text-[16px] font-extrabold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white group-focus:bg-vconf-primary group-focus:text-white md:text-[20px] md:leading-[1.5]"
           >
             More
           </span>
