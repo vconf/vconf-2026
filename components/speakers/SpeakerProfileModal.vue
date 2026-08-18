@@ -217,9 +217,7 @@ const socialLinks = computed(() => {
                     label="講者個人介紹"
                     class="mb-2 md:mb-6"
                   >
-                    <p
-                      class="whitespace-pre-line font-serif text-[16px] font-demi-light leading-[1.6] tracking-[0.01em] text-black"
-                    >
+                    <p class="whitespace-pre-line">
                       {{ speaker.speakerInfo }}
                     </p>
                   </SpeakerProfileSection>
@@ -233,7 +231,7 @@ const socialLinks = computed(() => {
                       <li
                         v-for="experience in speaker.experiences"
                         :key="experience"
-                        class="flex items-center gap-2 font-serif text-[16px] font-demi-light leading-[1.6] tracking-[0em] before:size-1 before:shrink-0 before:rounded-full before:bg-current"
+                        class="flex items-center gap-2 tracking-[0em] before:size-1 before:shrink-0 before:rounded-full before:bg-current"
                       >
                         {{ experience }}
                       </li>
@@ -260,7 +258,6 @@ const socialLinks = computed(() => {
                     <ContentRenderer
                       :value="speaker"
                       data-speaker-description
-                      class="font-serif font-demi-light leading-[1.6] tracking-[0.01em] text-black"
                     />
                   </SpeakerProfileSection>
                 </div>
