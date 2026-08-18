@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import type { TeamPhotoKind } from '~/config/team'
 import { useMediaQuery, usePreferredReducedMotion } from '@vueuse/core'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { teamGroups } from '~/config/team'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import {
+  findTeamMember,
+  teamGroups,
+  teamMembers,
+  teamPhoto,
+} from '~/config/team'
 
 const listRef = ref<HTMLElement | null>(null)
 const reducedMotion = usePreferredReducedMotion()
@@ -11,6 +17,67 @@ const { gsap, ScrollTrigger } = useGsap()
 // 頭像與「無照片遞補方塊」共用的外觀
 const avatarClass
   = 'mb-[10px] aspect-square w-full rounded-[42%] border border-vconf-gray-light object-cover shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-300 ease-out [transform:translateZ(0)] group-hover:shadow-[0_18px_35px_rgba(0,0,0,0.12)] motion-safe:group-hover:[transform:translateZ(18px)] md:rounded-[38%]'
+
+const isDesktopModal = useMediaQuery('(min-width: 768px)')
+const prefetchKind = computed<TeamPhotoKind>(() =>
+  isDesktopModal.value ? 'popup' : 'popupMobile',
+)
+const prefetchSize = computed(() =>
+  isDesktopModal.value
+    ? { width: 333, height: 506 }
+    : { width: 149, height: 149 },
+)
+const prefetchAll = ref(false)
+const prioritySlugs = ref<string[]>([])
+
+// 沒有彈窗專用圖的成員會退回列表頭像，那張已經載過，不必再抓一次
+function modalPhoto(slug: string) {
+  const member = findTeamMember(slug)
+
+  if (!member)
+    return undefined
+
+  const src = teamPhoto(member, prefetchKind.value)
+
+  return src && src !== member.avatar ? src : undefined
+}
+
+const prefetchTargets = computed(() =>
+  teamMembers.flatMap((member) => {
+    const src = modalPhoto(member.slug)
+    const isPriority = prioritySlugs.value.includes(member.slug)
+
+    if (!src || (!prefetchAll.value && !isPriority))
+      return []
+
+    return [{ src, isPriority }]
+  }),
+)
+
+function prefetchMemberPhoto(slug: string) {
+  if (!modalPhoto(slug) || prioritySlugs.value.includes(slug))
+    return
+
+  prioritySlugs.value.push(slug)
+}
+
+// 省流量模式與極慢網路就不主動多抓；游標實際碰到的那張仍然會抓
+function prefersLessData() {
+  const { connection } = navigator as Navigator & {
+    connection?: { saveData?: boolean, effectiveType?: string }
+  }
+
+  return (
+    Boolean(connection?.saveData)
+    || (connection?.effectiveType ?? '').endsWith('2g')
+  )
+}
+
+// onNuxtReady 內部就是 requestIdleCallback：等 hydration 完成且瀏覽器有空才開始
+onNuxtReady(() => {
+  if (!prefersLessData())
+    prefetchAll.value = true
+})
 
 let timelines: Array<ReturnType<typeof gsap.timeline>> = []
 
@@ -171,6 +238,9 @@ function onLeave(event: MouseEvent) {
               class="flex flex-col items-center outline-none [transform-style:preserve-3d]"
               @mousemove="onTilt"
               @mouseleave="onLeave"
+              @mouseenter="prefetchMemberPhoto(member.slug)"
+              @focus="prefetchMemberPhoto(member.slug)"
+              @touchstart.passive="prefetchMemberPhoto(member.slug)"
             >
               <!-- 頭像（hover 時往前浮 + 陰影加深） -->
               <NuxtImg
@@ -218,5 +288,23 @@ function onLeave(event: MouseEvent) {
         </div>
       </div>
     </section>
+    <!-- 預抓容器：不顯示，只為了讓瀏覽器把彈窗照片放進快取 -->
+    <div
+      class="hidden"
+      aria-hidden="true"
+    >
+      <NuxtImg
+        v-for="target in prefetchTargets"
+        :key="target.src"
+        :src="target.src"
+        alt=""
+        :width="prefetchSize.width"
+        :height="prefetchSize.height"
+        :fetchpriority="target.isPriority ? 'high' : 'low'"
+        loading="eager"
+        format="avif,webp"
+        densities="x1 x2"
+      />
+    </div>
   </div>
 </template>

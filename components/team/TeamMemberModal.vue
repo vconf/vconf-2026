@@ -193,7 +193,7 @@ const socialLinks = computed(() => {
                       class="col-span-2 md:col-span-1 md:col-start-2 md:row-start-2"
                     >
                       <p
-                        class="whitespace-pre-line font-avenir font-light leading-[1.5] tracking-[-0.05em] text-black"
+                        class="whitespace-pre-line font-serif font-light leading-[1.5] tracking-[0em] text-black"
                       >
                         {{ member.bio }}
                       </p>
