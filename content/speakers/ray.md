@@ -33,11 +33,11 @@ links:
   - label: 希望宣傳連結
     href: https://israynotarray.dev/
     text: 是 Ray 不是 Array｜冒險者公會
-talkNumber: 6
+talkNumber: 5
 talkSlug: ray
 topic: 打造 AI 無法取代的我
-startTime: "15:15"
-endTime: "16:00"
+startTime: "14:15"
+endTime: "15:00"
 ---
 
 當大家都會使用 AI 之後，你與這些人又有什麼差別呢？
