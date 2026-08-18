@@ -1,17 +1,11 @@
+import type {
+  Density,
+  ImageSpec,
+  Priority,
+  Viewport,
+} from '~/composables/useImagePreload'
 import type { AnySpeaker } from '~/utils/agenda'
 import { speakerPhoto } from '~/utils/agenda'
-
-interface ImageSpec {
-  src: string
-  width: number
-  height: number
-}
-
-type Viewport = 'mobile' | 'desktop'
-type Density = 1 | 2
-type Priority = 'high' | 'low'
-
-const DESKTOP_MEDIA = '(min-width: 768px)'
 
 const MODAL_BACKGROUNDS: Record<Viewport, ImageSpec> = {
   mobile: {
@@ -30,8 +24,6 @@ const CARD_PHOTO_SIZE = { width: 306, height: 433 } as const
 
 const VIEWPORTS: Viewport[] = ['mobile', 'desktop']
 const DENSITIES: Density[] = [1, 2]
-
-const requested = new Set<string>()
 
 /** SpeakerProfileModal 的講者照 */
 function profileSpec(
@@ -52,6 +44,7 @@ function agendaSpec(speaker: AnySpeaker, viewport: Viewport): ImageSpec {
 
 export function useSpeakerImages() {
   const img = useImage()
+  const { currentTarget, preload } = useImagePreload()
 
   function toUrl(spec: ImageSpec, density: Density) {
     return img(spec.src, {
@@ -70,26 +63,6 @@ export function useSpeakerImages() {
       width: 10,
       height: 10,
     })
-  }
-
-  /** 目前裝置實際會用到的斷點與像素密度，只預載這一組 */
-  function currentTarget(): { viewport: Viewport, density: Density } {
-    return {
-      viewport: window.matchMedia(DESKTOP_MEDIA).matches ? 'desktop' : 'mobile',
-      density: window.devicePixelRatio > 1 ? 2 : 1,
-    }
-  }
-
-  function request(url: string, priority: Priority) {
-    if (!import.meta.client || requested.has(url))
-      return
-
-    requested.add(url)
-
-    const image = new Image()
-    // fetchpriority 要在 src 之前設定才會影響這次請求
-    image.setAttribute('fetchpriority', priority)
-    image.src = url
   }
 
   /**
@@ -114,7 +87,7 @@ export function useSpeakerImages() {
   function preloadModalBackground(priority: Priority = 'low') {
     const { viewport, density } = currentTarget()
 
-    request(toUrl(MODAL_BACKGROUNDS[viewport], density), priority)
+    preload(toUrl(MODAL_BACKGROUNDS[viewport], density), priority)
   }
 
   /** 預載單一講者的彈窗照片；游標碰到卡片時用 high */
@@ -124,7 +97,7 @@ export function useSpeakerImages() {
   ) {
     const { viewport, density } = currentTarget()
 
-    request(toUrl(profileSpec(speaker, viewport), density), priority)
+    preload(toUrl(profileSpec(speaker, viewport), density), priority)
   }
 
   /** 同 registerModalImages，對象換成議程彈窗 */
@@ -143,7 +116,7 @@ export function useSpeakerImages() {
   function preloadAgendaTalk(speaker: AnySpeaker, priority: Priority = 'low') {
     const { viewport, density } = currentTarget()
 
-    request(toUrl(agendaSpec(speaker, viewport), density), priority)
+    preload(toUrl(agendaSpec(speaker, viewport), density), priority)
   }
 
   /** 首頁輪播的 SVG <image> 用；SVG 不吃 srcset，直接給 2x */
