@@ -80,6 +80,8 @@ export default defineNuxtConfig({
       umamiScriptUrl: process.env.NUXT_PUBLIC_UMAMI_SCRIPT_URL || 'https://cloud.umami.is/script.js',
       umamiWebsiteId: process.env.NUXT_PUBLIC_UMAMI_WEBSITE_ID || '',
     },
+    shuffleWorkerUrl: '',
+    shuffleApiToken: '',
   },
 
   colorMode: {
