@@ -1,49 +1,20 @@
 <script setup lang="ts">
 import { useMediaQuery, usePreferredReducedMotion } from '@vueuse/core'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { teamGroups } from '~/config/team'
 
-interface TeamMember {
-  name: string
-  role: string
-  avatar: string
-  avatarAlt: string
-}
-
-interface TeamGroup {
-  title: string
-  members: TeamMember[]
-}
-
-const placeholderAvatar
-  = 'https://images.unsplash.com/photo-1778844648458-129cfdf980a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-
-function createMembers(count: number, role: string): TeamMember[] {
-  return Array.from({ length: count }, () => ({
-    name: 'Alex',
-    role,
-    avatar: placeholderAvatar,
-    avatarAlt: `Alex（${role}）頭像`,
-  }))
-}
-
-const teamGroups: TeamGroup[] = [
-  { title: '總召組', members: createMembers(1, '總召') },
-  { title: '議程組', members: createMembers(6, '組員') },
-  { title: '行銷組', members: createMembers(4, '組員') },
-  { title: '開發組', members: createMembers(3, '組員') },
-  { title: '設計組', members: createMembers(2, '組員') },
-]
-
-// ── 動畫 ──────────────────────────────────────────────────────────────
 const listRef = ref<HTMLElement | null>(null)
-const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
-const canHover = useMediaQuery('(hover: hover) and (pointer: fine)') // 手機/觸控關閉 tilt
+const reducedMotion = usePreferredReducedMotion()
+const canHover = useMediaQuery('(hover: hover) and (pointer: fine)')
 const { gsap, ScrollTrigger } = useGsap()
+
+// 頭像與「無照片遞補方塊」共用的外觀
+const avatarClass
+  = 'mb-[10px] aspect-square w-full rounded-[42%] border border-vconf-gray-light object-cover shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-300 ease-out [transform:translateZ(0)] group-hover:shadow-[0_18px_35px_rgba(0,0,0,0.12)] motion-safe:group-hover:[transform:translateZ(18px)] md:rounded-[38%]'
 
 let timelines: Array<ReturnType<typeof gsap.timeline>> = []
 
 onMounted(() => {
-  // 減少動態效果：略過進場，直接呈現靜態內容
   if (
     !listRef.value
     || !gsap
@@ -62,12 +33,12 @@ onMounted(() => {
     const parens = section.querySelectorAll('[data-team-paren]')
     const cards = section.querySelectorAll('[data-team-card]')
 
-    // 捲入 → 播放；往回捲離開 → 反向退場（來回進退場，參照 Speakers/Sponsors）
+    // 只做進場：捲入播一次，往回捲不反向退場（參照 Sponsors）
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: 'top 80%',
-        toggleActions: 'play none none reverse',
+        toggleActions: 'play none none none',
       },
     })
 
@@ -183,51 +154,65 @@ function onLeave(event: MouseEvent) {
       </h2>
       <!-- 成員 -->
       <div
-        class="flex flex-wrap justify-center gap-x-[12px] gap-y-[24px] md:gap-x-[45px]"
+        class="flex w-full flex-wrap justify-center gap-x-[12px] gap-y-[24px] md:gap-x-[45px]"
       >
-        <!-- 每位成員：外層負責透視，內層卡片做進場與 hover tilt -->
+        <!-- 每位成員 -->
         <div
-          v-for="(member, index) in group.members"
-          :key="index"
-          class="[perspective:800px]"
+          v-for="member in group.members"
+          :key="member.slug"
+          class="w-[calc((100%-12px)/2)] max-w-[171px] [perspective:800px] md:w-[211px] md:max-w-[211px]"
         >
           <div
             data-team-card
-            class="group flex flex-col items-center [transform-style:preserve-3d]"
-            @mousemove="onTilt"
-            @mouseleave="onLeave"
+            class="group [transform-style:preserve-3d]"
           >
-            <!-- 頭像（hover 時往前浮 + 陰影加深） -->
-            <NuxtImg
-              :src="member.avatar"
-              :alt="member.avatarAlt"
-              width="211"
-              height="211"
-              loading="lazy"
-              format="avif,webp"
-              densities="x1 x2"
-              class="mb-[10px] aspect-square max-w-[171px] rounded-[72px] border border-vconf-gray-light object-cover shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-300 ease-out [transform:translateZ(0)] group-hover:shadow-[0_18px_35px_rgba(0,0,0,0.12)] motion-safe:group-hover:[transform:translateZ(18px)] md:max-w-[211px] md:rounded-[80px]"
-            />
-            <!-- 成員名稱 -->
-            <p
-              class="mb-4 flex items-center justify-center font-serif transition-transform duration-300 ease-out [transform:translateZ(0)] motion-safe:group-hover:[transform:translateZ(12px)]"
+            <div
+              class="flex flex-col items-center [transform-style:preserve-3d]"
+              @mousemove="onTilt"
+              @mouseleave="onLeave"
             >
-              <span
-                class="pr-1 text-[17px] font-medium leading-[1] tracking-[0em] text-vconf-gray-light"
-              >(</span>
-              <span
-                class="text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-primary"
-              >{{ member.name }}</span>
-              <span
-                class="pl-1 text-[17px] font-bold leading-[1] tracking-[0em] text-vconf-gray-light"
-              >)</span>
-            </p>
-            <!-- 職稱 -->
-            <p
-              class="font-serif font-bold leading-[1.6] tracking-[0.02em] text-vconf-text-read transition-transform duration-300 ease-out [transform:translateZ(0)] motion-safe:group-hover:[transform:translateZ(6px)]"
-            >
-              {{ member.role }}
-            </p>
+              <!-- 頭像（hover 時往前浮 + 陰影加深） -->
+              <NuxtImg
+                v-if="member.avatar"
+                :src="member.avatar"
+                :alt="`${member.name}（${member.jobTitle}）頭像`"
+                width="211"
+                height="211"
+                loading="lazy"
+                format="avif,webp"
+                densities="x1 x2"
+                :class="avatarClass"
+              />
+              <!-- 尚未提供照片：以名稱首字遞補，維持卡片版型 -->
+              <div
+                v-else
+                aria-hidden="true"
+                class="flex items-center justify-center bg-vconf-gray-ultralight font-serif text-[48px] font-bold text-vconf-gray-light md:text-[64px]"
+                :class="avatarClass"
+              >
+                {{ member.name.charAt(0) }}
+              </div>
+              <!-- 成員名稱 -->
+              <p
+                class="mb-4 flex items-center justify-center font-serif transition-transform duration-300 ease-out [transform:translateZ(0)] motion-safe:group-hover:[transform:translateZ(12px)]"
+              >
+                <span
+                  class="pr-1 text-[17px] font-medium leading-[1] tracking-[0em] text-vconf-gray-light"
+                >(</span>
+                <span
+                  class="text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-primary"
+                >{{ member.name }}</span>
+                <span
+                  class="pl-1 text-[17px] font-bold leading-[1] tracking-[0em] text-vconf-gray-light"
+                >)</span>
+              </p>
+              <!-- 職稱 -->
+              <p
+                class="font-serif font-bold leading-[1.6] tracking-[0.02em] text-vconf-text-read transition-transform duration-300 ease-out [transform:translateZ(0)] motion-safe:group-hover:[transform:translateZ(6px)]"
+              >
+                {{ member.jobTitle }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
