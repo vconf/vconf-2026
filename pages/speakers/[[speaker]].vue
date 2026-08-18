@@ -10,6 +10,10 @@ const speakerId = computed(() => {
   return Array.isArray(value) ? value[0] : value
 })
 const { data: speakers } = await useSpeakers()
+
+if (import.meta.server)
+  useSpeakerImages().registerModalImages(speakers.value ?? [])
+
 const activeSpeaker = computed(
   () =>
     speakers.value?.find(speaker => speaker.talkSlug === speakerId.value)
