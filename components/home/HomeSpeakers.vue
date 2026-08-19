@@ -133,7 +133,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
                   class="speaker-slide flex justify-center md:h-full"
                 >
                   <div class="flex w-full max-w-[228px] flex-col md:max-w-none">
-                    <!-- 未公開的 keynote：粒子剪影 + ???，刻意不可點 -->
+                    <!-- 未公開的 keynote：模糊照片 + 神秘講者，刻意不可點 -->
                     <ShareMysterySilhouette
                       v-if="card.kind === 'mystery'"
                       tone="duo"

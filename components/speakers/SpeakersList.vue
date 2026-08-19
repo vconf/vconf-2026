@@ -71,7 +71,7 @@ onBeforeUnmount(() => {
         v-for="card in cards"
         :key="card.key"
       >
-        <!-- 未公開的 keynote：粒子剪影 + ???，刻意不可點 -->
+        <!-- 未公開的 keynote：模糊照片 + 神秘講者，刻意不可點 -->
         <div
           v-if="card.kind === 'mystery'"
           class="block rounded-lg"

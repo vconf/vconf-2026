@@ -3,7 +3,7 @@
  */
 export const mysteryKeynote = {
   talkNumber: 1,
-  name: '???',
+  name: '神秘講者',
   jobTitle: 'Keynote Speaker',
   topic: '???',
   startTime: '09:30',

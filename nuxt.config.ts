@@ -214,6 +214,14 @@ export default defineNuxtConfig({
     },
   },
 
+  routeRules: {
+    '/api/vconf/status': {
+      headers: {
+        'cache-control': 'no-store',
+      },
+    },
+  },
+
   nitro: {
     compressPublicAssets: {
       gzip: true,
