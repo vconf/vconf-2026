@@ -7,8 +7,9 @@ export interface Sponsor {
   backgroundClass?: string
 }
 
+/** 'thanks' 是 Special Thanks 版位，不是贊助級別，所以不用數字 */
 export interface SponsorGroup {
-  level: 10 | 5 | 3 | 1
+  level: 10 | 5 | 3 | 1 | 'thanks'
   label: string
   sponsors: Sponsor[]
 }
@@ -24,7 +25,7 @@ export const sponsorGroups: SponsorGroup[] = [
     label: '5x Sponsor',
     sponsors: [
       {
-        name: '新加坡商鈦坦科技',
+        name: 'TITANSOFT',
         logo: '/sponsors/titansoft.svg',
         url: 'https://titansoft.com/tw',
         width: 260,
@@ -77,6 +78,19 @@ export const sponsorGroups: SponsorGroup[] = [
         url: 'https://teacher.place/?openExternalBrowser=1',
         width: 156,
         height: 156,
+      },
+    ],
+  },
+  {
+    level: 'thanks',
+    label: 'Special Thanks',
+    sponsors: [
+      {
+        name: 'The CodingPro',
+        logo: '/sponsors/theCodingPro.svg',
+        url: 'https://thecodingpro.com/',
+        width: 116,
+        height: 116,
       },
     ],
   },

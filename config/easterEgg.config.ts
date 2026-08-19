@@ -20,7 +20,7 @@ Hint: Elements
 提交方式：submitFlag("完整 FLAG")
 `
 export const easterEggHtmlComment = `
-🥚 Vconf Easter Egg #1
+🥚 vconf Easter Egg #1
 
 You found the first piece!
 
@@ -43,7 +43,7 @@ Next:
     ${easterEggTrigger}()
 
 Console knows what to do.
-VConf 2026，我們現場見！👋
+vconf 2026，我們現場見！👋
 `
 export const easterEggRejected = `
 ❌ Not quite.
