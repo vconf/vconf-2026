@@ -12,9 +12,6 @@ interface AdTrackingPayload {
 /**
  * 只在正式環境的瀏覽器端送出，開發與 SSR 階段不污染統計資料。
  * 不要把 visitorId、bag 或任何個資放進 payload。
- *
- * window.umami 的型別由 @nuxt/scripts 的 UmamiAnalyticsApi 全域提供，
- * 這裡不要再自己宣告一次（modifier 不同會觸發 TS2687）。
  */
 function trackAdEvent(eventName: string, payload: AdTrackingPayload) {
   if (!import.meta.env.PROD || !import.meta.client)
