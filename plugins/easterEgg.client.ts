@@ -42,13 +42,6 @@ const VITE_ICON = svgDataUrl(
 )
 /**
  * 標題框用 CSS border，不用 ╔══╗ 字元畫框。
- *
- * 字元框是以等寬字的「格」為單位量的，而 %c 的 padding / background / font-size
- * 是以 CSS px 量的 —— 兩套度量不可能在所有 DevTools 字型與縮放下同時對齊，
- * 這是先前右邊框線被推出去的原因。整段交給 CSS 就不存在對齊問題。
- *
- * Vue 與 Vite 圖示用同一個 span 的兩層 background 夾在標題左右，
- * 不切成多個 %c，框線才不會被斷成好幾截。
  */
 const TITLE_BOX_STYLE = [
   `color: ${easterEggColors[0]}`,
@@ -142,8 +135,6 @@ export default defineNuxtPlugin({
       }
     }
 
-    // 讓第三段真的跑過一次 Network。閒置時才抓，不跟首屏搶頻寬；
-    // 端點是 prerender 的靜態回應，所以這一發幾乎沒有成本。
     onNuxtReady(() => {
       void $fetch('/api/vconf/status')
     })
