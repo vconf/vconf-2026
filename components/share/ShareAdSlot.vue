@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { AdCreative, AdDraw } from '~/types/ad'
+import type { AdCreative } from '~/types/ad'
+import { useDocumentVisibility, useMediaQuery } from '@vueuse/core'
 import {
-  useDocumentVisibility,
-  useIntersectionObserver,
-  useMediaQuery,
-} from '@vueuse/core'
+  AD_DESKTOP_MEDIA,
+  AD_IMPRESSION_DWELL,
+  adFallback,
+} from '~/config/ad.config'
 import { trackAdClick, trackAdImpression } from '~/utils/adTracking'
 
 const props = withDefaults(
@@ -17,33 +18,23 @@ const props = withDefaults(
   { imageClass: 'block size-full object-cover' },
 )
 
-/** 曝光認定：至少 50% 進入畫面且持續 1 秒，才算一次 impression */
-const IMPRESSION_RATIO = 0.5
-const IMPRESSION_DWELL = 1000
-/** 與 <picture> 的 media 條件、Tailwind 的 md 斷點保持一致 */
-const DESKTOP_MEDIA = '(min-width: 768px)'
+const { draw, status, prefetch, promote, rotate } = useAdSlot()
 
-const adSlot = ref<HTMLElement | null>(null)
-const draw = ref<AdDraw | null>(null)
-const failed = ref(false)
-
-const isDesktop = useMediaQuery(DESKTOP_MEDIA)
+const isDesktop = useMediaQuery(AD_DESKTOP_MEDIA)
 const documentVisibility = useDocumentVisibility()
 const creative = computed<AdCreative>(() =>
   isDesktop.value ? 'desktop' : 'mobile',
 )
 
-// 抽廣告會推進 Shuffle Bag，只在瀏覽器端打一次；失敗就整個版位不顯示，不影響其他內容
-onMounted(async () => {
-  try {
-    draw.value = await $fetch<AdDraw>('/api/ads/next', { method: 'POST' })
-  }
-  catch {
-    failed.value = true
-  }
+// 彈窗每次開啟都會重新掛載：有預抽好的就換下一則，手上什麼都沒有才現抽
+onMounted(() => {
+  promote()
+  prefetch()
 })
 
-const isVisibleEnough = ref(false)
+/** 抽到的廣告；還沒抽到就是 null，版位改用底圖或灰底 */
+const ad = computed(() => draw.value?.ad ?? null)
+
 let dwellTimer: ReturnType<typeof setTimeout> | undefined
 let tracked = false
 
@@ -55,106 +46,81 @@ function clearDwell() {
   dwellTimer = undefined
 }
 
-const { stop } = useIntersectionObserver(
-  adSlot,
-  ([entry]) => {
-    isVisibleEnough.value
-      = !!entry?.isIntersecting && entry.intersectionRatio >= IMPRESSION_RATIO
-  },
-  { threshold: IMPRESSION_RATIO },
-)
-
-// 背景分頁不算曝光；廣告可能比元素進場更晚回來，所以用 watch 而非在 observer 裡直接計時
+// 版位隨彈窗開啟就在畫面上，所以不看進場比例，只確認分頁在前景；底圖不計曝光
 const canCountImpression = computed(
-  () =>
-    !!draw.value
-    && isVisibleEnough.value
-    && documentVisibility.value === 'visible',
+  () => !!ad.value && documentVisibility.value === 'visible',
 )
 
-watch(canCountImpression, (value) => {
-  if (tracked)
-    return
-
-  if (!value) {
-    clearDwell()
-
-    return
-  }
-
-  dwellTimer = setTimeout(() => {
-    if (!draw.value)
+watch(
+  canCountImpression,
+  (value) => {
+    if (!import.meta.client || tracked)
       return
 
-    tracked = true
-    trackAdImpression(draw.value.ad.id, props.placement, creative.value)
-    clearDwell()
-    stop()
-  }, IMPRESSION_DWELL)
-})
+    if (!value) {
+      clearDwell()
+
+      return
+    }
+
+    dwellTimer = setTimeout(() => {
+      const item = ad.value
+
+      if (!item)
+        return
+
+      tracked = true
+      trackAdImpression(item.id, props.placement, creative.value)
+      clearDwell()
+      // 曝光成立才推進輪播，沒人看到的預抽不會吃掉輪播位置
+      rotate()
+    }, AD_IMPRESSION_DWELL)
+  },
+  { immediate: true },
+)
 
 onBeforeUnmount(clearDwell)
 
 function handleClick() {
-  if (!draw.value)
+  if (!ad.value)
     return
 
-  trackAdClick(draw.value.ad.id, props.placement, creative.value)
+  trackAdClick(ad.value.id, props.placement, creative.value)
 }
 </script>
 
 <template>
   <aside
-    v-if="!failed"
-    ref="adSlot"
+    v-if="ad || adFallback || status !== 'failed'"
     aria-label="贊助廣告"
   >
-    <!-- 廣告是掛載後才非同步抽出，先用灰底把版位佔住，避免內容跳動 -->
     <a
-      v-if="draw"
-      :href="draw.ad.targetUrl"
+      v-if="ad"
+      :href="ad.targetUrl"
       target="_blank"
       rel="sponsored noopener noreferrer"
       class="relative block size-full overflow-hidden"
       @click="handleClick"
     >
-      <!--
-        廣告一律完整呈現不裁切，版位比例對不上時會留白（素材是固定比例、版位會隨視窗浮動）。
-        這層用同一張素材放大模糊墊底把留白補滿：同一個 URL 只會下載一次，
-        scale-110 是為了避免模糊把邊緣的透明糊進畫面。
-      -->
-      <picture
-        aria-hidden="true"
-        class="pointer-events-none absolute inset-0 block size-full"
-      >
-        <source
-          :media="DESKTOP_MEDIA"
-          :srcset="draw.ad.images.desktop.url"
-        />
-        <img
-          :src="draw.ad.images.mobile.url"
-          alt=""
-          loading="eager"
-          class="size-full scale-110 object-cover blur-xl"
-        />
-      </picture>
-      <picture class="relative block size-full">
-        <source
-          :media="DESKTOP_MEDIA"
-          :srcset="draw.ad.images.desktop.url"
-          :width="draw.ad.images.desktop.width"
-          :height="draw.ad.images.desktop.height"
-        />
-        <img
-          :src="draw.ad.images.mobile.url"
-          :alt="draw.ad.title"
-          :width="draw.ad.images.mobile.width"
-          :height="draw.ad.images.mobile.height"
-          loading="eager"
-          :class="imageClass"
-        />
-      </picture>
+      <ShareAdCreative
+        :images="ad.images"
+        :alt="ad.title"
+        :image-class="imageClass"
+      />
     </a>
+    <!-- 還在抽廣告：先擺底圖，不可點、不計曝光 -->
+    <div
+      v-else-if="adFallback"
+      class="relative block size-full overflow-hidden"
+      :aria-hidden="adFallback.alt ? undefined : 'true'"
+    >
+      <ShareAdCreative
+        :images="adFallback.images"
+        :alt="adFallback.alt"
+        :image-class="imageClass"
+      />
+    </div>
+    <!-- 沒有底圖可用：先用灰底把版位佔住，避免內容跳動 -->
     <div
       v-else
       aria-hidden="true"

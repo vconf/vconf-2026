@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AnySpeaker } from '~/utils/agenda'
 import {
   agendaTalkId,
   breakThemeClass,
@@ -9,9 +10,21 @@ import {
 const { data: speakers } = await useSpeakers()
 const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
 const { preloadAgendaTalk } = useSpeakerImages()
+const { prefetch: prefetchAd } = useAdSlot()
+
+/**
+ * 使用者表現出要開彈窗的意圖時，講者照與廣告一起提前抓。
+ */
+function warmTalk(speaker: AnySpeaker) {
+  preloadAgendaTalk(speaker, 'high')
+  void prefetchAd()
+}
 
 // 這裡是進議程彈窗的唯一入口，hydration 結束後閒置時就先把講者照抓回來
 onNuxtReady(() => {
+  // 頁面可互動後就先抽第一則並下載素材，避免等使用者開彈窗才開始。
+  void prefetchAd()
+
   for (const item of agendaItems.value) {
     if (item.type === 'talk')
       preloadAgendaTalk(item.speaker)
@@ -98,8 +111,9 @@ onNuxtReady(() => {
           v-else
           :to="`/agenda/unpublish/${agendaTalkId(item)}`"
           class="group col-start-2 block w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
-          @mouseenter="preloadAgendaTalk(item.speaker, 'high')"
-          @focus="preloadAgendaTalk(item.speaker, 'high')"
+          @mouseenter="warmTalk(item.speaker)"
+          @focus="warmTalk(item.speaker)"
+          @touchstart.passive="warmTalk(item.speaker)"
         >
           <!-- 標籤 -->
           <div

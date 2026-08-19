@@ -13,6 +13,8 @@ export type AdCreative = 'desktop' | 'mobile'
 
 export interface AdImage {
   url: string
+  /** 極小的低解析預覽；Worker 尚未更新時退回完整圖片 */
+  previewUrl?: string
   width: number
   height: number
 }
