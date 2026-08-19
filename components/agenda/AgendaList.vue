@@ -50,7 +50,7 @@ onNuxtReady(() => {
         >
           {{ item.label }}
         </p>
-        <!-- 未公開的 keynote：粒子剪影 + ???，刻意不可點、也不進彈窗 -->
+        <!-- 未公開的 keynote：模糊照片 + 神秘講者，刻意不可點、也不進彈窗 -->
         <div
           v-else-if="item.type === 'mystery-talk'"
           class="col-start-2 w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif md:max-w-[668px] md:px-6 md:pb-6"

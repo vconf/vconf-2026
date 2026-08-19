@@ -41,11 +41,6 @@
       "source": "/hunter",
       "destination": "/?utm_source=speaker_hunter&utm_campaign=vconf2026",
       "permanent": false
-    },
-    {
-      "source": "/evanyou",
-      "destination": "/?utm_source=speaker_evanyou&utm_campaign=vconf2026",
-      "permanent": false
     }
   ]
 }

@@ -34,7 +34,7 @@ export interface TalkItem {
 
 /**
  * 還沒公開的 keynote 場次：只有時間與 Talk 編號是真的，
- * 講者一律以粒子剪影 + ??? 呈現，卡片不可點。
+ * 講者一律以模糊照片 +「神秘講者」呈現，卡片不可點。
  */
 export interface MysteryTalkItem {
   type: 'mystery-talk'
