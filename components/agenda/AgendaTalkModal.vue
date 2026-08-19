@@ -135,7 +135,7 @@ const speakerSocialLinks = computed(() => {
                 />
               </svg>
             </button>
-            <!-- 廣告：由 /api/ads/next 抽出，載入失敗時整個版位不顯示 -->
+            <!-- 廣告：由 /api/ads/reserve 保留，曝光成立才 commit 消耗 -->
             <ShareAdSlot
               v-if="talk"
               placement="agenda-talk-modal"

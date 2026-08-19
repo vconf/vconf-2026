@@ -12,7 +12,7 @@ const lenis = useLenis()
 const { data: speakers } = await useSpeakers()
 const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
 const { registerAgendaModalImages, preloadAgendaTalk } = useSpeakerImages()
-const { prefetch: prefetchAd } = useAdSlot()
+const { reserve: reserveAd } = useAdSlot()
 
 // 彈窗是 v-if 開啟、SSR 不渲染，這裡主動註冊讓 prerender 產出靜態圖檔
 if (import.meta.server)
@@ -66,7 +66,7 @@ async function open() {
   closeRequested.value = false
   lockBackgroundScroll()
 
-  void prefetchAd()
+  void reserveAd()
 
   if (talk)
     await preloadAgendaTalk(talk.speaker, 'high')

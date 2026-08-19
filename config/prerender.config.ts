@@ -10,6 +10,7 @@ const routes = [
   '/speakers/serko',
   '/speakers/ray',
   '/speakers/kuro',
+  '/api/vconf/status',
 ] as const
 
 export const prerenderConfig = {

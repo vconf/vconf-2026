@@ -25,6 +25,10 @@ if (isProduction && umamiWebsiteId) {
   })
 }
 
+useHead({
+  script: [{ src: '/vconf-dev-mode.js', defer: true }],
+})
+
 // 彈窗路由固定用父路徑當 key，避免開/關彈窗時整頁重新掛載並播放頁面轉場
 function pageKey(route: RouteLocationNormalizedLoaded) {
   return getModalBasePath(route.path) ?? route.fullPath

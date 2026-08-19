@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AdCreative } from '~/types/ad'
+import type { AdCreative, AdDraw } from '~/types/ad'
 import { useDocumentVisibility, useMediaQuery } from '@vueuse/core'
 import {
   AD_DESKTOP_MEDIA,
@@ -18,7 +18,7 @@ const props = withDefaults(
   { imageClass: 'block size-full object-cover' },
 )
 
-const { draw, status, prefetch, promote, rotate } = useAdSlot()
+const { head, status, reserve, commit } = useAdSlot()
 
 const isDesktop = useMediaQuery(AD_DESKTOP_MEDIA)
 const documentVisibility = useDocumentVisibility()
@@ -26,14 +26,30 @@ const creative = computed<AdCreative>(() =>
   isDesktop.value ? 'desktop' : 'mobile',
 )
 
-// 彈窗每次開啟都會重新掛載：有預抽好的就換下一則，手上什麼都沒有才現抽
+/**
+ * 這次掛載要顯示的那一格。
+ *
+ * 釘住不隨 head 變動：曝光成立後 head 會前進到下一則，但畫面上這一則得保持不變，
+ * 免得使用者看到一半被換掉。彈窗關閉時整個版位卸載，下次開啟再釘新的。
+ */
+const shown = ref<AdDraw | null>(null)
+
+watch(
+  head,
+  (value) => {
+    if (!shown.value && value)
+      shown.value = value
+  },
+  { immediate: true },
+)
+
+// reserve 只讀不消耗，所以每次掛載都問一次是安全的；手上已經有就直接沿用
 onMounted(() => {
-  promote()
-  prefetch()
+  void reserve()
 })
 
-/** 抽到的廣告；還沒抽到就是 null，版位改用底圖或灰底 */
-const ad = computed(() => draw.value?.ad ?? null)
+/** 釘住的那一則廣告；還沒拿到就是 null，版位改用底圖或灰底 */
+const ad = computed(() => shown.value?.ad ?? null)
 
 let dwellTimer: ReturnType<typeof setTimeout> | undefined
 let tracked = false
@@ -64,16 +80,19 @@ watch(
     }
 
     dwellTimer = setTimeout(() => {
-      const item = ad.value
+      const item = shown.value
 
       if (!item)
         return
 
       tracked = true
-      trackAdImpression(item.id, props.placement, creative.value)
+      trackAdImpression(item.ad.id, props.placement, creative.value, {
+        cycle: item.cycle,
+        position: item.position,
+      })
       clearDwell()
-      // 曝光成立才推進輪播，沒人看到的預抽不會吃掉輪播位置
-      rotate()
+      // 曝光成立才確認消耗：袋子這時才前進，並順手保留下一格
+      void commit(item)
     }, AD_IMPRESSION_DWELL)
   },
   { immediate: true },
@@ -82,10 +101,15 @@ watch(
 onBeforeUnmount(clearDwell)
 
 function handleClick() {
-  if (!ad.value)
+  const item = shown.value
+
+  if (!item)
     return
 
-  trackAdClick(ad.value.id, props.placement, creative.value)
+  trackAdClick(item.ad.id, props.placement, creative.value, {
+    cycle: item.cycle,
+    position: item.position,
+  })
 }
 </script>
 

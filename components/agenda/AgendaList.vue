@@ -10,20 +10,21 @@ import {
 const { data: speakers } = await useSpeakers()
 const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
 const { preloadAgendaTalk } = useSpeakerImages()
-const { prefetch: prefetchAd } = useAdSlot()
+const { reserve: reserveAd } = useAdSlot()
 
 /**
  * 使用者表現出要開彈窗的意圖時，講者照與廣告一起提前抓。
  */
 function warmTalk(speaker: AnySpeaker) {
   void preloadAgendaTalk(speaker, 'high')
-  void prefetchAd()
+  void reserveAd()
 }
 
-// 廣告是每次彈窗共用的一個版位，頁面可互動後先準備第一則；
+// 廣告是每次彈窗共用的一個版位，頁面可互動後先保留第一則。
+// reserve 只讀不消耗，所以就算使用者沒開彈窗就離開，也不會吃掉輪播的名額。
 // 講者照數量較多，改由 hover / focus / touch 的實際意圖觸發。
 onNuxtReady(() => {
-  void prefetchAd()
+  void reserveAd()
 })
 </script>
 

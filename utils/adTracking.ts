@@ -1,6 +1,16 @@
 import type { AdCreative, SponsorId } from '~/types/ad'
 
-interface AdTrackingPayload {
+/**
+ * 這一則廣告在洗牌袋裡的位置。
+ */
+interface AdRotation {
+  /** 洗牌袋的第幾輪 */
+  cycle: number
+  /** 這一輪的第幾格 */
+  position: number
+}
+
+interface AdTrackingPayload extends AdRotation {
   /** 贊助商穩定 ID，不要送顯示名稱 */
   sponsor: SponsorId
   /** 廣告出現在哪個版位，例如 homepage-sidebar */
@@ -25,11 +35,13 @@ export function trackAdImpression(
   sponsor: SponsorId,
   placement: string,
   creative: AdCreative,
+  rotation: AdRotation,
 ) {
   trackAdEvent('ad-impression', {
     sponsor,
     placement,
     creative,
+    ...rotation,
   })
 }
 
@@ -37,10 +49,12 @@ export function trackAdClick(
   sponsor: SponsorId,
   placement: string,
   creative: AdCreative,
+  rotation: AdRotation,
 ) {
   trackAdEvent('ad-click', {
     sponsor,
     placement,
     creative,
+    ...rotation,
   })
 }
