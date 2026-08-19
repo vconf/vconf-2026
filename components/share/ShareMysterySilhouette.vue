@@ -340,7 +340,7 @@ onBeforeUnmount(stopLoop)
   >
     <canvas
       ref="canvasRef"
-      class="block size-full"
+      class="absolute inset-0 block size-full"
       aria-hidden="true"
     ></canvas>
   </div>
