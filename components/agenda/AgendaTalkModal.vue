@@ -171,7 +171,7 @@ const speakerSocialLinks = computed(() => {
                   data-lenis-prevent
                 >
                   <div
-                    class="grid px-8 pb-12 md:grid-cols-[minmax(0,1fr)_200px] md:gap-8 lg:grid-cols-[minmax(0,1fr)_253px] lg:gap-12"
+                    class="grid px-4 pb-6 md:grid-cols-[minmax(0,1fr)_200px] md:gap-8 md:px-8 md:pb-12 lg:grid-cols-[minmax(0,1fr)_253px] lg:gap-12"
                   >
                     <section>
                       <h2
