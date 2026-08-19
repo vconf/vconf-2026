@@ -1,4 +1,5 @@
 import type { SpeakersCollectionItem } from '@nuxt/content'
+import { mysteryKeynote } from '~/config/keynote.config'
 
 export interface SpeakerSummary {
   name: string
@@ -31,6 +32,20 @@ export interface TalkItem {
   slug: string
 }
 
+/**
+ * 還沒公開的 keynote 場次：只有時間與 Talk 編號是真的，
+ * 講者一律以粒子剪影 + ??? 呈現，卡片不可點。
+ */
+export interface MysteryTalkItem {
+  type: 'mystery-talk'
+  time: string
+  endTime: string
+  talkNumber: number
+  title: string
+  speakerName: string
+  jobTitle: string
+}
+
 export interface BreakItem {
   type: 'break'
   time: string
@@ -38,7 +53,7 @@ export interface BreakItem {
   theme: 'gray' | 'purple' | 'primary'
 }
 
-export type AgendaItem = TalkItem | BreakItem
+export type AgendaItem = TalkItem | MysteryTalkItem | BreakItem
 
 const placeholderAvatar
   = 'https://images.unsplash.com/photo-1778844648458-129cfdf980a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
@@ -52,6 +67,18 @@ function confirmedTalk(speaker: SpeakersCollectionItem): TalkItem {
     slug: speaker.talkSlug,
     title: speaker.topic,
     speaker,
+  }
+}
+
+function mysteryTalk(): MysteryTalkItem {
+  return {
+    type: 'mystery-talk',
+    time: mysteryKeynote.startTime,
+    endTime: mysteryKeynote.endTime,
+    talkNumber: mysteryKeynote.talkNumber,
+    title: mysteryKeynote.topic,
+    speakerName: mysteryKeynote.name,
+    jobTitle: mysteryKeynote.jobTitle,
   }
 }
 
@@ -86,8 +113,7 @@ export function createAgendaItems(
   )
 
   return [
-    talkByNumber.get(1)
-    ?? placeholderTalk(1, '09:30', '10:15', 'evan-you', '尤雨溪'),
+    talkByNumber.get(1) ?? mysteryTalk(),
     { type: 'break', time: '10:15', label: '休息一下', theme: 'gray' },
     talkByNumber.get(2)
     ?? placeholderTalk(2, '10:25', '11:10', 'hunter', 'Hunter'),
