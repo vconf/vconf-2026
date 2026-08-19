@@ -68,7 +68,7 @@ const socialLinks = computed(() => {
           @click.self="emit('close')"
         >
           <div
-            class="relative isolate mx-auto flex w-full flex-col gap-5 md:h-[80svh] md:max-h-[710px] md:max-w-[965px] md:flex-row md:items-start md:gap-[40px]"
+            class="relative isolate mx-auto flex w-full flex-col gap-5 md:h-[85svh] md:max-h-[710px] md:max-w-[965px] md:flex-row md:items-start md:gap-[40px]"
           >
             <button
               type="button"

@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { useResizeObserver } from '@vueuse/core'
+import { createSpeakerCards } from '~/utils/speakerCards'
 
 const { data: speakers } = await useSpeakers()
 const { preloadModalBackground, preloadSpeakerModal, cardPhotoUrl }
   = useSpeakerImages()
 
-const DISPLAY_SPEAKERS = computed(() => [
-  ...(speakers.value ?? []),
-  ...(speakers.value ?? []),
-])
+// Talk 1 還沒公開時，第一張會是不可點的神秘 keynote 卡
+const cards = computed(() => createSpeakerCards(speakers.value ?? []))
+// loop 模式要有足夠的 slide 才不會出現空隙，所以整份卡片清單重複一次
+const DISPLAY_CARDS = computed(() => [...cards.value, ...cards.value])
 
 const SWIPER_OPTIONS = {
   loop: true,
@@ -128,17 +129,24 @@ onNuxtReady(() => {
                 class="mx-auto grid place-content-center md:h-full"
               >
                 <swiper-slide
-                  v-for="(speaker, index) in DISPLAY_SPEAKERS"
-                  :key="`${speaker.name}-${index}`"
+                  v-for="(card, index) in DISPLAY_CARDS"
+                  :key="`${card.key}-${index}`"
                   class="speaker-slide flex justify-center md:h-full"
                 >
                   <div class="flex w-full max-w-[228px] flex-col md:max-w-none">
+                    <!-- 未公開的 keynote：粒子剪影 + ???，刻意不可點 -->
+                    <ShareMysterySilhouette
+                      v-if="card.kind === 'mystery'"
+                      tone="duo"
+                      class="speaker-card-frame aspect-speaker-card w-full min-w-0"
+                    />
                     <NuxtLink
-                      :to="`/speakers/${speaker.talkSlug}`"
-                      :aria-label="`查看講者 ${speaker.name} 的介紹`"
+                      v-else
+                      :to="`/speakers/${card.speaker.talkSlug}`"
+                      :aria-label="`查看講者 ${card.speaker.name} 的介紹`"
                       class="block w-full min-w-0"
-                      @mouseenter="preloadSpeakerModal(speaker, 'high')"
-                      @focus="preloadSpeakerModal(speaker, 'high')"
+                      @mouseenter="preloadSpeakerModal(card.speaker, 'high')"
+                      @focus="preloadSpeakerModal(card.speaker, 'high')"
                     >
                       <svg
                         data-speaker-image-frame
@@ -156,7 +164,7 @@ onNuxtReady(() => {
                           </clipPath>
                         </defs>
                         <image
-                          :href="cardPhotoUrl(speaker)"
+                          :href="cardPhotoUrl(card.speaker)"
                           x="0"
                           y="0"
                           width="267"
@@ -173,9 +181,7 @@ onNuxtReady(() => {
                         <span
                           class="pr-2 font-sans text-[17px] leading-[1] tracking-[0.02em] text-vconf-gray-light"
                         >{</span>
-                        <span class="text-vconf-primary">{{
-                          speaker.name
-                        }}</span>
+                        <span class="text-vconf-primary">{{ card.name }}</span>
                         <span
                           class="pl-2 font-sans text-[17px] leading-[1] tracking-[0.02em] text-vconf-gray-light"
                         >}</span>
@@ -183,7 +189,7 @@ onNuxtReady(() => {
                       <p
                         class="font-serif text-[16px] leading-[1.6] tracking-[0%] text-vconf-text-read"
                       >
-                        {{ speaker.jobTitle }}
+                        {{ card.jobTitle }}
                       </p>
                     </div>
                   </div>
@@ -236,3 +242,11 @@ onNuxtReady(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+/* 與講者照 SVG 遮罩同一個平行四邊形（267×374 的 M4 28.8947L263 0V366L4 313.026Z），
+   讓神秘卡的外形跟其他卡片一致 */
+.speaker-card-frame {
+  clip-path: polygon(1.5% 7.73%, 98.5% 0%, 98.5% 97.86%, 1.5% 83.7%);
+}
+</style>

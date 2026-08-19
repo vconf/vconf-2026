@@ -2,7 +2,6 @@
 speakerId: kuku
 name: kuku
 slug: kuku
-company: Company
 jobTitle: 前端工程師
 avatar: /speaker/kuku-intro-desktop.png
 avatarMobile: /speaker/kuku-intro-mobile.png

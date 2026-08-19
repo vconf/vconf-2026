@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { usePreferredReducedMotion } from '@vueuse/core'
 import { speakerPhoto } from '~/utils/agenda'
+import { createSpeakerCards } from '~/utils/speakerCards'
 
 const { data: speakers } = await useSpeakers()
+// Talk 1 還沒公開時，第一張會是不可點的神秘 keynote 卡
+const cards = computed(() => createSpeakerCards(speakers.value ?? []))
 const { preloadModalBackground, preloadSpeakerModal } = useSpeakerImages()
 
 // 這裡是進彈窗的主要入口，hydration 結束後閒置時就先把彈窗的圖抓回來
@@ -27,12 +30,12 @@ onMounted(() => {
   if (reducedMotion.value === 'reduce')
     return
 
-  const cards = Array.from(gridRef.value.children)
+  const cardElements = Array.from(gridRef.value.children)
 
   // 初始隱藏狀態用 JS 設定（不寫在 CSS），SSR / 無 JS 環境下內容仍完整可見
-  gsap.set(cards, { scale: 0.8, opacity: 0, filter: 'blur(10px)' })
+  gsap.set(cardElements, { scale: 0.8, opacity: 0, filter: 'blur(10px)' })
 
-  batchTriggers = ScrollTrigger.batch(cards, {
+  batchTriggers = ScrollTrigger.batch(cardElements, {
     start: 'top bottom-=300',
     // 卡片只進場一次：不做往回捲的退場，trigger 觸發後自行銷毀、不再監聽捲動
     once: true,
@@ -65,83 +68,136 @@ onBeforeUnmount(() => {
       ref="gridRef"
       class="grid grid-cols-2 gap-4 md:gap-[33px] lg:grid-cols-3"
     >
-      <NuxtLink
-        v-for="speaker in speakers"
-        :key="speaker.id"
-        :to="`/speakers/${speaker.talkSlug}`"
-        class="group block rounded-lg outline-none"
-        @mouseenter="preloadSpeakerModal(speaker, 'high')"
-        @focus="preloadSpeakerModal(speaker, 'high')"
+      <template
+        v-for="card in cards"
+        :key="card.key"
       >
-        <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
-        <NuxtImg
-          :src="speakerPhoto(speaker, 'introMobile')"
-          placeholder
-          :alt="speaker.avatarAlt"
-          width="169"
-          height="239"
-          loading="lazy"
-          format="avif,webp"
-          densities="x1 x2"
-          class="mb-4 block aspect-speaker-photo-sm w-full object-cover md:hidden"
-        />
-        <NuxtImg
-          :src="speaker.avatar"
-          placeholder
-          :alt="speaker.avatarAlt"
-          width="306"
-          height="433"
-          loading="lazy"
-          format="avif,webp"
-          densities="x1 x2"
-          class="mb-4 hidden aspect-speaker-photo w-full object-cover md:block"
-        />
-        <div>
-          <!-- 講者名稱 -->
-          <p class="mb-[14px] flex items-center justify-center">
-            <span
-              class="pr-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
-            >{</span>
-            <span
-              class="font-serif text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
-            >{{ speaker.name }}</span>
-            <span
-              class="pl-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
-            >}</span>
-          </p>
-          <!-- 講者抬頭 -->
-          <p
-            class="mx-auto mb-4 w-fit font-serif text-[14px] font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read md:text-[16px]"
-          >
-            {{ speaker.jobTitle }}
-          </p>
-          <!-- 講者時刻 -->
-          <p
-            class="mb-6 flex flex-col items-center justify-center gap-2 font-serif font-bold leading-[1.6] tracking-[0.02em] md:flex-row"
-          >
-            <span
-              class="flex gap-[5px] rounded-[12px] bg-vconf-purple px-2 py-1 font-bold text-white"
+        <!-- 未公開的 keynote：粒子剪影 + ???，刻意不可點 -->
+        <div
+          v-if="card.kind === 'mystery'"
+          class="block rounded-lg"
+        >
+          <ShareMysterySilhouette
+            tone="mist"
+            class="mb-4 aspect-speaker-photo-sm w-full md:aspect-speaker-photo"
+          />
+          <div>
+            <!-- 講者名稱 -->
+            <p class="mb-[14px] flex items-center justify-center">
+              <span
+                class="pr-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+              >{</span>
+              <span
+                class="font-serif text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
+              >{{ card.name }}</span>
+              <span
+                class="pl-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+              >}</span>
+            </p>
+            <!-- 講者抬頭 -->
+            <p
+              class="mx-auto mb-4 w-fit font-serif text-[14px] font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read md:text-[16px]"
             >
-              <span class="text-[14px] md:text-[16px]">Talk</span>
-              <span class="text-[14px] md:text-[16px]">{{
-                speaker.talkNumber
-              }}</span>
-            </span>
-            <time
-              :datetime="`2026-10-17T${speaker.startTime}:00+08:00`"
-              class="text-vconf-purple"
+              {{ card.jobTitle }}
+            </p>
+            <!-- 講者時刻 -->
+            <p
+              class="mb-6 flex flex-col items-center justify-center gap-2 font-serif font-bold leading-[1.6] tracking-[0.02em] md:flex-row"
             >
-              {{ speaker.startTime }}~{{ speaker.endTime }}
-            </time>
-          </p>
-          <!-- More -->
-          <span
-            class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
-          >
-            More
-          </span>
+              <span
+                class="flex gap-[5px] rounded-[12px] bg-vconf-purple px-2 py-1 font-bold text-white"
+              >
+                <span class="text-[14px] md:text-[16px]">Talk</span>
+                <span class="text-[14px] md:text-[16px]">{{
+                  card.talkNumber
+                }}</span>
+              </span>
+              <time
+                :datetime="`2026-10-17T${card.startTime}:00+08:00`"
+                class="text-vconf-purple"
+              >
+                {{ card.startTime }}~{{ card.endTime }}
+              </time>
+            </p>
+          </div>
         </div>
-      </NuxtLink>
+        <NuxtLink
+          v-else
+          :to="`/speakers/${card.speaker.talkSlug}`"
+          class="group block rounded-lg outline-none"
+          @mouseenter="preloadSpeakerModal(card.speaker, 'high')"
+          @focus="preloadSpeakerModal(card.speaker, 'high')"
+        >
+          <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
+          <NuxtImg
+            :src="speakerPhoto(card.speaker, 'introMobile')"
+            placeholder
+            :alt="card.speaker.avatarAlt"
+            width="169"
+            height="239"
+            loading="lazy"
+            format="avif,webp"
+            densities="x1 x2"
+            class="mb-4 block aspect-speaker-photo-sm w-full object-cover md:hidden"
+          />
+          <NuxtImg
+            :src="card.speaker.avatar"
+            placeholder
+            :alt="card.speaker.avatarAlt"
+            width="306"
+            height="433"
+            loading="lazy"
+            format="avif,webp"
+            densities="x1 x2"
+            class="mb-4 hidden aspect-speaker-photo w-full object-cover md:block"
+          />
+          <div>
+            <!-- 講者名稱 -->
+            <p class="mb-[14px] flex items-center justify-center">
+              <span
+                class="pr-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+              >{</span>
+              <span
+                class="font-serif text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
+              >{{ card.speaker.name }}</span>
+              <span
+                class="pl-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+              >}</span>
+            </p>
+            <!-- 講者抬頭 -->
+            <p
+              class="mx-auto mb-4 w-fit font-serif text-[14px] font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read md:text-[16px]"
+            >
+              {{ card.speaker.jobTitle }}
+            </p>
+            <!-- 講者時刻 -->
+            <p
+              class="mb-6 flex flex-col items-center justify-center gap-2 font-serif font-bold leading-[1.6] tracking-[0.02em] md:flex-row"
+            >
+              <span
+                class="flex gap-[5px] rounded-[12px] bg-vconf-purple px-2 py-1 font-bold text-white"
+              >
+                <span class="text-[14px] md:text-[16px]">Talk</span>
+                <span class="text-[14px] md:text-[16px]">{{
+                  card.speaker.talkNumber
+                }}</span>
+              </span>
+              <time
+                :datetime="`2026-10-17T${card.speaker.startTime}:00+08:00`"
+                class="text-vconf-purple"
+              >
+                {{ card.speaker.startTime }}~{{ card.speaker.endTime }}
+              </time>
+            </p>
+            <!-- More -->
+            <span
+              class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
+            >
+              More
+            </span>
+          </div>
+        </NuxtLink>
+      </template>
     </div>
   </div>
 </template>

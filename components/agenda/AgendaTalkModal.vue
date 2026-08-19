@@ -107,10 +107,10 @@ const speakerSocialLinks = computed(() => {
         @click.self="emit('close')"
       >
         <div
-          class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px] md:pb-6 md:pt-0"
+          class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px] md:pt-0"
         >
           <div
-            class="relative m-auto flex h-[85svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[80svh] md:flex-row"
+            class="relative m-auto flex h-[85svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[85svh] md:flex-row"
           >
             <!-- 關閉按鈕 -->
             <button
@@ -171,7 +171,7 @@ const speakerSocialLinks = computed(() => {
                   data-lenis-prevent
                 >
                   <div
-                    class="grid px-8 pb-12 md:grid-cols-[minmax(0,1fr)_200px] md:gap-8 lg:grid-cols-[minmax(0,1fr)_253px] lg:gap-12"
+                    class="grid px-4 pb-6 md:grid-cols-[minmax(0,1fr)_200px] md:gap-8 md:px-8 md:pb-12 lg:grid-cols-[minmax(0,1fr)_253px] lg:gap-12"
                   >
                     <section>
                       <h2
