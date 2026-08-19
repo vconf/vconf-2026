@@ -107,10 +107,10 @@ const speakerSocialLinks = computed(() => {
         @click.self="emit('close')"
       >
         <div
-          class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px] md:pb-6 md:pt-0"
+          class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px] md:pt-0"
         >
           <div
-            class="relative m-auto flex h-[85svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[80svh] md:flex-row"
+            class="relative m-auto flex h-[85svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[85svh] md:flex-row"
           >
             <!-- 關閉按鈕 -->
             <button
