@@ -10,9 +10,11 @@ const speakerId = computed(() => {
   return Array.isArray(value) ? value[0] : value
 })
 const { data: speakers } = await useSpeakers()
+const { registerModalImages, preloadModalBackground, preloadSpeakerModal }
+  = useSpeakerImages()
 
 if (import.meta.server)
-  useSpeakerImages().registerModalImages(speakers.value ?? [])
+  registerModalImages(speakers.value ?? [])
 
 const activeSpeaker = computed(
   () =>
@@ -35,6 +37,7 @@ useSpeakerSeo(activeSpeaker, {
 const visible = ref(false)
 const closeRequested = ref(false)
 let isScrollLockedByModal = false
+let openRequest = 0
 
 function lockBackgroundScroll() {
   lenis.stop()
@@ -49,9 +52,24 @@ function unlockBackgroundScroll() {
   isScrollLockedByModal = false
 }
 
-function open() {
+async function open() {
+  const request = ++openRequest
+  const speaker = activeSpeaker.value
+
+  if (!speaker)
+    return
+
   closeRequested.value = false
   lockBackgroundScroll()
+
+  await Promise.all([
+    preloadModalBackground('high'),
+    preloadSpeakerModal(speaker, 'high'),
+  ])
+
+  if (request !== openRequest || activeSpeaker.value !== speaker)
+    return
+
   visible.value = true
 }
 
@@ -60,22 +78,24 @@ onMounted(() => {
     return
 
   if (activeSpeaker.value)
-    open()
+    void open()
   else backToList()
 })
 
 watch(speakerId, (value) => {
   if (value) {
     if (activeSpeaker.value)
-      open()
+      void open()
     else backToList()
 
     return
   }
 
+  openRequest++
+
   // 彈窗沒開就沒有鎖過捲動（例如剛從不存在的講者退回列表），不需要收尾
   if (!visible.value)
-    return
+    return unlockBackgroundScroll()
 
   if (!closeRequested.value) {
     lockBackgroundScroll()
@@ -88,6 +108,7 @@ function close() {
     return
 
   closeRequested.value = true
+  openRequest++
   visible.value = false
 }
 

@@ -13,10 +13,11 @@ const memberSlug = computed(() => {
 const activeMember = computed(() =>
   memberSlug.value ? (findTeamMember(memberSlug.value) ?? null) : null,
 )
+const { registerTeamModalImages, preloadTeamModal } = useTeamImages()
 
 // 彈窗是 v-if 開啟、SSR 不渲染，這裡主動註冊讓 prerender 產出靜態圖檔
 if (import.meta.server)
-  useTeamImages().registerTeamModalImages(teamMembers)
+  registerTeamModalImages(teamMembers)
 
 function backToList() {
   return navigateTo('/team/unpublish', { replace: true })
@@ -34,6 +35,7 @@ useTeamMemberSeo(activeMember, {
 const visible = ref(false)
 const closeRequested = ref(false)
 let isScrollLockedByModal = false
+let openRequest = 0
 
 function lockBackgroundScroll() {
   lenis.stop()
@@ -48,9 +50,21 @@ function unlockBackgroundScroll() {
   isScrollLockedByModal = false
 }
 
-function open() {
+async function open() {
+  const request = ++openRequest
+  const member = activeMember.value
+
+  if (!member)
+    return
+
   closeRequested.value = false
   lockBackgroundScroll()
+
+  await preloadTeamModal(member, 'high')
+
+  if (request !== openRequest || activeMember.value !== member)
+    return
+
   visible.value = true
 }
 
@@ -59,22 +73,24 @@ onMounted(() => {
     return
 
   if (activeMember.value)
-    open()
+    void open()
   else backToList()
 })
 
 watch(memberSlug, (value) => {
   if (value) {
     if (activeMember.value)
-      open()
+      void open()
     else backToList()
 
     return
   }
 
+  openRequest++
+
   // 彈窗沒開就沒有鎖過捲動（例如剛從不存在的成員退回列表），不需要收尾
   if (!visible.value)
-    return
+    return unlockBackgroundScroll()
 
   // 瀏覽器返回時，網址會先改變，再由同一個頁面元件淡出彈窗。
   if (!closeRequested.value) {
@@ -88,6 +104,7 @@ function close() {
     return
 
   closeRequested.value = true
+  openRequest++
   visible.value = false
 }
 

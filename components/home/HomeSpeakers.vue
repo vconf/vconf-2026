@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AnySpeaker } from '~/utils/agenda'
 import { useResizeObserver } from '@vueuse/core'
 import { createSpeakerCards } from '~/utils/speakerCards'
 
@@ -44,6 +45,11 @@ const SWIPER_OPTIONS = {
 const swiperRef = ref<(HTMLElement & { initialize: () => void }) | null>(null)
 const swiperWrapperRef = ref<HTMLElement | null>(null)
 
+function warmSpeaker(speaker: AnySpeaker) {
+  void preloadModalBackground('high')
+  void preloadSpeakerModal(speaker, 'high')
+}
+
 function ensureSwiperInitialized() {
   const el = swiperRef.value
 
@@ -55,13 +61,6 @@ function ensureSwiperInitialized() {
 
 onMounted(() => nextTick(ensureSwiperInitialized))
 useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
-
-// hydration 結束、瀏覽器閒置時才預載彈窗要用的圖，點卡片時就不用等
-onNuxtReady(() => {
-  preloadModalBackground()
-
-  for (const speaker of speakers.value ?? []) preloadSpeakerModal(speaker)
-})
 </script>
 
 <template>
@@ -145,8 +144,9 @@ onNuxtReady(() => {
                       :to="`/speakers/${card.speaker.talkSlug}`"
                       :aria-label="`查看講者 ${card.speaker.name} 的介紹`"
                       class="block w-full min-w-0"
-                      @mouseenter="preloadSpeakerModal(card.speaker, 'high')"
-                      @focus="preloadSpeakerModal(card.speaker, 'high')"
+                      @mouseenter="warmSpeaker(card.speaker)"
+                      @focus="warmSpeaker(card.speaker)"
+                      @touchstart.passive="warmSpeaker(card.speaker)"
                     >
                       <svg
                         data-speaker-image-frame

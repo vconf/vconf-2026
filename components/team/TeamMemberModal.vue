@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TeamMember } from '~/config/team'
+import { useMediaQuery } from '@vueuse/core'
 import SpeakerProfileSection from '~/components/speakers/SpeakerProfileSection.vue'
 import { teamPhoto } from '~/config/team'
 
@@ -12,6 +13,7 @@ const emit = defineEmits<{
   close: []
   afterLeave: []
 }>()
+const isDesktop = useMediaQuery('(min-width: 768px)')
 
 // 圖示沿用議程／講者彈窗那組社群 icon，排序比照設計稿
 const memberLinkIcons = [
@@ -100,26 +102,26 @@ const socialLinks = computed(() => {
                     >
                       <template v-if="teamPhoto(member, 'avatar')">
                         <NuxtImg
+                          v-if="!isDesktop"
                           :src="teamPhoto(member, 'popupMobile')"
-                          placeholder
                           :alt="`${member.name}（${member.jobTitle}）照片`"
                           width="149"
                           height="149"
                           loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
-                          class="block size-[149px] rounded-[42%] object-cover md:hidden"
+                          class="block size-[149px] rounded-[42%] object-cover"
                         />
                         <NuxtImg
+                          v-else
                           :src="teamPhoto(member, 'popup')"
-                          placeholder
                           :alt="`${member.name}（${member.jobTitle}）照片`"
                           width="333"
                           height="506"
                           loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
-                          class="hidden h-[506px] w-[333px] rounded-[12px] object-cover md:block"
+                          class="h-[506px] w-[333px] rounded-[12px] object-cover"
                         />
                       </template>
                       <!-- 尚未提供照片：以名稱首字遞補，維持版型 -->

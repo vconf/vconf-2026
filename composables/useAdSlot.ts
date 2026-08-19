@@ -3,11 +3,18 @@ import { AD_DESKTOP_MEDIA } from '~/config/ad.config'
 
 type AdSlotStatus = 'idle' | 'loading' | 'ready' | 'failed'
 
+interface CreativeRequest {
+  image: HTMLImageElement
+  priority: 'high' | 'low'
+  promise: Promise<boolean>
+}
+
 /**
  * 同一時間只允許一次抽廣告；預抽與彈窗開啟同時觸發時共用同一個請求。
  * 廣告全程只在瀏覽器端跑，所以放模組層級不會有 SSR 跨請求污染。
  */
 let inflight: Promise<AdDraw | null> | null = null
+const creativeRequests = new Map<string, CreativeRequest>()
 
 /** 目前斷點實際會顯示的那張素材 */
 function creativeUrl(item: AdDraw) {
@@ -24,16 +31,42 @@ function previewUrl(item: AdDraw) {
 }
 
 function loadCreative(url: string, priority: 'high' | 'low') {
-  return new Promise<void>((resolve) => {
-    const image = new Image()
+  const existing = creativeRequests.get(url)
 
-    // fetchpriority 要在 src 之前設定才會影響這次請求
-    image.setAttribute('fetchpriority', priority)
-    image.onload = () => resolve()
-    // 失敗也放行，讓 <img> 自己去重試，不要卡住整個版位
-    image.onerror = () => resolve()
-    image.src = url
+  if (existing) {
+    if (priority === 'high' && existing.priority === 'low') {
+      existing.priority = 'high'
+      existing.image.setAttribute('fetchpriority', 'high')
+    }
+
+    return existing.promise
+  }
+
+  const image = new Image()
+
+  const promise = new Promise<boolean>((resolve) => {
+    image.onload = async () => {
+      try {
+        await image.decode()
+      }
+      catch {
+        // 圖已載入時仍可顯示；decode() 失敗不應阻斷廣告版位。
+      }
+
+      resolve(true)
+    }
+    image.onerror = () => {
+      creativeRequests.delete(url)
+      resolve(false)
+    }
   })
+
+  // 保留解碼完成的 Image，直到真正的廣告元件使用同一 URL。
+  creativeRequests.set(url, { image, priority, promise })
+  image.setAttribute('fetchpriority', priority)
+  image.src = url
+
+  return promise
 }
 
 function requestDraw(): Promise<AdDraw | null> {

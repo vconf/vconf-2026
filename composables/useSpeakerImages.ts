@@ -87,7 +87,7 @@ export function useSpeakerImages() {
   function preloadModalBackground(priority: Priority = 'low') {
     const { viewport, density } = currentTarget()
 
-    preload(toUrl(MODAL_BACKGROUNDS[viewport], density), priority)
+    return preload(toUrl(MODAL_BACKGROUNDS[viewport], density), priority)
   }
 
   /** 預載單一講者的彈窗照片；游標碰到卡片時用 high */
@@ -97,7 +97,7 @@ export function useSpeakerImages() {
   ) {
     const { viewport, density } = currentTarget()
 
-    preload(toUrl(profileSpec(speaker, viewport), density), priority)
+    return preload(toUrl(profileSpec(speaker, viewport), density), priority)
   }
 
   /** 同 registerModalImages，對象換成議程彈窗 */
@@ -116,7 +116,7 @@ export function useSpeakerImages() {
   function preloadAgendaTalk(speaker: AnySpeaker, priority: Priority = 'low') {
     const { viewport, density } = currentTarget()
 
-    preload(toUrl(agendaSpec(speaker, viewport), density), priority)
+    return preload(toUrl(agendaSpec(speaker, viewport), density), priority)
   }
 
   /** 首頁輪播的 SVG <image> 用；SVG 不吃 srcset，直接給 2x */
