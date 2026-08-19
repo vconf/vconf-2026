@@ -17,11 +17,13 @@ const ORBIT_CONTENT_INSET = ORBIT_FRAME_INSET + ORBIT_CONTENT_GAP
 
 const { width: viewportWidth } = useWindowSize()
 
+// 首頁只取前三組（homeSponsorGroups），thanks 不會出現在這裡，
 const sponsorWidthClasses = {
   10: 'w-[calc((100%-1.5rem)/2)]',
   5: 'w-[calc((100%-3rem)/3)]',
   3: 'w-[calc((100%-3rem)/3)]',
   1: 'w-[calc((100%-3rem)/3)]',
+  thanks: 'w-[calc((100%-3rem)/3)]',
 } as const
 
 const orbitFrameRef = ref<HTMLDivElement | null>(null)

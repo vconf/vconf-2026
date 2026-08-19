@@ -8,6 +8,7 @@ const gapClasses = {
   5: 'gap-3 md:gap-[23px]',
   3: 'gap-2 md:gap-[23px]',
   1: 'gap-2 md:gap-[23px]',
+  thanks: 'gap-2 md:gap-[23px]',
 } as const
 
 const cardWidthClasses = {
@@ -15,6 +16,16 @@ const cardWidthClasses = {
   5: 'w-[calc((100%-12px)/2)] md:w-[calc((100%-46px)/3)]',
   3: 'w-[calc((100%-8px)/2)] md:w-[calc((100%-46px)/3)]',
   1: 'w-[calc((100%-16px)/3)] md:w-[calc((100%-92px)/5)]',
+  thanks: 'w-[calc((100%-24px)/4)] md:w-[calc((100%-115px)/6)]',
+} as const
+
+/** Special Thanks 固定在頁尾、必然在首屏之外，用 lazy 不跟首屏搶頻寬 */
+const logoLoading = {
+  10: 'eager',
+  5: 'eager',
+  3: 'eager',
+  1: 'eager',
+  thanks: 'eager',
 } as const
 
 const listRef = ref<HTMLElement | null>(null)
@@ -135,30 +146,41 @@ onBeforeUnmount(() => {
         :class="gapClasses[group.level]"
       >
         <div
-          v-for="sponsor in group.sponsors"
-          :key="sponsor.name"
+          v-for="(sponsor, index) in group.sponsors"
+          :key="`${group.level}-${index}`"
           data-sponsor-card
           class="group"
           :class="cardWidthClasses[group.level]"
         >
-          <!-- 只讓 Logo 圖框與 Logo 變化，卡片本身不位移，避免命中範圍抖動 -->
+          <!-- 連結包住 Logo 框與 5x 名稱，兩者都可點；只讓 Logo 圖框與 Logo 變化，卡片本身不位移，避免命中範圍抖動 -->
           <component
             :is="sponsor.url ? 'a' : 'div'"
             :href="sponsor.url"
             :target="sponsor.url ? '_blank' : undefined"
             :rel="sponsor.url ? 'noopener noreferrer' : undefined"
-            class="flex aspect-square transform-gpu items-center justify-center border border-vconf-gray-exlight transition-[transform,box-shadow] duration-300 ease-out motion-safe:group-hover:-translate-y-1.5 motion-safe:group-hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
-            :class="sponsor.backgroundClass"
+            class="block"
           >
-            <NuxtImg
-              data-sponsor-logo
-              :src="sponsor.logo"
-              :alt="`${sponsor.name} logo`"
-              :width="sponsor.width"
-              :height="sponsor.height"
-              loading="eager"
-              class="h-auto w-4/5 transition-[scale] duration-300 ease-out motion-safe:group-hover:[scale:1.02]"
-            />
+            <div
+              class="flex aspect-square transform-gpu items-center justify-center border border-vconf-gray-exlight transition-[transform,box-shadow] duration-300 ease-out motion-safe:group-hover:-translate-y-1.5 motion-safe:group-hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+              :class="sponsor.backgroundClass"
+            >
+              <NuxtImg
+                data-sponsor-logo
+                :src="sponsor.logo"
+                :alt="`${sponsor.name} logo`"
+                :width="sponsor.width"
+                :height="sponsor.height"
+                :loading="logoLoading[group.level]"
+                class="h-auto w-4/5 transition-[scale] duration-300 ease-out motion-safe:group-hover:[scale:1.02]"
+              />
+            </div>
+            <!-- 只有 5x 在卡片下方標名稱 -->
+            <h3
+              v-if="group.level === 5"
+              class="mt-4 text-center font-serif text-[18px] font-bold leading-[1] tracking-[0.02em] text-vconf-text-read md:text-[24px] md:leading-[1.2] md:tracking-[0em]"
+            >
+              {{ sponsor.name }}
+            </h3>
           </component>
         </div>
       </div>
