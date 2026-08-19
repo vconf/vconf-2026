@@ -399,7 +399,6 @@ onUnmounted(() => {
           y="637"
           width="1478"
           height="707"
-          fetchpriority="high"
         />
 
         <!-- 左扇 (藍/青色系, 15 張) -->
@@ -435,7 +434,6 @@ onUnmounted(() => {
           width="615.668"
           height="646.435"
           opacity="0"
-          fetchpriority="high"
         />
 
         <!-- 中心骨牌圖：放最後 → 疊在最前面 -->
@@ -445,7 +443,6 @@ onUnmounted(() => {
           y="286.628"
           width="615.668"
           height="646.435"
-          fetchpriority="high"
         />
       </g>
     </svg>

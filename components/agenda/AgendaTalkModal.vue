@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TalkItem } from '~/utils/agenda'
+import { useMediaQuery } from '@vueuse/core'
 import { isContentSpeaker, speakerPhoto } from '~/utils/agenda'
 
 const props = defineProps<{
@@ -12,6 +13,7 @@ const emit = defineEmits<{
   close: []
   afterLeave: []
 }>()
+const isDesktop = useMediaQuery('(min-width: 768px)')
 
 const speakerLinkIcons = [
   {
@@ -196,26 +198,26 @@ const speakerSocialLinks = computed(() => {
                       <div class="flex gap-4 md:block">
                         <!-- 手機圓形頭像、桌機直式講者照；未提供彈窗專用圖時退回講者介紹照 -->
                         <NuxtImg
+                          v-if="!isDesktop"
                           :src="speakerPhoto(talk.speaker, 'modalMobile')"
-                          placeholder
                           :alt="talk.speaker.avatarAlt"
                           width="120"
                           height="120"
                           loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
-                          class="block size-[120px] rounded-full object-cover md:hidden"
+                          class="block size-[120px] rounded-full object-cover"
                         />
                         <NuxtImg
+                          v-else
                           :src="speakerPhoto(talk.speaker, 'modal')"
-                          placeholder
                           :alt="talk.speaker.avatarAlt"
                           width="253"
                           height="400"
                           loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
-                          class="hidden h-[400px] w-full object-cover md:block"
+                          class="h-[400px] w-full object-cover"
                         />
                         <div class="mt-6">
                           <p class="mb-2 flex items-center md:mb-0">

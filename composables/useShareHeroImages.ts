@@ -25,15 +25,15 @@ export function useShareHeroImages() {
   function preloadShareHero(priority: Priority = 'low') {
     const { viewport, density } = currentTarget()
 
-    for (const spec of HERO_BACKGROUNDS[viewport]) {
+    return Promise.all(HERO_BACKGROUNDS[viewport].map((spec) => {
       const url = img(spec.src, {
         format: 'avif,webp',
         width: spec.width * density,
         height: spec.height * density,
       })
 
-      preload(url, priority)
-    }
+      return preload(url, priority)
+    }))
   }
 
   return { preloadShareHero }

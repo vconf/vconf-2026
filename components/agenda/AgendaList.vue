@@ -16,19 +16,14 @@ const { prefetch: prefetchAd } = useAdSlot()
  * 使用者表現出要開彈窗的意圖時，講者照與廣告一起提前抓。
  */
 function warmTalk(speaker: AnySpeaker) {
-  preloadAgendaTalk(speaker, 'high')
+  void preloadAgendaTalk(speaker, 'high')
   void prefetchAd()
 }
 
-// 這裡是進議程彈窗的唯一入口，hydration 結束後閒置時就先把講者照抓回來
+// 廣告是每次彈窗共用的一個版位，頁面可互動後先準備第一則；
+// 講者照數量較多，改由 hover / focus / touch 的實際意圖觸發。
 onNuxtReady(() => {
-  // 頁面可互動後就先抽第一則並下載素材，避免等使用者開彈窗才開始。
   void prefetchAd()
-
-  for (const item of agendaItems.value) {
-    if (item.type === 'talk')
-      preloadAgendaTalk(item.speaker)
-  }
 })
 </script>
 

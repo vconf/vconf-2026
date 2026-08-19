@@ -8,11 +8,6 @@ const ctaInfo = {
 
 useSchemaOrg([eventLocation, eventBasic])
 
-// 共用 banner 的背景其他頁都會用到，趁首頁閒置先抓回來
-const { preloadShareHero } = useShareHeroImages()
-
-onNuxtReady(() => preloadShareHero())
-
 useSeoMeta({
   title: 'v-conf Taiwan 2026｜Vue.js',
   titleTemplate: '%s',

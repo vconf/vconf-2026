@@ -18,8 +18,17 @@ export type Priority = 'high' | 'low'
 /** 與 Tailwind md 斷點一致 */
 const DESKTOP_MEDIA = '(min-width: 768px)'
 
-/** 已送出過的 URL，跨元件共用，避免滑鼠來回進出或多個入口重複請求 */
-const requested = new Set<string>()
+interface PreloadRequest {
+  image: HTMLImageElement
+  priority: Priority
+  promise: Promise<boolean>
+}
+
+/**
+ * 跨元件共用同一個請求與解碼結果。
+ * 保留 Image 實例，避免瀏覽器在真正掛上 <img> 前就回收剛解碼好的 bitmap。
+ */
+const requests = new Map<string, PreloadRequest>()
 
 export function useImagePreload() {
   /** 目前裝置實際會用到的斷點與像素密度，只預載這一組 */
@@ -30,16 +39,47 @@ export function useImagePreload() {
     }
   }
 
-  function preload(url: string, priority: Priority) {
-    if (!import.meta.client || requested.has(url))
-      return
+  function preload(url: string, priority: Priority): Promise<boolean> {
+    if (!import.meta.client)
+      return Promise.resolve(false)
 
-    requested.add(url)
+    const existing = requests.get(url)
+
+    if (existing) {
+      // hover / focus 可能發生在背景 low 請求之後；不能因為 URL 已看過就吃掉 high。
+      if (priority === 'high' && existing.priority === 'low') {
+        existing.priority = 'high'
+        existing.image.setAttribute('fetchpriority', 'high')
+      }
+
+      return existing.promise
+    }
 
     const image = new Image()
     // fetchpriority 要在 src 之前設定才會影響這次請求
     image.setAttribute('fetchpriority', priority)
+
+    const promise = new Promise<boolean>((resolve) => {
+      image.onload = async () => {
+        try {
+          await image.decode()
+        }
+        catch {
+          // 少數瀏覽器會在已完成載入後拒絕 decode；此時仍可交給畫面顯示。
+        }
+
+        resolve(true)
+      }
+      image.onerror = () => {
+        requests.delete(url)
+        resolve(false)
+      }
+    })
+
+    requests.set(url, { image, priority, promise })
     image.src = url
+
+    return promise
   }
 
   return { currentTarget, preload }

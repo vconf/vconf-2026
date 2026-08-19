@@ -23,26 +23,26 @@ const heroBrand = {
   >
     <h1>
       <span class="sr-only">v-conf Taiwan 2026 — Vue.js 台灣年度技術研討會</span>
-      <NuxtImg
-        class="relative z-10 hidden pt-[50px] md:block"
-        alt=""
-        aria-hidden="true"
-        :width="heroBrand.desktop.width"
-        :height="heroBrand.desktop.height"
-        :src="isDark ? heroBrand.desktop.darkSrc : heroBrand.desktop.lightSrc"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <NuxtImg
-        class="relative z-10 block pt-[50px] md:hidden"
-        alt=""
-        aria-hidden="true"
-        :width="heroBrand.mobile.width"
-        :height="heroBrand.mobile.height"
-        :src="heroBrand.mobile.src"
-        loading="eager"
-        fetchpriority="high"
-      />
+      <picture>
+        <source
+          media="(min-width: 768px)"
+          :srcset="
+            isDark ? heroBrand.desktop.darkSrc : heroBrand.desktop.lightSrc
+          "
+          :width="heroBrand.desktop.width"
+          :height="heroBrand.desktop.height"
+        />
+        <img
+          class="relative z-10 block h-auto w-[264px] pt-[50px] md:w-[455px]"
+          :src="heroBrand.mobile.src"
+          :width="heroBrand.mobile.width"
+          :height="heroBrand.mobile.height"
+          alt=""
+          aria-hidden="true"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </picture>
     </h1>
 
     <HomeHeroScene

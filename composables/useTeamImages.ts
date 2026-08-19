@@ -1,3 +1,4 @@
+import type { Priority, Viewport } from '~/composables/useImagePreload'
 import type { TeamMember, TeamPhotoKind } from '~/config/team'
 import { teamPhoto } from '~/config/team'
 
@@ -20,8 +21,18 @@ const MODAL_PHOTOS: Array<{
 
 const DENSITIES = [1, 2]
 
+const MODAL_PHOTO_BY_VIEWPORT: Record<Viewport, {
+  kind: TeamPhotoKind
+  width: number
+  height: number
+}> = {
+  mobile: MODAL_PHOTOS[0]!,
+  desktop: MODAL_PHOTOS[1]!,
+}
+
 export function useTeamImages() {
   const img = useImage()
+  const { currentTarget, preload } = useImagePreload()
 
   function toUrl(src: string, width: number, height: number) {
     return img(src, { format: 'avif,webp', width, height })
@@ -61,5 +72,23 @@ export function useTeamImages() {
     }
   }
 
-  return { registerTeamModalImages }
+  /** 只抓目前斷點真正會顯示的成員彈窗照，並等到解碼完成。 */
+  function preloadTeamModal(
+    member: TeamMember,
+    priority: Priority = 'low',
+  ) {
+    const { viewport, density } = currentTarget()
+    const { kind, width, height } = MODAL_PHOTO_BY_VIEWPORT[viewport]
+    const src = teamPhoto(member, kind)
+
+    if (!src)
+      return Promise.resolve(true)
+
+    return preload(
+      toUrl(src, width * density, height * density),
+      priority,
+    )
+  }
+
+  return { registerTeamModalImages, preloadTeamModal }
 }

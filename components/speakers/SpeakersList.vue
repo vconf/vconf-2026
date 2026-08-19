@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AnySpeaker } from '~/utils/agenda'
 import { usePreferredReducedMotion } from '@vueuse/core'
 import { speakerPhoto } from '~/utils/agenda'
 import { createSpeakerCards } from '~/utils/speakerCards'
@@ -8,12 +9,10 @@ const { data: speakers } = await useSpeakers()
 const cards = computed(() => createSpeakerCards(speakers.value ?? []))
 const { preloadModalBackground, preloadSpeakerModal } = useSpeakerImages()
 
-// 這裡是進彈窗的主要入口，hydration 結束後閒置時就先把彈窗的圖抓回來
-onNuxtReady(() => {
-  preloadModalBackground()
-
-  for (const speaker of speakers.value ?? []) preloadSpeakerModal(speaker)
-})
+function warmSpeaker(speaker: AnySpeaker) {
+  void preloadModalBackground('high')
+  void preloadSpeakerModal(speaker, 'high')
+}
 
 const gridRef = ref<HTMLElement | null>(null)
 const reducedMotion = usePreferredReducedMotion() // 'reduce' | 'no-preference'
@@ -125,8 +124,9 @@ onBeforeUnmount(() => {
           v-else
           :to="`/speakers/${card.speaker.talkSlug}`"
           class="group block rounded-lg outline-none"
-          @mouseenter="preloadSpeakerModal(card.speaker, 'high')"
-          @focus="preloadSpeakerModal(card.speaker, 'high')"
+          @mouseenter="warmSpeaker(card.speaker)"
+          @focus="warmSpeaker(card.speaker)"
+          @touchstart.passive="warmSpeaker(card.speaker)"
         >
           <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
           <NuxtImg

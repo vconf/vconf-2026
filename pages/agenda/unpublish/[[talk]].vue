@@ -11,10 +11,12 @@ const route = useRoute()
 const lenis = useLenis()
 const { data: speakers } = await useSpeakers()
 const agendaItems = computed(() => createAgendaItems(speakers.value ?? []))
+const { registerAgendaModalImages, preloadAgendaTalk } = useSpeakerImages()
+const { prefetch: prefetchAd } = useAdSlot()
 
 // 彈窗是 v-if 開啟、SSR 不渲染，這裡主動註冊讓 prerender 產出靜態圖檔
 if (import.meta.server)
-  useSpeakerImages().registerAgendaModalImages(speakers.value ?? [])
+  registerAgendaModalImages(speakers.value ?? [])
 
 const talkId = computed(() => {
   const value = route.params.talk
@@ -42,6 +44,7 @@ useSpeakerSeo(activeSpeaker, {
 const visible = ref(false)
 const closeRequested = ref(false)
 let isScrollLockedByModal = false
+let openRequest = 0
 
 function lockBackgroundScroll() {
   lenis.stop()
@@ -56,25 +59,38 @@ function unlockBackgroundScroll() {
   isScrollLockedByModal = false
 }
 
-function open() {
+async function open() {
+  const request = ++openRequest
+  const talk = activeTalk.value
+
   closeRequested.value = false
   lockBackgroundScroll()
+
+  void prefetchAd()
+
+  if (talk)
+    await preloadAgendaTalk(talk.speaker, 'high')
+
+  if (request !== openRequest || activeTalk.value !== talk)
+    return
+
   visible.value = true
 }
 
 onMounted(() => {
   if (isTalkModalOpen.value)
-    open()
+    void open()
 })
 
 watch(talkId, (value) => {
   if (value) {
-    open()
+    void open()
     return
   }
 
   // 瀏覽器返回時，網址會先改變，再由同一個頁面元件淡出彈窗。
   if (!closeRequested.value) {
+    openRequest++
     lockBackgroundScroll()
     visible.value = false
   }
@@ -85,6 +101,7 @@ function close() {
     return
 
   closeRequested.value = true
+  openRequest++
   visible.value = false
 }
 

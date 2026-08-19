@@ -33,6 +33,7 @@ const NAV_ITEMS = [
 const lenis = useLenis()
 const route = useRoute()
 const isMenuOpen = ref(false)
+const { preloadShareHero } = useShareHeroImages()
 
 const headerBgClass = computed(() =>
   isMenuOpen.value ? 'bg-vconf-white' : 'bg-transparent',
@@ -50,6 +51,12 @@ function closeMenu() {
 
 function isNavItemActive(href: string) {
   return route.path === href || route.path.startsWith(`${href}/`)
+}
+
+/** 首頁不再預抓所有內頁背景；使用者表現出導覽意圖時才開始。 */
+function warmNavTarget() {
+  if (route.path === '/')
+    void preloadShareHero('high')
 }
 
 function navItemClass(item: { href: string, mdHidden?: boolean }) {
@@ -135,6 +142,9 @@ onKeyStroke('Escape', closeMenu)
             <NuxtLink
               :to="NAV_ITEM.href"
               class="inline-block w-full px-4 py-2.5 text-[22px] leading-[1.5] xl:w-auto xl:px-8"
+              @mouseenter="warmNavTarget"
+              @focus="warmNavTarget"
+              @touchstart.passive="warmNavTarget"
             >
               {{ NAV_ITEM.name }}
             </NuxtLink>

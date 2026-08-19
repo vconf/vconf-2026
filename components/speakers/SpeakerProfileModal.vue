@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SpeakersCollectionItem } from '@nuxt/content'
+import { useMediaQuery } from '@vueuse/core'
 import SpeakerProfileSection from '~/components/speakers/SpeakerProfileSection.vue'
 import { speakerPhoto } from '~/utils/agenda'
 
@@ -12,6 +13,7 @@ const emit = defineEmits<{
   close: []
   afterLeave: []
 }>()
+const isDesktop = useMediaQuery('(min-width: 768px)')
 
 const speakerLinkIcons = [
   { label: 'GitHub', icon: '/agenda/github-icon.svg' },
@@ -52,6 +54,7 @@ const socialLinks = computed(() => {
         @click.self="emit('close')"
       >
         <NuxtImg
+          v-if="!isDesktop"
           src="/speaker/speaker-modal-bg-mobile.png"
           alt=""
           aria-hidden="true"
@@ -60,7 +63,7 @@ const socialLinks = computed(() => {
           loading="eager"
           format="avif,webp"
           densities="x1 x2"
-          class="pointer-events-none absolute left-1/2 top-[70%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2 md:hidden"
+          class="pointer-events-none absolute left-1/2 top-[70%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2"
         />
         <div
           class="relative grid size-full place-items-start overflow-y-auto overflow-x-hidden overscroll-contain px-6 py-8 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:place-items-center md:overflow-visible md:px-12"
@@ -91,6 +94,7 @@ const socialLinks = computed(() => {
               </svg>
             </button>
             <NuxtImg
+              v-if="isDesktop"
               src="/speaker/speaker-modal-bg-desktop.png"
               alt=""
               aria-hidden="true"
@@ -99,7 +103,7 @@ const socialLinks = computed(() => {
               loading="eager"
               format="avif,webp"
               densities="x1 x2"
-              class="pointer-events-none absolute bottom-[-106px] left-[-265px] -z-10 hidden h-[483px] w-[788px] max-w-none md:block"
+              class="pointer-events-none absolute bottom-[-106px] left-[-265px] -z-10 h-[483px] w-[788px] max-w-none"
             />
 
             <template v-if="speaker">
@@ -109,36 +113,36 @@ const socialLinks = computed(() => {
               >
                 <div class="size-full overflow-hidden rounded-[12px]">
                   <NuxtImg
+                    v-if="!isDesktop"
                     :src="speakerPhoto(speaker, 'profileMobile')"
-                    placeholder
                     :alt="speaker.avatarAlt"
                     width="260"
                     height="370"
                     loading="eager"
                     format="avif,webp"
                     densities="x1 x2"
-                    class="block size-full object-cover object-top md:hidden"
+                    class="block size-full object-cover object-top"
                   />
                   <NuxtImg
+                    v-else
                     :src="speakerPhoto(speaker, 'profile')"
-                    placeholder
                     :alt="speaker.avatarAlt"
                     width="333"
                     height="560"
                     loading="eager"
                     format="avif,webp"
                     densities="x1 x2"
-                    class="hidden size-full object-cover object-top md:block"
+                    class="block size-full object-cover object-top"
                   />
                 </div>
 
                 <div
+                  v-if="isDesktop"
                   class="speaker-reflection pointer-events-none absolute inset-x-0 top-full hidden size-full overflow-hidden rounded-[12px] md:block"
                   aria-hidden="true"
                 >
                   <NuxtImg
                     :src="speakerPhoto(speaker, 'profile')"
-                    placeholder
                     alt=""
                     width="333"
                     height="560"
