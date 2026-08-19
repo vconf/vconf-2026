@@ -36,3 +36,13 @@ export interface AdDraw {
   remaining: number
   ad: Ad
 }
+
+/**
+ * 曝光確認的結果。
+ *
+ * false 代表袋子沒有前進（重送、陳舊的一輪、或送不到），
+ * 下一次 reserve 會拿到同一則。
+ */
+export interface AdCommitResult {
+  committed: boolean
+}
