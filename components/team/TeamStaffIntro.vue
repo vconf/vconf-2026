@@ -35,7 +35,7 @@
         href="https://forms.gle/xC6cvKJMwzKeFJbi9"
         target="_blank"
         rel="noopener noreferrer"
-        class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-12 py-3 font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary md:text-[21px]"
+        class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-12 py-3 font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors hover:bg-vconf-primary hover:text-white md:text-[21px]"
       >
         入坑啊，哪次不入
       </a>
