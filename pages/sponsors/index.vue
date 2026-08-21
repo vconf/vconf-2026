@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { earlyBirdCta } from '~/config/cta.config'
+
 useSeoMeta({
   title: '贊助夥伴',
   description:
@@ -10,5 +12,9 @@ useSeoMeta({
   <main>
     <ShareHero title="Sponsors" />
     <LazySponsorsList hydrate-on-visible />
+    <ShareFloatingCta
+      :text="earlyBirdCta.text"
+      :href="earlyBirdCta.url"
+    />
   </main>
 </template>

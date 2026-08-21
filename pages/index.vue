@@ -1,10 +1,6 @@
 <script setup lang="ts">
+import { earlyBirdCta } from '~/config/cta.config'
 import { eventBasic, eventLocation, site } from '~/config/seo.config'
-
-const ctaInfo = {
-  text: '早鳥優惠',
-  url: 'https://www.accupass.com/event/2608061222041992146998',
-} as const
 
 useSchemaOrg([eventLocation, eventBasic])
 
@@ -22,8 +18,8 @@ useSeoMeta({
     <HomeSpeakers />
     <LazyHomeSponsorSection hydrate-on-visible />
     <ShareFloatingCta
-      :text="ctaInfo.text"
-      :href="ctaInfo.url"
+      :text="earlyBirdCta.text"
+      :href="earlyBirdCta.url"
     />
   </main>
 </template>

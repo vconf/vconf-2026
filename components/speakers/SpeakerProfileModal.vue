@@ -238,7 +238,7 @@ const socialLinks = computed(() => {
                       <li
                         v-for="experience in speaker.experiences"
                         :key="experience"
-                        class="flex items-center gap-2 tracking-[0em] before:size-1 before:shrink-0 before:rounded-full before:bg-current"
+                        class="flex items-start gap-2 tracking-[0em] before:mt-[calc(0.8em-0.125rem)] before:size-1 before:shrink-0 before:rounded-full before:bg-current"
                       >
                         {{ experience }}
                       </li>
