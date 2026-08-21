@@ -166,7 +166,7 @@ onBeforeUnmount(() => {
       class="container relative z-10 flex w-full justify-center gap-6 px-6 md:items-start md:px-0"
     >
       <svg
-        class="ml-[clamp(-610px,calc(-610px+150*((100vw-768px)/256)),-460px)] hidden w-[620px] shrink-0 md:block lg:ml-[clamp(-390px,calc(-390px+140*((100vw-1024px)/256)),-250px)] xl:ml-[clamp(-340px,calc(-340px+210*((100vw-1280px)/256)),-130px)] 2xl:ml-[-30px]"
+        class="ml-[clamp(-610px,calc(-610px+150*((100vw-768px)/256)),-460px)] hidden w-[620px] shrink-0 overflow-visible md:block lg:ml-[clamp(-390px,calc(-390px+140*((100vw-1024px)/256)),-250px)] xl:ml-[clamp(-340px,calc(-340px+210*((100vw-1280px)/256)),-130px)] 2xl:ml-[-30px]"
         viewBox="-10 0 620 920"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
