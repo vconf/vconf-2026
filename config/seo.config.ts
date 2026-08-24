@@ -42,6 +42,7 @@ export const sitemap = {
     { loc: '/about', priority: 0.9, lastmod: '2026-07-24' },
     { loc: '/sponsors', priority: 0.9, lastmod: '2026-07-24' },
     { loc: '/speakers', priority: 0.9, lastmod: '2026-08-16' },
+    { loc: '/team', priority: 0.9, lastmod: '2026-08-24' },
 
     // 講者介紹（彈窗式路由，talkSlug 對應 content/speakers/*.md，draft 的不列入）
     { loc: '/speakers/kuku', priority: 0.8, lastmod: '2026-08-16' },
@@ -49,6 +50,22 @@ export const sitemap = {
     { loc: '/speakers/serko', priority: 0.8, lastmod: '2026-08-16' },
     { loc: '/speakers/ray', priority: 0.8, lastmod: '2026-08-16' },
     { loc: '/speakers/kuro', priority: 0.8, lastmod: '2026-08-16' },
+
+    // 籌備團隊（彈窗式路由，slug 對應 config/team.ts）
+    { loc: '/team/alex-liu', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/anan', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/sova-yu', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/meinan', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/rafael', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/benny', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/hannah', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/z', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/chilun', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/mo', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/mike', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/noah', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/wujue', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/antonio', priority: 0.8, lastmod: '2026-08-24' },
   ],
 } satisfies Partial<SitemapModuleOptions>
 

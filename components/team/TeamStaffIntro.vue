@@ -4,20 +4,18 @@
   >
     <NuxtImg
       src="/team/staff-bg.png"
-      placeholder
       width="744"
       height="432"
-      loading="lazy"
+      loading="eager"
       format="avif,webp"
       densities="x1 x2"
       class="hidden md:block"
     />
     <NuxtImg
       src="/team/staff-mobile-bg.png"
-      placeholder
       width="372"
       height="310"
-      loading="lazy"
+      loading="eager"
       format="avif,webp"
       densities="x1 x2"
       class="block md:hidden"

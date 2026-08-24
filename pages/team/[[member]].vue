@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import TeamMemberModal from '~/components/team/TeamMemberModal.vue'
+import { earlyBirdCta } from '~/config/cta.config'
 import { findTeamMember, teamMembers } from '~/config/team'
 
 const route = useRoute()
@@ -20,7 +21,7 @@ if (import.meta.server)
   registerTeamModalImages(teamMembers)
 
 function backToList() {
-  return navigateTo('/team/unpublish', { replace: true })
+  return navigateTo('/team', { replace: true })
 }
 
 if (memberSlug.value && !activeMember.value)
@@ -28,8 +29,6 @@ if (memberSlug.value && !activeMember.value)
 
 useTeamMemberSeo(activeMember, {
   fallbackTitle: '籌備團隊',
-  // 籌備團隊頁尚未公開，正式上線時移除並補上 sitemap
-  robots: 'noindex, nofollow',
 })
 
 const visible = ref(false)
@@ -130,6 +129,10 @@ onBeforeUnmount(unlockBackgroundScroll)
       :member="activeMember"
       @close="close"
       @after-leave="afterLeave"
+    />
+    <ShareFloatingCta
+      :text="earlyBirdCta.text"
+      :href="earlyBirdCta.url"
     />
   </main>
 </template>
