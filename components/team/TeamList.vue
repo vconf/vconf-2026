@@ -43,7 +43,7 @@ onMounted(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: 'top 80%',
+        start: 'top bottom-=80',
         toggleActions: 'play none none none',
       },
     })
