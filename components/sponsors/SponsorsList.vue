@@ -49,6 +49,9 @@ onMounted(() => {
   )
 
   for (const section of sections) {
+    if (section.getBoundingClientRect().top < window.innerHeight)
+      continue
+
     const title = section.querySelector('[data-sponsor-title]')
     const cards = section.querySelectorAll('[data-sponsor-card]')
     const logos = section.querySelectorAll('[data-sponsor-logo]')
