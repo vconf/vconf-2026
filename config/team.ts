@@ -1,4 +1,4 @@
-export type TeamName = '總召組' | '議程組' | '行銷組' | '贊助組' | '場務組'
+export type TeamName = '總召組' | '議程組' | '行銷組' | '贊助組' | '場務組' | '開發組'
 export type TeamRole = '總召' | '組長' | '組員'
 
 export interface TeamMemberLinks {
@@ -13,6 +13,8 @@ export interface TeamMember {
   /** 英文 slug，同時是圖檔檔名 */
   slug: string
   name: string
+  /** 對外常用別名，SEO 標題與 description 會顯示在姓名後方 */
+  alias?: string
   /** 所屬組別，可跨組（例：組長兼總召組） */
   teams: TeamName[]
   /** 個人層級職務標記，目前僅總召需要；未標記者由組內排序推導組長／組員 */
@@ -22,6 +24,8 @@ export interface TeamMember {
   company?: string
   /** 自我介紹，供成員彈窗使用 */
   bio?: string
+  /** 個人頁 meta／社群摘要；未設定時由職務、公司與 bio 自動產生 */
+  seoDescription?: string
   links?: TeamMemberLinks
   /** 列表圓形頭像（211×211）；未提供照片者留空，畫面上以名稱首字遞補 */
   avatar?: string
@@ -48,6 +52,7 @@ export const teamGroupOrder: TeamName[] = [
   '行銷組',
   '贊助組',
   '場務組',
+  '開發組',
 ]
 
 export const teamMembers: TeamMember[] = [
@@ -57,7 +62,7 @@ export const teamMembers: TeamMember[] = [
     teams: ['總召組'],
     role: '總召',
     jobTitle: '資深前端工程師',
-    company: '網際網路相關業',
+    company: '91APP',
     bio: '嗨！我是 Alex Liu，一個沉浸在前端網頁技術的 nerd，主要專注在 Vue 與 Nuxt。除了前端技術外，最大的興趣應該就是吸貓了！',
     links: { website: 'https://mini-ghost.dev/' },
     avatar: '/team/avatar/alex-liu.jpg',
@@ -66,10 +71,13 @@ export const teamMembers: TeamMember[] = [
   {
     slug: 'anan',
     name: '安安',
+    alias: 'IlyaL',
     teams: ['總召組', '議程組'],
     jobTitle: 'AI 安撫工程師',
     company: '104 人力銀行',
     bio: '嗨，我是 IlyaL，我是一名開源愛好者，喜歡到處貢獻 :p',
+    seoDescription:
+      '安安（IlyaL），v-conf Taiwan 2026 議程組組長、總召組組員，現職 104 人力銀行。開源愛好者，喜歡參與與貢獻開源專案。',
     links: {
       website: 'https://ilyal.me/',
       x: 'https://x.com/ilyaliao',
@@ -193,6 +201,31 @@ export const teamMembers: TeamMember[] = [
     teams: ['場務組'],
     jobTitle: '前端工程師',
     company: '台達電子',
+    bio: '大家好，我是 Wujue。痾…因為我自己也不會唸，所以直接叫我 WJ 就好。最近沉迷於製作迷宮演算法相關的生成式藝術作品，結果不小心在這個世界裡迷路了，到現在還沒走出來。',
+    links: {
+      website: 'https://blog.wujue.dev/',
+      x: 'https://x.com/wujue0115',
+      threads: 'https://www.threads.com/@wujue0115',
+    },
+    avatar: '/team/avatar/wujue.jpg',
+    popupAvatar: '/team/popup-desktop/wujue.jpg',
+    popupAvatarMobile: '/team/popup-mobile/wujue.jpg',
+  },
+  {
+    slug: 'antonio',
+    name: 'Antonio',
+    teams: ['開發組'],
+    jobTitle: '軟體工程師',
+    company: '新創醫療公司',
+    bio: '目前是一名全端工程師，主要專注在前端開發，平常以 Angular 為主，也有 Vue 與 NestJS 的開發經驗。\n\n平常喜歡研究開發過程中遇到的各種問題，也習慣把踩過的坑、解決方式和實作心得整理成文章。對我來說，學習新技術不只是工作的一部分，也是一件很有趣的事。\n\n曾參加 IT 邦幫忙鐵人賽，獲得 2025 Modern Web 組佳作，並完成 2024 Vue 3 初學者實戰系列。',
+    links: {
+      website: 'https://ithelp.ithome.com.tw/users/20116554',
+      facebook: 'https://www.facebook.com/ling.jun.hao.839468/',
+      instagram: 'https://www.instagram.com/qd513020/',
+    },
+    avatar: '/team/avatar/antonio.jpg',
+    popupAvatar: '/team/popup-desktop/antonio.jpg',
+    popupAvatarMobile: '/team/popup-mobile/antonio.jpg',
   },
 ]
 

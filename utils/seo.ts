@@ -177,6 +177,11 @@ export function buildSpeakerSeo(
 export interface TeamMemberSeoResult {
   /** 頁面標題（不含站名，站名由 titleTemplate 補上） */
   title: string
+  description: string
+  /** ProfilePage 自身的短描述，不與 Person 的自我介紹混用 */
+  pageDescription: string
+  ogTitle: string
+  ogUrl: string
   schema: Record<string, unknown>[]
   /** Person 節點的 @id，供頁面把 ProfilePage 的 mainEntity 指過來 */
   personId?: string
@@ -185,6 +190,36 @@ export interface TeamMemberSeoResult {
 /** 團隊成員與講者可能是同一人，@id 加前綴避免兩邊節點互相覆蓋 */
 function teamPersonId(member: TeamMember) {
   return absoluteUrl(`#person/team-${member.slug}`)
+}
+
+function teamMemberUrl(member: TeamMember) {
+  return absoluteUrl(`team/${member.slug}`)
+}
+
+function teamMemberDisplayName(member: TeamMember) {
+  return member.alias ? `${member.name}（${member.alias}）` : member.name
+}
+
+function buildTeamPageDescription(member: TeamMember) {
+  const rolePriority = { 總召: 0, 組長: 1, 組員: 2 } as const
+  const roles = findTeamMemberRoles(member.slug)
+    .toSorted((a, b) => rolePriority[a.role] - rolePriority[b.role])
+    .map(teamRoleLabel)
+  const details = [
+    roles.length ? `${site.name} ${roles.join('、')}` : site.name,
+    member.company ? `現職 ${member.company}` : member.jobTitle,
+  ]
+
+  return `${teamMemberDisplayName(member)}，${details.join('，')}。`
+}
+
+function buildTeamMetaDescription(member: TeamMember, pageDescription: string) {
+  if (member.seoDescription)
+    return member.seoDescription
+
+  return member.bio
+    ? `${pageDescription}${toSingleLine(member.bio)}`
+    : pageDescription
 }
 
 function buildTeamPersonNode(member: TeamMember) {
@@ -239,11 +274,26 @@ export function buildTeamMemberSeo(
   member: TeamMember | null | undefined,
   options: { fallbackTitle?: string } = {},
 ): TeamMemberSeoResult {
-  if (!member)
-    return { title: options.fallbackTitle ?? site.name, schema: [] }
+  if (!member) {
+    return {
+      title: options.fallbackTitle ?? site.name,
+      description: site.description,
+      pageDescription: site.description,
+      ogTitle: site.name,
+      ogUrl: absoluteUrl('team'),
+      schema: [],
+    }
+  }
+
+  const title = member.name
+  const pageDescription = buildTeamPageDescription(member)
 
   return {
-    title: member.name,
+    title,
+    description: buildTeamMetaDescription(member, pageDescription),
+    pageDescription,
+    ogTitle: `${title}｜${site.name}`,
+    ogUrl: teamMemberUrl(member),
     schema: [buildTeamPersonNode(member)],
     personId: teamPersonId(member),
   }

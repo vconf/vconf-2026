@@ -36,12 +36,13 @@ export const sitemap = {
   ],
   urls: [
     // 核心頁面
-    { loc: '/', priority: 1, lastmod: '2026-07-24' },
+    { loc: '/', priority: 1, lastmod: '2026-08-24' },
 
     // 主要內容頁面
     { loc: '/about', priority: 0.9, lastmod: '2026-07-24' },
     { loc: '/sponsors', priority: 0.9, lastmod: '2026-07-24' },
     { loc: '/speakers', priority: 0.9, lastmod: '2026-08-16' },
+    { loc: '/team', priority: 0.9, lastmod: '2026-08-24' },
 
     // 講者介紹（彈窗式路由，talkSlug 對應 content/speakers/*.md，draft 的不列入）
     { loc: '/speakers/kuku', priority: 0.8, lastmod: '2026-08-16' },
@@ -49,6 +50,22 @@ export const sitemap = {
     { loc: '/speakers/serko', priority: 0.8, lastmod: '2026-08-16' },
     { loc: '/speakers/ray', priority: 0.8, lastmod: '2026-08-16' },
     { loc: '/speakers/kuro', priority: 0.8, lastmod: '2026-08-16' },
+
+    // 籌備團隊（彈窗式路由，slug 對應 config/team.ts）
+    { loc: '/team/alex-liu', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/anan', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/sova-yu', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/meinan', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/rafael', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/benny', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/hannah', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/z', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/chilun', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/mo', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/mike', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/noah', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/wujue', priority: 0.8, lastmod: '2026-08-24' },
+    { loc: '/team/antonio', priority: 0.8, lastmod: '2026-08-24' },
   ],
 } satisfies Partial<SitemapModuleOptions>
 
@@ -118,13 +135,12 @@ export const eventBasic = {
   '@id': absoluteUrl('#main-event'),
   '@type': 'Event',
   'name': 'v-conf Taiwan 2026',
-  'description':
-    '聚焦 Vue 生態系與現代前端開發體驗,分享 Vue、Vite、工具鏈與實務案例等前端議題,與開發者一同探索 Web 開發的下一個階段',
+  'description': site.description,
   'inLanguage': 'zh-TW',
   'image': {
     '@id': eventImage['@id'],
   },
-  'startDate': '2026-10-17T09:30:00+08:00',
+  'startDate': '2026-10-17T09:00:00+08:00',
   'endDate': '2026-10-17T16:00:00+08:00',
   'eventStatus': 'https://schema.org/EventScheduled',
   'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',

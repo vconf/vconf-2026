@@ -176,7 +176,7 @@ function onLeave(event: MouseEvent) {
             class="group [transform-style:preserve-3d]"
           >
             <NuxtLink
-              :to="`/team/unpublish/${member.slug}`"
+              :to="`/team/${member.slug}`"
               class="flex flex-col items-center outline-none [transform-style:preserve-3d]"
               @mousemove="onTilt"
               @mouseleave="onLeave"
