@@ -31,12 +31,10 @@ onMounted(() => {
 
   const cardElements = Array.from(gridRef.value.children)
 
-  // 初始隱藏狀態用 JS 設定（不寫在 CSS），SSR / 無 JS 環境下內容仍完整可見
   gsap.set(cardElements, { scale: 0.8, opacity: 0, filter: 'blur(10px)' })
 
   batchTriggers = ScrollTrigger.batch(cardElements, {
-    start: 'top bottom-=300',
-    // 卡片只進場一次：不做往回捲的退場，trigger 觸發後自行銷毀、不再監聽捲動
+    start: 'top bottom-=80',
     once: true,
     onEnter: (batch: Element[]) => {
       gsap.killTweensOf(batch)
