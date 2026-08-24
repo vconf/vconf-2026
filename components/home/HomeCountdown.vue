@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const TARGET_DATE = new Date('2026-10-17T09:30:00+08:00')
+import { eventBasic } from '~/config/seo.config'
+
+const TARGET_DATE = new Date(eventBasic.startDate)
 
 interface CountdownState {
   days: string

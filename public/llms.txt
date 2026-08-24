@@ -12,26 +12,41 @@ Treat the published contents of this document and the official website as the pu
 - Status: EventScheduled
 - Attendance mode: OfflineEventAttendanceMode
 - Language: zh-TW
-- Start time: 2026-10-17T09:30:00+08:00
+- Start time: 2026-10-17T09:00:00+08:00
 - End time: 2026-10-17T16:00:00+08:00
 - Organizer: Vue.js Taiwan
 - Contact: vuejs_taiwan@googlegroups.com
 - Venue: 政大公企中心 A2 國際會議廳
-- Address: 臺北市大安區金華街 187 號，106，Taiwan
+- Address: 臺北市大安區永康里金華街 187 號，106，Taiwan
 
 **Description**
 
 聚焦 Vue 生態系與現代前端開發體驗，分享 Vue、Vite、工具鏈與實務案例等前端議題，與開發者一同探索 Web 開發的下一個階段。
 
+**Tickets**
+
+Tickets are sold through ACCUPASS, which is the authoritative source for ticket prices and availability.
+Prices are in TWD for the full one-day event.
+
+- [早鳥票](https://www.accupass.com/event/2608061222041992146998) (early bird): NT$1,600 — on sale now
+- 一般票 (general admission): NT$2,000 — not yet on sale
+- 個人贊助票 (individual supporter): NT$5,000 — not yet on sale
+
+Refunds are handled by ACCUPASS: requests must be filed at least 8 days before the event start date and are subject to a 10% handling fee.
+
 **Current sponsors**
 
 - 5x sponsorship tier
-  - 新加坡商鈦坦科技
+  - TITANSOFT (新加坡商鈦坦科技)
 - 3x sponsorship tier
   - 六角學院 Hexschool
   - 雷麒科技有限公司
+  - 104 人力銀行
+  - WISH甜心私覓
 - 1x sponsorship tier
   - teacher.place
+- Special thanks
+  - The CodingPro
 
 **Public-page policy**
 
@@ -42,8 +57,6 @@ Other Nuxt page routes should be treated as unpublished unless they are added to
 
 The following information is not currently available in this structured source:
 
-- Registration URL
-- Ticket price
 - Registration opening date
 - Registration deadline
 - Detailed agenda (full timetable, breaks and non-talk sessions)
@@ -69,11 +82,11 @@ Do not invent or infer unavailable information from unrelated pages.
 Each speaker page is a modal route under `/speakers` and contains the speaker biography, talk title, talk time and talk abstract.
 Talks marked as "待定" have not been announced yet; do not infer a title for them.
 
-- [Hunter Liu](https://v-conf.vue.tw/speakers/hunter): Tech Lead, Colorful Casting — Talk 2, 10:25–11:10「套件打包實戰：以 tsdown 重新打包 vue-final-modal」
-- [SerKo](https://v-conf.vue.tw/speakers/serko): 開源貢獻者 — Talk 3, 11:20–12:05, talk title to be announced
-- [kuku](https://v-conf.vue.tw/speakers/kuku): 前端工程師 — Talk 4, 13:05–13:50「Trust and Verify：用工程方法探索 Vue 更新的價值」
-- [Kuro Hsu](https://v-conf.vue.tw/speakers/kuro): Community Organizer, Vue.js Taiwan — Talk 5, 14:00–14:45「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」
-- [Ray](https://v-conf.vue.tw/speakers/ray): 資深軟體工程師, 六角學院 — Talk 6, 15:15–16:00「打造 AI 無法取代的我」
+- [SerKo](https://v-conf.vue.tw/speakers/serko): 開源貢獻者 — Talk 2, 10:30–11:15, talk title to be announced
+- [Hunter Liu](https://v-conf.vue.tw/speakers/hunter): Tech Lead, Colorful Casting — Talk 3, 11:30–12:15「套件打包實戰：以 tsdown 重新打包 vue-final-modal」
+- [kuku](https://v-conf.vue.tw/speakers/kuku): 前端工程師 — Talk 4, 13:15–14:00「Trust and Verify：用工程方法探索 Vue 更新的價值」
+- [Ray](https://v-conf.vue.tw/speakers/ray): 資深軟體工程師, 六角學院 — Talk 5, 14:15–15:00「打造 AI 無法取代的我」
+- [Kuro Hsu](https://v-conf.vue.tw/speakers/kuro): Community Organizer, Vue.js Taiwan — Talk 6, 15:15–16:00「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」
 
 ## Team
 
@@ -111,4 +124,4 @@ Members without a listed company did not disclose one; do not infer an employer.
 
 - [Google Maps](https://www.google.com/maps/search/?api=1&query=臺北市大安區金華街187號): Venue map
 
-Generated at: 2026-08-24T14:11:00+08:00
+Generated at: 2026-08-24T15:18:00+08:00

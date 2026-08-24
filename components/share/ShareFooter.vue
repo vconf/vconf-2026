@@ -5,12 +5,13 @@ import {
   useResizeObserver,
   useWindowSize,
 } from '@vueuse/core'
+import { eventBasic } from '~/config/seo.config'
 
 const CONTACT_EMAIL = 'vuejs_taiwan@googlegroups.com'
-const EVENT_DATE = '2026.10.17'
-const EVENT_DATE_TIME = '2026-10-17'
-const EVENT_START_TIME = '09:30'
-const EVENT_END_TIME = '16:00'
+const EVENT_DATE_TIME = eventBasic.startDate.slice(0, 10)
+const EVENT_DATE = EVENT_DATE_TIME.replaceAll('-', '.')
+const EVENT_START_TIME = eventBasic.startDate.slice(11, 16)
+const EVENT_END_TIME = eventBasic.endDate.slice(11, 16)
 const VENUE_NAME = '政大公企中心 A2 國際會議廳'
 const MAP_ADDRESS = '106臺北市大安區金華街187號'
 const MAP_LINK
