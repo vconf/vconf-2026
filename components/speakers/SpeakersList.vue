@@ -29,7 +29,12 @@ onMounted(() => {
   if (reducedMotion.value === 'reduce')
     return
 
-  const cardElements = Array.from(gridRef.value.children)
+  const cardElements = Array.from(gridRef.value.children).filter(
+    el => el.getBoundingClientRect().top >= window.innerHeight,
+  )
+
+  if (!cardElements.length)
+    return
 
   gsap.set(cardElements, { scale: 0.8, opacity: 0, filter: 'blur(10px)' })
 
