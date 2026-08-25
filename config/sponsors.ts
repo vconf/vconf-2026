@@ -61,10 +61,10 @@ export const sponsorGroups: SponsorGroup[] = [
       },
       {
         name: 'WISH甜心私覓',
-        logo: '/sponsors/wish.svg',
+        logo: '/sponsors/wish_v2.svg',
         url: 'https://wish.cat/',
-        width: 313,
-        height: 313,
+        width: 480,
+        height: 256,
       },
     ],
   },
