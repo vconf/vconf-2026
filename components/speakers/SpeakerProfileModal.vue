@@ -2,7 +2,7 @@
 import type { SpeakersCollectionItem } from '@nuxt/content'
 import { useMediaQuery } from '@vueuse/core'
 import SpeakerProfileSection from '~/components/speakers/SpeakerProfileSection.vue'
-import { speakerPhoto } from '~/utils/agenda'
+import { speakerPhoto, withDuplicateIconTips } from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
@@ -30,10 +30,12 @@ const socialLinks = computed(() => {
     return []
 
   // 同一個 label 可能有多筆（例如兩個希望宣傳連結），全部都要顯示
-  return speakerLinkIcons.flatMap(iconConfig =>
-    (props.speaker?.links ?? [])
-      .filter(item => item.label === iconConfig.label)
-      .map(link => ({ ...link, ...iconConfig })),
+  return withDuplicateIconTips(
+    speakerLinkIcons.flatMap(iconConfig =>
+      (props.speaker?.links ?? [])
+        .filter(item => item.label === iconConfig.label)
+        .map(link => ({ ...link, ...iconConfig })),
+    ),
   )
 })
 </script>
@@ -111,7 +113,7 @@ const socialLinks = computed(() => {
                 class="relative mx-auto aspect-speaker-photo-modal-sm w-full max-w-[260px] md:mx-0 md:aspect-speaker-photo-modal md:h-[560px] md:max-h-full md:min-h-0 md:w-auto md:max-w-none md:shrink-0"
                 aria-label="講者照片"
               >
-                <div class="size-full overflow-hidden rounded-[12px]">
+                <div class="size-full overflow-hidden">
                   <NuxtImg
                     v-if="!isDesktop"
                     :src="speakerPhoto(speaker, 'profileMobile')"
@@ -138,7 +140,7 @@ const socialLinks = computed(() => {
 
                 <div
                   v-if="isDesktop"
-                  class="speaker-reflection pointer-events-none absolute inset-x-0 top-full hidden size-full overflow-hidden rounded-[12px] md:block"
+                  class="speaker-reflection pointer-events-none absolute inset-x-0 top-full hidden size-full overflow-hidden md:block"
                   aria-hidden="true"
                 >
                   <NuxtImg
@@ -199,22 +201,28 @@ const socialLinks = computed(() => {
                           :key="`${link.label}-${link.href}`"
                           class="shrink-0"
                         >
-                          <a
-                            :href="link.href"
-                            :aria-label="link.label"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="block size-6"
-                          >
-                            <NuxtImg
-                              :src="link.icon"
-                              width="24"
-                              height="24"
-                              alt=""
-                              aria-hidden="true"
-                              class="block size-full object-contain"
-                            />
-                          </a>
+                          <ShareTooltip :text="link.tip">
+                            <a
+                              :href="link.href"
+                              :aria-label="
+                                link.tip
+                                  ? `${link.label}：${link.tip}`
+                                  : link.label
+                              "
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="block size-6"
+                            >
+                              <NuxtImg
+                                :src="link.icon"
+                                width="24"
+                                height="24"
+                                alt=""
+                                aria-hidden="true"
+                                class="block size-full object-contain"
+                              />
+                            </a>
+                          </ShareTooltip>
                         </li>
                       </ul>
                     </div>

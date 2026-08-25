@@ -210,3 +210,21 @@ export function isContentSpeaker(
 ): speaker is SpeakersCollectionItem {
   return 'speakerId' in speaker
 }
+
+/**
+ * 同一個圖示出現多次時（例如個人網站與宣傳連結共用地球圖示）光看圖示分不出是哪一個，
+ * 只有這些連結需要 tooltip；其餘社群圖示本身就足以辨識，tip 留空表示不顯示。
+ */
+export function withDuplicateIconTips<T extends { icon: string, text: string }>(
+  links: T[],
+): Array<T & { tip: string }> {
+  const count = new Map<string, number>()
+
+  for (const link of links)
+    count.set(link.icon, (count.get(link.icon) ?? 0) + 1)
+
+  return links.map(link => ({
+    ...link,
+    tip: (count.get(link.icon) ?? 0) > 1 ? link.text : '',
+  }))
+}

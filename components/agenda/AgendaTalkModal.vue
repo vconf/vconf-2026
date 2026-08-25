@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type { TalkItem } from '~/utils/agenda'
 import { useMediaQuery } from '@vueuse/core'
-import { isContentSpeaker, speakerPhoto } from '~/utils/agenda'
+import {
+  isContentSpeaker,
+  speakerPhoto,
+  withDuplicateIconTips,
+} from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
@@ -85,10 +89,12 @@ const speakerSocialLinks = computed(() => {
   if (!speakerDetails.value)
     return []
 
-  return speakerLinkIcons.flatMap(iconConfig =>
-    (speakerDetails.value?.links ?? [])
-      .filter(item => item.label === iconConfig.label)
-      .map(link => ({ ...link, ...iconConfig })),
+  return withDuplicateIconTips(
+    speakerLinkIcons.flatMap(iconConfig =>
+      (speakerDetails.value?.links ?? [])
+        .filter(item => item.label === iconConfig.label)
+        .map(link => ({ ...link, ...iconConfig })),
+    ),
   )
 })
 </script>
@@ -253,29 +259,35 @@ const speakerSocialLinks = computed(() => {
                           v-for="link in speakerSocialLinks"
                           :key="`${link.label}-${link.href}`"
                         >
-                          <a
-                            :href="link.href"
-                            :aria-label="link.label"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="block"
-                            data-social-link-icon
-                            :style="{
-                              '--social-icon-width': `${link.mobileWidth}px`,
-                              '--social-icon-height': `${link.mobileHeight}px`,
-                              '--social-icon-md-width': `${link.width}px`,
-                              '--social-icon-md-height': `${link.height}px`,
-                            }"
-                          >
-                            <NuxtImg
-                              :src="link.icon"
-                              :width="link.width"
-                              :height="link.height"
-                              alt=""
-                              aria-hidden="true"
-                              class="block size-full object-contain"
-                            />
-                          </a>
+                          <ShareTooltip :text="link.tip">
+                            <a
+                              :href="link.href"
+                              :aria-label="
+                                link.tip
+                                  ? `${link.label}：${link.tip}`
+                                  : link.label
+                              "
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="block"
+                              data-social-link-icon
+                              :style="{
+                                '--social-icon-width': `${link.mobileWidth}px`,
+                                '--social-icon-height': `${link.mobileHeight}px`,
+                                '--social-icon-md-width': `${link.width}px`,
+                                '--social-icon-md-height': `${link.height}px`,
+                              }"
+                            >
+                              <NuxtImg
+                                :src="link.icon"
+                                :width="link.width"
+                                :height="link.height"
+                                alt=""
+                                aria-hidden="true"
+                                class="block size-full object-contain"
+                              />
+                            </a>
+                          </ShareTooltip>
                         </li>
                       </ul>
                     </aside>

@@ -26,7 +26,7 @@ links:
     text: threads.net/@israynotarray
   - label: 個人網站
     href: https://israynotarray.com/
-    text: israynotarray.com/
+    text: 是 Ray 不是 Array | Software Engineer
   - label: 希望宣傳連結
     href: https://www.tenlong.com.tw/products/9786267889251
     text: Code Review 我的青春
