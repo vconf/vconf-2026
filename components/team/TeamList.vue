@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TeamMember } from '~/config/team'
+import type { TeamPhotoSource } from '~/config/team'
 import { useMediaQuery, usePreferredReducedMotion } from '@vueuse/core'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { teamGroups } from '~/config/team'
@@ -10,7 +10,7 @@ const canHover = useMediaQuery('(hover: hover) and (pointer: fine)')
 const { gsap, ScrollTrigger } = useGsap()
 const { preloadTeamModal } = useTeamImages()
 
-function warmMember(member: TeamMember) {
+function warmMember(member: TeamPhotoSource) {
   void preloadTeamModal(member, 'high')
 }
 
@@ -97,17 +97,36 @@ onBeforeUnmount(() => {
   timelines = []
 })
 
+let lastPointerX = Number.NaN
+let lastPointerY = Number.NaN
+
+function resolveTiltTarget(event: MouseEvent) {
+  return (event.currentTarget as HTMLElement).querySelector<HTMLElement>(
+    '[data-team-tilt]',
+  )
+}
+
 // 滑鼠追蹤的輕微 3D tilt（僅支援 hover 的裝置；reduced-motion 停用）
 function onTilt(event: MouseEvent) {
   if (!canHover.value || reducedMotion.value === 'reduce' || !gsap)
     return
 
-  const card = event.currentTarget as HTMLElement
-  const rect = card.getBoundingClientRect()
+  if (event.clientX === lastPointerX && event.clientY === lastPointerY)
+    return
+
+  lastPointerX = event.clientX
+  lastPointerY = event.clientY
+
+  const target = resolveTiltTarget(event)
+
+  if (!target)
+    return
+
+  const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
   const px = (event.clientX - rect.left) / rect.width - 0.5 // -0.5 ~ 0.5
   const py = (event.clientY - rect.top) / rect.height - 0.5
 
-  gsap.to(card, {
+  gsap.to(target, {
     rotateY: px * 10, // -5 ~ 5deg
     rotateX: -py * 8, // -4 ~ 4deg
     y: -6,
@@ -118,11 +137,13 @@ function onTilt(event: MouseEvent) {
 }
 
 function onLeave(event: MouseEvent) {
-  if (!gsap)
+  const target = gsap ? resolveTiltTarget(event) : null
+
+  if (!target)
     return
 
   // 平順回正（低彈性）
-  gsap.to(event.currentTarget as HTMLElement, {
+  gsap.to(target, {
     rotateX: 0,
     rotateY: 0,
     y: 0,
@@ -166,23 +187,24 @@ function onLeave(event: MouseEvent) {
         class="flex w-full flex-wrap justify-center gap-x-[12px] gap-y-[24px] md:gap-x-[45px]"
       >
         <!-- 每位成員 -->
-        <div
+        <NuxtLink
           v-for="member in group.members"
           :key="member.slug"
-          class="w-[calc((100%-12px)/2)] max-w-[171px] [perspective:800px] md:w-[211px] md:max-w-[211px]"
+          :to="`/team/${member.slug}`"
+          class="group relative block w-[calc((100%-12px)/2)] max-w-[171px] outline-none [perspective:800px] before:absolute before:inset-x-0 before:inset-y-[-10px] before:-z-10 before:content-[''] md:w-[211px] md:max-w-[211px]"
+          @mousemove="onTilt"
+          @mouseleave="onLeave"
+          @mouseenter="warmMember(member)"
+          @focus="warmMember(member)"
+          @touchstart.passive="warmMember(member)"
         >
           <div
             data-team-card
-            class="group [transform-style:preserve-3d]"
+            class="[transform-style:preserve-3d]"
           >
-            <NuxtLink
-              :to="`/team/${member.slug}`"
-              class="flex flex-col items-center outline-none [transform-style:preserve-3d]"
-              @mousemove="onTilt"
-              @mouseleave="onLeave"
-              @mouseenter="warmMember(member)"
-              @focus="warmMember(member)"
-              @touchstart.passive="warmMember(member)"
+            <div
+              data-team-tilt
+              class="flex flex-col items-center [transform-style:preserve-3d]"
             >
               <!-- 頭像（hover 時往前浮 + 陰影加深） -->
               <NuxtImg
@@ -226,9 +248,9 @@ function onLeave(event: MouseEvent) {
               >
                 {{ member.role }}
               </p>
-            </NuxtLink>
+            </div>
           </div>
-        </div>
+        </NuxtLink>
       </div>
     </section>
   </div>

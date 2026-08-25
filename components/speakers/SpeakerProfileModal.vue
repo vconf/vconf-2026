@@ -2,7 +2,11 @@
 import type { SpeakersCollectionItem } from '@nuxt/content'
 import { useMediaQuery } from '@vueuse/core'
 import SpeakerProfileSection from '~/components/speakers/SpeakerProfileSection.vue'
-import { speakerPhoto } from '~/utils/agenda'
+import {
+  socialLinkAriaLabel,
+  speakerPhoto,
+  withDuplicateIconTips,
+} from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
@@ -30,10 +34,12 @@ const socialLinks = computed(() => {
     return []
 
   // 同一個 label 可能有多筆（例如兩個希望宣傳連結），全部都要顯示
-  return speakerLinkIcons.flatMap(iconConfig =>
-    (props.speaker?.links ?? [])
-      .filter(item => item.label === iconConfig.label)
-      .map(link => ({ ...link, ...iconConfig })),
+  return withDuplicateIconTips(
+    speakerLinkIcons.flatMap(iconConfig =>
+      (props.speaker?.links ?? [])
+        .filter(item => item.label === iconConfig.label)
+        .map(link => ({ ...link, ...iconConfig })),
+    ),
   )
 })
 </script>
@@ -58,12 +64,12 @@ const socialLinks = computed(() => {
           src="/speaker/speaker-modal-bg-mobile.png"
           alt=""
           aria-hidden="true"
-          width="402"
+          width="554"
           height="504"
           loading="eager"
           format="avif,webp"
           densities="x1 x2"
-          class="pointer-events-none absolute left-1/2 top-[70%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2"
+          class="pointer-events-none absolute left-1/2 top-[70%] -z-10 ml-[-35px] h-[504px] w-[554px] max-w-none -translate-x-1/2 -translate-y-1/2"
         />
         <div
           class="relative grid size-full place-items-start overflow-y-auto overflow-x-hidden overscroll-contain px-6 py-8 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:place-items-center md:overflow-visible md:px-12"
@@ -99,11 +105,11 @@ const socialLinks = computed(() => {
               alt=""
               aria-hidden="true"
               width="788"
-              height="483"
+              height="717"
               loading="eager"
               format="avif,webp"
               densities="x1 x2"
-              class="pointer-events-none absolute bottom-[-106px] left-[-265px] -z-10 h-[483px] w-[788px] max-w-none"
+              class="pointer-events-none absolute bottom-[-340px] left-[-265px] -z-10 h-[717px] w-[788px] max-w-none"
             />
 
             <template v-if="speaker">
@@ -111,7 +117,7 @@ const socialLinks = computed(() => {
                 class="relative mx-auto aspect-speaker-photo-modal-sm w-full max-w-[260px] md:mx-0 md:aspect-speaker-photo-modal md:h-[560px] md:max-h-full md:min-h-0 md:w-auto md:max-w-none md:shrink-0"
                 aria-label="講者照片"
               >
-                <div class="size-full overflow-hidden rounded-[12px]">
+                <div class="size-full overflow-hidden">
                   <NuxtImg
                     v-if="!isDesktop"
                     :src="speakerPhoto(speaker, 'profileMobile')"
@@ -138,7 +144,7 @@ const socialLinks = computed(() => {
 
                 <div
                   v-if="isDesktop"
-                  class="speaker-reflection pointer-events-none absolute inset-x-0 top-full hidden size-full overflow-hidden rounded-[12px] md:block"
+                  class="speaker-reflection pointer-events-none absolute inset-x-0 top-full hidden size-full overflow-hidden md:block"
                   aria-hidden="true"
                 >
                   <NuxtImg
@@ -199,22 +205,24 @@ const socialLinks = computed(() => {
                           :key="`${link.label}-${link.href}`"
                           class="shrink-0"
                         >
-                          <a
-                            :href="link.href"
-                            :aria-label="link.label"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="block size-6"
-                          >
-                            <NuxtImg
-                              :src="link.icon"
-                              width="24"
-                              height="24"
-                              alt=""
-                              aria-hidden="true"
-                              class="block size-full object-contain"
-                            />
-                          </a>
+                          <ShareTooltip :text="link.tip">
+                            <a
+                              :href="link.href"
+                              :aria-label="socialLinkAriaLabel(link)"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="block size-6"
+                            >
+                              <NuxtImg
+                                :src="link.icon"
+                                width="24"
+                                height="24"
+                                alt=""
+                                aria-hidden="true"
+                                class="block size-full object-contain"
+                              />
+                            </a>
+                          </ShareTooltip>
                         </li>
                       </ul>
                     </div>

@@ -210,3 +210,38 @@ export function isContentSpeaker(
 ): speaker is SpeakersCollectionItem {
   return 'speakerId' in speaker
 }
+
+/**
+ * 同一個圖示出現多次時（例如個人網站與宣傳連結共用地球圖示）光看圖示分不出是哪一個，
+ * 只有這些連結需要 tooltip；其餘社群圖示本身就足以辨識，tip 留空表示不顯示。
+ */
+export function withDuplicateIconTips<T extends { icon: string, text: string }>(
+  links: T[],
+): Array<T & { tip: string }> {
+  const count = new Map<string, number>()
+
+  for (const link of links)
+    count.set(link.icon, (count.get(link.icon) ?? 0) + 1)
+
+  return links.map(link => ({
+    ...link,
+    tip: (count.get(link.icon) ?? 0) > 1 ? link.text : '',
+  }))
+}
+
+const PROMO_LINK_LABEL = '希望宣傳連結'
+
+/**
+ * 社群圖示只有圖沒有文字，aria-label 得單獨交代這條連結是什麼。
+ * tip 只有同一個圖示重複時才有值，用來區分是哪一條。
+ */
+export function socialLinkAriaLabel(link: {
+  label: string
+  text: string
+  tip?: string
+}): string {
+  if (link.label === PROMO_LINK_LABEL)
+    return link.text || link.label
+
+  return link.tip ? `${link.label}：${link.tip}` : link.label
+}

@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { TalkItem } from '~/utils/agenda'
 import { useMediaQuery } from '@vueuse/core'
-import { isContentSpeaker, speakerPhoto } from '~/utils/agenda'
+import {
+  isContentSpeaker,
+  socialLinkAriaLabel,
+  speakerPhoto,
+  withDuplicateIconTips,
+} from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
@@ -85,10 +90,12 @@ const speakerSocialLinks = computed(() => {
   if (!speakerDetails.value)
     return []
 
-  return speakerLinkIcons.flatMap(iconConfig =>
-    (speakerDetails.value?.links ?? [])
-      .filter(item => item.label === iconConfig.label)
-      .map(link => ({ ...link, ...iconConfig })),
+  return withDuplicateIconTips(
+    speakerLinkIcons.flatMap(iconConfig =>
+      (speakerDetails.value?.links ?? [])
+        .filter(item => item.label === iconConfig.label)
+        .map(link => ({ ...link, ...iconConfig })),
+    ),
   )
 })
 </script>
@@ -112,7 +119,7 @@ const speakerSocialLinks = computed(() => {
           class="grid size-full place-items-center items-start px-6 pt-[51px] md:px-[44px] md:pt-0"
         >
           <div
-            class="relative m-auto flex h-[85svh] max-h-[710px] w-full max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[85svh] md:flex-row"
+            class="relative m-auto flex size-full h-[85svh] max-h-[710px] max-w-[1209px] flex-col items-start justify-center gap-6 md:h-[85svh] md:flex-row"
           >
             <!-- 關閉按鈕 -->
             <button
@@ -144,7 +151,7 @@ const speakerSocialLinks = computed(() => {
             />
             <!-- 講者議程 -->
             <article
-              class="relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] bg-vconf-white font-serif"
+              class="relative flex size-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] bg-vconf-white font-serif"
             >
               <template v-if="talk">
                 <header
@@ -173,7 +180,7 @@ const speakerSocialLinks = computed(() => {
                   data-lenis-prevent
                 >
                   <div
-                    class="grid px-4 pb-6 md:grid-cols-[minmax(0,1fr)_200px] md:gap-8 md:px-8 md:pb-12 lg:grid-cols-[minmax(0,1fr)_253px] lg:gap-12"
+                    class="grid min-h-full grid-rows-[1fr_auto] px-4 pb-6 md:min-h-0 md:grid-cols-[minmax(0,1fr)_200px] md:grid-rows-none md:gap-8 md:px-8 md:pb-12 lg:grid-cols-[minmax(0,1fr)_253px] lg:gap-12"
                   >
                     <section>
                       <h2
@@ -253,29 +260,31 @@ const speakerSocialLinks = computed(() => {
                           v-for="link in speakerSocialLinks"
                           :key="`${link.label}-${link.href}`"
                         >
-                          <a
-                            :href="link.href"
-                            :aria-label="link.label"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="block"
-                            data-social-link-icon
-                            :style="{
-                              '--social-icon-width': `${link.mobileWidth}px`,
-                              '--social-icon-height': `${link.mobileHeight}px`,
-                              '--social-icon-md-width': `${link.width}px`,
-                              '--social-icon-md-height': `${link.height}px`,
-                            }"
-                          >
-                            <NuxtImg
-                              :src="link.icon"
-                              :width="link.width"
-                              :height="link.height"
-                              alt=""
-                              aria-hidden="true"
-                              class="block size-full object-contain"
-                            />
-                          </a>
+                          <ShareTooltip :text="link.tip">
+                            <a
+                              :href="link.href"
+                              :aria-label="socialLinkAriaLabel(link)"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="block"
+                              data-social-link-icon
+                              :style="{
+                                '--social-icon-width': `${link.mobileWidth}px`,
+                                '--social-icon-height': `${link.mobileHeight}px`,
+                                '--social-icon-md-width': `${link.width}px`,
+                                '--social-icon-md-height': `${link.height}px`,
+                              }"
+                            >
+                              <NuxtImg
+                                :src="link.icon"
+                                :width="link.width"
+                                :height="link.height"
+                                alt=""
+                                aria-hidden="true"
+                                class="block size-full object-contain"
+                              />
+                            </a>
+                          </ShareTooltip>
                         </li>
                       </ul>
                     </aside>
