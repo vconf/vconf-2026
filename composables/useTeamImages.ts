@@ -1,5 +1,5 @@
 import type { Priority, Viewport } from '~/composables/useImagePreload'
-import type { TeamMember, TeamPhotoKind } from '~/config/team'
+import type { TeamMember, TeamPhotoKind, TeamPhotoSource } from '~/config/team'
 import { teamPhoto } from '~/config/team'
 
 /**
@@ -74,7 +74,7 @@ export function useTeamImages() {
 
   /** 只抓目前斷點真正會顯示的成員彈窗照，並等到解碼完成。 */
   function preloadTeamModal(
-    member: TeamMember,
+    member: TeamPhotoSource,
     priority: Priority = 'low',
   ) {
     const { viewport, density } = currentTarget()

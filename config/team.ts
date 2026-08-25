@@ -269,12 +269,18 @@ export function findTeamMember(slug: string): TeamMember | undefined {
 
 export type TeamPhotoKind = 'avatar' | 'popup' | 'popupMobile'
 
+/** 取照片只需要三個圖檔欄位，TeamMember 與 TeamGroupMember 都適用 */
+export type TeamPhotoSource = Pick<
+  TeamMember,
+  'avatar' | 'popupAvatar' | 'popupAvatarMobile'
+>
+
 /**
  * 取成員照片；三種尺寸分別對應列表頭像、彈窗桌機、彈窗手機。
  * 缺彈窗專用圖時退回列表頭像；連頭像都沒有的成員回傳 undefined，由畫面以名稱首字遞補。
  */
 export function teamPhoto(
-  member: TeamMember,
+  member: TeamPhotoSource,
   kind: TeamPhotoKind,
 ): string | undefined {
   if (kind === 'popup')
