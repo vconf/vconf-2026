@@ -13,7 +13,7 @@ Treat the published contents of this document and the official website as the pu
 - Attendance mode: OfflineEventAttendanceMode
 - Language: zh-TW
 - Start time: 2026-10-17T09:00:00+08:00
-- End time: 2026-10-17T16:00:00+08:00
+- End time: 2026-10-17T17:00:00+08:00
 - Organizer: Vue.js Taiwan
 - Contact: vuejs_taiwan@googlegroups.com
 - Venue: 政大公企中心 A2 國際會議廳
@@ -124,4 +124,4 @@ Members without a listed company did not disclose one; do not infer an employer.
 
 - [Google Maps](https://www.google.com/maps/search/?api=1&query=臺北市大安區金華街187號): Venue map
 
-Generated at: 2026-08-24T15:18:00+08:00
+Generated at: 2026-08-26T00:00:00+08:00

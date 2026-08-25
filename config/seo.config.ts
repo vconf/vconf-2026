@@ -141,7 +141,7 @@ export const eventBasic = {
     '@id': eventImage['@id'],
   },
   'startDate': '2026-10-17T09:00:00+08:00',
-  'endDate': '2026-10-17T16:00:00+08:00',
+  'endDate': '2026-10-17T17:00:00+08:00',
   'eventStatus': 'https://schema.org/EventScheduled',
   'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
   'url': site.url,
