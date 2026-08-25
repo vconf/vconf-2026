@@ -10,13 +10,13 @@ import { speakerPhoto } from '~/utils/agenda'
 const MODAL_BACKGROUNDS: Record<Viewport, ImageSpec> = {
   mobile: {
     src: '/speaker/speaker-modal-bg-mobile.png',
-    width: 402,
+    width: 554,
     height: 504,
   },
   desktop: {
     src: '/speaker/speaker-modal-bg-desktop.png',
     width: 788,
-    height: 483,
+    height: 717,
   },
 }
 

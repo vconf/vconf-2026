@@ -58,12 +58,12 @@ const socialLinks = computed(() => {
           src="/speaker/speaker-modal-bg-mobile.png"
           alt=""
           aria-hidden="true"
-          width="402"
+          width="554"
           height="504"
           loading="eager"
           format="avif,webp"
           densities="x1 x2"
-          class="pointer-events-none absolute left-1/2 top-[70%] -z-10 h-[504px] w-[402px] max-w-none -translate-x-1/2 -translate-y-1/2"
+          class="pointer-events-none absolute left-1/2 top-[70%] -z-10 ml-[-35px] h-[504px] w-[554px] max-w-none -translate-x-1/2 -translate-y-1/2"
         />
         <div
           class="relative grid size-full place-items-start overflow-y-auto overflow-x-hidden overscroll-contain px-6 py-8 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:place-items-center md:overflow-visible md:px-12"
@@ -99,11 +99,11 @@ const socialLinks = computed(() => {
               alt=""
               aria-hidden="true"
               width="788"
-              height="483"
+              height="717"
               loading="eager"
               format="avif,webp"
               densities="x1 x2"
-              class="pointer-events-none absolute bottom-[-106px] left-[-265px] -z-10 h-[483px] w-[788px] max-w-none"
+              class="pointer-events-none absolute bottom-[-340px] left-[-265px] -z-10 h-[717px] w-[788px] max-w-none"
             />
 
             <template v-if="speaker">
