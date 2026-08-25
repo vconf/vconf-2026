@@ -2,7 +2,11 @@
 import type { SpeakersCollectionItem } from '@nuxt/content'
 import { useMediaQuery } from '@vueuse/core'
 import SpeakerProfileSection from '~/components/speakers/SpeakerProfileSection.vue'
-import { speakerPhoto, withDuplicateIconTips } from '~/utils/agenda'
+import {
+  socialLinkAriaLabel,
+  speakerPhoto,
+  withDuplicateIconTips,
+} from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
@@ -204,11 +208,7 @@ const socialLinks = computed(() => {
                           <ShareTooltip :text="link.tip">
                             <a
                               :href="link.href"
-                              :aria-label="
-                                link.tip
-                                  ? `${link.label}：${link.tip}`
-                                  : link.label
-                              "
+                              :aria-label="socialLinkAriaLabel(link)"
                               target="_blank"
                               rel="noopener noreferrer"
                               class="block size-6"

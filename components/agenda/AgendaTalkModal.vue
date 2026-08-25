@@ -3,6 +3,7 @@ import type { TalkItem } from '~/utils/agenda'
 import { useMediaQuery } from '@vueuse/core'
 import {
   isContentSpeaker,
+  socialLinkAriaLabel,
   speakerPhoto,
   withDuplicateIconTips,
 } from '~/utils/agenda'
@@ -262,11 +263,7 @@ const speakerSocialLinks = computed(() => {
                           <ShareTooltip :text="link.tip">
                             <a
                               :href="link.href"
-                              :aria-label="
-                                link.tip
-                                  ? `${link.label}：${link.tip}`
-                                  : link.label
-                              "
+                              :aria-label="socialLinkAriaLabel(link)"
                               target="_blank"
                               rel="noopener noreferrer"
                               class="block"

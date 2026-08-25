@@ -228,3 +228,20 @@ export function withDuplicateIconTips<T extends { icon: string, text: string }>(
     tip: (count.get(link.icon) ?? 0) > 1 ? link.text : '',
   }))
 }
+
+const PROMO_LINK_LABEL = '希望宣傳連結'
+
+/**
+ * 社群圖示只有圖沒有文字，aria-label 得單獨交代這條連結是什麼。
+ * tip 只有同一個圖示重複時才有值，用來區分是哪一條。
+ */
+export function socialLinkAriaLabel(link: {
+  label: string
+  text: string
+  tip?: string
+}): string {
+  if (link.label === PROMO_LINK_LABEL)
+    return link.text || link.label
+
+  return link.tip ? `${link.label}：${link.tip}` : link.label
+}
