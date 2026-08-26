@@ -59,7 +59,7 @@ const socialLinks = computed(() => {
           @click.self="emit('close')"
         >
           <div
-            class="relative mx-auto flex size-full max-w-[1032px] flex-col md:h-[85svh] md:max-h-[710px]"
+            class="relative mx-auto flex size-full max-w-[1032px] flex-col md:h-auto md:max-h-[min(85svh,710px)]"
           >
             <!-- 關閉按鈕 -->
             <button
@@ -196,7 +196,7 @@ const socialLinks = computed(() => {
                     class="col-span-2 md:col-span-1 md:col-start-2 md:row-start-2"
                   >
                     <p
-                      class="whitespace-pre-line font-serif font-light leading-[1.5] tracking-[0em] text-black"
+                      class="whitespace-pre-line font-serif font-light leading-[1.5] tracking-[0.02em] text-black"
                     >
                       {{ member.bio }}
                     </p>
