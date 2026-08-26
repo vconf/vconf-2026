@@ -52,9 +52,9 @@ export const sponsorGroups: SponsorGroup[] = [
         height: 232,
       },
       {
-        name: '104 人力銀行',
+        name: '一零四資訊科技股份有限公司',
         logo: '/sponsors/104.svg',
-        url: 'https://www.104.com.tw/',
+        url: 'https://corp.104.com.tw/zh/home/',
         width: 181,
         height: 146,
         backgroundClass: 'bg-sponsor-104',
