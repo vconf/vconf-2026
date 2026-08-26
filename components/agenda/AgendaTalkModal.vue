@@ -194,7 +194,7 @@ const speakerSocialLinks = computed(() => {
                         <ContentRenderer
                           :value="speakerDetails"
                           data-agenda-description
-                          class="font-serif text-[16px] font-demi-light leading-[1.6] tracking-[0.01em] text-vconf-text-read"
+                          class="font-serif text-[16px] font-demi-light leading-[1.6] tracking-[0.02em] text-vconf-text-read"
                         />
                       </template>
                     </section>
