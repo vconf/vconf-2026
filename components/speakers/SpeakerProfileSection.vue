@@ -24,7 +24,7 @@ withDefaults(
     </div>
     <!-- 內文共用排版；各處只在真的要不同時覆寫（例如 tracking） -->
     <div
-      class="font-serif text-[16px] font-demi-light leading-[1.6] tracking-[0.01em] text-black"
+      class="font-serif text-[16px] font-demi-light leading-[1.6] tracking-[0.02em] text-black"
     >
       <slot></slot>
     </div>

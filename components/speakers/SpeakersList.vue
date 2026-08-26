@@ -102,25 +102,6 @@ onBeforeUnmount(() => {
             >
               {{ card.jobTitle }}
             </p>
-            <!-- 講者時刻 -->
-            <p
-              class="mb-6 flex flex-col items-center justify-center gap-2 font-serif font-bold leading-[1.6] tracking-[0.02em] md:flex-row"
-            >
-              <span
-                class="flex gap-[5px] rounded-[12px] bg-vconf-purple px-2 py-1 font-bold text-white"
-              >
-                <span class="text-[14px] md:text-[16px]">Talk</span>
-                <span class="text-[14px] md:text-[16px]">{{
-                  card.talkNumber
-                }}</span>
-              </span>
-              <time
-                :datetime="`2026-10-17T${card.startTime}:00+08:00`"
-                class="text-vconf-purple"
-              >
-                {{ card.startTime }}~{{ card.endTime }}
-              </time>
-            </p>
           </div>
         </div>
         <NuxtLink
@@ -172,25 +153,6 @@ onBeforeUnmount(() => {
               class="mx-auto mb-4 w-fit font-serif text-[14px] font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read md:text-[16px]"
             >
               {{ card.speaker.jobTitle }}
-            </p>
-            <!-- 講者時刻 -->
-            <p
-              class="mb-6 flex flex-col items-center justify-center gap-2 font-serif font-bold leading-[1.6] tracking-[0.02em] md:flex-row"
-            >
-              <span
-                class="flex gap-[5px] rounded-[12px] bg-vconf-purple px-2 py-1 font-bold text-white"
-              >
-                <span class="text-[14px] md:text-[16px]">Talk</span>
-                <span class="text-[14px] md:text-[16px]">{{
-                  card.speaker.talkNumber
-                }}</span>
-              </span>
-              <time
-                :datetime="`2026-10-17T${card.speaker.startTime}:00+08:00`"
-                class="text-vconf-purple"
-              >
-                {{ card.speaker.startTime }}~{{ card.speaker.endTime }}
-              </time>
             </p>
             <!-- More -->
             <span
