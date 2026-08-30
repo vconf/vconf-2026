@@ -37,8 +37,6 @@ const activeSpeaker = computed(() => {
 useSpeakerSeo(activeSpeaker, {
   type: 'agenda',
   fallback: { title: '議程資訊' },
-  // 議程尚未公開，正式上線時移除並補上 sitemap
-  robots: 'noindex, nofollow',
 })
 
 const visible = ref(false)
@@ -107,7 +105,7 @@ function close() {
 
 async function afterLeave() {
   if (closeRequested.value && talkId.value)
-    await navigateTo('/agenda/unpublish', { replace: true })
+    await navigateTo('/agenda', { replace: true })
 
   closeRequested.value = false
   unlockBackgroundScroll()
