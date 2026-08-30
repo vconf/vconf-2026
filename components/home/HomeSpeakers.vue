@@ -4,8 +4,8 @@ import { useResizeObserver } from '@vueuse/core'
 import { createSpeakerCards } from '~/utils/speakerCards'
 
 const { data: speakers } = await useSpeakers()
-const { preloadModalBackground, preloadSpeakerModal, cardPhotoUrl }
-  = useSpeakerImages()
+const { preloadAgendaTalk, cardPhotoUrl } = useSpeakerImages()
+const { reserve: reserveAd } = useAdSlot()
 
 // Talk 1 還沒公開時，第一張會是不可點的神秘 keynote 卡
 const cards = computed(() => createSpeakerCards(speakers.value ?? []))
@@ -45,9 +45,12 @@ const SWIPER_OPTIONS = {
 const swiperRef = ref<(HTMLElement & { initialize: () => void }) | null>(null)
 const swiperWrapperRef = ref<HTMLElement | null>(null)
 
+/**
+ * 卡片連到議程彈窗，所以預抓的是議程彈窗的講者照與廣告，與 AgendaList 一致。
+ */
 function warmSpeaker(speaker: AnySpeaker) {
-  void preloadModalBackground('high')
-  void preloadSpeakerModal(speaker, 'high')
+  void preloadAgendaTalk(speaker, 'high')
+  void reserveAd()
 }
 
 function ensureSwiperInitialized() {
@@ -141,8 +144,8 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
                     />
                     <NuxtLink
                       v-else
-                      :to="`/speakers/${card.speaker.talkSlug}`"
-                      :aria-label="`查看講者 ${card.speaker.name} 的介紹`"
+                      :to="`/agenda/${card.speaker.talkSlug}`"
+                      :aria-label="`查看 ${card.speaker.name} 的議程資訊`"
                       class="block w-full min-w-0"
                       @mouseenter="warmSpeaker(card.speaker)"
                       @focus="warmSpeaker(card.speaker)"
