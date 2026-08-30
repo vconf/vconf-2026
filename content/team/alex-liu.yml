@@ -1,0 +1,13 @@
+slug: alex-liu
+name: Alex Liu
+order: 1
+teams:
+  - name: 總召組
+    role: 總召
+jobTitle: 資深前端工程師
+company: 91APP
+bio: 嗨！我是 Alex Liu，一個沉浸在前端網頁技術的 nerd，主要專注在 Vue 與 Nuxt。除了前端技術外，最大的興趣應該就是吸貓了！
+links:
+  website: https://mini-ghost.dev/
+avatar: /team/avatar/alex-liu.jpg
+popupAvatarMobile: /team/popup-mobile/alex-liu.jpg

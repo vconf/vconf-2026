@@ -1,0 +1,21 @@
+slug: antonio
+name: Antonio
+order: 14
+teams:
+  - name: 開發組
+    role: 組長
+jobTitle: 軟體工程師
+company: 新創醫療公司
+bio: |-
+  目前是一名全端工程師，主要專注在前端開發，平常以 Angular 為主，也有 Vue 與 NestJS 的開發經驗。
+
+  平常喜歡研究開發過程中遇到的各種問題，也習慣把踩過的坑、解決方式和實作心得整理成文章。對我來說，學習新技術不只是工作的一部分，也是一件很有趣的事。
+
+  曾參加 IT 邦幫忙鐵人賽，獲得 2025 Modern Web 組佳作，並完成 2024 Vue 3 初學者實戰系列。
+links:
+  website: https://ithelp.ithome.com.tw/users/20116554
+  facebook: https://www.facebook.com/ling.jun.hao.839468/
+  instagram: https://www.instagram.com/qd513020/
+avatar: /team/avatar/antonio.jpg
+popupAvatar: /team/popup-desktop/antonio.jpg
+popupAvatarMobile: /team/popup-mobile/antonio.jpg

@@ -1,0 +1,11 @@
+slug: meinan
+name: 美男
+order: 4
+teams:
+  - name: 議程組
+    role: 組員
+jobTitle: 前端工程師
+bio: 最近在 React 轉圈圈中... 之好想滑到粉雪哇 ( ´-ω ･)▄︻┻┳══━
+avatar: /team/avatar/meinan.png
+popupAvatar: /team/popup-desktop/meinan.png
+popupAvatarMobile: /team/popup-mobile/meinan.png

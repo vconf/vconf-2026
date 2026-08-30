@@ -1,0 +1,16 @@
+slug: wujue
+name: Wujue
+order: 13
+teams:
+  - name: 場務組
+    role: 組員
+jobTitle: 前端工程師
+company: 台達電子
+bio: 大家好，我是 Wujue。痾…因為我自己也不會唸，所以直接叫我 WJ 就好。最近沉迷於製作迷宮演算法相關的生成式藝術作品，結果不小心在這個世界裡迷路了，到現在還沒走出來。
+links:
+  website: https://blog.wujue.dev/
+  x: https://x.com/wujue0115
+  threads: https://www.threads.com/@wujue0115
+avatar: /team/avatar/wujue.jpg
+popupAvatar: /team/popup-desktop/wujue.jpg
+popupAvatarMobile: /team/popup-mobile/wujue.jpg

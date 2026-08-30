@@ -1,0 +1,19 @@
+slug: mike
+name: Mike
+order: 11
+teams:
+  - name: 總召組
+    role: 組員
+  - name: 贊助組
+    role: 組長
+jobTitle: 資深前端工程師
+company: 雷麒科技有限公司
+bio: 可以找我滑雪跟打桌球
+links:
+  website: https://thecodingpro.com/
+  facebook: https://www.facebook.com/cheng.zhi.yuan.33285/
+  instagram: https://www.instagram.com/mike_cheng1208/
+  threads: https://www.threads.com/@mike_cheng1208
+avatar: /team/avatar/mike.png
+popupAvatar: /team/popup-desktop/mike.png
+popupAvatarMobile: /team/popup-mobile/mike.png

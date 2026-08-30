@@ -1,0 +1,12 @@
+slug: sova-yu
+name: Sova Yu
+order: 3
+teams:
+  - name: 議程組
+    role: 組員
+jobTitle: 工程師
+company: 旅宿系統相關產業
+bio: 前端工程師，喜歡看書，最近很喜歡蕭詒徽的《葛莉蕬的安安》
+avatar: /team/avatar/sova-yu.png
+popupAvatar: /team/popup-desktop/sova-yu.png
+popupAvatarMobile: /team/popup-mobile/sova-yu.png

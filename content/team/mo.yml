@@ -1,0 +1,12 @@
+slug: mo
+name: 墨同學
+order: 10
+teams:
+  - name: 行銷組
+    role: 組員
+jobTitle: 詠唱工程師
+company: 玄宇數位
+bio: 大家好，我是墨同學，正在練習把牛變成鱒魚的前端工程師
+avatar: /team/avatar/mo.jpg
+popupAvatar: /team/popup-desktop/mo.jpg
+popupAvatarMobile: /team/popup-mobile/mo.jpg

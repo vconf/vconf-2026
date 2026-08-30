@@ -10,7 +10,7 @@ import {
   siteImage,
 } from '~/config/seo.config'
 import { getSpeakerSeoOverride } from '~/config/seo.speakers.config'
-import { findTeamMemberRoles, teamPhoto, teamRoleLabel } from '~/config/team'
+import { teamMemberRoles, teamPhoto, teamRoleLabel } from '~/config/team'
 
 export interface SpeakerSeoOptions {
   type: SpeakerSeoType
@@ -202,7 +202,7 @@ function teamMemberDisplayName(member: TeamMember) {
 
 function buildTeamPageDescription(member: TeamMember) {
   const rolePriority = { 總召: 0, 組長: 1, 組員: 2 } as const
-  const roles = findTeamMemberRoles(member.slug)
+  const roles = teamMemberRoles(member)
     .toSorted((a, b) => rolePriority[a.role] - rolePriority[b.role])
     .map(teamRoleLabel)
   const details = [
@@ -252,7 +252,7 @@ function buildTeamPersonNode(member: TeamMember) {
     node.sameAs = sameAs
 
   // Role 節點才能同時表達「隸屬 Vue.js Taiwan」與「在籌備團隊擔任的職務」
-  const roles = findTeamMemberRoles(member.slug)
+  const roles = teamMemberRoles(member)
 
   if (roles.length) {
     node.memberOf = roles.map(role => ({
@@ -266,7 +266,7 @@ function buildTeamPersonNode(member: TeamMember) {
 }
 
 /**
- * 由 config/team.ts 的成員資料組出成員彈窗的標題與 schema.org 節點。
+ * 由 content/team 的成員資料組出成員彈窗的標題與 schema.org 節點。
  *
  * 與 buildSpeakerSeo() 一樣是純函式，不依賴 Nuxt composable。
  */

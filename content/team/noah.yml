@@ -1,0 +1,12 @@
+slug: noah
+name: Noah
+order: 12
+teams:
+  - name: 總召組
+    role: 組員
+  - name: 場務組
+    role: 組長
+jobTitle: 網站工程師
+company: 104 人力銀行
+bio: 愛吃拉麵的網站工程師，最近沈迷於 Balatro
+avatar: /team/avatar/noah.png
