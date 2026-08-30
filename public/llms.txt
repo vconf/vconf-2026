@@ -81,11 +81,11 @@ Do not invent or infer unavailable information from unrelated pages.
 
 The agenda is a single track on 2026-10-17, all times in UTC+8.
 Each talk is a modal route under `/agenda` and contains the talk abstract; the same talk is also described on the speaker page under `/speakers`.
-Talk 1 has not been announced yet and Talk 2 has no title yet; do not infer them.
+Talk 1 has not been announced yet; do not infer it.
 
 - 09:30–10:15 Talk 1 — 神秘講者 (Keynote Speaker), title to be announced
 - 10:15–10:30 休息一下 (break)
-- [10:30–11:15 Talk 2](https://v-conf.vue.tw/agenda/serko) — SerKo, talk title to be announced
+- [10:30–11:15 Talk 2](https://v-conf.vue.tw/agenda/serko) — SerKo「Vue Language Tools 新手入門」
 - 11:15–11:30 休息一下 (break)
 - [11:30–12:15 Talk 3](https://v-conf.vue.tw/agenda/hunter) — Hunter Liu「套件打包實戰：以 tsdown 重新打包 vue-final-modal」
 - 12:15–13:15 午餐 (lunch)
@@ -99,9 +99,8 @@ Talk 1 has not been announced yet and Talk 2 has no title yet; do not infer them
 ## Speakers
 
 Each speaker page is a modal route under `/speakers` and contains the speaker biography, talk title, talk time and talk abstract.
-Talks marked as "待定" have not been announced yet; do not infer a title for them.
 
-- [SerKo](https://v-conf.vue.tw/speakers/serko): 開源貢獻者 — Talk 2, 10:30–11:15, talk title to be announced
+- [SerKo](https://v-conf.vue.tw/speakers/serko): 開源貢獻者 — Talk 2, 10:30–11:15「Vue Language Tools 新手入門」
 - [Hunter Liu](https://v-conf.vue.tw/speakers/hunter): Tech Lead, Colorful Casting — Talk 3, 11:30–12:15「套件打包實戰：以 tsdown 重新打包 vue-final-modal」
 - [kuku](https://v-conf.vue.tw/speakers/kuku): 前端工程師 — Talk 4, 13:15–14:00「Trust and Verify：用工程方法探索 Vue 更新的價值」
 - [Ray](https://v-conf.vue.tw/speakers/ray): 資深軟體工程師, 六角學院 — Talk 5, 14:15–15:00「打造 AI 無法取代的我」
