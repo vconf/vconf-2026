@@ -1,0 +1,11 @@
+slug: chilun
+name: 七倫
+order: 9
+teams:
+  - name: 行銷組
+    role: 組員
+jobTitle: 努力上岸的工程師
+bio: 努力排上岸的前端工程師
+avatar: /team/avatar/chilun.png
+popupAvatar: /team/popup-desktop/chilun.png
+popupAvatarMobile: /team/popup-mobile/chilun.png

@@ -1,0 +1,11 @@
+slug: z
+name: z
+order: 8
+teams:
+  - name: 行銷組
+    role: 組員
+jobTitle: 不是工程師
+bio: 希望能成為不會餓死的文藝復興人 😌
+avatar: /team/avatar/z.png
+popupAvatar: /team/popup-desktop/z.png
+popupAvatarMobile: /team/popup-mobile/z.png

@@ -105,7 +105,7 @@ onNuxtReady(() => {
         <!-- 整張卡片為連結，點擊任一處都開啟彈窗 -->
         <NuxtLink
           v-else
-          :to="`/agenda/unpublish/${agendaTalkId(item)}`"
+          :to="`/agenda/${agendaTalkId(item)}`"
           class="group col-start-2 block w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
           @mouseenter="warmTalk(item.speaker)"
           @focus="warmTalk(item.speaker)"

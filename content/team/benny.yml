@@ -1,0 +1,9 @@
+slug: benny
+name: Benny
+order: 6
+teams:
+  - name: 議程組
+    role: 組員
+jobTitle: 工程師
+bio: 突然發現我是被一群前端包圍的後端工程師 XD
+avatar: /team/avatar/benny.jpg

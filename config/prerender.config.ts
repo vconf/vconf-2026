@@ -1,30 +1,19 @@
+import { agendaRoutes, speakerRoutes, teamRoutes } from './content-routes'
+
+/**
+ * 固定頁面手寫；講者與籌備團隊的彈窗式路由由 content 檔案產生（config/content-routes.ts）。
+ */
 const routes = [
   '/',
   '/about',
   '/sponsors',
   '/speakers',
-  '/agenda/unpublish',
+  '/agenda',
   '/team',
-  '/speakers/kuku',
-  '/speakers/hunter',
-  '/speakers/serko',
-  '/speakers/ray',
-  '/speakers/kuro',
-  '/team/alex-liu',
-  '/team/anan',
-  '/team/sova-yu',
-  '/team/meinan',
-  '/team/rafael',
-  '/team/benny',
-  '/team/hannah',
-  '/team/z',
-  '/team/chilun',
-  '/team/mo',
-  '/team/mike',
-  '/team/noah',
-  '/team/wujue',
-  '/team/antonio',
-] as const
+  ...speakerRoutes,
+  ...agendaRoutes,
+  ...teamRoutes,
+]
 
 export const prerenderConfig = {
   routes,

@@ -1,0 +1,20 @@
+slug: anan
+name: 安安
+alias: IlyaL
+order: 2
+teams:
+  - name: 總召組
+    role: 組員
+  - name: 議程組
+    role: 組長
+jobTitle: AI 安撫工程師
+company: 104 人力銀行
+bio: 嗨，我是 IlyaL，我是一名開源愛好者，喜歡到處貢獻 :p
+seoDescription: 安安（IlyaL），v-conf Taiwan 2026 議程組組長、總召組組員，現職 104 人力銀行。開源愛好者，喜歡參與與貢獻開源專案。
+links:
+  website: https://ilyal.me/
+  x: https://x.com/ilyaliao
+  threads: https://www.threads.com/@ilya.liao
+avatar: /team/avatar/anan.jpg
+popupAvatar: /team/popup-desktop/anan.jpg
+popupAvatarMobile: /team/popup-mobile/anan.jpg

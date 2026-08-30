@@ -4,6 +4,7 @@ import { Buffer } from 'node:buffer'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { optimize } from 'svgo'
+import { contentSitemapUrls } from './config/content-routes'
 import { prerenderConfig } from './config/prerender.config'
 import { site, sitemap } from './config/seo.config'
 
@@ -263,6 +264,10 @@ export default defineNuxtConfig({
     },
   },
 
-  sitemap,
+  // 彈窗式路由（講者／籌備團隊）由 content 檔案產生，其餘固定頁面寫在 seo.config
+  sitemap: {
+    ...sitemap,
+    urls: [...sitemap.urls, ...contentSitemapUrls],
+  },
   site,
 })

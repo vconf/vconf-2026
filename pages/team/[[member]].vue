@@ -2,7 +2,7 @@
 import { onKeyStroke } from '@vueuse/core'
 import TeamMemberModal from '~/components/team/TeamMemberModal.vue'
 import { earlyBirdCta } from '~/config/cta.config'
-import { findTeamMember, teamMembers } from '~/config/team'
+import { findTeamMember } from '~/config/team'
 
 const route = useRoute()
 const lenis = useLenis()
@@ -11,14 +11,17 @@ const memberSlug = computed(() => {
 
   return Array.isArray(value) ? value[0] : value
 })
+const { data: members } = await useTeamMembers()
 const activeMember = computed(() =>
-  memberSlug.value ? (findTeamMember(memberSlug.value) ?? null) : null,
+  memberSlug.value
+    ? (findTeamMember(members.value, memberSlug.value) ?? null)
+    : null,
 )
 const { registerTeamModalImages, preloadTeamModal } = useTeamImages()
 
 // 彈窗是 v-if 開啟、SSR 不渲染，這裡主動註冊讓 prerender 產出靜態圖檔
 if (import.meta.server)
-  registerTeamModalImages(teamMembers)
+  registerTeamModalImages(members.value ?? [])
 
 function backToList() {
   return navigateTo('/team', { replace: true })

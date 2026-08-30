@@ -1,0 +1,12 @@
+slug: rafael
+name: Rafael
+order: 5
+teams:
+  - name: 議程組
+    role: 組員
+jobTitle: 前端工程師
+company: 日照服務產業
+bio: 嗨，我是 Rafael，穿梭於程式邏輯與百岳山林之間
+avatar: /team/avatar/rafael.jpg
+popupAvatar: /team/popup-desktop/rafael.png
+popupAvatarMobile: /team/popup-mobile/rafael.jpg

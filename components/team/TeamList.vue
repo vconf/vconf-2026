@@ -2,7 +2,10 @@
 import type { TeamPhotoSource } from '~/config/team'
 import { useMediaQuery, usePreferredReducedMotion } from '@vueuse/core'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { teamGroups } from '~/config/team'
+import { groupTeamMembers } from '~/config/team'
+
+const { data: members } = await useTeamMembers()
+const teamGroups = computed(() => groupTeamMembers(members.value ?? []))
 
 const listRef = ref<HTMLElement | null>(null)
 const reducedMotion = usePreferredReducedMotion()
