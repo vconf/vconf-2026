@@ -37,7 +37,7 @@ export function trackAdImpression(
   creative: AdCreative,
   rotation: AdRotation,
 ) {
-  trackAdEvent('ad-impression', {
+  trackAdEvent('sponsor-ad-impression', {
     sponsor,
     placement,
     creative,
@@ -51,7 +51,7 @@ export function trackAdClick(
   creative: AdCreative,
   rotation: AdRotation,
 ) {
-  trackAdEvent('ad-click', {
+  trackAdEvent('sponsor-ad-click', {
     sponsor,
     placement,
     creative,
