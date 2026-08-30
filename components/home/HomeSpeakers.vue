@@ -4,7 +4,12 @@ import { useResizeObserver } from '@vueuse/core'
 import { createSpeakerCards } from '~/utils/speakerCards'
 
 const { data: speakers } = await useSpeakers()
-const { preloadAgendaTalk, cardPhotoUrl } = useSpeakerImages()
+const {
+  preloadAgendaTalk,
+  preloadModalBackground,
+  preloadSpeakerModal,
+  cardPhotoUrl,
+} = useSpeakerImages()
 const { reserve: reserveAd } = useAdSlot()
 
 // Talk 1 還沒公開時，第一張會是不可點的神秘 keynote 卡
@@ -46,11 +51,16 @@ const swiperRef = ref<(HTMLElement & { initialize: () => void }) | null>(null)
 const swiperWrapperRef = ref<HTMLElement | null>(null)
 
 /**
- * 卡片連到議程彈窗，所以預抓的是議程彈窗的講者照與廣告，與 AgendaList 一致。
+ * 卡片連到議程彈窗，議程彈窗的講者照與廣告先抓，與 AgendaList 一致。
+ * 講者彈窗（/speakers/[talkSlug]）是接著最可能去的地方，
+ * 但不該跟真正的目的地搶頻寬，所以等議程那張結束後才用 low 補上。
  */
 function warmSpeaker(speaker: AnySpeaker) {
-  void preloadAgendaTalk(speaker, 'high')
   void reserveAd()
+  void preloadAgendaTalk(speaker, 'high').then(() => {
+    void preloadModalBackground('low')
+    void preloadSpeakerModal(speaker, 'low')
+  })
 }
 
 function ensureSwiperInitialized() {
