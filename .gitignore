@@ -36,5 +36,8 @@ components/assets/*.jpeg
 CLAUDE.md
 AGENTS.md
 .mcp.json
+# Playwright MCP 的除錯產物（console log / snapshot）
+.playwright-mcp/
+
 # 保密期的 keynote 資料（揭曉前不進版控、不進 payload）
 drafts/

@@ -1,15 +1,10 @@
 import type { RouterConfig } from '@nuxt/schema'
-import { isModalNavigation } from '~/utils/modalRoute'
 
 export default <RouterConfig>{
-  scrollBehavior(to, from, savedPosition) {
-    // 開/關彈窗時只切換 overlay，不改變背景頁捲動位置。
-    if (isModalNavigation(to.path, from.path))
-      return false
-
-    if (savedPosition)
-      return savedPosition
-
-    return { left: 0, top: 0 }
+  // 刻意什麼都不做：捲動主導權完全交給 plugins/lenis.client.ts。
+  // 移掉這個檔案會退回 Nuxt 內建的 scrollBehavior，它對「path 不同」的導覽一律捲到頂
+  // （連開/關彈窗都會被捲），且用原生 scrollTo，與 Lenis 的內部位置不同步。
+  scrollBehavior() {
+    return false
   },
 }

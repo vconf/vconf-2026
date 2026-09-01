@@ -33,25 +33,35 @@ export default defineNuxtPlugin({
     gsap.ticker.lagSmoothing(0)
 
     // 開/關彈窗只更新同一個頁面的可選參數，不觸發 Lenis 回頂。
+    // 底下兩個 hook 的回呼都拿不到 to/from，只能在導覽開始時先判斷並記下來。
     let skipScrollReset = false
 
-    nuxtApp.$router.beforeEach((to, from) => {
+    // 用 useRouter() 而非 nuxtApp.$router：後者的型別要靠 plugins.d.ts 反推本檔案的
+    // provide，會形成循環而退化成 unknown。
+    useRouter().beforeEach((to, from) => {
       skipScrollReset = isModalNavigation(to.path, from.path)
     })
 
-    // 切換頁面時先立即回到頂部
-    nuxtApp.hook('page:start', () => {
-      if (!skipScrollReset)
-        lenis.scrollTo(0, { immediate: true })
-    })
+    // 離場動畫結束後才回頂，讓舊頁面在原本的捲動位置淡出
+    const resetScroll = () => {
+      if (skipScrollReset)
+        return
 
-    // 頁面完成後再同步一次滾動狀態並刷新 ScrollTrigger
+      lenis.scrollTo(0, { immediate: true })
+    }
+
+    // 歸零只信這一個時機：page:transition:finish 就是 <NuxtPage> transition 的
+    // onAfterLeave，舊頁面已離場、新頁面還沒掛載。
+    // 不要退回 page:finish 補位——out-in 配 suspensible 時 Suspense 常在離場動畫
+    // 還沒播完就 resolve，page:finish 會搶在離場前把捲軸拉到頂，正是原本的症狀。
+    nuxtApp.hook('page:transition:finish', resetScroll)
+
+    // 新頁面掛載後刷新 ScrollTrigger（此時捲軸已由上面的 hook 歸零）。
     // 開/關彈窗時整段跳過，保留同一個背景頁的捲動狀態。
     nuxtApp.hook('page:finish', () => {
       if (skipScrollReset)
         return
 
-      lenis.scrollTo(0, { immediate: true })
       requestAnimationFrame(() => {
         ScrollTrigger.refresh()
       })
