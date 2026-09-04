@@ -5,7 +5,7 @@ export const mysteryKeynote = {
   talkNumber: 1,
   name: '神秘講者',
   jobTitle: 'Keynote Speaker',
-  topic: '???',
+  topic: 'TBD',
   startTime: '09:30',
   endTime: '10:15',
 } as const
