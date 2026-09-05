@@ -21,7 +21,7 @@ const { gsap, ScrollTrigger } = useGsap()
 // ScrollTrigger.batch 建立的 trigger，卸載時要逐一 kill
 let batchTriggers: Array<{ kill: () => void }> = []
 
-onMounted(() => {
+onPageScrollReady(() => {
   if (!gridRef.value || !gsap || !ScrollTrigger)
     return
 
@@ -29,9 +29,11 @@ onMounted(() => {
   if (reducedMotion.value === 'reduce')
     return
 
-  const cardElements = Array.from(gridRef.value.children).filter(
-    el => el.getBoundingClientRect().top >= window.innerHeight,
-  )
+  const cardElements = Array.from(gridRef.value.children).filter((el) => {
+    const pageTop = el.getBoundingClientRect().top + window.scrollY
+
+    return pageTop >= window.innerHeight
+  })
 
   if (!cardElements.length)
     return
