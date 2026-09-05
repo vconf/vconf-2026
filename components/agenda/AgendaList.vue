@@ -50,57 +50,6 @@ onNuxtReady(() => {
         >
           {{ item.label }}
         </p>
-        <!-- 未公開的 keynote：模糊照片 + 神秘講者，刻意不可點、也不進彈窗 -->
-        <div
-          v-else-if="item.type === 'mystery-talk'"
-          class="col-start-2 w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif md:max-w-[668px] md:px-6 md:pb-6"
-        >
-          <!-- 標籤 -->
-          <div
-            class="mb-3 flex w-fit items-baseline gap-[5px] rounded-b-[12px] bg-vconf-purple p-[10px] font-bold text-white md:mb-4"
-          >
-            <span
-              class="block text-[14px] leading-[1.6] tracking-[0.02em] md:text-[16px]"
-            >Talk</span>
-            <span
-              class="block text-[24px] leading-[1.2] tracking-[0em] md:text-[32px] md:leading-[1] md:tracking-[0.01em]"
-            >{{ item.talkNumber }}</span>
-          </div>
-          <!-- 講者議程名稱 -->
-          <h3
-            class="mb:mb-4 mb-3 text-[24px] font-bold leading-[1.2] tracking-[0em] text-vconf-text-read md:text-[32px] md:leading-[1] md:tracking-[0.01em]"
-          >
-            {{ item.title }}
-          </h3>
-          <!-- 講者基本資訊 -->
-          <div class="flex items-center justify-start gap-4">
-            <ShareMysterySilhouette
-              variant="circle"
-              tone="snow"
-              class="size-[100px] shrink-0 overflow-hidden rounded-full"
-            />
-            <div
-              class="flex flex-col items-start gap-4 md:flex-row md:items-center"
-            >
-              <p class="flex w-fit items-center justify-center">
-                <span
-                  class="pr-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
-                >{</span>
-                <span
-                  class="text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
-                >{{ item.speakerName }}</span>
-                <span
-                  class="pl-2 font-sans text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
-                >}</span>
-              </p>
-              <p
-                class="font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read"
-              >
-                {{ item.jobTitle }}
-              </p>
-            </div>
-          </div>
-        </div>
         <!-- 講者議程 -->
         <!-- 整張卡片為連結，點擊任一處都開啟彈窗 -->
         <NuxtLink

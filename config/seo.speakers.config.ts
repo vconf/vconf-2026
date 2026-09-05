@@ -27,28 +27,33 @@ export interface SpeakerSeoOverride {
  * OG 圖需人工出圖後放進 public/ogImage/，此處填相對路徑。
  */
 export const speakerSeoOverrides: Record<string, SpeakerSeoOverride> = {
-  kuku: {
+  'kuku': {
     ogImage: '/ogImage/og-img-kuku.jpg',
     ogImageWidth: 1200,
     ogImageHeight: 680,
   },
-  ray: {
+  'ray': {
     ogImage: '/ogImage/og-img-ray.jpg',
     ogImageWidth: 1200,
     ogImageHeight: 680,
   },
-  serko: {
+  'serko': {
     ogImage: '/ogImage/og-img-Serko.jpg',
     ogImageWidth: 1200,
     ogImageHeight: 680,
   },
-  hunter: {
+  'hunter': {
     ogImage: '/ogImage/og-img-Hunter.jpg',
     ogImageWidth: 1200,
     ogImageHeight: 680,
   },
-  kuro: {
+  'kuro': {
     ogImage: '/ogImage/og-img-Kuro.jpg',
+    ogImageWidth: 1200,
+    ogImageHeight: 680,
+  },
+  'evan-you': {
+    ogImage: '/ogImage/og-img-EvanYou.jpg',
     ogImageWidth: 1200,
     ogImageHeight: 680,
   },

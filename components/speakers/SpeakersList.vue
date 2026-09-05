@@ -5,7 +5,6 @@ import { speakerPhoto } from '~/utils/agenda'
 import { createSpeakerCards } from '~/utils/speakerCards'
 
 const { data: speakers } = await useSpeakers()
-// Talk 1 還沒公開時，第一張會是不可點的神秘 keynote 卡
 const cards = computed(() => createSpeakerCards(speakers.value ?? []))
 const { preloadModalBackground, preloadSpeakerModal } = useSpeakerImages()
 
@@ -72,99 +71,65 @@ onBeforeUnmount(() => {
       ref="gridRef"
       class="grid grid-cols-2 gap-4 md:gap-[33px] lg:grid-cols-3"
     >
-      <template
+      <NuxtLink
         v-for="card in cards"
         :key="card.key"
+        :to="`/speakers/${card.speaker.talkSlug}`"
+        class="group block rounded-lg outline-none"
+        @mouseenter="warmSpeaker(card.speaker)"
+        @focus="warmSpeaker(card.speaker)"
+        @touchstart.passive="warmSpeaker(card.speaker)"
       >
-        <!-- 未公開的 keynote：模糊照片 + 神秘講者，刻意不可點 -->
-        <div
-          v-if="card.kind === 'mystery'"
-          class="block rounded-lg"
-        >
-          <ShareMysterySilhouette
-            tone="mist"
-            class="mb-4 aspect-speaker-photo-sm w-full md:aspect-speaker-photo"
-          />
-          <div>
-            <!-- 講者名稱 -->
-            <p class="mb-[14px] flex items-center justify-center">
-              <span
-                class="pr-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
-              >{</span>
-              <span
-                class="font-serif text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
-              >{{ card.name }}</span>
-              <span
-                class="pl-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
-              >}</span>
-            </p>
-            <!-- 講者抬頭 -->
-            <p
-              class="mx-auto mb-4 w-fit font-serif text-[14px] font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read md:text-[16px]"
-            >
-              {{ card.jobTitle }}
-            </p>
-          </div>
-        </div>
-        <NuxtLink
-          v-else
-          :to="`/speakers/${card.speaker.talkSlug}`"
-          class="group block rounded-lg outline-none"
-          @mouseenter="warmSpeaker(card.speaker)"
-          @focus="warmSpeaker(card.speaker)"
-          @touchstart.passive="warmSpeaker(card.speaker)"
-        >
-          <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
-          <NuxtImg
-            :src="speakerPhoto(card.speaker, 'introMobile')"
-            placeholder
-            :alt="card.speaker.avatarAlt"
-            width="169"
-            height="239"
-            loading="lazy"
-            format="avif,webp"
-            densities="x1 x2"
-            class="mb-4 block aspect-speaker-photo-sm w-full object-cover md:hidden"
-          />
-          <NuxtImg
-            :src="card.speaker.avatar"
-            placeholder
-            :alt="card.speaker.avatarAlt"
-            width="306"
-            height="433"
-            loading="lazy"
-            format="avif,webp"
-            densities="x1 x2"
-            class="mb-4 hidden aspect-speaker-photo w-full object-cover md:block"
-          />
-          <div>
-            <!-- 講者名稱 -->
-            <p class="mb-[14px] flex items-center justify-center">
-              <span
-                class="pr-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
-              >{</span>
-              <span
-                class="font-serif text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
-              >{{ card.speaker.name }}</span>
-              <span
-                class="pl-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
-              >}</span>
-            </p>
-            <!-- 講者抬頭 -->
-            <p
-              class="mx-auto mb-4 w-fit font-serif text-[14px] font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read md:text-[16px]"
-            >
-              {{ card.speaker.jobTitle }}
-            </p>
-            <!-- More -->
+        <!-- 講者照：手機與桌機各自載入對應尺寸的圖檔 -->
+        <NuxtImg
+          :src="speakerPhoto(card.speaker, 'introMobile')"
+          placeholder
+          :alt="card.speaker.avatarAlt"
+          width="169"
+          height="239"
+          loading="lazy"
+          format="avif,webp"
+          densities="x1 x2"
+          class="mb-4 block aspect-speaker-photo-sm w-full object-cover md:hidden"
+        />
+        <NuxtImg
+          :src="card.speaker.avatar"
+          placeholder
+          :alt="card.speaker.avatarAlt"
+          width="306"
+          height="433"
+          loading="lazy"
+          format="avif,webp"
+          densities="x1 x2"
+          class="mb-4 hidden aspect-speaker-photo w-full object-cover md:block"
+        />
+        <div>
+          <!-- 講者名稱 -->
+          <p class="mb-[14px] flex items-center justify-center">
             <span
-              class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
-            >
-              More
-            </span>
-          </div>
-        </NuxtLink>
-      </template>
+              class="pr-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+            >{</span>
+            <span
+              class="font-serif text-[20px] font-bold leading-[1.2] tracking-[0em] text-vconf-primary md:text-[24px]"
+            >{{ card.speaker.name }}</span>
+            <span
+              class="pl-1 text-[17px] font-medium leading-[1] tracking-[0.02em] text-vconf-gray-light"
+            >}</span>
+          </p>
+          <!-- 講者抬頭 -->
+          <p
+            class="mx-auto mb-4 w-fit font-serif text-[14px] font-semibold leading-[1.6] tracking-[0em] text-vconf-text-read md:text-[16px]"
+          >
+            {{ card.speaker.jobTitle }}
+          </p>
+          <!-- More -->
+          <span
+            class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-8 py-[6px] font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors group-hover:bg-vconf-primary group-hover:text-white md:text-[16px] md:leading-[1.6]"
+          >
+            More
+          </span>
+        </div>
+      </NuxtLink>
     </div>
   </div>
 </template>
