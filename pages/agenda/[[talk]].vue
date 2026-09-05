@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import AgendaTalkModal from '~/components/agenda/AgendaTalkModal.vue'
+import { earlyBirdCta } from '~/config/cta.config'
 import {
   createAgendaItems,
   findAgendaTalkById,
@@ -125,6 +126,10 @@ onBeforeUnmount(unlockBackgroundScroll)
       :talk-id="talkId"
       @close="close"
       @after-leave="afterLeave"
+    />
+    <ShareFloatingCta
+      :text="earlyBirdCta.text"
+      :href="earlyBirdCta.url"
     />
   </main>
 </template>
