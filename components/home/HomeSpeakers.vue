@@ -12,7 +12,6 @@ const {
 } = useSpeakerImages()
 const { reserve: reserveAd } = useAdSlot()
 
-// Talk 1 還沒公開時，第一張會是不可點的神秘 keynote 卡
 const cards = computed(() => createSpeakerCards(speakers.value ?? []))
 // loop 模式要有足夠的 slide 才不會出現空隙，所以整份卡片清單重複一次
 const DISPLAY_CARDS = computed(() => [...cards.value, ...cards.value])
@@ -146,14 +145,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
                   class="speaker-slide flex justify-center md:h-full"
                 >
                   <div class="flex w-full max-w-[228px] flex-col md:max-w-none">
-                    <!-- 未公開的 keynote：模糊照片 + 神秘講者，刻意不可點 -->
-                    <ShareMysterySilhouette
-                      v-if="card.kind === 'mystery'"
-                      tone="duo"
-                      class="speaker-card-frame aspect-speaker-card w-full min-w-0"
-                    />
                     <NuxtLink
-                      v-else
                       :to="`/agenda/${card.speaker.talkSlug}`"
                       :aria-label="`查看 ${card.speaker.name} 的議程資訊`"
                       class="block w-full min-w-0"
@@ -255,11 +247,3 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
     </div>
   </section>
 </template>
-
-<style scoped>
-/* 與講者照 SVG 遮罩同一個平行四邊形（267×374 的 M4 28.8947L263 0V366L4 313.026Z），
-   讓神秘卡的外形跟其他卡片一致 */
-.speaker-card-frame {
-  clip-path: polygon(1.5% 7.73%, 98.5% 0%, 98.5% 97.86%, 1.5% 83.7%);
-}
-</style>

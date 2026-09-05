@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TeamPhotoSource } from '~/config/team'
 import { useMediaQuery, usePreferredReducedMotion } from '@vueuse/core'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 import { groupTeamMembers } from '~/config/team'
 
 const { data: members } = await useTeamMembers()
@@ -23,7 +23,7 @@ const avatarClass
 
 let timelines: Array<ReturnType<typeof gsap.timeline>> = []
 
-onMounted(() => {
+onPageScrollReady(() => {
   if (
     !listRef.value
     || !gsap
@@ -38,7 +38,9 @@ onMounted(() => {
   )
 
   for (const section of sections) {
-    if (section.getBoundingClientRect().top < window.innerHeight)
+    const pageTop = section.getBoundingClientRect().top + window.scrollY
+
+    if (pageTop < window.innerHeight)
       continue
 
     const title = section.querySelector('[data-team-title]')

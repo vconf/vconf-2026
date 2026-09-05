@@ -81,9 +81,8 @@ Do not invent or infer unavailable information from unrelated pages.
 
 The agenda is a single track on 2026-10-17, all times in UTC+8.
 Each talk is a modal route under `/agenda` and contains the talk abstract; the same talk is also described on the speaker page under `/speakers`.
-Talk 1 has not been announced yet; do not infer it.
 
-- 09:30–10:15 Talk 1 — 神秘講者 (Keynote Speaker), title to be announced
+- [09:30–10:15 Talk 1](https://v-conf.vue.tw/agenda/evan-you) — Evan You「TBD」
 - 10:15–10:30 休息一下 (break)
 - [10:30–11:15 Talk 2](https://v-conf.vue.tw/agenda/serko) — SerKo「Vue Language Tools 新手入門」
 - 11:15–11:30 休息一下 (break)
@@ -100,6 +99,7 @@ Talk 1 has not been announced yet; do not infer it.
 
 Each speaker page is a modal route under `/speakers` and contains the speaker biography, talk title, talk time and talk abstract.
 
+- [Evan You](https://v-conf.vue.tw/speakers/evan-you): 創始人, VoidZero — Talk 1, 09:30–10:15「TBD」
 - [SerKo](https://v-conf.vue.tw/speakers/serko): 開源貢獻者 — Talk 2, 10:30–11:15「Vue Language Tools 新手入門」
 - [Hunter Liu](https://v-conf.vue.tw/speakers/hunter): Tech Lead, Colorful Casting — Talk 3, 11:30–12:15「套件打包實戰：以 tsdown 重新打包 vue-final-modal」
 - [kuku](https://v-conf.vue.tw/speakers/kuku): 前端工程師 — Talk 4, 13:15–14:00「Trust and Verify：用工程方法探索 Vue 更新的價值」

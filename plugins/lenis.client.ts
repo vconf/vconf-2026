@@ -35,11 +35,22 @@ export default defineNuxtPlugin({
     // 開/關彈窗只更新同一個頁面的可選參數，不觸發 Lenis 回頂。
     // 底下兩個 hook 的回呼都拿不到 to/from，只能在導覽開始時先判斷並記下來。
     let skipScrollReset = false
+    const pageScrollReady = usePageScrollReady()
 
     // 用 useRouter() 而非 nuxtApp.$router：後者的型別要靠 plugins.d.ts 反推本檔案的
     // provide，會形成循環而退化成 unknown。
-    useRouter().beforeEach((to, from) => {
+    const router = useRouter()
+
+    router.beforeEach((to, from) => {
       skipScrollReset = isModalNavigation(to.path, from.path)
+
+      if (!skipScrollReset)
+        pageScrollReady.value = false
+    })
+
+    router.afterEach((_to, _from, failure) => {
+      if (failure)
+        pageScrollReady.value = true
     })
 
     // 離場動畫結束後才回頂，讓舊頁面在原本的捲動位置淡出
@@ -48,6 +59,7 @@ export default defineNuxtPlugin({
         return
 
       lenis.scrollTo(0, { immediate: true })
+      pageScrollReady.value = true
     }
 
     // 歸零只信這一個時機：page:transition:finish 就是 <NuxtPage> transition 的
