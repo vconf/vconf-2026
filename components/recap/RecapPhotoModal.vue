@@ -206,7 +206,7 @@ watch(
                     loading="lazy"
                     format="avif,webp"
                     densities="x1 x2"
-                    class="block object-cover"
+                    class="block size-[50px] object-cover md:size-[100px]"
                   />
                 </button>
               </li>
