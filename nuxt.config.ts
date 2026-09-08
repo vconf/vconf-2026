@@ -264,7 +264,8 @@ export default defineNuxtConfig({
     },
   },
 
-  // 彈窗式路由（講者／籌備團隊）由 content 檔案產生，其餘固定頁面寫在 seo.config
+  // 彈窗式路由（講者／籌備團隊）由 content 檔案產生，其餘固定頁面寫在 seo.config；
+  // 花絮還沒公開，上線時再把 config/recap.ts 的 recapSitemapUrls 併進來
   sitemap: {
     ...sitemap,
     urls: [...sitemap.urls, ...contentSitemapUrls],
