@@ -45,6 +45,10 @@ export default defineContentConfig({
         topic: z.string(),
         startTime: z.string(),
         endTime: z.string(),
+        /** 共筆文件連結（HackMD），未提供時彈窗不顯示該按鈕 */
+        noteUrl: z.string().optional(),
+        /** 投影片連結，未提供時彈窗不顯示該按鈕 */
+        slideUrl: z.string().optional(),
       }),
       indexes: [
         { columns: ['talkNumber'] },

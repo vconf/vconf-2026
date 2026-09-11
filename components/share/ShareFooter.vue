@@ -16,6 +16,8 @@ const VENUE_NAME = '政大公企中心 A2 國際會議廳'
 const MAP_ADDRESS = '106臺北市大安區金華街187號'
 const MAP_LINK
   = 'https://www.google.com/maps/place/106%E8%87%BA%E5%8C%97%E5%B8%82%E5%A4%A7%E5%AE%89%E5%8D%80%E6%B0%B8%E5%BA%B7%E9%87%8C%E9%87%91%E8%8F%AF%E8%A1%97187%E8%99%9F/data=!4m2!3m1!1s0x3442a9836e26dc93:0xa633d1d75abd7053?sa=X&ved=1t:242&ictx=111'
+const COPYRIGHT_TEXT = '© V-CONF Taiwan 2026'
+const DESIGN_CREDIT_TEXT = 'Design by 日光木華'
 const SOCIAL_LINKS = [
   {
     LABEL: 'Facebook',
@@ -454,11 +456,16 @@ const { stop } = useIntersectionObserver(
         :style="tileSizeStyle"
         aria-hidden="true"
       ></div>
-      <p
-        class="absolute bottom-0 right-0 bg-vconf-white px-1 font-serif text-[12px] leading-[1.6] tracking-[0.02em] text-vconf-primary md:bottom-[10px] md:px-3 md:text-[14px]"
+      <div
+        class="absolute bottom-0 right-0 flex items-center gap-[10px] whitespace-nowrap bg-vconf-white px-1 font-serif text-[12px] leading-[1.6] tracking-[0.02em] text-vconf-primary md:bottom-[10px] md:gap-6 md:px-3 md:text-[14px]"
       >
-        © V-CONF Taiwan 2026
-      </p>
+        <p>
+          {{ COPYRIGHT_TEXT }}
+        </p>
+        <p>
+          {{ DESIGN_CREDIT_TEXT }}
+        </p>
+      </div>
     </div>
   </footer>
 </template>

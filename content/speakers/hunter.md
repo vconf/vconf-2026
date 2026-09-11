@@ -38,6 +38,7 @@ talkSlug: hunter
 topic: "套件打包實戰：以 tsdown 重新打包 vue-final-modal"
 startTime: "11:30"
 endTime: "12:15"
+noteUrl: https://hackmd.io/@vconf-conference/HksmD84_ze
 ---
 
 發佈一個 Vue 元件庫，麻煩的從來不是寫元件，而是打包：SFC 要編譯、型別宣告要正確、CSS 要輸出、CJS / ESM 都要能用，相依套件該外部化還是打包進去。設定越堆越多，打包工具本身就變成技術債。

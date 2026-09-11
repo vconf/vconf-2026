@@ -73,6 +73,7 @@ export default {
           'white': 'hsl(var(--background))',
           'primary': 'hsl(var(--color-primary))',
           'primary-light': 'hsl(var(--color-primary-light))',
+          'green-light': 'hsl(var(--color-green-light))',
           'purple': 'hsl(var(--color-purple))',
           'purple-ultralight': 'hsl(var(--color-purple-ultralight))',
           'sun': 'hsl(var(--color-sun))',
