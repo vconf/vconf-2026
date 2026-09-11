@@ -17,7 +17,11 @@ const MAP_ADDRESS = '106臺北市大安區金華街187號'
 const MAP_LINK
   = 'https://www.google.com/maps/place/106%E8%87%BA%E5%8C%97%E5%B8%82%E5%A4%A7%E5%AE%89%E5%8D%80%E6%B0%B8%E5%BA%B7%E9%87%8C%E9%87%91%E8%8F%AF%E8%A1%97187%E8%99%9F/data=!4m2!3m1!1s0x3442a9836e26dc93:0xa633d1d75abd7053?sa=X&ved=1t:242&ictx=111'
 const COPYRIGHT_TEXT = '© V-CONF Taiwan 2026'
-const DESIGN_CREDIT_TEXT = 'Design by 日光木華'
+const DESIGN_CREDIT = {
+  PREFIX: 'Design by',
+  NAME: '日光木華',
+  URL: 'https://sunlight-betula.com/',
+} as const
 const SOCIAL_LINKS = [
   {
     LABEL: 'Facebook',
@@ -463,7 +467,13 @@ const { stop } = useIntersectionObserver(
           {{ COPYRIGHT_TEXT }}
         </p>
         <p>
-          {{ DESIGN_CREDIT_TEXT }}
+          {{ DESIGN_CREDIT.PREFIX }}
+          <a
+            :href="DESIGN_CREDIT.URL"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="underline underline-offset-[3px]"
+          >{{ DESIGN_CREDIT.NAME }}</a>
         </p>
       </div>
     </div>
