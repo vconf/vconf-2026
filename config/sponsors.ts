@@ -92,6 +92,13 @@ export const sponsorGroups: SponsorGroup[] = [
         width: 116,
         height: 116,
       },
+      {
+        name: '日光木華',
+        logo: '/sponsors/sunlight-betula.svg',
+        url: 'https://sunlight-betula.com/',
+        width: 116,
+        height: 116,
+      },
     ],
   },
 ]
