@@ -21,6 +21,7 @@ talkSlug: kuro
 topic: 現在大家都用 AI 開發了，我們還需要學 Vue 嗎？
 startTime: "15:15"
 endTime: "16:00"
+noteUrl: https://hackmd.io/@vconf-conference/Hk6PwU4uGe
 ---
 
 2026 年，AI 工具已經能秒速產出完整的 Vue 元件。面對只要透過 Prompt 就能 Vibe Coding 的開發模式，你心裡可能也冒出過這個大哉問：「既然 AI 都能代勞，我們還值得投資時間學 Vue 嗎？」

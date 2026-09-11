@@ -86,6 +86,27 @@ const speakerDetails = computed(() => {
   return props.talk.speaker
 })
 
+/** 共筆文件與投影片 */
+const talkResources = computed(() => {
+  if (!speakerDetails.value)
+    return []
+
+  return [
+    {
+      label: '共筆文件',
+      href: speakerDetails.value.noteUrl,
+      class: 'bg-vconf-primary',
+    },
+    {
+      label: '投影片',
+      href: speakerDetails.value.slideUrl,
+      class: 'bg-vconf-green-light',
+    },
+  ].filter((item): item is { label: string, href: string, class: string } =>
+    Boolean(item.href),
+  )
+})
+
 const speakerSocialLinks = computed(() => {
   if (!speakerDetails.value)
     return []
@@ -185,10 +206,31 @@ const speakerSocialLinks = computed(() => {
                     <section>
                       <h2
                         id="agenda-talk-title"
-                        class="mb-4 text-[24px] font-bold leading-[1] tracking-[0.01em] text-vconf-text-read md:mb-8 md:text-[32px]"
+                        class="mb-4 text-[24px] font-bold leading-[1] tracking-[0.01em] text-vconf-text-read md:text-[32px]"
+                        :class="{ 'md:mb-8': !talkResources.length }"
                       >
                         {{ talk.title }}
                       </h2>
+
+                      <ul
+                        v-if="talkResources.length"
+                        class="mb-4 flex flex-wrap items-center gap-2"
+                      >
+                        <li
+                          v-for="resource in talkResources"
+                          :key="resource.label"
+                        >
+                          <a
+                            :href="resource.href"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="block rounded-full px-8 py-[6px] text-[16px] font-medium leading-[1.6] tracking-[0.02em] text-vconf-white transition-opacity hover:opacity-80"
+                            :class="resource.class"
+                          >
+                            {{ resource.label }}
+                          </a>
+                        </li>
+                      </ul>
 
                       <template v-if="speakerDetails">
                         <ContentRenderer
