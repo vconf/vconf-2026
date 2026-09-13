@@ -76,10 +76,11 @@ export const teamRoutes: string[] = readContentFiles('team', '.yml')
 const speakerLastmod = '2026-08-16'
 const agendaLastmod = '2026-08-31'
 const teamLastmod = '2026-08-24'
+const contentRoutePriority = 0.8 as const
 
 /** 併進 config/seo.config.ts 的 sitemap.urls（在 nuxt.config 組合） */
 export const contentSitemapUrls = [
-  ...speakerRoutes.map(loc => ({ loc, priority: 0.8, lastmod: speakerLastmod })),
-  ...agendaRoutes.map(loc => ({ loc, priority: 0.8, lastmod: agendaLastmod })),
-  ...teamRoutes.map(loc => ({ loc, priority: 0.8, lastmod: teamLastmod })),
+  ...speakerRoutes.map(loc => ({ loc, priority: contentRoutePriority, lastmod: speakerLastmod })),
+  ...agendaRoutes.map(loc => ({ loc, priority: contentRoutePriority, lastmod: agendaLastmod })),
+  ...teamRoutes.map(loc => ({ loc, priority: contentRoutePriority, lastmod: teamLastmod })),
 ]

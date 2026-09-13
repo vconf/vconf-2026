@@ -201,7 +201,13 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'icon',
-          href: 'https://v-conf.vue.tw/favicon.png', // 絕對路徑，網站圖示
+          type: 'image/png',
+          href: '/favicon.png?v=2',
+        },
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/favicon.ico?v=2',
         },
       ],
     },
