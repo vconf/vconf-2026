@@ -6,7 +6,7 @@
  */
 
 /** 廣告贊助商的穩定 ID，對應 config/sponsors.ts 的贊助商 */
-export type SponsorId = 'teacher-place' | 'wish'
+export type SponsorId = 'teacher-place' | 'thecodingpro' | 'wish'
 
 /** 素材版本；以 768px 為桌機／手機分界 */
 export type AdCreative = 'desktop' | 'mobile'
