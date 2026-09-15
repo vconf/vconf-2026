@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import type { RecapPhoto } from '~/config/recap'
-import { useMediaQuery, useSwipe } from '@vueuse/core'
+import {
+  useDevicePixelRatio,
+  useElementBounding,
+  useElementSize,
+  useMediaQuery,
+  useSwipe,
+  useWindowSize,
+} from '@vueuse/core'
 import { nextTick, ref, watch } from 'vue'
-import { recapModalSize, recapThumbSize } from '~/composables/useRecapImages'
+import {
+  recapModalRequest,
+  recapThumbSize,
+} from '~/composables/useRecapImages'
 
 const props = defineProps<{
   visible: boolean
@@ -24,10 +34,60 @@ const stageRef = ref<HTMLElement | null>(null)
 const thumbsRef = ref<HTMLElement | null>(null)
 
 const viewport = computed(() => (isDesktop.value ? 'desktop' : 'mobile'))
+const { height: windowHeight } = useWindowSize()
+const { pixelRatio } = useDevicePixelRatio()
+const density = computed(() => (pixelRatio.value > 1 ? 2 : 1))
+
+/** 轉檔尺寸跟著視窗與裝置密度走；與 preloadRecapPhoto 共用同一個算式才不會下載兩份 */
 const modalSize = computed(() =>
-  props.photo ? recapModalSize(props.photo, viewport.value) : null,
+  props.photo
+    ? recapModalRequest(
+        props.photo,
+        viewport.value,
+        windowHeight.value,
+        density.value,
+      )
+    : null,
 )
 const thumbSize = computed(() => recapThumbSize(viewport.value))
+
+/**
+ * 照片寬是「舞台高 × 原圖比例」的流動值；寫死一個數字只有一種視窗齊邊，實測其餘差 47～191px。
+ * 基準取稿的 H 變體 3:2，直幅照片置中在同一條寬度裡，換照片時寬度也不跳。
+ */
+const STRIP_RATIO = 3 / 2
+const STRIP_MAX_WIDTH = 1600
+
+const { height: stageHeight } = useElementSize(stageRef)
+const { top: stageTop } = useElementBounding(stageRef)
+
+/** 手機縮圖列本來就滿版，維持 CSS 的 w-full */
+const contentWidth = computed(() => {
+  if (!isDesktop.value || !stageHeight.value)
+    return undefined
+
+  return `${Math.min(STRIP_MAX_WIDTH, Math.round(stageHeight.value * STRIP_RATIO))}px`
+})
+
+/**
+ * 稿上叉叉在內容塊上方 35px（y 42 對內容頂端 77.47），不是釘在視窗上緣。
+ * 內容塊垂直置中，視窗一高頂端就往下跑，寫死 42 會被留在上面（50% 縮放時差 300px）。
+ */
+const closeTop = computed(() =>
+  isDesktop.value && stageTop.value > 0
+    ? `${Math.round(stageTop.value - 35)}px`
+    : undefined,
+)
+
+/**
+ * 稿上箭頭與叉叉都貼著照片外側 46px：1512 寬配 1200 照片時剛好是邊界 70px，那是推導值不是規則。
+ * 86px = 按鈕 40 + 間距 46。寫死 70 在 2560 寬會離照片 594px。
+ */
+const arrowInset = computed(() =>
+  contentWidth.value
+    ? `calc(50% - ${contentWidth.value} / 2 - 86px)`
+    : undefined,
+)
 
 // 手機沒有左右鍵，改用滑動換照片
 const { direction, isSwiping } = useSwipe(stageRef, { threshold: 40 })
@@ -81,6 +141,7 @@ watch(
         <button
           type="button"
           class="absolute right-4 top-4 z-20 grid size-[30px] place-items-center rounded-full bg-vconf-white text-vconf-purple md:right-[70px] md:top-[42px] md:size-10"
+          :style="{ right: arrowInset, top: closeTop }"
           aria-label="關閉花絮照片"
           @click="emit('close')"
         >
@@ -104,6 +165,7 @@ watch(
           <button
             type="button"
             class="absolute left-[70px] top-1/2 z-20 hidden size-10 -translate-y-1/2 place-items-center rounded-full bg-vconf-white text-vconf-purple transition-transform hover:scale-105 md:grid"
+            :style="{ left: arrowInset }"
             aria-label="上一張照片"
             @click="emit('prev')"
           >
@@ -126,6 +188,7 @@ watch(
           <button
             type="button"
             class="absolute right-[70px] top-1/2 z-20 hidden size-10 -translate-y-1/2 place-items-center rounded-full bg-vconf-white text-vconf-purple transition-transform hover:scale-105 md:grid"
+            :style="{ right: arrowInset }"
             aria-label="下一張照片"
             @click="emit('next')"
           >
@@ -148,7 +211,7 @@ watch(
         </template>
 
         <div
-          class="flex size-full flex-col items-center justify-center gap-8 py-[128px] md:gap-6 md:px-32 md:py-[77px]"
+          class="flex size-full flex-col items-center justify-center gap-8 py-[128px] md:gap-6 md:px-[10.3vw] md:py-[8.3svh]"
           data-lenis-prevent
           @click.self="emit('close')"
         >
@@ -156,7 +219,8 @@ watch(
           <!-- items-end：照片貼齊舞台底，跟縮圖列的距離才會恆等於 gap（手機 32、桌機 24） -->
           <div
             ref="stageRef"
-            class="flex max-h-[536px] min-h-0 w-full max-w-[1200px] flex-1 items-end justify-center md:max-h-[650px]"
+            class="flex max-h-[536px] min-h-0 w-full max-w-[1200px] flex-1 items-end justify-center md:max-h-[1066px]"
+            :style="{ maxWidth: contentWidth }"
             @click.self="emit('close')"
           >
             <NuxtImg
@@ -167,7 +231,6 @@ watch(
               :height="modalSize.height"
               loading="eager"
               format="avif,webp"
-              densities="x1 x2"
               class="max-h-full w-auto max-w-full select-none object-contain"
             />
           </div>
@@ -176,6 +239,7 @@ watch(
           <div
             v-if="photos.length > 1"
             ref="thumbsRef"
+            :style="{ maxWidth: contentWidth }"
             class="-mb-1.5 w-full max-w-[1200px] shrink-0 overflow-x-auto overscroll-x-contain scrollbar scrollbar-track-white/20 scrollbar-thumb-white/60 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-h-1.5 md:-mb-2.5 md:scrollbar-h-2.5"
             data-lenis-prevent
           >

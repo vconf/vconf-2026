@@ -2,6 +2,7 @@
 import type { RecapPhoto } from '~/config/recap'
 import { usePreferredReducedMotion } from '@vueuse/core'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { recapGridSize } from '~/composables/useRecapImages'
 import {
   adjacentRecapPhoto,
   distributeRecapPhotos,
@@ -135,8 +136,8 @@ onBeforeUnmount(() => {
             <NuxtImg
               :src="photo.src"
               :alt="photo.alt"
-              :width="photo.width"
-              :height="photo.height"
+              :width="recapGridSize(photo).width"
+              :height="recapGridSize(photo).height"
               loading="lazy"
               format="avif,webp"
               class="block size-full object-cover transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.04]"
