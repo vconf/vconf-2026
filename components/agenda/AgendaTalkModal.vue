@@ -206,7 +206,7 @@ const speakerSocialLinks = computed(() => {
                     <section>
                       <h2
                         id="agenda-talk-title"
-                        class="mb-4 text-[24px] font-bold leading-[1] tracking-[0.01em] text-vconf-text-read md:text-[32px]"
+                        class="mb-4 text-[24px] font-bold leading-[1.4] tracking-[0.01em] text-vconf-text-read md:text-[32px]"
                         :class="{ 'md:mb-8': !talkResources.length }"
                       >
                         {{ talk.title }}
