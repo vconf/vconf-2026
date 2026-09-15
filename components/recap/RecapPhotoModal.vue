@@ -216,10 +216,11 @@ watch(
           @click.self="emit('close')"
         >
           <!-- 大圖 -->
-          <!-- items-end：照片貼齊舞台底，跟縮圖列的距離才會恆等於 gap（手機 32、桌機 24） -->
+          <!-- 桌機 flex-1 讓舞台吃滿高度、items-end 貼齊底部，跟縮圖列的距離恆等於 gap 24 -->
+          <!-- 手機不長高：3:2 照片只有 402x268，撐滿 536 會在上方堆 221px 空白（338 = py 256 + gap 32 + 縮圖列 50） -->
           <div
             ref="stageRef"
-            class="flex max-h-[536px] min-h-0 w-full max-w-[1200px] flex-1 items-end justify-center md:max-h-[1066px]"
+            class="flex max-h-[536px] min-h-0 w-full max-w-[1200px] items-end justify-center md:max-h-[1066px] md:flex-1"
             :style="{ maxWidth: contentWidth }"
             @click.self="emit('close')"
           >
@@ -231,7 +232,7 @@ watch(
               :height="modalSize.height"
               loading="eager"
               format="avif,webp"
-              class="max-h-full w-auto max-w-full select-none object-contain"
+              class="max-h-[min(536px,calc(100svh-338px))] w-auto max-w-full select-none object-contain md:max-h-full"
             />
           </div>
 
