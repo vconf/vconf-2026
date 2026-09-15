@@ -8,10 +8,13 @@ import type { RecapPhoto } from '~/config/recap'
  * 而 getImage() 在 prerender 時會把 URL 掛上 x-nitro-prerender，讓靜態圖檔在 build 就產出。
  */
 
-/** 燈箱大圖的可用空間，與 RecapPhotoModal 的版面上限一致 */
+/**
+ * 燈箱舞台的上限，與 RecapPhotoModal 的 max-h／max-w 一致。
+ * 桌機 1600×1066 是版面天花板，不是每台裝置都會用到的尺寸。
+ */
 const MODAL_BOX: Record<Viewport, { width: number, height: number }> = {
   mobile: { width: 402, height: 536 },
-  desktop: { width: 1200, height: 650 },
+  desktop: { width: 1600, height: 1066 },
 }
 
 /** 縮圖列，尺寸與 RecapPhotoModal 的 <NuxtImg> 一致 */
@@ -20,7 +23,75 @@ const THUMB_SIZE: Record<Viewport, { width: number, height: number }> = {
   desktop: { width: 100, height: 100 },
 }
 
-const DENSITIES = [1, 2]
+/** 縮圖列鎖在稿的 H 變體，與 RecapPhotoModal 的 STRIP_RATIO 同一個值 */
+const STRIP_RATIO = 3 / 2
+
+/** 舞台外固定吃掉的高度：縮圖列 + gap − 捲軸負 margin（手機 50+32−6，桌機 100+24−10） */
+const STAGE_CHROME: Record<Viewport, number> = { mobile: 76, desktop: 114 }
+
+/** 轉檔尺寸的級距，每一階都對應真實裝置：手機 1x/2x、筆電 1x/2x、5K 1x/2x */
+const MODAL_WIDTH_STEPS = [480, 960, 1500, 2200, 3200]
+
+/** 縮圖才需要 x2；縮圖尺寸固定，不吃級距 */
+const THUMB_DENSITIES = [1, 2]
+
+/** 照片牆每格約 361 CSS 寬，2x 也只要 722，不必拿原生 3200 */
+const GRID_MAX_WIDTH = 800
+
+/**
+ * 舞台高度是視窗高度的函數，與 RecapPhotoModal 的外層留白一致（桌機 8.3svh、手機 128px）。
+ * 只用來挑級距所以容許幾 px 誤差，但 <NuxtImg> 與 preload 必須共用它，否則會下載兩份。
+ */
+function recapStageHeight(viewport: Viewport, viewportHeight: number) {
+  const free = viewport === 'desktop'
+    ? viewportHeight * (1 - 0.083 * 2) - STAGE_CHROME.desktop
+    : viewportHeight - 128 * 2 - STAGE_CHROME.mobile
+
+  return Math.max(0, Math.min(MODAL_BOX[viewport].height, free))
+}
+
+/**
+ * 這張照片在這個視窗會顯示多寬（CSS px）。寬度由舞台高度決定，
+ * 比 3:2 更寬的照片會被縮圖列的寬度切齊，所以取 min(STRIP_RATIO, 自己的比例)。
+ */
+function recapPhotoCssWidth(photo: RecapPhoto, viewport: Viewport, viewportHeight: number) {
+  const ratio = photo.width / photo.height
+  const stage = recapStageHeight(viewport, viewportHeight)
+
+  return Math.min(MODAL_BOX[viewport].width, stage * Math.min(STRIP_RATIO, ratio))
+}
+
+/** 級距取「蓋得住需求的最小一階」，並且不超過來源本身，永遠不放大 */
+function snapToStep(photo: RecapPhoto, needed: number) {
+  const ratio = photo.width / photo.height
+  const step = MODAL_WIDTH_STEPS.find(width => width >= needed) ?? MODAL_WIDTH_STEPS.at(-1)!
+  const width = Math.min(step, photo.width)
+
+  return { width, height: Math.round(width / ratio) }
+}
+
+/**
+ * 燈箱大圖的轉檔尺寸。跟著實際顯示寬 × 裝置密度走，再進位到級距 ——
+ * 單一固定尺寸會讓筆電多拿一倍、5K 只拿到需求的一半。
+ */
+export function recapModalRequest(
+  photo: RecapPhoto,
+  viewport: Viewport,
+  viewportHeight: number,
+  density: number,
+) {
+  return snapToStep(photo, recapPhotoCssWidth(photo, viewport, viewportHeight) * density)
+}
+
+/** 照片牆的轉檔尺寸；比例與來源相同，裁切一律留給 CSS 的 object-cover */
+export function recapGridSize(photo: RecapPhoto) {
+  const scale = Math.min(GRID_MAX_WIDTH / photo.width, 1)
+
+  return {
+    width: Math.round(photo.width * scale),
+    height: Math.round(photo.height * scale),
+  }
+}
 
 /** 一次空閒送幾張；lenis／GSAP 的 rAF 會讓真正的空閒很少，一次一張會拖到幾十秒 */
 const WARM_BATCH = 4
@@ -39,20 +110,6 @@ function cancelIdle(handle: number | undefined) {
   if (typeof cancelIdleCallback === 'function')
     cancelIdleCallback(handle)
   else clearTimeout(handle)
-}
-
-/**
- * 把原圖等比縮進框，回傳實際會顯示的尺寸。稿的 H／V 兩種版型是同一條規則 ——
- * 高度固定、寬度隨比例（桌機 1200×650 對 477×650），所以這組數字也當 IPX 的轉檔尺寸。
- */
-export function recapModalSize(photo: RecapPhoto, viewport: Viewport) {
-  const box = MODAL_BOX[viewport]
-  const scale = Math.min(box.width / photo.width, box.height / photo.height, 1)
-
-  return {
-    width: Math.round(photo.width * scale),
-    height: Math.round(photo.height * scale),
-  }
 }
 
 export function recapThumbSize(viewport: Viewport) {
@@ -75,14 +132,22 @@ export function useRecapImages() {
    */
   function registerRecapModalImages(photos: RecapPhoto[]) {
     for (const photo of photos) {
+      const grid = recapGridSize(photo)
+
+      toUrl(photo.src, grid.width, grid.height)
+
       for (const viewport of ['mobile', 'desktop'] as const) {
-        const modal = recapModalSize(photo, viewport)
         const thumb = THUMB_SIZE[viewport]
 
-        for (const density of DENSITIES) {
-          toUrl(photo.src, modal.width * density, modal.height * density)
+        for (const density of THUMB_DENSITIES)
           toUrl(photo.src, thumb.width * density, thumb.height * density)
-        }
+      }
+
+      // 級距共 5 階，超過來源的那幾階會收斂成同一個 URL
+      for (const step of MODAL_WIDTH_STEPS) {
+        const size = snapToStep(photo, step)
+
+        toUrl(photo.src, size.width, size.height)
       }
     }
   }
@@ -90,14 +155,14 @@ export function useRecapImages() {
   /** 只抓目前斷點真正會顯示的那一張大圖，並等到解碼完成。 */
   function preloadRecapPhoto(photo: RecapPhoto, priority: Priority = 'low') {
     const { viewport, density } = currentTarget()
-    const { width, height } = recapModalSize(photo, viewport)
+    const { width, height } = recapModalRequest(photo, viewport, window.innerHeight, density)
 
-    return preload(toUrl(photo.src, width * density, height * density), priority)
+    return preload(toUrl(photo.src, width, height), priority)
   }
 
   /**
-   * 空閒時把整組照片熱起來：先照片牆的圖，再燈箱大圖，兩批都照傳入的順序
-   * （呼叫端排成由上而下）。一律用 low 送出，滑到某張時會被升成 high 插隊。
+   * 空閒時把照片牆的圖熱起來，照傳入的順序（呼叫端排成由上而下）。
+   * 不熱燈箱大圖：級距最大 3200，30 張會是幾十 MB，鄰近幾張交給 preloadRecapPhoto。
    */
   function warmRecapPhotos(photos: RecapPhoto[]) {
     const connection = (navigator as { connection?: { saveData?: boolean } })
@@ -107,15 +172,11 @@ export function useRecapImages() {
     if (connection?.saveData)
       return () => {}
 
-    const { viewport, density } = currentTarget()
-    const queue = [
-      ...photos.map(photo => toUrl(photo.src, photo.width, photo.height)),
-      ...photos.map((photo) => {
-        const { width, height } = recapModalSize(photo, viewport)
+    const queue = photos.map((photo) => {
+      const { width, height } = recapGridSize(photo)
 
-        return toUrl(photo.src, width * density, height * density)
-      }),
-    ]
+      return toUrl(photo.src, width, height)
+    })
 
     let index = 0
     let handle: number | undefined

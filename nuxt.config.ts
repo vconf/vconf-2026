@@ -72,6 +72,10 @@ export default defineNuxtConfig({
 
   css: ['@/assets/css/main.css'],
 
+  features: {
+    inlineStyles: false,
+  },
+
   gtag: {
     id: process.env.NUXT_PUBLIC_GTAG_ID,
   },

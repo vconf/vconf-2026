@@ -266,7 +266,7 @@ const socialLinks = computed(() => {
                       </time>
                     </template>
                     <p
-                      class="mb-3 text-[24px] font-bold leading-[1.2] tracking-[0em] text-vconf-text-read"
+                      class="mb-3 text-[24px] font-bold leading-[1.4] tracking-[0em] text-vconf-text-read"
                     >
                       {{ speaker.topic }}
                     </p>
