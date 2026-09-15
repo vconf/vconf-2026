@@ -29,40 +29,39 @@ export const RECAP_BATCH_SIZE = 10
  * sitemap 的 lastmod 由人工維護：檔案 mtime 在 CI 上是 clone 時間，不能代表內容更新日。
  * 換過照片就改這個日期。
  */
-export const recapLastmod = '2026-09-08'
+export const recapLastmod = '2026-09-15'
 
-/**
- * TODO(花絮)：以下 20 筆是從 picsum.photos 抓下來的預覽圖（public/recap/preview-*.jpg），
- * 只為了確認版面與燈箱效果，正式照片進來時整批換掉並一併刪檔：
- *   rm public/recap/preview-*.jpg
- *
- * 換上正式照片時的寫法（width／height 填原圖尺寸，ratio 填格子比例）：
- *
- * ```ts
- * { id: 'opening-keynote', src: '/recap/opening-keynote.jpg', width: 2400, height: 1600, ratio: 4 / 3, alt: '開場 keynote 現場' },
- * ```
- */
 export const recapPhotos: RecapPhoto[] = [
-  { id: 'preview-01', src: '/recap/preview-01.jpg', width: 1200, height: 800, ratio: 4 / 3, alt: '花絮預覽照片 01' },
-  { id: 'preview-02', src: '/recap/preview-02.jpg', width: 800, height: 1200, ratio: 3 / 4, alt: '花絮預覽照片 02' },
-  { id: 'preview-03', src: '/recap/preview-03.jpg', width: 1200, height: 675, ratio: 1, alt: '花絮預覽照片 03' },
-  { id: 'preview-04', src: '/recap/preview-04.jpg', width: 1000, height: 1000, ratio: 1200 / 1614, alt: '花絮預覽照片 04' },
-  { id: 'preview-05', src: '/recap/preview-05.jpg', width: 900, height: 1200, ratio: 4 / 3, alt: '花絮預覽照片 05' },
-  { id: 'preview-06', src: '/recap/preview-06.jpg', width: 1200, height: 900, ratio: 1200 / 1170, alt: '花絮預覽照片 06' },
-  { id: 'preview-07', src: '/recap/preview-07.jpg', width: 1200, height: 800, ratio: 4 / 3, alt: '花絮預覽照片 07' },
-  { id: 'preview-08', src: '/recap/preview-08.jpg', width: 800, height: 1000, ratio: 1200 / 1453, alt: '花絮預覽照片 08' },
-  { id: 'preview-09', src: '/recap/preview-09.jpg', width: 1200, height: 675, ratio: 1, alt: '花絮預覽照片 09' },
-  { id: 'preview-10', src: '/recap/preview-10.jpg', width: 1000, height: 1250, ratio: 1200 / 932, alt: '花絮預覽照片 10' },
-  { id: 'preview-11', src: '/recap/preview-11.jpg', width: 1200, height: 800, ratio: 4 / 3, alt: '花絮預覽照片 11' },
-  { id: 'preview-12', src: '/recap/preview-12.jpg', width: 900, height: 1200, ratio: 3 / 4, alt: '花絮預覽照片 12' },
-  { id: 'preview-13', src: '/recap/preview-13.jpg', width: 1200, height: 900, ratio: 1, alt: '花絮預覽照片 13' },
-  { id: 'preview-14', src: '/recap/preview-14.jpg', width: 1100, height: 1100, ratio: 1200 / 1614, alt: '花絮預覽照片 14' },
-  { id: 'preview-15', src: '/recap/preview-15.jpg', width: 1200, height: 675, ratio: 4 / 3, alt: '花絮預覽照片 15' },
-  { id: 'preview-16', src: '/recap/preview-16.jpg', width: 1200, height: 800, ratio: 1200 / 1170, alt: '花絮預覽照片 16' },
-  { id: 'preview-17', src: '/recap/preview-17.jpg', width: 900, height: 1200, ratio: 4 / 3, alt: '花絮預覽照片 17' },
-  { id: 'preview-18', src: '/recap/preview-18.jpg', width: 1200, height: 675, ratio: 1200 / 1453, alt: '花絮預覽照片 18' },
-  { id: 'preview-19', src: '/recap/preview-19.jpg', width: 1000, height: 1000, ratio: 1, alt: '花絮預覽照片 19' },
-  { id: 'preview-20', src: '/recap/preview-20.jpg', width: 800, height: 1200, ratio: 1200 / 932, alt: '花絮預覽照片 20' },
+  { id: 'apr-group-photo', src: '/recap/apr-group-photo.jpg', width: 1600, height: 899, ratio: 4 / 3, alt: '四月小聚結束前的大合照' },
+  { id: 'apr-checkin-desk', src: '/recap/apr-checkin-desk.jpg', width: 1200, height: 1600, ratio: 3 / 4, alt: '四月小聚報到桌前的工作人員' },
+  { id: 'aug-snack-table', src: '/recap/aug-snack-table.jpg', width: 1600, height: 1066, ratio: 1, alt: '八月小聚準備給與會者的點心與飲料' },
+  { id: 'apr-live-recording', src: '/recap/apr-live-recording.jpg', width: 1200, height: 1600, ratio: 1200 / 1614, alt: '側錄相機對著四月小聚的講台' },
+  { id: 'jun-audience-crowd', src: '/recap/jun-audience-crowd.jpg', width: 1600, height: 1066, ratio: 4 / 3, alt: '六月小聚坐滿聽眾的現場' },
+  { id: 'aug-audience-applause', src: '/recap/aug-audience-applause.jpg', width: 1600, height: 1066, ratio: 1200 / 1170, alt: '八月小聚聽眾為講者鼓掌' },
+  { id: 'apr-venue-wide', src: '/recap/apr-venue-wide.jpg', width: 1600, height: 900, ratio: 4 / 3, alt: '四月小聚開場前的場地全景' },
+  { id: 'jun-audience-question', src: '/recap/jun-audience-question.jpg', width: 1600, height: 1066, ratio: 1200 / 1453, alt: '六月小聚與會者拿著麥克風提問' },
+  { id: 'aug-laptop-notes', src: '/recap/aug-laptop-notes.jpg', width: 1600, height: 1066, ratio: 1, alt: '與會者一邊聽講一邊在筆電上做筆記' },
+  { id: 'aug-venue-overview', src: '/recap/aug-venue-overview.jpg', width: 1600, height: 1066, ratio: 1200 / 932, alt: '八月小聚開場前坐滿人的會場' },
+  { id: 'jun-group-photo', src: '/recap/jun-group-photo.jpg', width: 1600, height: 1066, ratio: 4 / 3, alt: '六月小聚的大合照' },
+  { id: 'apr-audience-room', src: '/recap/apr-audience-room.jpg', width: 1200, height: 1600, ratio: 3 / 4, alt: '四月小聚現場的聽眾與講台' },
+  { id: 'aug-snack-corner', src: '/recap/aug-snack-corner.jpg', width: 1600, height: 1066, ratio: 1, alt: '八月小聚的點心區與交流中的與會者' },
+  { id: 'aug-speaker-briefing', src: '/recap/aug-speaker-briefing.jpg', width: 1600, height: 1066, ratio: 1200 / 1614, alt: '講者與工作人員在講台前對流程' },
+  { id: 'apr-speaker-slides', src: '/recap/apr-speaker-slides.jpg', width: 1600, height: 1199, ratio: 4 / 3, alt: '四月小聚講者比著投影幕分享' },
+  { id: 'jun-qa-panel', src: '/recap/jun-qa-panel.jpg', width: 1600, height: 1066, ratio: 1200 / 1170, alt: '六月小聚的問答時間' },
+  { id: 'aug-checkin-snacks', src: '/recap/aug-checkin-snacks.jpg', width: 1600, height: 1066, ratio: 4 / 3, alt: '與會者在報到區領取點心' },
+  { id: 'aug-hallway-chat', src: '/recap/aug-hallway-chat.jpg', width: 1600, height: 1066, ratio: 1200 / 1453, alt: '中場休息時間在會場旁聊天的與會者' },
+  { id: 'jun-speaker-stage', src: '/recap/jun-speaker-stage.jpg', width: 1600, height: 1066, ratio: 1, alt: '六月小聚講者在大螢幕前分享' },
+  { id: 'aug-speaker-pointing', src: '/recap/aug-speaker-pointing.jpg', width: 1600, height: 1066, ratio: 1200 / 932, alt: '講者指著投影幕說明架構' },
+  { id: 'apr-speaker-mic', src: '/recap/apr-speaker-mic.jpg', width: 1600, height: 1200, ratio: 4 / 3, alt: '四月小聚講者拿著麥克風分享' },
+  { id: 'aug-speaker-mic', src: '/recap/aug-speaker-mic.jpg', width: 1600, height: 1066, ratio: 3 / 4, alt: '八月小聚講者回答線上提問' },
+  { id: 'aug-attendees-wave', src: '/recap/aug-attendees-wave.jpg', width: 1600, height: 1066, ratio: 1, alt: '與會者在座位上向鏡頭打招呼' },
+  { id: 'jun-qa-standing', src: '/recap/jun-qa-standing.jpg', width: 1600, height: 1066, ratio: 1200 / 1614, alt: '六月小聚結束後講者與與會者交流' },
+  { id: 'aug-speaker-opening', src: '/recap/aug-speaker-opening.jpg', width: 1600, height: 1067, ratio: 4 / 3, alt: '八月小聚第一場議程開講' },
+  { id: 'aug-attendees-side', src: '/recap/aug-attendees-side.jpg', width: 1600, height: 1066, ratio: 1200 / 1170, alt: '從側邊看過去的八月小聚聽眾席' },
+  { id: 'jun-speaker-podium', src: '/recap/jun-speaker-podium.jpg', width: 1600, height: 1066, ratio: 4 / 3, alt: '六月小聚講者講解程式範例' },
+  { id: 'aug-neon-corner', src: '/recap/aug-neon-corner.jpg', width: 1600, height: 1066, ratio: 1200 / 1453, alt: '會場霓虹燈牆邊的與會者' },
+  { id: 'apr-speaker-lightshirt', src: '/recap/apr-speaker-lightshirt.jpg', width: 1600, height: 1199, ratio: 1, alt: '四月小聚另一位講者分享中' },
+  { id: 'aug-venue-setup', src: '/recap/aug-venue-setup.jpg', width: 1600, height: 1066, ratio: 1200 / 932, alt: '八月小聚開場前準備就緒的會場' },
 ]
 
 /**
