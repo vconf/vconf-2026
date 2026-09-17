@@ -60,13 +60,13 @@ function unlockBackgroundScroll() {
   isScrollLockedByModal = false
 }
 
-/** 左右各先抓一張，按方向鍵或滑動時不會等圖 */
+/** 燈箱開著時左右兩張就是下一個動作，給 high（目前這張已經 await 完才輪到這裡） */
 function warmNeighbours() {
   for (const step of [1, -1] as const) {
     const neighbour = adjacentRecapPhoto(activePhoto.value, step)
 
     if (neighbour)
-      void preloadRecapPhoto(neighbour, 'low')
+      void preloadRecapPhoto(neighbour, 'high')
   }
 }
 

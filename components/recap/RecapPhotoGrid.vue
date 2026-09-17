@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RecapPhoto } from '~/config/recap'
 import { usePreferredReducedMotion } from '@vueuse/core'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 import { recapGridSize } from '~/composables/useRecapImages'
 import {
   adjacentRecapPhoto,
@@ -32,10 +32,38 @@ function warmPhoto(photo: RecapPhoto) {
 
 let stopWarm: (() => void) | undefined
 
-// 預熱順序＝資料順序：distributeRecapPhotos 每張都丟進當下最矮的欄，
-// 所以照片的 y 本來就是遞增的，資料順序就是畫面由上而下的順序。
-onMounted(() => {
-  stopWarm = warmRecapPhotos(recapPhotos)
+/** 預熱順序＝畫面上看得到的先，再往下（捲動還原過的頁面得從目前這一排接） */
+function warmOrder(): RecapPhoto[] {
+  const items = Array.from(
+    listRef.value?.querySelectorAll<HTMLElement>('[data-recap-item]') ?? [],
+  )
+
+  if (!items.length)
+    return recapPhotos
+
+  const byId = new Map(recapPhotos.map(photo => [photo.id, photo]))
+  const placed = items
+    .map(item => ({
+      photo: byId.get(item.dataset.recapItem ?? ''),
+      rect: item.getBoundingClientRect(),
+    }))
+    .filter((entry): entry is { photo: RecapPhoto, rect: DOMRect } =>
+      Boolean(entry.photo),
+    )
+
+  // 露得到的照 y 遞增；整張在視窗上方的留到最後，離視窗近的先
+  const ahead = placed.filter(entry => entry.rect.bottom > 0)
+  const behind = placed.filter(entry => entry.rect.bottom <= 0)
+
+  return [
+    ...ahead.sort((a, b) => a.rect.top - b.rect.top),
+    ...behind.sort((a, b) => b.rect.top - a.rect.top),
+  ].map(entry => entry.photo)
+}
+
+// 量 y 要等捲動還原完成，跟 reveal 走同一個 gate
+onPageScrollReady(() => {
+  stopWarm = warmRecapPhotos(warmOrder())
 })
 
 let triggers: ScrollTrigger[] = []
@@ -124,7 +152,7 @@ onBeforeUnmount(() => {
             v-for="(photo, photoIndex) in column"
             :key="photo.id"
             :to="`${RECAP_BASE_PATH}/${photo.id}`"
-            data-recap-item
+            :data-recap-item="photo.id"
             class="group block overflow-hidden bg-vconf-gray-ultralight outline-none focus-visible:ring-2 focus-visible:ring-vconf-primary"
             :class="{ grow: photoIndex === column.length - 1 }"
             :style="{ aspectRatio: photo.ratio }"
@@ -140,6 +168,7 @@ onBeforeUnmount(() => {
               :height="recapGridSize(photo).height"
               loading="lazy"
               format="avif,webp"
+              densities="x1"
               class="block size-full object-cover transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.04]"
             />
           </NuxtLink>
