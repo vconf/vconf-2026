@@ -22,8 +22,8 @@ export interface RecapPhoto {
   alt: string
 }
 
-/** Load more 每次再放一批的張數；設計稿 Frame 631 容器高 1083，可見的是 3／3／4 張 */
-export const RECAP_BATCH_SIZE = 10
+/** Load more 指向站外的完整相簿；照片牆本身不分頁，照片一次全出 */
+export const RECAP_MORE_URL = 'https://v-conf-gallery.f110118103.workers.dev/'
 
 /**
  * sitemap 的 lastmod 由人工維護：檔案 mtime 在 CI 上是 clone 時間，不能代表內容更新日。
