@@ -19,7 +19,25 @@ const photoId = computed(() => {
 
   return Array.isArray(value) ? value[0] : value
 })
-const activePhoto = computed(() => findRecapPhoto(photoId.value))
+/**
+ * 燈箱正在看哪一張，由這個本地狀態決定，不是網址。
+ *
+ * 讀網址的話，「現在第幾張」要等 router 導頁完成才更新 —— 導頁還沒結束時再按一次，
+ * 算出來的相鄰照片還是同一張，導到同一個網址，那次按鍵就被吞掉。
+ * 實測連按 12 次 ArrowRight：間隔 200ms 與 80ms 都還跟得上，但 30ms 只走到 10 張。
+ *
+ * 網址仍然會跟上（見 selectPhoto），所以分享、重新整理、上一頁都不受影響。
+ */
+const activeId = ref<string | undefined>()
+watch(
+  photoId,
+  (value) => {
+    activeId.value = value
+  },
+  { immediate: true },
+)
+
+const activePhoto = computed(() => findRecapPhoto(activeId.value))
 const { registerRecapModalImages, preloadRecapPhoto } = useRecapImages()
 
 if (import.meta.server)
@@ -132,10 +150,25 @@ watch(photoId, (value) => {
  * 使用者按返回時預期回到的是列表。
  */
 function selectPhoto(photo: RecapPhoto) {
-  if (photo.id === photoId.value)
+  if (photo.id === activeId.value)
     return
 
-  return navigateTo(`${RECAP_BASE_PATH}/${photo.id}`, { replace: true })
+  // 先換畫面：本地狀態是同步的，連按多快都不會掉
+  activeId.value = photo.id
+
+  /*
+   * 網址用 replaceState 跟上，不走 router。
+   *
+   * 換一張不需要任何伺服器資料 —— 照片清單本來就在 recapPhotos 裡。走 router 只是讓
+   * 每次切換多等一次導頁，而那正是快速連按會掉張的原因。
+   *
+   * history.state 要原封傳回去：router 的捲動位置與返回資訊都存在同一個物件裡。
+   * 用 replace 而不是 push，維持原本「連按十幾張不在上一頁堆十幾筆」的行為。
+   */
+  history.replaceState(history.state, '', `${RECAP_BASE_PATH}/${photo.id}`)
+
+  // 原本靠 watch(photoId) 觸發，現在不導頁了，要自己來
+  warmNeighbours()
 }
 
 function stepPhoto(step: 1 | -1) {
