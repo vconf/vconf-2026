@@ -99,3 +99,30 @@
     letter-spacing: 0.02em;
   }
 }
+
+/**
+ * 花絮照片：縮圖 → 燈箱的形變
+ *
+ * 縮圖與燈箱大圖共用 `view-transition-name: recap-photo`，瀏覽器就知道這兩者是「同一張」，
+ * 自己去補位置、大小與長寬比的差異 —— 不需要寫 keyframe，也不需要量座標。
+ *
+ * 關鍵是**同一時間只能有一個元素叫這個名字**：燈箱接手的瞬間，縮圖必須先把名字讓出來，
+ * 名稱重複的話瀏覽器會直接放棄整個轉場。
+ */
+::view-transition-old(recap-photo),
+::view-transition-new(recap-photo) {
+  animation-duration: 260ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+
+  /* 縮圖是 object-fit: cover、大圖是 contain，讓瀏覽器自己補這段差異 */
+  object-fit: cover;
+}
+
+/**
+ * 形變期間整頁不要跟著淡入淡出：照片在展開、背景又同時在淡，
+ * 看起來會像整頁離場，而使用者的心理模型是「這張照片放大了」。
+ */
+:root[data-view-transition="recap-photo"]::view-transition-old(root),
+:root[data-view-transition="recap-photo"]::view-transition-new(root) {
+  animation: none;
+}

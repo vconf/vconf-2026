@@ -233,8 +233,15 @@ watch(
             :style="{ maxWidth: contentWidth }"
             @click.self="emit('close')"
           >
+            <!--
+              跟照片牆的縮圖共用 `view-transition-name`，瀏覽器才知道這兩者是「同一張」，
+              會做形變而不是把縮圖當成離場的元素淡掉。
+              名字掛在大圖上（而不是舞台）：舞台是 flex 容器、盒子是整個舞台區，
+              形變過去會變成往一大塊空白展開。
+            -->
             <NuxtImg
               v-if="photo && modalSize"
+              :style="{ viewTransitionName: 'recap-photo' }"
               :src="photo.src"
               :alt="photo.alt"
               :width="modalSize.width"
