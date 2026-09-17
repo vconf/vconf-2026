@@ -79,6 +79,25 @@ function unlockBackgroundScroll() {
 }
 
 /** 燈箱開著時左右兩張就是下一個動作，給 high（目前這張已經 await 完才輪到這裡） */
+const transition = useViewTransition()
+
+/**
+ * 把 `view-transition-name` 掛到照片牆上的某一格（或拿掉）。
+ *
+ * 直接操作 DOM 而不是傳狀態進 RecapPhotoGrid：格子上本來就有 `data-recap-item`，
+ * 而這個名字的生命週期完全跟著轉場走 —— 掛上、拍舊快照、讓出、拍新快照，
+ * 前後不到一個 frame，做成響應式狀態反而要多處理「什麼時候該還原」。
+ */
+function setMorphThumb(id: string, on: boolean) {
+  if (!import.meta.client)
+    return
+
+  const el = document.querySelector<HTMLElement>(`[data-recap-item="${id}"]`)
+
+  if (el)
+    el.style.viewTransitionName = on ? 'recap-photo' : ''
+}
+
 function warmNeighbours() {
   for (const step of [1, -1] as const) {
     const neighbour = adjacentRecapPhoto(activePhoto.value, step)
@@ -102,12 +121,24 @@ async function open() {
   if (import.meta.client)
     (document.activeElement as HTMLElement | null)?.blur()
 
+  /*
+   * 大圖一定要在轉場**之前**載好。轉場期間整頁是凍結的靜態快照，
+   * 把圖片下載放進去，畫面就會在那段時間完全不動 —— 那正是「卡頓感」的來源。
+   */
   await preloadRecapPhoto(photo, 'high')
 
   if (request !== openRequest || activePhoto.value !== photo)
     return
 
-  visible.value = true
+  // 舊快照要抓得到被點的那一格，名字得在轉場開始前就掛上去
+  setMorphThumb(photo.id, true)
+
+  await transition(() => {
+    // 燈箱接手這個名字，縮圖必須先讓出來 —— 同名重複瀏覽器會放棄整個轉場
+    setMorphThumb(photo.id, false)
+    visible.value = true
+  })
+
   warmNeighbours()
 }
 
