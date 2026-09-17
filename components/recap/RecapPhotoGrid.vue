@@ -7,6 +7,7 @@ import {
   adjacentRecapPhoto,
   distributeRecapPhotos,
   RECAP_BASE_PATH,
+  RECAP_MORE_URL,
   recapPhotos,
 } from '~/config/recap'
 
@@ -175,14 +176,17 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <!-- TODO(花絮)：Load more 的行為還沒接，先只放版面上的按鈕，目前照片一次全出 -->
+      <!-- Load more 連到站外完整相簿，照片牆本身不分頁 -->
       <div class="flex justify-center pt-6 md:pt-[31px]">
-        <button
-          type="button"
+        <a
+          :href="RECAP_MORE_URL"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="在新視窗開啟完整花絮相簿"
           class="rounded-full border border-vconf-primary bg-vconf-white px-[31px] py-[5px] font-sans text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors hover:bg-vconf-primary hover:text-vconf-white md:px-12 md:py-3 md:text-[21px]"
         >
           Load more
-        </button>
+        </a>
       </div>
     </template>
   </div>
