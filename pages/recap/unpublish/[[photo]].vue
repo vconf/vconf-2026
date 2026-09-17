@@ -98,6 +98,10 @@ async function open() {
   closeRequested.value = false
   lockBackgroundScroll()
 
+  // 先卸掉焦點：燈箱裡按 Esc／左右鍵會讓 Chrome 把 focus-visible 補到剛剛點的那張照片上
+  if (import.meta.client)
+    (document.activeElement as HTMLElement | null)?.blur()
+
   await preloadRecapPhoto(photo, 'high')
 
   if (request !== openRequest || activePhoto.value !== photo)
@@ -193,10 +197,6 @@ async function afterLeave() {
 
   closeRequested.value = false
   unlockBackgroundScroll()
-
-  // 用 Esc 關燈箱算鍵盤操作，focus-visible 會把焦點環留在剛剛那張照片上
-  if (import.meta.client)
-    (document.activeElement as HTMLElement | null)?.blur()
 }
 
 onKeyStroke('Escape', close)
