@@ -10,7 +10,9 @@ import {
 } from '@vueuse/core'
 import { nextTick, ref, watch } from 'vue'
 import {
+  RECAP_STRIP_RATIO,
   recapModalRequest,
+  recapStripWidth,
   recapThumbSize,
 } from '~/composables/useRecapImages'
 
@@ -51,23 +53,31 @@ const modalSize = computed(() =>
 )
 const thumbSize = computed(() => recapThumbSize(viewport.value))
 
-/**
- * 照片寬是「舞台高 × 原圖比例」的流動值；寫死一個數字只有一種視窗齊邊，實測其餘差 47～191px。
- * 基準取稿的 H 變體 3:2，直幅照片置中在同一條寬度裡，換照片時寬度也不跳。
- */
-const STRIP_RATIO = 3 / 2
-const STRIP_MAX_WIDTH = 1600
-
-const { height: stageHeight } = useElementSize(stageRef)
+const { width: stageWidth, height: stageHeight } = useElementSize(stageRef)
 const { top: stageTop } = useElementBounding(stageRef)
 
-/** 手機縮圖列本來就滿版，維持 CSS 的 w-full */
-const contentWidth = computed(() => {
-  if (!isDesktop.value || !stageHeight.value)
-    return undefined
+/** 舞台比例；還沒量到就用推導值，開燈箱時才不會閃一下（手機一律寬受限） */
+const stageRatio = computed(() =>
+  stageWidth.value && stageHeight.value
+    ? stageWidth.value / stageHeight.value
+    : isDesktop.value
+      ? RECAP_STRIP_RATIO
+      : 0,
+)
 
-  return `${Math.min(STRIP_MAX_WIDTH, Math.round(stageHeight.value * STRIP_RATIO))}px`
-})
+/** 顯示尺寸交給舞台，不能讓圖片的 natural size 決定（Vercel 的寬度級距會把它縮成 768） */
+const fitClass = computed(() =>
+  !props.photo || props.photo.width / props.photo.height >= stageRatio.value
+    ? 'h-auto w-full'
+    : 'h-full w-auto',
+)
+
+/** 手機縮圖列本來就滿版，維持 CSS 的 w-full */
+const contentWidth = computed(() =>
+  isDesktop.value && stageHeight.value
+    ? `${recapStripWidth(stageHeight.value)}px`
+    : undefined,
+)
 
 /**
  * 稿上叉叉在內容塊上方 35px（y 42 對內容頂端 77.47），不是釘在視窗上緣。
@@ -216,11 +226,10 @@ watch(
           @click.self="emit('close')"
         >
           <!-- 大圖 -->
-          <!-- 桌機 flex-1 讓舞台吃滿高度、items-end 貼齊底部，跟縮圖列的距離恆等於 gap 24 -->
-          <!-- 手機不長高：3:2 照片只有 402x268，撐滿 536 會在上方堆 221px 空白（338 = py 256 + gap 32 + 縮圖列 50） -->
+          <!-- 舞台高度只跟視窗走，換照片時縮圖列才不會位移；桌機貼底、手機置中 -->
           <div
             ref="stageRef"
-            class="flex max-h-[536px] min-h-0 w-full max-w-[1200px] items-end justify-center md:max-h-[1066px] md:flex-1"
+            class="flex max-h-[536px] min-h-0 w-full flex-1 items-center justify-center md:max-h-[1066px] md:max-w-[1600px] md:items-end"
             :style="{ maxWidth: contentWidth }"
             @click.self="emit('close')"
           >
@@ -232,7 +241,9 @@ watch(
               :height="modalSize.height"
               loading="eager"
               format="avif,webp"
-              class="max-h-[min(536px,calc(100svh-338px))] w-auto max-w-full select-none object-contain md:max-h-full"
+              densities="x1"
+              class="max-h-full max-w-full select-none object-contain"
+              :class="fitClass"
             />
           </div>
 
@@ -241,7 +252,7 @@ watch(
             v-if="photos.length > 1"
             ref="thumbsRef"
             :style="{ maxWidth: contentWidth }"
-            class="-mb-1.5 w-full max-w-[1200px] shrink-0 overflow-x-auto overscroll-x-contain scrollbar scrollbar-track-white/20 scrollbar-thumb-white/60 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-h-1.5 md:-mb-2.5 md:scrollbar-h-2.5"
+            class="-mb-1.5 w-full shrink-0 overflow-x-auto overscroll-x-contain scrollbar scrollbar-track-white/20 scrollbar-thumb-white/60 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-h-1.5 md:-mb-2.5 md:max-w-[1600px] md:scrollbar-h-2.5"
             data-lenis-prevent
           >
             <ul class="flex w-max gap-2">

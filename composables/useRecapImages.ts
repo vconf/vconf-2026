@@ -23,11 +23,19 @@ const THUMB_SIZE: Record<Viewport, { width: number, height: number }> = {
   desktop: { width: 100, height: 100 },
 }
 
-/** 縮圖列鎖在稿的 H 變體，與 RecapPhotoModal 的 STRIP_RATIO 同一個值 */
-const STRIP_RATIO = 3 / 2
+/** 縮圖列鎖在稿的 H 變體：桌機的舞台寬＝舞台高 × 這個比例 */
+export const RECAP_STRIP_RATIO = 3 / 2
 
-/** 舞台外固定吃掉的高度：縮圖列 + gap − 捲軸負 margin（手機 50+32−6，桌機 100+24−10） */
-const STAGE_CHROME: Record<Viewport, number> = { mobile: 76, desktop: 114 }
+/** 桌機縮圖列與舞台的寬度；上限就是 MODAL_BOX 的寬，兩邊共用同一個算式 */
+export function recapStripWidth(stageHeight: number) {
+  return Math.min(
+    MODAL_BOX.desktop.width,
+    Math.round(stageHeight * RECAP_STRIP_RATIO),
+  )
+}
+
+/** 舞台外固定吃掉的高度：gap + 縮圖列（捲軸的 6／10 已被同大小的負 margin 抵掉） */
+const STAGE_CHROME: Record<Viewport, number> = { mobile: 82, desktop: 124 }
 
 /** 轉檔尺寸的級距，每一階都對應真實裝置：手機 1x/2x、筆電 1x/2x、5K 1x/2x */
 const MODAL_WIDTH_STEPS = [480, 960, 1500, 2200, 3200]
@@ -52,13 +60,13 @@ function recapStageHeight(viewport: Viewport, viewportHeight: number) {
 
 /**
  * 這張照片在這個視窗會顯示多寬（CSS px）。寬度由舞台高度決定，
- * 比 3:2 更寬的照片會被縮圖列的寬度切齊，所以取 min(STRIP_RATIO, 自己的比例)。
+ * 比 3:2 更寬的照片會被縮圖列的寬度切齊，所以取 min(RECAP_STRIP_RATIO, 自己的比例)。
  */
 function recapPhotoCssWidth(photo: RecapPhoto, viewport: Viewport, viewportHeight: number) {
   const ratio = photo.width / photo.height
   const stage = recapStageHeight(viewport, viewportHeight)
 
-  return Math.min(MODAL_BOX[viewport].width, stage * Math.min(STRIP_RATIO, ratio))
+  return Math.min(MODAL_BOX[viewport].width, stage * Math.min(RECAP_STRIP_RATIO, ratio))
 }
 
 /** 級距取「蓋得住需求的最小一階」，並且不超過來源本身，永遠不放大 */
