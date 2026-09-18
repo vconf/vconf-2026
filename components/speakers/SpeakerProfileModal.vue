@@ -2,11 +2,7 @@
 import type { SpeakersCollectionItem } from '@nuxt/content'
 import { useMediaQuery } from '@vueuse/core'
 import SpeakerProfileSection from '~/components/speakers/SpeakerProfileSection.vue'
-import {
-  socialLinkAriaLabel,
-  speakerPhoto,
-  withDuplicateIconTips,
-} from '~/utils/agenda'
+import { socialLinkAriaLabel, speakerPhoto } from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
@@ -23,6 +19,8 @@ const speakerLinkIcons = [
   { label: 'GitHub', icon: '/agenda/github-icon.svg' },
   { label: '希望宣傳連結', icon: '/agenda/website-icon.svg' },
   { label: '個人網站', icon: '/agenda/website-icon.svg' },
+  { label: '作品網站', icon: '/agenda/portfolio-icon.svg' },
+  { label: '書籍', icon: '/agenda/book-icon.svg' },
   { label: 'X', icon: '/agenda/x.svg' },
   { label: 'FB', icon: '/agenda/fb.svg' },
   { label: 'thread', icon: '/agenda/thread.svg' },
@@ -33,13 +31,11 @@ const socialLinks = computed(() => {
   if (!props.speaker)
     return []
 
-  // 同一個 label 可能有多筆（例如兩個希望宣傳連結），全部都要顯示
-  return withDuplicateIconTips(
-    speakerLinkIcons.flatMap(iconConfig =>
-      (props.speaker?.links ?? [])
-        .filter(item => item.label === iconConfig.label)
-        .map(link => ({ ...link, ...iconConfig })),
-    ),
+  // 同一個 label 可能有多筆，全部都要顯示
+  return speakerLinkIcons.flatMap(iconConfig =>
+    (props.speaker?.links ?? [])
+      .filter(item => item.label === iconConfig.label)
+      .map(link => ({ ...link, ...iconConfig })),
   )
 })
 </script>
@@ -198,31 +194,29 @@ const socialLinks = computed(() => {
 
                       <ul
                         v-if="socialLinks.length"
-                        class="ml-auto flex shrink-0 items-center gap-4"
+                        class="ml-auto flex shrink-0 items-center gap-3 md:gap-4"
                       >
                         <li
                           v-for="link in socialLinks"
                           :key="`${link.label}-${link.href}`"
                           class="shrink-0"
                         >
-                          <ShareTooltip :text="link.tip">
-                            <a
-                              :href="link.href"
-                              :aria-label="socialLinkAriaLabel(link)"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              class="block size-6"
-                            >
-                              <NuxtImg
-                                :src="link.icon"
-                                width="24"
-                                height="24"
-                                alt=""
-                                aria-hidden="true"
-                                class="block size-full object-contain"
-                              />
-                            </a>
-                          </ShareTooltip>
+                          <a
+                            :href="link.href"
+                            :aria-label="socialLinkAriaLabel(link)"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="block size-6"
+                          >
+                            <NuxtImg
+                              :src="link.icon"
+                              width="24"
+                              height="24"
+                              alt=""
+                              aria-hidden="true"
+                              class="block size-full object-contain"
+                            />
+                          </a>
                         </li>
                       </ul>
                     </div>

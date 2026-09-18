@@ -5,7 +5,6 @@ import {
   isContentSpeaker,
   socialLinkAriaLabel,
   speakerPhoto,
-  withDuplicateIconTips,
 } from '~/utils/agenda'
 
 const props = defineProps<{
@@ -40,6 +39,22 @@ const speakerLinkIcons = [
   {
     label: '個人網站',
     icon: '/agenda/website-icon.svg',
+    width: 28,
+    height: 28,
+    mobileWidth: 24,
+    mobileHeight: 24,
+  },
+  {
+    label: '作品網站',
+    icon: '/agenda/portfolio-icon.svg',
+    width: 28,
+    height: 28,
+    mobileWidth: 24,
+    mobileHeight: 24,
+  },
+  {
+    label: '書籍',
+    icon: '/agenda/book-icon.svg',
     width: 28,
     height: 28,
     mobileWidth: 24,
@@ -111,12 +126,10 @@ const speakerSocialLinks = computed(() => {
   if (!speakerDetails.value)
     return []
 
-  return withDuplicateIconTips(
-    speakerLinkIcons.flatMap(iconConfig =>
-      (speakerDetails.value?.links ?? [])
-        .filter(item => item.label === iconConfig.label)
-        .map(link => ({ ...link, ...iconConfig })),
-    ),
+  return speakerLinkIcons.flatMap(iconConfig =>
+    (speakerDetails.value?.links ?? [])
+      .filter(item => item.label === iconConfig.label)
+      .map(link => ({ ...link, ...iconConfig })),
   )
 })
 </script>
@@ -296,37 +309,35 @@ const speakerSocialLinks = computed(() => {
 
                       <ul
                         v-if="speakerSocialLinks.length"
-                        class="mt-5 flex items-start justify-end gap-4"
+                        class="mt-5 flex items-start justify-end gap-3 md:gap-4"
                       >
                         <li
                           v-for="link in speakerSocialLinks"
                           :key="`${link.label}-${link.href}`"
                         >
-                          <ShareTooltip :text="link.tip">
-                            <a
-                              :href="link.href"
-                              :aria-label="socialLinkAriaLabel(link)"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              class="block"
-                              data-social-link-icon
-                              :style="{
-                                '--social-icon-width': `${link.mobileWidth}px`,
-                                '--social-icon-height': `${link.mobileHeight}px`,
-                                '--social-icon-md-width': `${link.width}px`,
-                                '--social-icon-md-height': `${link.height}px`,
-                              }"
-                            >
-                              <NuxtImg
-                                :src="link.icon"
-                                :width="link.width"
-                                :height="link.height"
-                                alt=""
-                                aria-hidden="true"
-                                class="block size-full object-contain"
-                              />
-                            </a>
-                          </ShareTooltip>
+                          <a
+                            :href="link.href"
+                            :aria-label="socialLinkAriaLabel(link)"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="block"
+                            data-social-link-icon
+                            :style="{
+                              '--social-icon-width': `${link.mobileWidth}px`,
+                              '--social-icon-height': `${link.mobileHeight}px`,
+                              '--social-icon-md-width': `${link.width}px`,
+                              '--social-icon-md-height': `${link.height}px`,
+                            }"
+                          >
+                            <NuxtImg
+                              :src="link.icon"
+                              :width="link.width"
+                              :height="link.height"
+                              alt=""
+                              aria-hidden="true"
+                              class="block size-full object-contain"
+                            />
+                          </a>
                         </li>
                       </ul>
                     </aside>
