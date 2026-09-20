@@ -19,8 +19,8 @@ links:
 talkNumber: 6
 talkSlug: kuro
 topic: 現在大家都用 AI 開發了，我們還需要學 Vue 嗎？
-startTime: "15:15"
-endTime: "16:00"
+startTime: "15:25"
+endTime: "16:10"
 noteUrl: https://hackmd.io/@vconf-conference/Hk6PwU4uGe
 ---
 

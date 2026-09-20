@@ -86,6 +86,7 @@ export function createAgendaItems(
   )
 
   return [
+    { type: 'break', time: '09:20', label: '開幕致詞', theme: 'primary' },
     talkByNumber.get(1)
     ?? placeholderTalk(1, '09:30', '10:15', 'evan-you', 'Evan You'),
     { type: 'break', time: '10:15', label: '休息一下', theme: 'gray' },
@@ -102,8 +103,8 @@ export function createAgendaItems(
     ?? placeholderTalk(5, '14:15', '15:00', 'ray', 'Ray'),
     { type: 'break', time: '15:00', label: '點心', theme: 'purple' },
     talkByNumber.get(6)
-    ?? placeholderTalk(6, '15:15', '16:00', 'kuro', 'Kuro'),
-    { type: 'break', time: '16:00', label: '閉幕', theme: 'primary' },
+    ?? placeholderTalk(6, '15:25', '16:10', 'kuro', 'Kuro'),
+    { type: 'break', time: '16:10', label: '閉幕', theme: 'primary' },
   ]
 }
 
