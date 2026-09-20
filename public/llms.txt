@@ -82,6 +82,7 @@ Do not invent or infer unavailable information from unrelated pages.
 The agenda is a single track on 2026-10-17, all times in UTC+8.
 Each talk is a modal route under `/agenda` and contains the talk abstract; the same talk is also described on the speaker page under `/speakers`.
 
+- 09:20–09:30 開幕致詞 (opening)
 - [09:30–10:15 Talk 1](https://v-conf.vue.tw/agenda/evan-you) — Evan You「TBD」
 - 10:15–10:30 休息一下 (break)
 - [10:30–11:15 Talk 2](https://v-conf.vue.tw/agenda/serko) — SerKo「Vue Language Tools 新手入門」
@@ -91,9 +92,9 @@ Each talk is a modal route under `/agenda` and contains the talk abstract; the s
 - [13:15–14:00 Talk 4](https://v-conf.vue.tw/agenda/kuku) — kuku「Trust and Verify：用工程方法探索 Vue 更新的價值」
 - 14:00–14:15 休息一下 (break)
 - [14:15–15:00 Talk 5](https://v-conf.vue.tw/agenda/ray) — Ray「打造 AI 無法取代的我」
-- 15:00–15:15 點心 (refreshments)
-- [15:15–16:00 Talk 6](https://v-conf.vue.tw/agenda/kuro) — Kuro Hsu「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」
-- 16:00 閉幕 (closing)
+- 15:00–15:25 點心 (refreshments)
+- [15:25–16:10 Talk 6](https://v-conf.vue.tw/agenda/kuro) — Kuro Hsu「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」
+- 16:10–16:30 閉幕 (closing)
 
 ## Speakers
 
@@ -104,7 +105,7 @@ Each speaker page is a modal route under `/speakers` and contains the speaker bi
 - [Hunter Liu](https://v-conf.vue.tw/speakers/hunter): Tech Lead, Colorful Casting — Talk 3, 11:30–12:15「套件打包實戰：以 tsdown 重新打包 vue-final-modal」
 - [kuku](https://v-conf.vue.tw/speakers/kuku): 前端工程師 — Talk 4, 13:15–14:00「Trust and Verify：用工程方法探索 Vue 更新的價值」
 - [Ray](https://v-conf.vue.tw/speakers/ray): 資深軟體工程師, 六角學院 — Talk 5, 14:15–15:00「打造 AI 無法取代的我」
-- [Kuro Hsu](https://v-conf.vue.tw/speakers/kuro): Community Organizer, Vue.js Taiwan — Talk 6, 15:15–16:00「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」
+- [Kuro Hsu](https://v-conf.vue.tw/speakers/kuro): Community Organizer, Vue.js Taiwan — Talk 6, 15:25–16:10「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」
 
 ## Team
 
@@ -142,4 +143,4 @@ Members without a listed company did not disclose one; do not infer an employer.
 
 - [Google Maps](https://www.google.com/maps/search/?api=1&query=臺北市大安區金華街187號): Venue map
 
-Generated at: 2026-08-31T00:00:00+08:00
+Generated at: 2026-09-21T00:00:00+08:00
