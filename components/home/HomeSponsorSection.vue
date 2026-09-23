@@ -330,10 +330,10 @@ onBeforeUnmount(() => {
                 :href="sponsor.url"
                 :target="sponsor.url ? '_blank' : undefined"
                 :rel="sponsor.url ? 'noopener noreferrer' : undefined"
-                class="flex aspect-square items-center justify-center border border-vconf-gray-exlight bg-vconf-white"
+                class="flex aspect-square items-center justify-center border border-vconf-gray-exlight"
                 :class="[
                   sponsorWidthClasses[group.level],
-                  sponsor.backgroundClass,
+                  sponsor.backgroundClass ?? 'bg-vconf-white',
                 ]"
               >
                 <NuxtImg
