@@ -69,7 +69,7 @@
     --foreground: 0 0% 98%;
     --border: 151 30% 24%;
     --text-muted: 153.3 47.8% 48.8%; /* 導覽連結：green */
-    --color-surface: 0 0% 0%; /* 彈窗面板 #000 */
+    --color-surface: 230.5 82.6% 4.5%; /* 彈窗面板：blue-deep #020515 */
     --color-primary-light: 153.3 47.8% 48.8%; /* 休息時段 primary → green */
     --color-purple-ultralight: 262.9 65.4% 30.6%; /* 休息時段 purple → #421B81 */
     --color-sun: 0 0% 89% / 0.5;
