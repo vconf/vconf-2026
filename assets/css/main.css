@@ -33,10 +33,10 @@
     --border: 0 0% 89.8%;
     --text-muted: 0 0% 34%;
     --color-surface: 0 0% 100%; /* 彈窗面板 */
-    --color-primary: 153 48% 49%;
+    --color-primary: 153.3 47.8% 48.8%;
     --color-primary-light: 151 79% 89%; /* #CBF9E3 */
     --color-green-light: 154 65% 51%; /* #32D38C */
-    --color-purple: 263 100% 62%;
+    --color-purple: 263 100% 61.6%;
     --color-purple-ultralight: 263 100% 97%; /* #F6F0FF */
     --color-sun: 56 94% 59%;
     --color-sun-background: 0 0% 100%;
@@ -44,15 +44,15 @@
     --color-moon-background: 0 0% 100%;
     --color-moon-border: 0 0% 89%;
     --color-theme-toggle-bg: 0 0% 100% / 0.5;
-    --color-heading: 210 26% 28%; /* blue-dark */
-    --color-text-unread: 0 0% 79%; /* gray-light */
-    --color-text-read: 210 26% 28%; /* blue-dark */
+    --color-heading: 210 28.8% 28.6%; /* blue-dark */
+    --color-text-unread: 0 0% 79.2%; /* gray-light */
+    --color-text-read: 210 28.8% 28.6%; /* blue-dark */
     --color-text-body: 0 0% 0%; /* 講者／成員簡介 */
-    --color-card-border: 0 0% 79%; /* 議程卡外框 */
+    --color-card-border: 0 0% 79.2%; /* 議程卡外框 */
     --color-nav-underline: 0 0% 0%;
     --color-gray-exlight: 0 0% 94.5%; /* gray-exlight */
     --color-gray-ultralight: 0 0% 98%;
-    --color-gray-light: 0 0% 79%;
+    --color-gray-light: 0 0% 79.2%;
     --color-section-bg: 0 0% 100%;
     --gradient-gold: linear-gradient(
       to bottom,
@@ -65,26 +65,26 @@
   }
 
   .dark {
-    --background: 231 83% 5%; /* blue-deep #020515 */
+    --background: 230.5 82.6% 4.5%; /* blue-deep #020515 */
     --foreground: 0 0% 98%;
     --border: 151 30% 24%;
-    --text-muted: 153 48% 49%; /* 導覽連結：green */
+    --text-muted: 153.3 47.8% 48.8%; /* 導覽連結：green */
     --color-surface: 0 0% 0%; /* 彈窗面板 #000 */
-    --color-primary-light: 153 48% 49%; /* 休息時段 primary → green */
-    --color-purple-ultralight: 263 65% 31%; /* 休息時段 purple → #421B81 */
+    --color-primary-light: 153.3 47.8% 48.8%; /* 休息時段 primary → green */
+    --color-purple-ultralight: 262.9 65.4% 30.6%; /* 休息時段 purple → #421B81 */
     --color-sun: 0 0% 89% / 0.5;
     --color-sun-background: 0 0% 0%;
     --color-moon: 36 100% 72%;
     --color-moon-background: 260 67% 43%;
     --color-moon-border: 261 67% 42%;
     --color-heading: 0 0% 100%; /* wh */
-    --color-text-unread: 210 26% 28%; /* blue-dark */
+    --color-text-unread: 210 28.8% 28.6%; /* blue-dark */
     --color-text-read: 0 0% 94.5%; /* gray-exlight */
     --color-text-body: 0 0% 94.5%; /* gray-exlight */
-    --color-card-border: 210 26% 28%; /* blue-dark */
-    --color-nav-underline: 153 48% 49%;
-    --color-gray-ultralight: 0 0% 41%; /* 休息時段 gray → #686868 */
-    --color-section-bg: 231 83% 5%; /* 與頁面底色相同 */
+    --color-card-border: 210 28.8% 28.6%; /* blue-dark */
+    --color-nav-underline: 153.3 47.8% 48.8%;
+    --color-gray-ultralight: 0 0% 40.8%; /* 休息時段 gray → #686868 */
+    --color-section-bg: 230.5 82.6% 4.5%; /* 與頁面底色相同 */
   }
 }
 
