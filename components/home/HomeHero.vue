@@ -57,7 +57,7 @@ const heroBrandSize = {
     />
 
     <Teleport to="body">
-      <ShareThemeToggle class="left-[17px] top-[166px]" />
+      <ShareThemeToggle />
     </Teleport>
   </section>
 </template>

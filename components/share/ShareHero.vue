@@ -16,7 +16,7 @@ withDefaults(
   >
     <!-- 切換按鈕：跟背景層一樣掛到 body，換頁時頁面的 transform 會把它壓到 z-30 背景底下 -->
     <Teleport to="body">
-      <ShareThemeToggle class="left-[17px] top-[166px] z-40" />
+      <ShareThemeToggle class="z-40" />
     </Teleport>
     <h1
       class="relative z-40 flex justify-center font-sans font-semibold leading-[1] text-vconf-primary"
