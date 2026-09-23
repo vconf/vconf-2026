@@ -61,7 +61,15 @@ useSeoMeta({
         alt="v-conf Taiwan 2026"
         loading="eager"
         src="/coming-soon/logo-large.svg"
-        class="mb-[5px] hidden md:block"
+        class="mb-[5px] hidden md:block dark:md:hidden"
+      />
+      <NuxtImg
+        width="362"
+        height="182"
+        alt="v-conf Taiwan 2026"
+        loading="eager"
+        src="/coming-soon/logo-large-dark.svg"
+        class="mb-[5px] hidden dark:md:block"
       />
       <NuxtImg
         width="265"
@@ -69,7 +77,15 @@ useSeoMeta({
         alt="v-conf Taiwan 2026"
         loading="eager"
         src="/coming-soon/logo-small.svg"
-        class="mb-[8px] block md:hidden"
+        class="mb-[8px] block dark:hidden md:hidden"
+      />
+      <NuxtImg
+        width="265"
+        height="134"
+        alt="v-conf Taiwan 2026"
+        loading="eager"
+        src="/coming-soon/logo-small-dark.svg"
+        class="mb-[8px] hidden dark:block dark:md:hidden"
       />
       <!-- 404 圖片區塊 -->
       <NuxtImg

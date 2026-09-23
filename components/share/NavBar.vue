@@ -89,7 +89,11 @@ onKeyStroke('Escape', closeMenu)
 <template>
   <header
     class="sticky top-0 z-50 transition-[backdrop-filter] duration-300"
-    :class="isGlass ? 'bg-white/20 backdrop-blur-[5px]' : headerBgClass"
+    :class="
+      isGlass
+        ? 'bg-white/20 backdrop-blur-[5px] dark:bg-vconf-background/60'
+        : headerBgClass
+    "
   >
     <div class="container">
       <nav
@@ -102,6 +106,7 @@ onKeyStroke('Escape', closeMenu)
           aria-label="回到 v-conf Taiwan 2026 首頁"
           @click="closeMenu()"
         >
+          <!-- light / dark 用 class 切換，不用 colorMode：SSR 不知道使用者選了哪個模式 -->
           <NuxtImg
             src="/share/nav-logo-md.svg"
             alt=""
@@ -109,7 +114,16 @@ onKeyStroke('Escape', closeMenu)
             height="38"
             width="220"
             loading="eager"
-            class="hidden md:block"
+            class="hidden md:block dark:md:hidden"
+          />
+          <NuxtImg
+            src="/share/nav-logo-md-dark.svg"
+            alt=""
+            aria-hidden="true"
+            height="38"
+            width="220"
+            loading="eager"
+            class="hidden dark:md:block"
           />
           <NuxtImg
             src="/share/nav-logo-sm.svg"
@@ -118,7 +132,16 @@ onKeyStroke('Escape', closeMenu)
             height="19"
             width="110"
             loading="eager"
-            class="md:hidden"
+            class="dark:hidden md:hidden"
+          />
+          <NuxtImg
+            src="/share/nav-logo-sm-dark.svg"
+            alt=""
+            aria-hidden="true"
+            height="19"
+            width="110"
+            loading="eager"
+            class="hidden dark:block dark:md:hidden"
           />
         </NuxtLink>
 
