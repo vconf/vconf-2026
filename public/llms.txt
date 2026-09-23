@@ -83,7 +83,7 @@ The agenda is a single track on 2026-10-17, all times in UTC+8.
 Each talk is a modal route under `/agenda` and contains the talk abstract; the same talk is also described on the speaker page under `/speakers`.
 
 - 09:20–09:30 開幕致詞 (opening)
-- [09:30–10:15 Talk 1](https://v-conf.vue.tw/agenda/evan-you) — Evan You「TBD」
+- [09:30–10:15 Talk 1](https://v-conf.vue.tw/agenda/evan-you) — Evan You「V 生態最新進展及未來展望」
 - 10:15–10:30 休息一下 (break)
 - [10:30–11:15 Talk 2](https://v-conf.vue.tw/agenda/serko) — SerKo「Vue Language Tools 新手入門」
 - 11:15–11:30 休息一下 (break)
@@ -100,7 +100,7 @@ Each talk is a modal route under `/agenda` and contains the talk abstract; the s
 
 Each speaker page is a modal route under `/speakers` and contains the speaker biography, talk title, talk time and talk abstract.
 
-- [Evan You](https://v-conf.vue.tw/speakers/evan-you): 創始人, VoidZero — Talk 1, 09:30–10:15「TBD」
+- [Evan You](https://v-conf.vue.tw/speakers/evan-you): 創始人, VoidZero — Talk 1, 09:30–10:15「V 生態最新進展及未來展望」
 - [SerKo](https://v-conf.vue.tw/speakers/serko): 開源貢獻者 — Talk 2, 10:30–11:15「Vue Language Tools 新手入門」
 - [Hunter Liu](https://v-conf.vue.tw/speakers/hunter): Tech Lead, Colorful Casting — Talk 3, 11:30–12:15「套件打包實戰：以 tsdown 重新打包 vue-final-modal」
 - [kuku](https://v-conf.vue.tw/speakers/kuku): 前端工程師 — Talk 4, 13:15–14:00「Trust and Verify：用工程方法探索 Vue 更新的價值」
@@ -143,4 +143,4 @@ Members without a listed company did not disclose one; do not infer an employer.
 
 - [Google Maps](https://www.google.com/maps/search/?api=1&query=臺北市大安區金華街187號): Venue map
 
-Generated at: 2026-09-21T00:00:00+08:00
+Generated at: 2026-09-23T00:00:00+08:00
