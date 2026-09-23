@@ -17,9 +17,10 @@ function warmMember(member: TeamPhotoSource) {
   void preloadTeamModal(member, 'high')
 }
 
-// 頭像與「無照片遞補方塊」共用的外觀
+// 頭像外框：外框線用蓋在照片上的 inset 陰影，不直接畫在 img 上，
+// 否則框線與照片裁切各自反鋸齒，深色底在 1x 螢幕會變成斷續的虛線
 const avatarClass
-  = 'mb-[10px] aspect-square w-full rounded-[42%] border border-vconf-gray-light object-cover shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-300 ease-out [transform:translateZ(0)] group-hover:shadow-[0_18px_35px_rgba(0,0,0,0.12)] motion-safe:group-hover:[transform:translateZ(18px)] md:rounded-[38%]'
+  = 'relative mb-[10px] aspect-square w-full rounded-[42%] shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-300 ease-out [transform:translateZ(0)] group-hover:shadow-[0_18px_35px_rgba(0,0,0,0.12)] motion-safe:group-hover:[transform:translateZ(18px)] md:rounded-[38%]'
 
 let timelines: Array<ReturnType<typeof gsap.timeline>> = []
 
@@ -212,26 +213,31 @@ function onLeave(event: MouseEvent) {
               class="flex flex-col items-center [transform-style:preserve-3d]"
             >
               <!-- 頭像（hover 時往前浮 + 陰影加深） -->
-              <NuxtImg
-                v-if="member.avatar"
-                :src="member.avatar"
-                placeholder
-                :alt="`${member.name}（${member.jobTitle}）頭像`"
-                width="211"
-                height="211"
-                loading="lazy"
-                format="avif,webp"
-                densities="x1 x2"
-                :class="avatarClass"
-              />
-              <!-- 尚未提供照片：以名稱首字遞補，維持卡片版型 -->
-              <div
-                v-else
-                aria-hidden="true"
-                class="flex items-center justify-center bg-vconf-gray-ultralight font-serif text-[48px] font-bold text-vconf-gray-light md:text-[64px]"
-                :class="avatarClass"
-              >
-                {{ member.name.charAt(0) }}
+              <div :class="avatarClass">
+                <NuxtImg
+                  v-if="member.avatar"
+                  :src="member.avatar"
+                  placeholder
+                  :alt="`${member.name}（${member.jobTitle}）頭像`"
+                  width="211"
+                  height="211"
+                  loading="lazy"
+                  format="avif,webp"
+                  densities="x1 x2"
+                  class="size-full rounded-[inherit] object-cover"
+                />
+                <!-- 尚未提供照片：以名稱首字遞補，維持卡片版型 -->
+                <div
+                  v-else
+                  aria-hidden="true"
+                  class="flex size-full items-center justify-center rounded-[inherit] bg-vconf-gray-ultralight font-serif text-[48px] font-bold text-vconf-gray-light md:text-[64px]"
+                >
+                  {{ member.name.charAt(0) }}
+                </div>
+                <span
+                  aria-hidden="true"
+                  class="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_hsl(var(--color-gray-light))]"
+                ></span>
               </div>
               <!-- 成員名稱 -->
               <p
