@@ -330,7 +330,7 @@ onBeforeUnmount(() => {
                 :href="sponsor.url"
                 :target="sponsor.url ? '_blank' : undefined"
                 :rel="sponsor.url ? 'noopener noreferrer' : undefined"
-                class="flex aspect-square items-center justify-center border border-vconf-gray-exlight"
+                class="flex aspect-square items-center justify-center border border-vconf-gray-exlight dark:border-transparent"
                 :class="[
                   sponsorWidthClasses[group.level],
                   sponsor.backgroundClass ?? 'bg-vconf-white',
