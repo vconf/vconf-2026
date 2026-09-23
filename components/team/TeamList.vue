@@ -224,7 +224,7 @@ function onLeave(event: MouseEvent) {
                   loading="lazy"
                   format="avif,webp"
                   densities="x1 x2"
-                  class="size-full rounded-[inherit] object-cover"
+                  class="absolute inset-0 size-full rounded-[inherit] object-cover"
                 />
                 <!-- 尚未提供照片：以名稱首字遞補，維持卡片版型 -->
                 <div
