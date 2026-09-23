@@ -51,7 +51,15 @@
         alt="v-conf Taiwan 2026"
         loading="eager"
         src="/coming-soon/logo-large.svg"
-        class="mb-4 hidden md:block"
+        class="mb-4 hidden md:block dark:md:hidden"
+      />
+      <NuxtImg
+        width="362"
+        height="182"
+        alt="v-conf Taiwan 2026"
+        loading="eager"
+        src="/coming-soon/logo-large-dark.svg"
+        class="mb-4 hidden dark:md:block"
       />
       <NuxtImg
         width="265"
@@ -59,7 +67,15 @@
         alt="v-conf Taiwan 2026"
         loading="eager"
         src="/coming-soon/logo-small.svg"
-        class="mb-2 block md:hidden"
+        class="mb-2 block dark:hidden md:hidden"
+      />
+      <NuxtImg
+        width="265"
+        height="134"
+        alt="v-conf Taiwan 2026"
+        loading="eager"
+        src="/coming-soon/logo-small-dark.svg"
+        class="mb-2 hidden dark:block dark:md:hidden"
       />
       <!-- 建置圖片 -->
       <NuxtImg

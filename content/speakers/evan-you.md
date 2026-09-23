@@ -23,7 +23,9 @@ links:
     text: github.com/yyx990803
 talkNumber: 1
 talkSlug: evan-you
-topic: TBD
+topic: V 生態最新進展及未來展望
 startTime: "09:30"
 endTime: "10:15"
 ---
+
+本次演講會與大家分享 Vue / Vite / VoidZero 生態的最新進展，以及在 AI 背景下對於框架、開發工具，以及開源生態未來變化的一些思考和探討。

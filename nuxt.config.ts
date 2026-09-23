@@ -8,6 +8,12 @@ import { contentSitemapUrls } from './config/content-routes'
 import { prerenderConfig } from './config/prerender.config'
 import { site, sitemap } from './config/seo.config'
 
+const COLOR_MODE_STORAGE_KEY = 'vconf-color-mode'
+
+// 每次進站先隨機寫入 light / dark，color-mode 的 inline script 接著讀它，所以畫面出來前就定好、不會閃。
+// 切換按鈕同樣寫這個 key，只影響這次瀏覽；下次進站會再重抽。
+const randomColorModeScript = `try{localStorage.setItem('${COLOR_MODE_STORAGE_KEY}',Math.random()<0.5?'light':'dark')}catch(e){}`
+
 const svgoConfig: SvgoConfig = {
   multipass: true,
   plugins: [
@@ -93,7 +99,7 @@ export default defineNuxtConfig({
     classSuffix: '',
     preference: 'light',
     fallback: 'light',
-    storageKey: 'vconf-color-mode',
+    storageKey: COLOR_MODE_STORAGE_KEY,
   },
 
   fonts: {
@@ -201,6 +207,9 @@ export default defineNuxtConfig({
     head: {
       meta: [
         { name: 'color-scheme', content: 'light dark' },
+      ],
+      script: [
+        { key: 'vconf-random-color-mode', innerHTML: randomColorModeScript, tagPriority: 'critical' },
       ],
       link: [
         {

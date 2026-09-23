@@ -1,19 +1,24 @@
 <script setup lang="ts">
-const colorMode = useColorMode()
-const isDark = computed(() => colorMode.value === 'dark')
+// light / dark 兩組都輸出、用 dark: class 切換；SSR 不知道使用者選的模式，
+// 改用 colorMode 決定 srcset 會在 dark 下 hydration mismatch。
+const heroBrands = [
+  {
+    mode: 'light',
+    class: 'dark:hidden',
+    desktopSrc: '/home/hero-logo-md.svg',
+    mobileSrc: '/about/hero-logo-sm.svg',
+  },
+  {
+    mode: 'dark',
+    class: 'hidden dark:block',
+    desktopSrc: '/about/hero-logo-dark-md.svg',
+    mobileSrc: '/about/hero-logo-dark-sm.svg',
+  },
+] as const
 
-const heroBrand = {
-  desktop: {
-    lightSrc: '/home/hero-logo-md.svg',
-    darkSrc: '/about/hero-logo-dark-md.svg',
-    width: 455,
-    height: 230,
-  },
-  mobile: {
-    src: '/about/hero-logo-sm.svg',
-    width: 264,
-    height: 133,
-  },
+const heroBrandSize = {
+  desktop: { width: 455, height: 230 },
+  mobile: { width: 264, height: 133 },
 } as const
 </script>
 
@@ -23,20 +28,22 @@ const heroBrand = {
   >
     <h1>
       <span class="sr-only">v-conf Taiwan 2026 — Vue.js 台灣年度技術研討會</span>
-      <picture>
+      <picture
+        v-for="brand in heroBrands"
+        :key="brand.mode"
+        :class="brand.class"
+      >
         <source
           media="(min-width: 768px)"
-          :srcset="
-            isDark ? heroBrand.desktop.darkSrc : heroBrand.desktop.lightSrc
-          "
-          :width="heroBrand.desktop.width"
-          :height="heroBrand.desktop.height"
+          :srcset="brand.desktopSrc"
+          :width="heroBrandSize.desktop.width"
+          :height="heroBrandSize.desktop.height"
         />
         <img
           class="relative z-10 block h-auto w-[264px] pt-[50px] md:w-[455px]"
-          :src="heroBrand.mobile.src"
-          :width="heroBrand.mobile.width"
-          :height="heroBrand.mobile.height"
+          :src="brand.mobileSrc"
+          :width="heroBrandSize.mobile.width"
+          :height="heroBrandSize.mobile.height"
           alt=""
           aria-hidden="true"
           loading="eager"
@@ -49,8 +56,8 @@ const heroBrand = {
       class="pointer-events-none mt-[-140px] w-full md:mt-[-266px] min-[1400px]:mt-[calc(-110px_-_11.1531%)]"
     />
 
-    <!-- <Teleport to="body">
-      <ShareThemeToggle class="left-[17px] top-[166px]" />
-    </Teleport> -->
+    <Teleport to="body">
+      <ShareThemeToggle />
+    </Teleport>
   </section>
 </template>

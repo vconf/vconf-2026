@@ -43,7 +43,7 @@ withDefaults(defineProps<Props>(), {
   background: linear-gradient(
     160deg,
     hsl(var(--color-purple)) 0%,
-    hsl(var(--color-black)) 50%,
+    #000 50%,
     hsl(var(--color-primary)) 100%
   );
 }

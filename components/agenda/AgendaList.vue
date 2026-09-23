@@ -55,7 +55,7 @@ onNuxtReady(() => {
         <NuxtLink
           v-else
           :to="`/agenda/${agendaTalkId(item)}`"
-          class="group col-start-2 block w-full max-w-[299px] rounded-[24px] border border-vconf-gray-light px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
+          class="group col-start-2 block w-full max-w-[299px] rounded-[24px] border border-vconf-card-border px-4 pb-4 font-serif transition-colors hover:border-vconf-primary focus:border-vconf-primary focus:outline-none md:max-w-[668px] md:px-6 md:pb-6"
           @mouseenter="warmTalk(item.speaker)"
           @focus="warmTalk(item.speaker)"
           @touchstart.passive="warmTalk(item.speaker)"

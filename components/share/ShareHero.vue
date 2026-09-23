@@ -14,8 +14,10 @@ withDefaults(
   <section
     class="relative overflow-hidden overflow-x-clip text-clip pb-[266px] pt-[238px] text-center md:pb-[288px] md:pt-[166px]"
   >
-    <!-- 切換按鈕 -->
-    <!-- <ShareThemeToggle class="left-[17px] top-[66px] z-40" /> -->
+    <!-- 切換按鈕：跟背景層一樣掛到 body，換頁時頁面的 transform 會把它壓到 z-30 背景底下 -->
+    <Teleport to="body">
+      <ShareThemeToggle class="z-40" />
+    </Teleport>
     <h1
       class="relative z-40 flex justify-center font-sans font-semibold leading-[1] text-vconf-primary"
     >

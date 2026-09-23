@@ -7,14 +7,18 @@ function toggleTheme(theme: 'dark' | 'light') {
 </script>
 
 <template>
-  <div class="pointer-events-auto absolute z-10 hidden w-fit flex-col gap-2 rounded-full bg-vconf-theme-toggle-bg px-2 py-3 lg:flex">
+  <!-- 位置與尺寸對照 Figma：手機 40×80 在 (24.5, 481)，md 以上 55×110 在 (17, 166)；手機版是整體縮成 0.727 倍 -->
+  <div
+    class="pointer-events-auto absolute left-6 top-[481px] z-10 flex w-fit flex-col gap-1.5 rounded-full bg-vconf-theme-toggle-bg px-1.5 py-[9px] md:left-[17px] md:top-[166px] md:gap-2 md:px-2 md:py-3"
+  >
     <button
       type="button"
-      class="grid size-[39px] place-content-center rounded-full border border-vconf-sun bg-vconf-sun-background text-vconf-sun"
+      class="grid size-7 place-content-center rounded-full border border-vconf-sun bg-vconf-sun-background text-vconf-sun md:size-[39px]"
       aria-label="Switch to light mode"
       @click="toggleTheme('light')"
     >
       <svg
+        class="h-[19px] w-[17.5px] md:h-[26px] md:w-6"
         width="24"
         height="26"
         viewBox="0 0 24 26"
@@ -60,11 +64,12 @@ function toggleTheme(theme: 'dark' | 'light') {
     </button>
     <button
       type="button"
-      class="grid size-[39px] place-content-center rounded-full border-[0.5px] border-vconf-moon-border bg-vconf-moon-background text-vconf-moon"
+      class="grid size-7 place-content-center rounded-full border-[0.5px] border-vconf-moon-border bg-vconf-moon-background text-vconf-moon md:size-[39px]"
       aria-label="Switch to dark mode"
       @click="toggleTheme('dark')"
     >
       <svg
+        class="size-4 md:size-[22px]"
         width="22"
         height="22"
         viewBox="0 0 22 22"

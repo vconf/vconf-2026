@@ -130,7 +130,7 @@ useResizeObserver(swiperWrapperRef, ensureSwiperInitialized)
           <ClientOnly>
             <div
               ref="swiperWrapperRef"
-              class="relative flex min-w-0 items-center before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-10 before:w-6 before:bg-gradient-to-r before:from-vconf-white before:to-transparent before:content-[''] after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-10 after:w-6 after:bg-gradient-to-l after:from-vconf-white after:to-transparent after:content-[''] md:h-full"
+              class="relative flex min-w-0 items-center before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-10 before:w-6 before:bg-gradient-to-r before:from-vconf-background before:to-transparent before:content-[''] after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-10 after:w-6 after:bg-gradient-to-l after:from-vconf-background after:to-transparent after:content-[''] md:h-full"
             >
               <swiper-container
                 ref="swiperRef"

@@ -85,7 +85,7 @@ const socialLinks = computed(() => {
 
             <div
               v-if="member"
-              class="relative flex size-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] bg-vconf-white font-serif"
+              class="relative flex size-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] bg-vconf-surface font-serif"
             >
               <div
                 class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-6 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:px-8 md:pb-[37px] md:pt-8 md:scrollbar-w-scrollbar-md"
@@ -196,7 +196,7 @@ const socialLinks = computed(() => {
                     class="col-span-2 md:col-span-1 md:col-start-2 md:row-start-2"
                   >
                     <p
-                      class="whitespace-pre-line font-serif font-light leading-[1.5] tracking-[0.02em] text-black"
+                      class="whitespace-pre-line font-serif font-light leading-[1.5] tracking-[0.02em] text-vconf-text-body"
                     >
                       {{ member.bio }}
                     </p>

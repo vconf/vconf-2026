@@ -279,7 +279,7 @@ onBeforeUnmount(() => {
 
         <!-- 錢財圖示 -->
         <div
-          class="absolute left-1/2 top-0 z-10 -translate-x-1/2 translate-y-[-43%] before:absolute before:inset-y-0 before:right-full before:w-10 before:bg-vconf-white before:content-[''] after:absolute after:inset-y-0 after:left-full after:w-[45px] after:bg-vconf-white after:content-[''] md:before:w-20 md:after:w-[89px]"
+          class="absolute left-1/2 top-0 z-10 -translate-x-1/2 translate-y-[-43%] before:absolute before:inset-y-0 before:right-full before:w-10 before:bg-vconf-background before:content-[''] after:absolute after:inset-y-0 after:left-full after:w-[45px] after:bg-vconf-background after:content-[''] md:before:w-20 md:after:w-[89px]"
         >
           <NuxtImg
             src="/home/sponsor-money.png"
@@ -289,7 +289,7 @@ onBeforeUnmount(() => {
             loading="lazy"
             width="273"
             height="386"
-            class="relative hidden bg-vconf-white md:block"
+            class="relative hidden bg-vconf-background md:block"
             format="avif,webp"
             densities="x1 x2"
           />
@@ -301,7 +301,7 @@ onBeforeUnmount(() => {
             loading="lazy"
             width="136"
             height="193"
-            class="relative bg-vconf-white md:hidden"
+            class="relative bg-vconf-background md:hidden"
             format="avif,webp"
             densities="x1 x2"
           />
@@ -330,10 +330,10 @@ onBeforeUnmount(() => {
                 :href="sponsor.url"
                 :target="sponsor.url ? '_blank' : undefined"
                 :rel="sponsor.url ? 'noopener noreferrer' : undefined"
-                class="flex aspect-square items-center justify-center border border-vconf-gray-exlight"
+                class="flex aspect-square items-center justify-center border border-vconf-gray-exlight dark:border-transparent"
                 :class="[
                   sponsorWidthClasses[group.level],
-                  sponsor.backgroundClass,
+                  sponsor.backgroundClass ?? 'bg-vconf-white',
                 ]"
               >
                 <NuxtImg
