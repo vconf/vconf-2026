@@ -185,7 +185,7 @@ const speakerSocialLinks = computed(() => {
             />
             <!-- 講者議程 -->
             <article
-              class="relative flex size-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] bg-vconf-surface font-serif"
+              class="relative flex size-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[24px] bg-vconf-surface font-serif md:bg-vconf-background"
             >
               <template v-if="talk">
                 <header
@@ -254,7 +254,7 @@ const speakerSocialLinks = computed(() => {
                       </template>
                     </section>
                     <aside
-                      class="mt-[48px] self-start bg-vconf-surface md:sticky md:top-0 md:mt-0"
+                      class="mt-[48px] self-start bg-vconf-surface md:sticky md:top-0 md:mt-0 md:bg-vconf-background"
                       aria-label="講者資訊"
                     >
                       <div class="flex gap-4 md:block">
