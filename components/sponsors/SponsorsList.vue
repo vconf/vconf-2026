@@ -164,7 +164,7 @@ onBeforeUnmount(() => {
             class="block"
           >
             <div
-              class="flex aspect-square transform-gpu items-center justify-center border border-vconf-gray-exlight transition-[transform,box-shadow] duration-300 ease-out motion-safe:group-hover:-translate-y-1.5 motion-safe:group-hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+              class="flex aspect-square transform-gpu items-center justify-center border border-vconf-gray-exlight bg-vconf-white transition-[transform,box-shadow] duration-300 ease-out motion-safe:group-hover:-translate-y-1.5 motion-safe:group-hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
               :class="sponsor.backgroundClass"
             >
               <NuxtImg

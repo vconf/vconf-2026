@@ -25,12 +25,14 @@
     pointer-events: none;
   }
 
+  /* 會跟著模式翻轉的色；按鈕底、關閉鈕兩種模式都是白的，用固定的 vconf-white。
+     dark 值對照 Figma「UI-Official Site」第二排（623:*）的 dark 稿。 */
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 9%;
     --border: 0 0% 89.8%;
     --text-muted: 0 0% 34%;
-    --color-black: 0 0% 0%;
+    --color-surface: 0 0% 100%; /* 彈窗面板 */
     --color-primary: 153 48% 49%;
     --color-primary-light: 151 79% 89%; /* #CBF9E3 */
     --color-green-light: 154 65% 51%; /* #32D38C */
@@ -45,6 +47,9 @@
     --color-heading: 210 26% 28%; /* blue-dark */
     --color-text-unread: 0 0% 79%; /* gray-light */
     --color-text-read: 210 26% 28%; /* blue-dark */
+    --color-text-body: 0 0% 0%; /* 講者／成員簡介 */
+    --color-card-border: 0 0% 79%; /* 議程卡外框 */
+    --color-nav-underline: 0 0% 0%;
     --color-gray-exlight: 0 0% 94.5%; /* gray-exlight */
     --color-gray-ultralight: 0 0% 98%;
     --color-gray-light: 0 0% 79%;
@@ -60,25 +65,26 @@
   }
 
   .dark {
-    --background: 231 83% 5%;
+    --background: 231 83% 5%; /* blue-deep #020515 */
     --foreground: 0 0% 98%;
     --border: 151 30% 24%;
-    --text-muted: 151 100% 49%;
-    --color-black: 153 48% 49%;
-    --color-primary: 153 48% 49%;
-    --color-purple: 263 100% 62%;
+    --text-muted: 153 48% 49%; /* 導覽連結：green */
+    --color-surface: 0 0% 0%; /* 彈窗面板 #000 */
+    --color-primary-light: 153 48% 49%; /* 休息時段 primary → green */
+    --color-purple-ultralight: 263 65% 31%; /* 休息時段 purple → #421B81 */
     --color-sun: 0 0% 89% / 0.5;
     --color-sun-background: 0 0% 0%;
     --color-moon: 36 100% 72%;
     --color-moon-background: 260 67% 43%;
-    --color-moon-border: 261, 67%, 42%;
-    --color-theme-toggle-bg: 0 0% 100% / 0.5;
-    --color-heading: 153 47% 49%;
-    --color-text-unread: 210 26% 28%;
-    --color-text-read: 0 0% 79%; /* gray-light */
-    --color-gray-light: 0 0% 79%;
-    --color-section-bg: 222 96% 5%; /* blue-dark */
-    --color-gray-exlight: 0 0% 94.5%; /* gray-exlight */
+    --color-moon-border: 261 67% 42%;
+    --color-heading: 0 0% 100%; /* wh */
+    --color-text-unread: 210 26% 28%; /* blue-dark */
+    --color-text-read: 0 0% 94.5%; /* gray-exlight */
+    --color-text-body: 0 0% 94.5%; /* gray-exlight */
+    --color-card-border: 210 26% 28%; /* blue-dark */
+    --color-nav-underline: 153 48% 49%;
+    --color-gray-ultralight: 0 0% 41%; /* 休息時段 gray → #686868 */
+    --color-section-bg: 231 83% 5%; /* 與頁面底色相同 */
   }
 }
 

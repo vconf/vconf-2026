@@ -36,7 +36,7 @@ const isMenuOpen = ref(false)
 const { preloadShareHero } = useShareHeroImages()
 
 const headerBgClass = computed(() =>
-  isMenuOpen.value ? 'bg-vconf-white' : 'bg-transparent',
+  isMenuOpen.value ? 'bg-vconf-background' : 'bg-transparent',
 )
 
 const { y: scrollY } = useWindowScroll()
@@ -128,14 +128,14 @@ onKeyStroke('Escape', closeMenu)
           class="nav-menu z-40 ml-auto gap-8 px-6 font-serif text-vconf-text-muted"
           :class="[
             isMenuOpen
-              ? 'active fixed left-0 top-[57px] flex h-[calc(100svh-57px)] w-full flex-col bg-vconf-white'
+              ? 'active fixed left-0 top-[57px] flex h-[calc(100svh-57px)] w-full flex-col bg-vconf-background'
               : 'hidden md:flex md:h-auto md:gap-0 md:bg-transparent md:px-0',
           ]"
         >
           <li
             v-for="NAV_ITEM in NAV_ITEMS"
             :key="NAV_ITEM.href"
-            class="relative bg-vconf-white text-center after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-4/5 after:-translate-x-1/2 after:scale-x-0 after:bg-vconf-black after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent lg:hover:after:origin-left lg:hover:after:scale-x-100"
+            class="relative bg-vconf-background text-center after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-4/5 after:-translate-x-1/2 after:scale-x-0 after:bg-vconf-nav-underline after:transition-transform after:duration-300 after:content-[''] last:border-b-0 md:border-b-0 md:bg-transparent lg:hover:after:origin-left lg:hover:after:scale-x-100"
             :class="navItemClass(NAV_ITEM)"
             @click="closeMenu()"
           >

@@ -157,7 +157,7 @@ const socialLinks = computed(() => {
               </aside>
 
               <article
-                class="overflow-hidden rounded-[20px] bg-vconf-white font-serif md:h-full md:min-h-0 md:flex-1"
+                class="overflow-hidden rounded-[20px] bg-vconf-surface font-serif md:h-full md:min-h-0 md:flex-1"
               >
                 <div
                   class="overscroll-contain px-6 py-7 scrollbar scrollbar-thumb-vconf-scrollbar scrollbar-w-scrollbar md:h-full md:overflow-y-auto md:p-8 md:scrollbar-w-scrollbar-md"

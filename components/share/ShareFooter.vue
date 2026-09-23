@@ -461,7 +461,7 @@ const { stop } = useIntersectionObserver(
         aria-hidden="true"
       ></div>
       <div
-        class="absolute bottom-0 right-0 flex items-center gap-[10px] whitespace-nowrap bg-vconf-white px-1 font-serif text-[12px] leading-[1.6] tracking-[0.02em] text-vconf-primary md:bottom-[10px] md:gap-6 md:px-3 md:text-[14px]"
+        class="absolute bottom-0 right-0 flex items-center gap-[10px] whitespace-nowrap bg-vconf-background px-1 font-serif text-[12px] leading-[1.6] tracking-[0.02em] text-vconf-primary md:bottom-[10px] md:gap-6 md:px-3 md:text-[14px]"
       >
         <p>
           {{ COPYRIGHT_TEXT }}
