@@ -224,7 +224,7 @@ const socialLinks = computed(() => {
 
                   <SpeakerProfileSection
                     label="講者個人介紹"
-                    class="mb-2 md:mb-6"
+                    class="mb-6"
                   >
                     <p class="whitespace-pre-line">
                       {{ speaker.speakerInfo }}
@@ -234,7 +234,7 @@ const socialLinks = computed(() => {
                   <SpeakerProfileSection
                     v-if="speaker.experiences.length"
                     label="經歷"
-                    class="mb-2 md:mb-6"
+                    class="mb-6"
                   >
                     <ul role="list">
                       <li
