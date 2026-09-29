@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// 切換時新主題從中線往左右翻開，見 useThemeTransition
+// 切換時六條斜角長條百葉窗式翻頁，見 useThemeTransition
 const toggleTheme = useThemeTransition()
 </script>
 

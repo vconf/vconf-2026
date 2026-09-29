@@ -73,7 +73,7 @@ onNuxtReady(() => {
           </div>
           <!-- 講者議程名稱 -->
           <h3
-            class="mb:mb-4 mb-3 text-[24px] font-bold leading-[1.2] tracking-[0em] text-vconf-text-read md:text-[32px] md:leading-[1] md:tracking-[0.01em]"
+            class="mb-3 text-[24px] font-bold leading-[1.2] tracking-[0em] text-vconf-text-read md:mb-4 md:text-[32px] md:leading-[1] md:tracking-[0.01em]"
           >
             {{ item.title }}
           </h3>

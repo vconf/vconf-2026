@@ -16,7 +16,7 @@ async function waitForThemeClass(theme: Theme) {
 }
 
 /**
- * 深淺色切換：舊主題切成八片斜角卡片，由左往右接力退場，露出底下的新主題。
+ * 深淺色切換：六條斜角長條像百葉窗一樣由左往右接力翻頁，露出底下的新主題。
  * 動畫全在 main.css 的 `data-view-transition="theme"` 區塊；只在 md 以上跑，手機、偏好減少動態或不支援時直接切換。
  */
 export function useThemeTransition() {
