@@ -38,27 +38,29 @@ withDefaults(
         aria-hidden="true"
         class="pointer-events-none absolute left-1/2 top-0 z-30 h-[760px] w-svw -translate-x-1/2 overflow-hidden md:h-[980px]"
       >
+        <!-- 位置與尺寸＝About 稿（242:13627 / 378:70356）兩個 deco-1 frame 的外框；桌機 ≥1512 釘在稿上的位置，
+             以下按稿上露出的比例（左 47.35%、右 47.09% 視窗寬）縮，兩張加起來不到 100%，不會在中間交錯 -->
         <NuxtImg
           src="/about/hero-bg-1.png"
           alt=""
           aria-hidden="true"
-          width="1159"
-          height="1171"
+          width="1434"
+          height="1447"
           loading="eager"
           format="avif,webp"
           densities="x1 x2"
-          class="absolute left-[clamp(-800px,calc(-1562px+99.22vw),-546px)] top-[-164px] hidden max-w-none md:block"
+          class="absolute left-[clamp(-1070px,calc(47.35vw-1434px),-718px)] top-[-262px] hidden max-w-none md:block"
         />
         <NuxtImg
           src="/about/hero-bg-2.png"
           alt=""
           aria-hidden="true"
-          width="1159"
-          height="1175"
+          width="1430"
+          height="1449"
           loading="eager"
           format="avif,webp"
           densities="x1 x2"
-          class="absolute right-[clamp(-800px,calc(-1475px+87.89vw),-575px)] top-[-394px] hidden max-w-none md:block"
+          class="absolute right-[clamp(-1068px,calc(47.09vw-1430px),-718px)] top-[-528px] hidden max-w-none md:block"
         />
         <!-- 手機版 -->
         <NuxtImg
@@ -70,7 +72,7 @@ withDefaults(
           loading="eager"
           format="avif,webp"
           densities="x1 x2"
-          class="absolute left-[-434px] top-[116px] block max-w-none md:hidden"
+          class="absolute left-[-437px] top-[111px] block max-w-none md:hidden"
         />
         <NuxtImg
           src="/about/hero-bg-right-small.png"
@@ -81,7 +83,7 @@ withDefaults(
           loading="eager"
           format="avif,webp"
           densities="x1 x2"
-          class="absolute right-[-437px] top-[-301px] block max-w-none md:hidden"
+          class="absolute right-[-443px] top-[-304px] block max-w-none md:hidden"
         />
       </div>
     </Teleport>
