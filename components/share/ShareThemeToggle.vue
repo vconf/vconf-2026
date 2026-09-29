@@ -1,9 +1,6 @@
 <script setup lang="ts">
-const colorMode = useColorMode()
-
-function toggleTheme(theme: 'dark' | 'light') {
-  colorMode.preference = theme
-}
+// 切換時新主題從中線往左右翻開，見 useThemeTransition
+const toggleTheme = useThemeTransition()
 </script>
 
 <template>

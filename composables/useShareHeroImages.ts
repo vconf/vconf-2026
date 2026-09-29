@@ -12,8 +12,8 @@ const HERO_BACKGROUNDS: Record<Viewport, ImageSpec[]> = {
     { src: '/about/hero-bg-right-small.png', width: 807, height: 818 },
   ],
   desktop: [
-    { src: '/about/hero-bg-1.png', width: 1159, height: 1171 },
-    { src: '/about/hero-bg-2.png', width: 1159, height: 1175 },
+    { src: '/about/hero-bg-1.png', width: 1434, height: 1447 },
+    { src: '/about/hero-bg-2.png', width: 1430, height: 1449 },
   ],
 }
 

@@ -5,7 +5,7 @@ import {
   usePreferredReducedMotion,
   useResizeObserver,
 } from '@vueuse/core'
-import { nextTick, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import {
   DOTS_CX,
   DOTS_GAP_PX,
@@ -13,27 +13,36 @@ import {
   DOTS_PINNED_CX,
   DOTS_PINNED_GAP_PX,
   DOTS_REF_Y,
-  layers,
-  leftLayerColors,
-  leftLayerOpacities,
-  leftPolygons,
-  leftYShift,
-  paintLayers,
-  rightLayerColors,
-  rightLayerOpacities,
-  rightPolygons,
-  rightShift,
+  heroScenes,
+  heroTransforms,
   sceneYShift,
 } from './heroScene.config'
+
+type Breakpoint = keyof typeof heroScenes
+type Side = 'left' | 'right'
+
+// 淺色、深色與桌機、手機都輸出，用 dark: / md: class 切換；SSR 不知道使用者的模式與寬度
+const modes = [
+  { key: 'light', class: 'dark:hidden' },
+  { key: 'dark', class: 'hidden dark:inline' },
+] as const
+const breakpoints = [
+  { key: 'desktop', class: 'hidden md:inline' },
+  { key: 'mobile', class: 'md:hidden' },
+] as const
 
 const rootRef = ref<HTMLElement | null>(null)
 const heroSvgRef = ref<SVGSVGElement | null>(null)
 const svgBgDotsRef = ref<SVGImageElement | null>(null)
-const svgBgRef = ref<SVGImageElement | null>(null)
-const hasPlayedHomeHeroIntro = useState('home-hero-intro-played', () => false)
+// 綁成變數：寫死在 <image href> 上會被 Vite 的資源網址轉換改寫，SSR 與 client 不一致
+const DOTS_HREF_MD = '/hero-bg-md.svg'
 let removeTransitionHook: (() => void) | null = null
-const leftPolygonRefs = shallowRef<Array<SVGPolygonElement | null>>([])
-const rightPolygonRefs = shallowRef<Array<SVGPolygonElement | null>>([])
+const hasPlayedHomeHeroIntro = useState('home-hero-intro-played', () => false)
+// 只收桌機的扇片：手機不跑動畫
+const polygonRefs: Record<Side, Set<SVGPolygonElement>> = {
+  left: new Set(),
+  right: new Set(),
+}
 interface AnimationHandle {
   kill: () => void
   pause: () => void
@@ -63,14 +72,6 @@ function syncPlayState() {
   )
 }
 watch([isHeroInViewport, documentVisibility], syncPlayState)
-
-function setLeftPolygonRef(el: unknown, i: number) {
-  leftPolygonRefs.value[i] = el as SVGPolygonElement | null
-}
-
-function setRightPolygonRef(el: unknown, i: number) {
-  rightPolygonRefs.value[i] = el as SVGPolygonElement | null
-}
 
 function getHeroSvgCssWidth() {
   const vw = window.innerWidth
@@ -116,48 +117,35 @@ function updateBgDotsSize() {
   }
 }
 
-function createSvgOrigin(el: SVGGraphicsElement, side: 'left' | 'right') {
-  const box = el.getBBox()
-  const originX
-    = side === 'left' ? box.x + box.width * 0.28 : box.x + box.width * 0.72
-  const originY = box.y + box.height * 0.92
+function setPolygonRef(el: unknown, bp: Breakpoint, side: Side) {
+  if (bp === 'desktop' && el)
+    polygonRefs[side].add(el as SVGPolygonElement)
+}
+
+// 資料由下往上排，反過來數：最上層（最靠內側）那片是 0，進場最早
+function stackIndex(el: SVGPolygonElement) {
+  const siblings = Array.from(el.parentElement?.children ?? [])
+  return siblings.length - 1 - siblings.indexOf(el)
+}
+
+// 用頂點算外框而非 getBBox()：另一個色彩模式的那組是 display: none，getBBox() 會回 0
+function createSvgOrigin(el: SVGPolygonElement, side: Side) {
+  const points = Array.from(el.points)
+  const xs = points.map(p => p.x)
+  const ys = points.map(p => p.y)
+  const minX = Math.min(...xs)
+  const minY = Math.min(...ys)
+  const width = Math.max(...xs) - minX
+  const height = Math.max(...ys) - minY
+  const originX = side === 'left' ? minX + width * 0.28 : minX + width * 0.72
+  const originY = minY + height * 0.92
   return `${originX} ${originY}`
 }
 
-function applyFinalSceneState() {
-  const { gsap } = useGsap()
-  if (!gsap)
-    return
-
+function showStatic() {
   if (heroSvgRef.value)
-    gsap.set(heroSvgRef.value, { opacity: 1 })
-
-  if (svgBgRef.value)
-    gsap.set(svgBgRef.value, { opacity: 0.76 })
-
-  leftPolygonRefs.value.forEach((el) => {
-    if (!el)
-      return
-    gsap.set(el, {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      rotation: 0,
-      scale: 1,
-    })
-  })
-
-  rightPolygonRefs.value.forEach((el) => {
-    if (!el)
-      return
-    gsap.set(el, {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      rotation: 0,
-      scale: 1,
-    })
-  })
+    heroSvgRef.value.style.opacity = '1'
+  hasPlayedHomeHeroIntro.value = true
 }
 
 function startAmbientAnimation() {
@@ -165,10 +153,8 @@ function startAmbientAnimation() {
   if (!gsap)
     return
 
-  leftPolygonRefs.value.forEach((el, i) => {
-    if (!el)
-      return
-
+  polygonRefs.left.forEach((el) => {
+    const i = stackIndex(el)
     gsap.set(el, {
       transformBox: 'fill-box',
       svgOrigin: createSvgOrigin(el, 'left'),
@@ -188,10 +174,8 @@ function startAmbientAnimation() {
     )
   })
 
-  rightPolygonRefs.value.forEach((el, i) => {
-    if (!el)
-      return
-
+  polygonRefs.right.forEach((el) => {
+    const i = stackIndex(el)
     gsap.set(el, {
       transformBox: 'fill-box',
       svgOrigin: createSvgOrigin(el, 'right'),
@@ -217,25 +201,7 @@ function startIntroAnimation() {
   if (!gsap)
     return 0
 
-  const isMobile = getHeroSvgCssWidth() < 1000
-
-  if (isMobile) {
-    if (svgBgRef.value)
-      (svgBgRef.value as unknown as SVGElement).setAttribute('opacity', '1')
-    if (heroSvgRef.value)
-      heroSvgRef.value.style.opacity = '1'
-    hasPlayedHomeHeroIntro.value = true
-    return 0
-  }
-
   const introYOffset = 54
-
-  const leftEls = layers
-    .map(i => leftPolygonRefs.value[i])
-    .filter(Boolean) as SVGPolygonElement[]
-  const rightEls = layers
-    .map(i => rightPolygonRefs.value[i])
-    .filter(Boolean) as SVGPolygonElement[]
 
   if (heroSvgRef.value) {
     animationHandles.push(
@@ -247,8 +213,9 @@ function startIntroAnimation() {
     )
   }
 
-  leftEls.forEach((el, i) => {
-    const delay = i * 0.07
+  // 淺色、深色兩組一起跑：同一層同時進場，切換模式時畫面不會停在半途
+  polygonRefs.left.forEach((el) => {
+    const i = stackIndex(el)
     const tl = gsap.timeline()
     tl.set(el, {
       transformBox: 'fill-box',
@@ -268,16 +235,17 @@ function startIntroAnimation() {
         rotation: 0,
         scale: 1,
         duration: 0.72,
-        delay,
+        delay: i * 0.07,
         ease: 'power3.out',
       },
     )
     animationHandles.push(tl)
   })
 
-  const rightStartDelay = 0.18 + leftEls.length * 0.05
-  rightEls.forEach((el, i) => {
-    const delay = rightStartDelay + i * 0.07
+  const layerCount = Math.max(...Array.from(polygonRefs.left, stackIndex)) + 1
+  const rightStartDelay = 0.18 + layerCount * 0.05
+  polygonRefs.right.forEach((el) => {
+    const i = stackIndex(el)
     const tl = gsap.timeline()
     tl.set(el, {
       transformBox: 'fill-box',
@@ -297,22 +265,12 @@ function startIntroAnimation() {
         rotation: 0,
         scale: 1,
         duration: 0.72,
-        delay,
+        delay: rightStartDelay + i * 0.07,
         ease: 'power3.out',
       },
     )
     animationHandles.push(tl)
   })
-
-  if (svgBgRef.value) {
-    animationHandles.push(
-      gsap.fromTo(
-        svgBgRef.value,
-        { opacity: 0.05 },
-        { opacity: 0.76, duration: 1.2, ease: 'power2.out' },
-      ),
-    )
-  }
 
   hasPlayedHomeHeroIntro.value = true
   return 2.4
@@ -329,26 +287,13 @@ onMounted(async () => {
 
   await nextTick()
 
-  if (reducedMotion.value === 'reduce') {
-    if (heroSvgRef.value)
-      heroSvgRef.value.style.opacity = '1'
-    if (svgBgRef.value)
-      svgBgRef.value.setAttribute('opacity', '0.76')
-    hasPlayedHomeHeroIntro.value = true
-    return
-  }
-
-  if (getHeroSvgCssWidth() < 1000) {
-    if (heroSvgRef.value)
-      heroSvgRef.value.style.opacity = '1'
-    if (svgBgRef.value)
-      svgBgRef.value.setAttribute('opacity', '0.76')
-    hasPlayedHomeHeroIntro.value = true
+  if (reducedMotion.value === 'reduce' || getHeroSvgCssWidth() < 1000) {
+    showStatic()
     return
   }
 
   if (hasPlayedHomeHeroIntro.value) {
-    applyFinalSceneState()
+    showStatic()
     startAmbientAnimation()
   }
   else {
@@ -360,6 +305,7 @@ onMounted(async () => {
       )
     }
     else {
+      showStatic()
       startAmbientAnimation()
     }
   }
@@ -391,59 +337,56 @@ onUnmounted(() => {
       aria-hidden="true"
     >
       <g :transform="`translate(0,${sceneYShift})`">
-        <!-- 背景裝飾點陣圖：JS 反縮放，icon 固定 16px 不隨 viewport 縮放 -->
+        <!-- 背景裝飾點陣圖：JS 反縮放，icon 固定 16px 不隨 viewport 縮放；淺深共用、墊在最底 -->
         <image
           ref="svgBgDotsRef"
-          href="/hero-bg-md.svg"
+          :href="DOTS_HREF_MD"
           x="391"
           y="637"
           width="1478"
           height="707"
         />
 
-        <!-- 左扇 (藍/青色系, 15 張) -->
-        <g :transform="`translate(0,${leftYShift})`">
-          <polygon
-            v-for="i in paintLayers"
-            :key="`tl-${i}`"
-            :ref="(el: unknown) => setLeftPolygonRef(el, i)"
-            :points="leftPolygons[i]"
-            :fill="leftLayerColors[i]"
-            :fill-opacity="leftLayerOpacities[i]"
-          />
+        <g
+          v-for="mode in modes"
+          :key="mode.key"
+          :class="mode.class"
+        >
+          <g
+            v-for="bp in breakpoints"
+            :key="bp.key"
+            :class="bp.class"
+            :transform="heroTransforms[bp.key]"
+          >
+            <!-- 圖層順序照各稿的 Figma 圖層（由下往上） -->
+            <template
+              v-for="layer in heroScenes[bp.key][mode.key].order"
+              :key="layer"
+            >
+              <g v-if="layer === 'right' || layer === 'left'">
+                <polygon
+                  v-for="(points, i) in heroScenes[bp.key][mode.key][layer]
+                    .polygons"
+                  :key="i"
+                  :ref="(el: unknown) => setPolygonRef(el, bp.key, layer)"
+                  :points="points"
+                  :fill="heroScenes[bp.key][mode.key][layer].colors[i]"
+                  :fill-opacity="
+                    heroScenes[bp.key][mode.key][layer].opacities[i]
+                  "
+                />
+              </g>
+              <image
+                v-else
+                :href="heroScenes[bp.key][mode.key][layer].href"
+                :x="heroScenes[bp.key][mode.key][layer].x"
+                :y="heroScenes[bp.key][mode.key][layer].y"
+                :width="heroScenes[bp.key][mode.key][layer].width"
+                :height="heroScenes[bp.key][mode.key][layer].height"
+              />
+            </template>
+          </g>
         </g>
-
-        <!-- 右扇 (粉/黃色系, 15 張) -->
-        <g :transform="`translate(${rightShift.x},${rightShift.y})`">
-          <polygon
-            v-for="i in paintLayers"
-            :key="`tr-${i}`"
-            :ref="(el: unknown) => setRightPolygonRef(el, i)"
-            :points="rightPolygons[i]"
-            :fill="rightLayerColors[i]"
-            :fill-opacity="rightLayerOpacities[i]"
-          />
-        </g>
-
-        <!-- 電路板底圖：放中央 V 之前 → 疊在 V 後面 -->
-        <image
-          ref="svgBgRef"
-          href="/home/hero-middle-bg.svg"
-          x="656.47"
-          y="286.628"
-          width="615.668"
-          height="646.435"
-          opacity="0"
-        />
-
-        <!-- 中心骨牌圖：放最後 → 疊在最前面 -->
-        <image
-          href="/home/hero-middle.svg"
-          x="656.47"
-          y="286.628"
-          width="615.668"
-          height="646.435"
-        />
       </g>
     </svg>
   </div>
