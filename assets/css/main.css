@@ -134,9 +134,9 @@
 }
 
 /**
- * 深淺色切換：八片斜角卡片由左往右接力退場（useThemeTransition）。
- * 這裡只動舊快照的遮罩，新主題固定在底下；單一動作比翻頁、縮放、掃光疊在一起自然。
- * 105deg 延續首頁卡片的斜角語彙，接力節奏則帶出骨牌感。
+ * 深淺色切換：六條 105° 斜角長條像百葉窗一樣接力翻頁（useThemeTransition）。
+ * 每條以自己的左邊為書脊，舊主題往左收成一條線，露出底下的新主題；由左往右接力。
+ * --theme-w0～w5 是每條還剩的寬度，cos 讓每條先慢慢掀起、再加速翻過。
  */
 @property --theme-p {
   syntax: "<number>";
@@ -145,8 +145,7 @@
 }
 
 :root[data-view-transition="theme"] {
-  --theme-cascade-duration: 680ms;
-  --theme-cascade-ease: cubic-bezier(0.45, 0, 0.2, 1);
+  --theme-book-duration: 900ms;
 }
 
 :root[data-view-transition="theme"]::view-transition-old(root),
@@ -156,64 +155,64 @@
 }
 
 :root[data-view-transition="theme"]::view-transition-old(root) {
+  --theme-w0: calc(cos(clamp(0, var(--theme-p) / 0.55, 1) * 90deg) * 16.77%);
+  --theme-w1: calc(
+    cos(clamp(0, (var(--theme-p) - 0.09) / 0.55, 1) * 90deg) * 16.77%
+  );
+  --theme-w2: calc(
+    cos(clamp(0, (var(--theme-p) - 0.18) / 0.55, 1) * 90deg) * 16.77%
+  );
+  --theme-w3: calc(
+    cos(clamp(0, (var(--theme-p) - 0.27) / 0.55, 1) * 90deg) * 16.77%
+  );
+  --theme-w4: calc(
+    cos(clamp(0, (var(--theme-p) - 0.36) / 0.55, 1) * 90deg) * 16.77%
+  );
+  --theme-w5: calc(
+    cos(clamp(0, (var(--theme-p) - 0.45) / 0.55, 1) * 90deg) * 16.77%
+  );
   z-index: 1;
-  animation: theme-card-cascade var(--theme-cascade-duration)
-    var(--theme-cascade-ease) both;
-  mask-repeat: no-repeat;
-  mask-size: 12.5vw 100%;
-  mask-position:
-    left 0 top,
-    left 12.5vw top,
-    left 25vw top,
-    left 37.5vw top,
-    left 50vw top,
-    left 62.5vw top,
-    left 75vw top,
-    left 87.5vw top;
+  animation: theme-book var(--theme-book-duration) linear both;
   mask-image:
     linear-gradient(
       105deg,
-      #000 0 calc((1 - clamp(0, var(--theme-p) * 8, 1)) * 120% - 10%),
-      transparent calc((1 - clamp(0, var(--theme-p) * 8, 1)) * 120%)
+      transparent 0%,
+      #000 0 calc(0% + var(--theme-w0)),
+      transparent 0
     ),
     linear-gradient(
       105deg,
-      #000 0 calc((1 - clamp(0, (var(--theme-p) - 0.07) * 8, 1)) * 120% - 10%),
-      transparent calc((1 - clamp(0, (var(--theme-p) - 0.07) * 8, 1)) * 120%)
+      transparent 16.67%,
+      #000 0 calc(16.67% + var(--theme-w1)),
+      transparent 0
     ),
     linear-gradient(
       105deg,
-      #000 0 calc((1 - clamp(0, (var(--theme-p) - 0.14) * 8, 1)) * 120% - 10%),
-      transparent calc((1 - clamp(0, (var(--theme-p) - 0.14) * 8, 1)) * 120%)
+      transparent 33.33%,
+      #000 0 calc(33.33% + var(--theme-w2)),
+      transparent 0
     ),
     linear-gradient(
       105deg,
-      #000 0 calc((1 - clamp(0, (var(--theme-p) - 0.21) * 8, 1)) * 120% - 10%),
-      transparent calc((1 - clamp(0, (var(--theme-p) - 0.21) * 8, 1)) * 120%)
+      transparent 50%,
+      #000 0 calc(50% + var(--theme-w3)),
+      transparent 0
     ),
     linear-gradient(
       105deg,
-      #000 0 calc((1 - clamp(0, (var(--theme-p) - 0.28) * 8, 1)) * 120% - 10%),
-      transparent calc((1 - clamp(0, (var(--theme-p) - 0.28) * 8, 1)) * 120%)
+      transparent 66.67%,
+      #000 0 calc(66.67% + var(--theme-w4)),
+      transparent 0
     ),
     linear-gradient(
       105deg,
-      #000 0 calc((1 - clamp(0, (var(--theme-p) - 0.35) * 8, 1)) * 120% - 10%),
-      transparent calc((1 - clamp(0, (var(--theme-p) - 0.35) * 8, 1)) * 120%)
-    ),
-    linear-gradient(
-      105deg,
-      #000 0 calc((1 - clamp(0, (var(--theme-p) - 0.42) * 8, 1)) * 120% - 10%),
-      transparent calc((1 - clamp(0, (var(--theme-p) - 0.42) * 8, 1)) * 120%)
-    ),
-    linear-gradient(
-      105deg,
-      #000 0 calc((1 - clamp(0, (var(--theme-p) - 0.49) * 8, 1)) * 120% - 10%),
-      transparent calc((1 - clamp(0, (var(--theme-p) - 0.49) * 8, 1)) * 120%)
+      transparent 83.33%,
+      #000 0 calc(83.33% + var(--theme-w5)),
+      transparent 0
     );
 }
 
-@keyframes theme-card-cascade {
+@keyframes theme-book {
   from {
     --theme-p: 0;
   }
