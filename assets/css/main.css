@@ -132,3 +132,140 @@
 :root[data-view-transition="recap-photo"]::view-transition-new(root) {
   animation: none;
 }
+
+/**
+ * 深淺色切換：新主題從中線往左右翻開（useThemeTransition）
+ *
+ * 舊畫面留在底下微微縮小變暗，像被往後推；新畫面的開口與兩道光束用同一條曲線、同一段時間，
+ * 光束才會一直貼著開口的邊緣。兩張快照都要 mix-blend-mode: normal，
+ * 瀏覽器預設的 plus-lighter 會把重疊的區域疊亮。
+ */
+:root[data-view-transition="theme"] {
+  --theme-open-duration: 1100ms;
+  --theme-open-ease: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+:root[data-view-transition="theme"]::view-transition-old(root),
+:root[data-view-transition="theme"]::view-transition-new(root) {
+  mix-blend-mode: normal;
+  animation-duration: var(--theme-open-duration);
+  animation-timing-function: var(--theme-open-ease);
+  animation-fill-mode: both;
+}
+
+:root[data-view-transition="theme"]::view-transition-old(root) {
+  animation-name: theme-recede;
+}
+
+:root[data-view-transition="theme"]::view-transition-new(root) {
+  animation-name: theme-open;
+}
+
+@keyframes theme-recede {
+  to {
+    transform: scale(0.96);
+    filter: brightness(0.6);
+  }
+}
+
+@keyframes theme-open {
+  from {
+    clip-path: inset(0 50% 0 50%);
+    filter: brightness(1.6) saturate(1.4);
+  }
+
+  60% {
+    filter: brightness(1.1);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    filter: none;
+  }
+}
+
+/* 光束本體：固定在左上角，位置全交給轉場群組的 transform */
+.theme-beam {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100vh;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #41b883, #fff 50%, #863bff);
+  box-shadow:
+    0 0 8px 1px #41b883,
+    0 0 24px 4px rgb(134 59 255 / 0.7),
+    0 0 60px 10px rgb(65 184 131 / 0.35);
+}
+
+:root[data-view-transition="theme"]::view-transition-group(theme-beam-left),
+:root[data-view-transition="theme"]::view-transition-group(theme-beam-right) {
+  animation-duration: var(--theme-open-duration);
+  animation-timing-function: var(--theme-open-ease);
+  animation-fill-mode: both;
+}
+
+:root[data-view-transition="theme"]::view-transition-group(theme-beam-left) {
+  animation-name: theme-beam-left;
+}
+
+:root[data-view-transition="theme"]::view-transition-group(theme-beam-right) {
+  animation-name: theme-beam-right;
+}
+
+/* 群組本身不淡入：光束的出現與消失由上面的 keyframes 控制 */
+:root[data-view-transition="theme"]::view-transition-new(theme-beam-left),
+:root[data-view-transition="theme"]::view-transition-new(theme-beam-right) {
+  animation: none;
+}
+
+@keyframes theme-beam-left {
+  0% {
+    transform: translateX(calc(50vw - 1px));
+    opacity: 0;
+  }
+
+  6% {
+    opacity: 1;
+  }
+
+  9% {
+    opacity: 0.35;
+  }
+
+  12%,
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-2px);
+    opacity: 0;
+  }
+}
+
+@keyframes theme-beam-right {
+  0% {
+    transform: translateX(calc(50vw - 1px));
+    opacity: 0;
+  }
+
+  6% {
+    opacity: 1;
+  }
+
+  9% {
+    opacity: 0.35;
+  }
+
+  12%,
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+}
