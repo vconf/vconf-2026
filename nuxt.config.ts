@@ -90,6 +90,7 @@ export default defineNuxtConfig({
     public: {
       umamiScriptUrl: process.env.NUXT_PUBLIC_UMAMI_SCRIPT_URL || 'https://cloud.umami.is/script.js',
       umamiWebsiteId: process.env.NUXT_PUBLIC_UMAMI_WEBSITE_ID || '',
+      metaPixelId: process.env.NUXT_PUBLIC_META_PIXEL_ID || '1388092162899121',
     },
     shuffleWorkerUrl: '',
     shuffleApiToken: '',

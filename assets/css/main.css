@@ -221,3 +221,17 @@
     --theme-p: 1;
   }
 }
+
+/* 手機不翻頁，舊主題直接淡出：六條長條在窄螢幕上每條只剩約 65px，翻頁感出不來 */
+@media (max-width: 767px) {
+  :root[data-view-transition="theme"]::view-transition-old(root) {
+    animation: theme-fade-out 400ms ease-out both;
+    mask-image: none;
+  }
+}
+
+@keyframes theme-fade-out {
+  to {
+    opacity: 0;
+  }
+}
