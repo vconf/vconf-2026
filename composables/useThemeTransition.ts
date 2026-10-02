@@ -1,4 +1,4 @@
-import { useMediaQuery, usePreferredReducedMotion } from '@vueuse/core'
+import { usePreferredReducedMotion } from '@vueuse/core'
 
 type Theme = 'light' | 'dark'
 
@@ -16,13 +16,12 @@ async function waitForThemeClass(theme: Theme) {
 }
 
 /**
- * 深淺色切換：六條斜角長條像百葉窗一樣由左往右接力翻頁，露出底下的新主題。
- * 動畫全在 main.css 的 `data-view-transition="theme"` 區塊；只在 md 以上跑，手機、偏好減少動態或不支援時直接切換。
+ * 深淺色切換：md 以上六條斜角長條像百葉窗一樣由左往右接力翻頁，手機則是舊主題淡出。
+ * 動畫全在 main.css 的 `data-view-transition="theme"` 區塊；偏好減少動態或不支援時直接切換。
  */
 export function useThemeTransition() {
   const colorMode = useColorMode()
   const reducedMotion = usePreferredReducedMotion()
-  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   return function setTheme(theme: Theme) {
     if (colorMode.value === theme)
@@ -30,7 +29,7 @@ export function useThemeTransition() {
 
     const unsupported
       = !import.meta.client || typeof document.startViewTransition !== 'function'
-    if (unsupported || reducedMotion.value === 'reduce' || !isDesktop.value) {
+    if (unsupported || reducedMotion.value === 'reduce') {
       colorMode.preference = theme
       return
     }
