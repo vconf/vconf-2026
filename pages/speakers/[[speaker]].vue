@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import SpeakerProfileModal from '~/components/speakers/SpeakerProfileModal.vue'
-import { earlyBirdCta } from '~/config/cta.config'
+import { ticketCta } from '~/config/cta.config'
 
 const route = useRoute()
 const lenis = useLenis()
@@ -136,8 +136,8 @@ onBeforeUnmount(unlockBackgroundScroll)
       @after-leave="afterLeave"
     />
     <ShareFloatingCta
-      :text="earlyBirdCta.text"
-      :href="earlyBirdCta.url"
+      :text="ticketCta.text"
+      :href="ticketCta.url"
     />
   </main>
 </template>

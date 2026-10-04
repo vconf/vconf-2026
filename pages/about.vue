@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { earlyBirdCta } from '~/config/cta.config'
+import { ticketCta } from '~/config/cta.config'
 import { site } from '~/config/seo.config'
 
 const aboutUrl = `${site.url}about`
@@ -42,8 +42,8 @@ useSchemaOrg([
     <!-- 軌道 icon 靠 motionPath 定位，提早一點水合避免捲到時 icon 從 0,0 彈上軌道 -->
     <LazyAboutCodeOfConduct :hydrate-on-visible="{ rootMargin: '200px' }" />
     <ShareFloatingCta
-      :text="earlyBirdCta.text"
-      :href="earlyBirdCta.url"
+      :text="ticketCta.text"
+      :href="ticketCta.url"
     />
   </main>
 </template>
