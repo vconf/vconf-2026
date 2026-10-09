@@ -119,7 +119,7 @@ onBeforeUnmount(unlockBackgroundScroll)
 <template>
   <main>
     <ShareHero title="Agenda" />
-    <AgendaList class="relative z-40" />
+    <AgendaList />
     <AgendaTalkModal
       :visible="visible"
       :talk="activeTalk"

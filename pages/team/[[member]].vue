@@ -125,8 +125,8 @@ onBeforeUnmount(unlockBackgroundScroll)
 <template>
   <main>
     <ShareHero title="Staff" />
-    <TeamStaffIntro class="z-40" />
-    <TeamList class="relative z-40" />
+    <TeamStaffIntro />
+    <TeamList />
     <TeamMemberModal
       :visible="visible"
       :member="activeMember"
