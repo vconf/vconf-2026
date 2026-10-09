@@ -11,7 +11,10 @@ useSeoMeta({
 <template>
   <main>
     <ShareHero title="Sponsors" />
-    <LazySponsorsList :hydrate-on-visible="{ rootMargin: '200px' }" />
+    <LazySponsorsList
+      class="relative z-40"
+      :hydrate-on-visible="{ rootMargin: '200px' }"
+    />
     <ShareFloatingCta
       :text="ticketCta.text"
       :href="ticketCta.url"
