@@ -33,6 +33,7 @@ withDefaults(
         >TW</span>
       </template>
     </h1>
+    <!-- 背景層比 Hero 高，會延伸到下一區；緊接在後的內容要加 relative z-40 疊在色塊上面 -->
     <Teleport to="body">
       <div
         aria-hidden="true"
