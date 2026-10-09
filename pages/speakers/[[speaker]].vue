@@ -128,7 +128,7 @@ onBeforeUnmount(unlockBackgroundScroll)
 <template>
   <main>
     <ShareHero title="Speakers" />
-    <SpeakersList class="relative z-40" />
+    <SpeakersList />
     <SpeakerProfileModal
       :visible="visible"
       :speaker="activeSpeaker"

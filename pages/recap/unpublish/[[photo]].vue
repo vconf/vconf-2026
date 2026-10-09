@@ -239,7 +239,7 @@ onBeforeUnmount(unlockBackgroundScroll)
 <template>
   <main>
     <ShareHero title="Event Photos" />
-    <RecapPhotoGrid class="relative z-40" />
+    <RecapPhotoGrid />
     <RecapPhotoModal
       :visible="visible"
       :photo="activePhoto"

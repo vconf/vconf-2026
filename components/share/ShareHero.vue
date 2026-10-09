@@ -14,7 +14,7 @@ withDefaults(
   <section
     class="relative overflow-hidden overflow-x-clip text-clip pb-[266px] pt-[238px] text-center md:pb-[288px] md:pt-[166px]"
   >
-    <!-- 切換按鈕：跟背景層一樣掛到 body，換頁時頁面的 transform 會把它壓到 z-30 背景底下 -->
+    <!-- 切換按鈕：掛到 body，換頁時頁面的 transform 會把它關在頁面的層級裡 -->
     <Teleport to="body">
       <ShareThemeToggle class="z-40" />
     </Teleport>
@@ -33,11 +33,12 @@ withDefaults(
         >TW</span>
       </template>
     </h1>
-    <!-- 背景層比 Hero 高，會延伸到下一區；緊接在後的內容要加 relative z-40 疊在色塊上面 -->
+    <!-- 背景層比 Hero 高、會延伸到下一區，用負 z-index 墊在最底；
+         正值會在換頁轉場時（頁面 transform 自成層級）蓋住內容 -->
     <Teleport to="body">
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute left-1/2 top-0 z-30 h-[760px] w-svw -translate-x-1/2 overflow-hidden md:h-[980px]"
+        class="pointer-events-none absolute left-1/2 top-0 -z-10 h-[760px] w-svw -translate-x-1/2 overflow-hidden md:h-[980px]"
       >
         <!-- 位置與尺寸＝About 稿（242:13627 / 378:70356）兩個 deco-1 frame 的外框；桌機 ≥1512 釘在稿上的位置，
              以下按稿上露出的比例（左 47.35%、右 47.09% 視窗寬）縮，兩張加起來不到 100%，不會在中間交錯 -->
