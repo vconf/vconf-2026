@@ -38,7 +38,7 @@ talkSlug: ray
 topic: 打造 AI 無法取代的我
 startTime: "14:15"
 endTime: "15:00"
-noteUrl: https://hackmd.io/@vconf-conference/H1L8vI4Ofg
+noteUrl: https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FH1L8vI4Ofg
 ---
 
 當大家都會使用 AI 之後，你與這些人又有什麼差別呢？
