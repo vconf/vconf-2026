@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import { optimize } from 'svgo'
 import { contentSitemapUrls } from './config/content-routes'
 import { prerenderConfig } from './config/prerender.config'
+import { recapSitemapUrls } from './config/recap'
 import { site, sitemap } from './config/seo.config'
 
 const COLOR_MODE_STORAGE_KEY = 'vconf-color-mode'
@@ -284,11 +285,11 @@ export default defineNuxtConfig({
     },
   },
 
-  // 彈窗式路由（講者／籌備團隊）由 content 檔案產生，其餘固定頁面寫在 seo.config；
-  // 花絮還沒公開，上線時再把 config/recap.ts 的 recapSitemapUrls 併進來
+  // 彈窗式路由（講者／籌備團隊）由 content 檔案產生，花絮來自 config/recap.ts，
+  // 其餘固定頁面寫在 seo.config
   sitemap: {
     ...sitemap,
-    urls: [...sitemap.urls, ...contentSitemapUrls],
+    urls: [...sitemap.urls, ...contentSitemapUrls, ...recapSitemapUrls],
   },
   site,
 })

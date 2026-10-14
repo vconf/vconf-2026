@@ -23,13 +23,13 @@ export interface RecapPhoto {
 }
 
 /** Load more 指向站外的完整相簿；照片牆本身不分頁，照片一次全出 */
-export const RECAP_MORE_URL = 'https://v-conf-gallery.f110118103.workers.dev/'
+export const RECAP_MORE_URL = 'https://gallery.vue.tw/'
 
 /**
  * sitemap 的 lastmod 由人工維護：檔案 mtime 在 CI 上是 clone 時間，不能代表內容更新日。
  * 換過照片就改這個日期。
  */
-export const recapLastmod = '2026-09-15'
+export const recapLastmod = '2026-10-14'
 
 export const recapPhotos: RecapPhoto[] = [
   { id: 'apr-group-photo', src: '/recap/apr-group-photo.jpg', width: 3200, height: 1799, ratio: 4 / 3, alt: '四月小聚結束前的大合照' },
@@ -111,22 +111,15 @@ export function adjacentRecapPhoto(photo: RecapPhoto | null, step: 1 | -1) {
   return recapPhotos[next] ?? null
 }
 
-/**
- * 花絮還沒公開：/recap 是 coming-soon，正式版掛在 /recap/unpublish（noindex、不進 sitemap）。
- * 上線時把 pages/recap/unpublish/[[photo]].vue 搬成 pages/recap/[[photo]].vue、
- * 刪掉 pages/recap/index.vue，這裡改回 '/recap'。
- */
-export const RECAP_BASE_PATH = '/recap/unpublish'
+/** 照片牆與燈箱的路徑，連結、導頁與彈窗式路由都讀這個 */
+export const RECAP_BASE_PATH = '/recap'
 
 /** 燈箱路由（/recap/[id]），prerender 與 sitemap 共用 */
 export const recapPhotoRoutes: string[] = recapPhotos.map(
   photo => `/recap/${photo.id}`,
 )
 
-/**
- * 上線後併進 config/seo.config.ts 的 sitemap.urls（在 nuxt.config 組合）。
- * 還沒公開，所以 nuxt.config 目前沒有用它。
- */
+/** 併進 config/seo.config.ts 的 sitemap.urls（在 nuxt.config 組合） */
 export const recapSitemapUrls = [
   { loc: '/recap', priority: 0.7, lastmod: recapLastmod },
   ...recapPhotoRoutes.map(loc => ({
