@@ -77,19 +77,19 @@ vconf-2026/
 ├── app/                 # Router 設定（捲動行為等）
 ├── assets/              # 靜態資源（CSS 等）
 ├── components/          # Vue 元件，依頁面分組
-│   ├── home/           # 首頁
-│   ├── about/          # 關於我們
-│   ├── agenda/         # 議程
-│   ├── speakers/       # 講者介紹
-│   ├── sponsors/       # 贊助夥伴
-│   ├── team/           # 籌備團隊
-│   ├── recap/          # 活動花絮（尚未公開）
-│   └── share/          # 跨頁共用元件
+│   ├── home/            # 首頁
+│   ├── about/           # 關於我們
+│   ├── agenda/          # 議程
+│   ├── speakers/        # 講者介紹
+│   ├── sponsors/        # 贊助夥伴
+│   ├── team/            # 籌備團隊
+│   ├── recap/           # 活動花絮（尚未公開）
+│   └── share/           # 跨頁共用元件
 ├── composables/         # Vue Composables
 ├── config/              # 配置檔案（SEO、預渲染、團隊、花絮等）
 ├── content/             # Nuxt Content 內容檔案
-│   ├── speakers/       # 講者與議程（Markdown）
-│   └── team/           # 籌備團隊成員（YAML）
+│   ├── speakers/        # 講者與議程（Markdown）
+│   └── team/            # 籌備團隊成員（YAML）
 ├── layouts/             # 頁面佈局
 ├── lib/                 # 工具函式庫
 ├── pages/               # 頁面路由（檔案式路由）

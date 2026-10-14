@@ -47,7 +47,7 @@ export const sitemap = {
 
     // 議程（/agenda/[talkSlug]）、講者介紹（/speakers/[talkSlug]）與籌備團隊（/team/[slug]）三組彈窗式路由，
     // 由 config/content-routes.ts 依 content 檔案產生，在 nuxt.config 併入 urls；
-    // 花絮（/recap 與 /recap/[id]）整組來自 config/recap.ts，還沒公開所以目前是空的
+    // 花絮（/recap 與 /recap/[id]）整組來自 config/recap.ts，同樣在 nuxt.config 併入
   ],
 } satisfies Partial<SitemapModuleOptions>
 

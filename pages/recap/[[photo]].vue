@@ -50,14 +50,12 @@ function backToList() {
 if (photoId.value && !activePhoto.value)
   await backToList()
 
-// 花絮頁還沒公開，正式上線時移除並補上 sitemap
 useSeoMeta({
   title: () => activePhoto.value?.alt ?? '活動花絮',
   description: () =>
     activePhoto.value
       ? `${activePhoto.value.alt}｜${RECAP_DESCRIPTION}`
       : RECAP_DESCRIPTION,
-  robots: 'noindex, nofollow',
 })
 
 const visible = ref(false)
