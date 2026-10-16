@@ -99,6 +99,13 @@ export const sponsorGroups: SponsorGroup[] = [
         width: 116,
         height: 116,
       },
+      {
+        name: '博碩文化',
+        logo: '/sponsors/drmaster.svg',
+        url: 'https://www.drmaster.com.tw/',
+        width: 116,
+        height: 116,
+      },
     ],
   },
 ]

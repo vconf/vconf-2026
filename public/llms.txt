@@ -47,6 +47,8 @@ Refunds are handled through ACCUPASS: attendees who cannot attend for personal r
   - teacher.place
 - Special thanks
   - The CodingPro
+  - 日光木華
+  - 博碩文化 (DrMaster)
 
 **Public-page policy**
 
