@@ -24,6 +24,7 @@ topic: "Trust and Verify：用工程方法探索 Vue 更新的價值"
 startTime: "13:15"
 endTime: "14:00"
 noteUrl: https://hackmd.io/@vconf-conference/H1eBD8V_Ml
+slideUrl: "https://docs.google.com/presentation/d/150MmkL8HXvIQdRjUddWBWIH3D1pl8TYS/edit?rtpof=true&sd=true"
 ---
 
 新版本發布後，我們總是在討論新增了哪些功能；但真正重要的是，它是否改善了專案裡每天都會遇到的問題。

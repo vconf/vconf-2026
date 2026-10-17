@@ -39,6 +39,7 @@ topic: 打造 AI 無法取代的我
 startTime: "14:15"
 endTime: "15:00"
 noteUrl: https://hackmd.io/@vconf-conference/H1L8vI4Ofg
+slideUrl: https://github.com/hsiangfeng/vue-2026-ai-ray/tree/main
 ---
 
 當大家都會使用 AI 之後，你與這些人又有什麼差別呢？
