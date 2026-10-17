@@ -29,6 +29,7 @@ topic: Vue Language Tools 新手入門
 startTime: "10:30"
 endTime: "11:15"
 noteUrl: https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2Frk7yvLVOGl
+slideUrl: https://slides.serko.dev/2026/v-conf
 ---
 
 Vue Language Tools 是一個跟 Vue 有關的 Language Tools。平時我們在寫 Vue 的時候，可能有用過，也可能沒有特別留意自己有沒有用過，但不管有沒有留意，這次主要就是想簡單介紹一下 Vue Language Tools。
