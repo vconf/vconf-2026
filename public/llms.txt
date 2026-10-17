@@ -86,17 +86,17 @@ The agenda is a single track on 2026-10-17, all times in UTC+8.
 Each talk is a modal route under `/agenda` and contains the talk abstract, plus links to the shared notes (HackMD) and the slides once the speaker has published them; the same talk is also described on the speaker page under `/speakers`.
 
 - 09:20–09:30 開幕致詞 (opening)
-- [09:30–10:15 Talk 1](https://v-conf.vue.tw/agenda/evan-you) — Evan You「V 生態最新進展及未來展望」 · [Shared notes](https://hackmd.io/@vconf-conference/rycY8LEdGg)
+- [09:30–10:15 Talk 1](https://v-conf.vue.tw/agenda/evan-you) — Evan You「V 生態最新進展及未來展望」 · [Shared notes](https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FrycY8LEdGg)
 - 10:15–10:30 休息一下 (break)
-- [10:30–11:15 Talk 2](https://v-conf.vue.tw/agenda/serko) — SerKo「Vue Language Tools 新手入門」 · [Shared notes](https://hackmd.io/@vconf-conference/rk7yvLVOGl) · [Slides](https://slides.serko.dev/2026/v-conf)
+- [10:30–11:15 Talk 2](https://v-conf.vue.tw/agenda/serko) — SerKo「Vue Language Tools 新手入門」 · [Shared notes](https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2Frk7yvLVOGl) · [Slides](https://slides.serko.dev/2026/v-conf)
 - 11:15–11:30 休息一下 (break)
-- [11:30–12:15 Talk 3](https://v-conf.vue.tw/agenda/hunter) — Hunter Liu「套件打包實戰：以 tsdown 重新打包 vue-final-modal」 · [Shared notes](https://hackmd.io/@vconf-conference/HksmD84_ze) · [Slides](https://talks.hunterliu.tw/2026-10-17-tsdown-vue-final-modal/)
+- [11:30–12:15 Talk 3](https://v-conf.vue.tw/agenda/hunter) — Hunter Liu「套件打包實戰：以 tsdown 重新打包 vue-final-modal」 · [Shared notes](https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FHksmD84_ze) · [Slides](https://talks.hunterliu.tw/2026-10-17-tsdown-vue-final-modal/)
 - 12:15–13:15 午餐 (lunch)
-- [13:15–14:00 Talk 4](https://v-conf.vue.tw/agenda/kuku) — kuku「Trust and Verify：用工程方法探索 Vue 更新的價值」 · [Shared notes](https://hackmd.io/@vconf-conference/H1eBD8V_Ml) · [Slides](https://docs.google.com/presentation/d/150MmkL8HXvIQdRjUddWBWIH3D1pl8TYS/edit?rtpof=true&sd=true)
+- [13:15–14:00 Talk 4](https://v-conf.vue.tw/agenda/kuku) — kuku「Trust and Verify：用工程方法探索 Vue 更新的價值」 · [Shared notes](https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FH1eBD8V_Ml) · [Slides](https://docs.google.com/presentation/d/150MmkL8HXvIQdRjUddWBWIH3D1pl8TYS/edit?rtpof=true&sd=true)
 - 14:00–14:15 休息一下 (break)
-- [14:15–15:00 Talk 5](https://v-conf.vue.tw/agenda/ray) — Ray「打造 AI 無法取代的我」 · [Shared notes](https://hackmd.io/@vconf-conference/H1L8vI4Ofg) · [Slides](https://github.com/hsiangfeng/vue-2026-ai-ray/tree/main)
+- [14:15–15:00 Talk 5](https://v-conf.vue.tw/agenda/ray) — Ray「打造 AI 無法取代的我」 · [Shared notes](https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FH1L8vI4Ofg) · [Slides](https://github.com/hsiangfeng/vue-2026-ai-ray/tree/main)
 - 15:00–15:25 點心 (refreshments)
-- [15:25–16:10 Talk 6](https://v-conf.vue.tw/agenda/kuro) — Kuro Hsu「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」 · [Shared notes](https://hackmd.io/@vconf-conference/Hk6PwU4uGe)
+- [15:25–16:10 Talk 6](https://v-conf.vue.tw/agenda/kuro) — Kuro Hsu「現在大家都用 AI 開發了，我們還需要學 Vue 嗎？」 · [Shared notes](https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FHk6PwU4uGe)
 - 16:10–16:30 閉幕 (closing)
 
 ## Speakers

@@ -28,7 +28,7 @@ talkSlug: serko
 topic: Vue Language Tools 新手入門
 startTime: "10:30"
 endTime: "11:15"
-noteUrl: https://hackmd.io/@vconf-conference/rk7yvLVOGl
+noteUrl: https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2Frk7yvLVOGl
 slideUrl: https://slides.serko.dev/2026/v-conf
 ---
 

@@ -38,7 +38,7 @@ talkSlug: hunter
 topic: "套件打包實戰：以 tsdown 重新打包 vue-final-modal"
 startTime: "11:30"
 endTime: "12:15"
-noteUrl: https://hackmd.io/@vconf-conference/HksmD84_ze
+noteUrl: https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FHksmD84_ze
 slideUrl: https://talks.hunterliu.tw/2026-10-17-tsdown-vue-final-modal/
 ---
 

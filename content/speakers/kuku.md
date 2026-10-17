@@ -23,7 +23,7 @@ talkSlug: kuku
 topic: "Trust and Verify：用工程方法探索 Vue 更新的價值"
 startTime: "13:15"
 endTime: "14:00"
-noteUrl: https://hackmd.io/@vconf-conference/H1eBD8V_Ml
+noteUrl: https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FH1eBD8V_Ml
 slideUrl: "https://docs.google.com/presentation/d/150MmkL8HXvIQdRjUddWBWIH3D1pl8TYS/edit?rtpof=true&sd=true"
 ---
 
