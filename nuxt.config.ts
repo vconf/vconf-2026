@@ -1,4 +1,3 @@
-import type { FontFaceData } from '@nuxt/fonts'
 import type { Config as SvgoConfig } from 'svgo'
 import { Buffer } from 'node:buffer'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
@@ -39,25 +38,6 @@ const svgoConfig: SvgoConfig = {
       },
     },
   ],
-}
-
-interface FontResolveResult {
-  fonts: FontFaceData[]
-  fallbacks?: string[]
-}
-
-interface ResolvedFontProvider {
-  resolveFont?: (..._args: unknown[]) => FontResolveResult | undefined | Promise<FontResolveResult | undefined>
-}
-
-interface FontProviderInitializer {
-  (..._args: unknown[]): ResolvedFontProvider | undefined | Promise<ResolvedFontProvider | undefined>
-  _name?: string
-  _options?: unknown
-}
-
-interface FontProviderFactory {
-  (_options?: unknown): FontProviderInitializer
 }
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -129,50 +109,12 @@ export default defineNuxtConfig({
         provider: 'adobe',
         weights: [700, 900],
         styles: ['normal'],
+        display: 'swap',
       },
     ],
   },
 
   hooks: {
-    'fonts:providers': (providers) => {
-      const adobeProvider = providers.adobe as FontProviderFactory
-
-      providers.adobe = ((options?: unknown) => {
-        const provider = adobeProvider(options)
-
-        return Object.assign(
-          async (...args: unknown[]) => {
-            const resolvedProvider = await provider(...args)
-
-            if (!resolvedProvider)
-              return resolvedProvider
-
-            return {
-              ...resolvedProvider,
-              async resolveFont(...resolveArgs: unknown[]) {
-                const result = await resolvedProvider.resolveFont?.(...resolveArgs)
-
-                if (!result)
-                  return result
-
-                return {
-                  ...result,
-                  fonts: result.fonts.map((font: FontFaceData) => ({
-                    ...font,
-                    display: 'swap',
-                  })),
-                }
-              },
-            }
-          },
-          {
-            _name: provider._name,
-            _options: provider._options,
-          },
-        )
-      }) as typeof providers.adobe
-    },
-
     // public/ 不經過 Vite，改在 Nitro 複製完資產後用 svgo 壓縮 .output/public 的 SVG（原始檔不動）
     'nitro:build:public-assets': async (nitro) => {
       const publicDir = nitro.options.output.publicDir
