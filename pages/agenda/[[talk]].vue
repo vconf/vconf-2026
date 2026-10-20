@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import AgendaTalkModal from '~/components/agenda/AgendaTalkModal.vue'
-import { ticketCta } from '~/config/cta.config'
 import {
   createAgendaItems,
   findAgendaTalkById,
@@ -41,6 +40,7 @@ useSpeakerSeo(activeSpeaker, {
 })
 
 const visible = ref(false)
+const entry = useModalEntry(() => Boolean(activeTalk.value))
 const closeRequested = ref(false)
 let isScrollLockedByModal = false
 let openRequest = 0
@@ -67,13 +67,14 @@ async function open() {
 
   void reserveAd()
 
-  if (talk)
-    await preloadAgendaTalk(talk.speaker, 'high')
+  const skipFade = await entry.ready(
+    talk ? preloadAgendaTalk(talk.speaker, 'high') : Promise.resolve(),
+  )
 
   if (request !== openRequest || activeTalk.value !== talk)
     return
 
-  visible.value = true
+  entry.show(visible, skipFade)
 }
 
 onMounted(() => {
@@ -122,14 +123,11 @@ onBeforeUnmount(unlockBackgroundScroll)
     <AgendaList />
     <AgendaTalkModal
       :visible="visible"
+      :instant="entry.instant.value"
       :talk="activeTalk"
       :talk-id="talkId"
       @close="close"
       @after-leave="afterLeave"
-    />
-    <ShareFloatingCta
-      :text="ticketCta.text"
-      :href="ticketCta.url"
     />
   </main>
 </template>

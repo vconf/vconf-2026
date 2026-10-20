@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ticketCta } from '~/config/cta.config'
-
 useSeoMeta({
   title: '贊助夥伴',
   description:
@@ -12,9 +10,5 @@ useSeoMeta({
   <main>
     <ShareHero title="Sponsors" />
     <LazySponsorsList :hydrate-on-visible="{ rootMargin: '200px' }" />
-    <ShareFloatingCta
-      :text="ticketCta.text"
-      :href="ticketCta.url"
-    />
   </main>
 </template>

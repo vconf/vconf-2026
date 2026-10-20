@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import SpeakerProfileModal from '~/components/speakers/SpeakerProfileModal.vue'
-import { ticketCta } from '~/config/cta.config'
 
 const route = useRoute()
 const lenis = useLenis()
@@ -36,6 +35,7 @@ useSpeakerSeo(activeSpeaker, {
 })
 
 const visible = ref(false)
+const entry = useModalEntry(() => Boolean(activeSpeaker.value))
 const closeRequested = ref(false)
 let isScrollLockedByModal = false
 let openRequest = 0
@@ -63,15 +63,17 @@ async function open() {
   closeRequested.value = false
   lockBackgroundScroll()
 
-  await Promise.all([
-    preloadModalBackground('high'),
-    preloadSpeakerModal(speaker, 'high'),
-  ])
+  const skipFade = await entry.ready(
+    Promise.all([
+      preloadModalBackground('high'),
+      preloadSpeakerModal(speaker, 'high'),
+    ]),
+  )
 
   if (request !== openRequest || activeSpeaker.value !== speaker)
     return
 
-  visible.value = true
+  entry.show(visible, skipFade)
 }
 
 onMounted(() => {
@@ -131,13 +133,10 @@ onBeforeUnmount(unlockBackgroundScroll)
     <SpeakersList />
     <SpeakerProfileModal
       :visible="visible"
+      :instant="entry.instant.value"
       :speaker="activeSpeaker"
       @close="close"
       @after-leave="afterLeave"
-    />
-    <ShareFloatingCta
-      :text="ticketCta.text"
-      :href="ticketCta.url"
     />
   </main>
 </template>

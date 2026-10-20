@@ -6,6 +6,8 @@ import { socialLinkAriaLabel, speakerPhoto } from '~/utils/agenda'
 
 const props = defineProps<{
   visible: boolean
+  /** 跨頁進場時由頁面決定這次不淡入 */
+  instant?: boolean
   speaker: SpeakersCollectionItem | null
 }>()
 
@@ -44,6 +46,7 @@ const socialLinks = computed(() => {
   <Teleport to="body">
     <Transition
       name="speaker-modal"
+      :css="!instant"
       @after-leave="emit('afterLeave')"
     >
       <div
@@ -55,7 +58,7 @@ const socialLinks = computed(() => {
         :aria-labelledby="speaker ? 'speaker-profile-title' : undefined"
         @click.self="emit('close')"
       >
-        <NuxtImg
+        <ShareFadeImage
           v-if="!isDesktop"
           src="/speaker/speaker-modal-bg-mobile.png"
           alt=""
@@ -95,7 +98,7 @@ const socialLinks = computed(() => {
                 />
               </svg>
             </button>
-            <NuxtImg
+            <ShareFadeImage
               v-if="isDesktop"
               src="/speaker/speaker-modal-bg-desktop.png"
               alt=""
@@ -113,8 +116,10 @@ const socialLinks = computed(() => {
                 class="relative mx-auto aspect-speaker-photo-modal-sm w-full max-w-[260px] md:mx-0 md:aspect-speaker-photo-modal md:h-[560px] md:max-h-full md:min-h-0 md:w-auto md:max-w-none md:shrink-0"
                 aria-label="講者照片"
               >
-                <div class="size-full overflow-hidden">
-                  <NuxtImg
+                <div
+                  class="size-full overflow-hidden bg-vconf-gray-exlight dark:bg-vconf-white/10"
+                >
+                  <ShareFadeImage
                     v-if="!isDesktop"
                     :src="speakerPhoto(speaker, 'profileMobile')"
                     :alt="speaker.avatarAlt"
@@ -125,7 +130,7 @@ const socialLinks = computed(() => {
                     densities="x1 x2"
                     class="block size-full object-cover object-top"
                   />
-                  <NuxtImg
+                  <ShareFadeImage
                     v-else
                     :src="speakerPhoto(speaker, 'profile')"
                     :alt="speaker.avatarAlt"
@@ -143,7 +148,7 @@ const socialLinks = computed(() => {
                   class="speaker-reflection pointer-events-none absolute inset-x-0 top-full hidden size-full overflow-hidden md:block"
                   aria-hidden="true"
                 >
-                  <NuxtImg
+                  <ShareFadeImage
                     :src="speakerPhoto(speaker, 'profile')"
                     alt=""
                     width="333"
