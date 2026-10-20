@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import TeamMemberModal from '~/components/team/TeamMemberModal.vue'
-import { ticketCta } from '~/config/cta.config'
 import { findTeamMember } from '~/config/team'
 
 const route = useRoute()
@@ -134,10 +133,6 @@ onBeforeUnmount(unlockBackgroundScroll)
       :member="activeMember"
       @close="close"
       @after-leave="afterLeave"
-    />
-    <ShareFloatingCta
-      :text="ticketCta.text"
-      :href="ticketCta.url"
     />
   </main>
 </template>

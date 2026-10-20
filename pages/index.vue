@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ticketCta } from '~/config/cta.config'
 import { eventBasic, eventLocation } from '~/config/seo.config'
 
 useSchemaOrg([eventLocation, eventBasic])
@@ -18,9 +17,5 @@ useSeoMeta({
     <LazyHomeCountdown hydrate-on-visible />
     <HomeSpeakers />
     <LazyHomeSponsorSection hydrate-on-visible />
-    <ShareFloatingCta
-      :text="ticketCta.text"
-      :href="ticketCta.url"
-    />
   </main>
 </template>
