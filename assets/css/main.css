@@ -155,22 +155,12 @@
 }
 
 :root[data-view-transition="theme"]::view-transition-old(root) {
-  --theme-w0: calc(cos(clamp(0, var(--theme-p) / 0.55, 1) * 90deg) * 16.77%);
-  --theme-w1: calc(
-    cos(clamp(0, (var(--theme-p) - 0.09) / 0.55, 1) * 90deg) * 16.77%
-  );
-  --theme-w2: calc(
-    cos(clamp(0, (var(--theme-p) - 0.18) / 0.55, 1) * 90deg) * 16.77%
-  );
-  --theme-w3: calc(
-    cos(clamp(0, (var(--theme-p) - 0.27) / 0.55, 1) * 90deg) * 16.77%
-  );
-  --theme-w4: calc(
-    cos(clamp(0, (var(--theme-p) - 0.36) / 0.55, 1) * 90deg) * 16.77%
-  );
-  --theme-w5: calc(
-    cos(clamp(0, (var(--theme-p) - 0.45) / 0.55, 1) * 90deg) * 16.77%
-  );
+  --theme-w0: cos(clamp(0, var(--theme-p) / 0.55, 1) * 90deg) * 16.77%;
+  --theme-w1: cos(clamp(0, (var(--theme-p) - 0.09) / 0.55, 1) * 90deg) * 16.77%;
+  --theme-w2: cos(clamp(0, (var(--theme-p) - 0.18) / 0.55, 1) * 90deg) * 16.77%;
+  --theme-w3: cos(clamp(0, (var(--theme-p) - 0.27) / 0.55, 1) * 90deg) * 16.77%;
+  --theme-w4: cos(clamp(0, (var(--theme-p) - 0.36) / 0.55, 1) * 90deg) * 16.77%;
+  --theme-w5: cos(clamp(0, (var(--theme-p) - 0.45) / 0.55, 1) * 90deg) * 16.77%;
   z-index: 1;
   animation: theme-book var(--theme-book-duration) linear both;
   mask-image:
