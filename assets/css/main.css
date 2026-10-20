@@ -180,19 +180,15 @@
   animation: none;
 }
 
-:root[data-view-transition="theme"]::view-transition-old(root),
-:root[data-view-transition="theme"]::view-transition-group(theme-shade) {
+:root[data-view-transition="theme"]::view-transition-old(root) {
   --theme-w0: cos(clamp(0, var(--theme-p) / 0.55, 1) * 90deg) * 16.77%;
   --theme-w1: cos(clamp(0, (var(--theme-p) - 0.09) / 0.55, 1) * 90deg) * 16.77%;
   --theme-w2: cos(clamp(0, (var(--theme-p) - 0.18) / 0.55, 1) * 90deg) * 16.77%;
   --theme-w3: cos(clamp(0, (var(--theme-p) - 0.27) / 0.55, 1) * 90deg) * 16.77%;
   --theme-w4: cos(clamp(0, (var(--theme-p) - 0.36) / 0.55, 1) * 90deg) * 16.77%;
   --theme-w5: cos(clamp(0, (var(--theme-p) - 0.45) / 0.55, 1) * 90deg) * 16.77%;
-  animation: theme-book var(--theme-book-duration) linear both;
-}
-
-:root[data-view-transition="theme"]::view-transition-old(root) {
   z-index: 1;
+  animation: theme-book var(--theme-book-duration) linear both;
   mask-image:
     linear-gradient(
       105deg,
@@ -229,71 +225,6 @@
       transparent 83.33%,
       #000 0 calc(83.33% + var(--theme-w5)),
       transparent 0
-    );
-}
-
-/**
- * 頁緣陰影：照片在兩個主題裡長得一樣，百葉窗經過時看不出來，像被照片蓋住。
- * 另開一層 theme-shade 疊在 root 上面，在每條收起的邊緣畫一道陰影，翻到一半最深、翻完消失。
- */
-@media (min-width: 768px) {
-  :root[data-view-transition="theme"] body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    view-transition-name: theme-shade;
-  }
-}
-
-:root[data-view-transition="theme"]::view-transition-old(theme-shade),
-:root[data-view-transition="theme"]::view-transition-new(theme-shade) {
-  animation: none;
-}
-
-:root[data-view-transition="theme"]::view-transition-group(theme-shade) {
-  --theme-a0: sin(clamp(0, var(--theme-p) / 0.55, 1) * 180deg) * 0.35;
-  --theme-a1: sin(clamp(0, (var(--theme-p) - 0.09) / 0.55, 1) * 180deg) * 0.35;
-  --theme-a2: sin(clamp(0, (var(--theme-p) - 0.18) / 0.55, 1) * 180deg) * 0.35;
-  --theme-a3: sin(clamp(0, (var(--theme-p) - 0.27) / 0.55, 1) * 180deg) * 0.35;
-  --theme-a4: sin(clamp(0, (var(--theme-p) - 0.36) / 0.55, 1) * 180deg) * 0.35;
-  --theme-a5: sin(clamp(0, (var(--theme-p) - 0.45) / 0.55, 1) * 180deg) * 0.35;
-  background-image:
-    linear-gradient(
-      105deg,
-      transparent calc(0% + var(--theme-w0)),
-      rgb(0 0 0 / calc(var(--theme-a0))) calc(0% + var(--theme-w0)),
-      transparent calc(0% + var(--theme-w0) + 1.5%)
-    ),
-    linear-gradient(
-      105deg,
-      transparent calc(16.67% + var(--theme-w1)),
-      rgb(0 0 0 / calc(var(--theme-a1))) calc(16.67% + var(--theme-w1)),
-      transparent calc(16.67% + var(--theme-w1) + 1.5%)
-    ),
-    linear-gradient(
-      105deg,
-      transparent calc(33.33% + var(--theme-w2)),
-      rgb(0 0 0 / calc(var(--theme-a2))) calc(33.33% + var(--theme-w2)),
-      transparent calc(33.33% + var(--theme-w2) + 1.5%)
-    ),
-    linear-gradient(
-      105deg,
-      transparent calc(50% + var(--theme-w3)),
-      rgb(0 0 0 / calc(var(--theme-a3))) calc(50% + var(--theme-w3)),
-      transparent calc(50% + var(--theme-w3) + 1.5%)
-    ),
-    linear-gradient(
-      105deg,
-      transparent calc(66.67% + var(--theme-w4)),
-      rgb(0 0 0 / calc(var(--theme-a4))) calc(66.67% + var(--theme-w4)),
-      transparent calc(66.67% + var(--theme-w4) + 1.5%)
-    ),
-    linear-gradient(
-      105deg,
-      transparent calc(83.33% + var(--theme-w5)),
-      rgb(0 0 0 / calc(var(--theme-a5))) calc(83.33% + var(--theme-w5)),
-      transparent calc(83.33% + var(--theme-w5) + 1.5%)
     );
 }
 
