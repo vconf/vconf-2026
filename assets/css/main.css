@@ -134,6 +134,32 @@
 }
 
 /**
+ * 燈箱的淡入交給轉場，不用 Vue 的 CSS transition：兩者疊著跑時，Safari 拆轉場那一幀
+ * 會把燈箱畫回淡入初期的透明度，整片白色頁面露出來閃一下
+ */
+:root[data-view-transition="recap-photo"] .recap-modal-backdrop {
+  view-transition-name: recap-modal;
+}
+
+:root[data-view-transition="recap-photo"] .recap-photo-modal-enter-active {
+  transition: none;
+}
+
+:root[data-view-transition="recap-photo"] .recap-photo-modal-enter-from {
+  opacity: 1;
+}
+
+::view-transition-new(recap-modal) {
+  animation-duration: 260ms;
+  animation-timing-function: ease;
+}
+
+/* 只在新畫面出現的群組會排在最上層，不拉高的話照片整段形變都壓在黑色遮罩底下 */
+::view-transition-group(recap-photo) {
+  z-index: 1;
+}
+
+/**
  * 深淺色切換：六條 105° 斜角長條像百葉窗一樣接力翻頁（useThemeTransition）。
  * 每條以自己的左邊為書脊，舊主題往左收成一條線，露出底下的新主題；由左往右接力。
  * --theme-w0～w5 是每條還剩的寬度，cos 讓每條先慢慢掀起、再加速翻過。
