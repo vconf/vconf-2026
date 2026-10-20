@@ -30,7 +30,7 @@
         發揚光大的夥伴，廢寢忘食全力籌辦而生，希望有興趣的朋友一起入坑」
       </p>
       <a
-        href="https://forms.gle/xC6cvKJMwzKeFJbi9"
+        href="https://www.facebook.com/groups/vuejs.tw"
         target="_blank"
         rel="noopener noreferrer"
         class="mx-auto block w-fit rounded-full border border-vconf-primary bg-vconf-white px-12 py-3 font-serif text-[16px] font-bold leading-[1.6] tracking-[0.02em] text-vconf-primary transition-colors hover:bg-vconf-primary hover:text-white md:text-[21px]"
