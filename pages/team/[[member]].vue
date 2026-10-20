@@ -35,6 +35,7 @@ useTeamMemberSeo(activeMember, {
 })
 
 const visible = ref(false)
+const entry = useModalEntry(() => Boolean(activeMember.value))
 const closeRequested = ref(false)
 let isScrollLockedByModal = false
 let openRequest = 0
@@ -62,12 +63,12 @@ async function open() {
   closeRequested.value = false
   lockBackgroundScroll()
 
-  await preloadTeamModal(member, 'high')
+  const skipFade = await entry.ready(preloadTeamModal(member, 'high'))
 
   if (request !== openRequest || activeMember.value !== member)
     return
 
-  visible.value = true
+  entry.show(visible, skipFade)
 }
 
 onMounted(() => {
@@ -129,6 +130,7 @@ onBeforeUnmount(unlockBackgroundScroll)
     <TeamList />
     <TeamMemberModal
       :visible="visible"
+      :instant="entry.instant.value"
       :member="activeMember"
       @close="close"
       @after-leave="afterLeave"

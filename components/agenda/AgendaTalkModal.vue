@@ -9,6 +9,8 @@ import {
 
 const props = defineProps<{
   visible: boolean
+  /** 跨頁進場時由頁面決定這次不淡入 */
+  instant?: boolean
   talk: TalkItem | null
   talkId?: string
 }>()
@@ -138,6 +140,7 @@ const speakerSocialLinks = computed(() => {
   <Teleport to="body">
     <Transition
       name="agenda-modal"
+      :css="!instant"
       @after-leave="emit('afterLeave')"
     >
       <div
@@ -259,8 +262,9 @@ const speakerSocialLinks = computed(() => {
                     >
                       <div class="flex gap-4 md:block">
                         <!-- 手機圓形頭像、桌機直式講者照；未提供彈窗專用圖時退回講者介紹照 -->
-                        <NuxtImg
+                        <ShareFadeImage
                           v-if="!isDesktop"
+                          frame-class="size-[120px] shrink-0 rounded-full"
                           :src="speakerPhoto(talk.speaker, 'modalMobile')"
                           :alt="talk.speaker.avatarAlt"
                           width="120"
@@ -268,10 +272,11 @@ const speakerSocialLinks = computed(() => {
                           loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
-                          class="block size-[120px] rounded-full object-cover"
+                          class="block size-full object-cover"
                         />
-                        <NuxtImg
+                        <ShareFadeImage
                           v-else
+                          frame-class="h-[400px] w-full"
                           :src="speakerPhoto(talk.speaker, 'modal')"
                           :alt="talk.speaker.avatarAlt"
                           width="253"
@@ -279,7 +284,7 @@ const speakerSocialLinks = computed(() => {
                           loading="eager"
                           format="avif,webp"
                           densities="x1 x2"
-                          class="h-[400px] w-full object-cover"
+                          class="size-full object-cover"
                         />
                         <div class="mt-6">
                           <p class="mb-2 flex items-center md:mb-0">

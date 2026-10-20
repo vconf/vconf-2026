@@ -6,6 +6,8 @@ import { teamPhoto } from '~/config/team'
 
 const props = defineProps<{
   visible: boolean
+  /** 跨頁進場時由頁面決定這次不淡入 */
+  instant?: boolean
   member: TeamMember | null
 }>()
 
@@ -42,6 +44,7 @@ const socialLinks = computed(() => {
   <Teleport to="body">
     <Transition
       name="team-member-modal"
+      :css="!instant"
       @after-leave="emit('afterLeave')"
     >
       <div
@@ -100,8 +103,9 @@ const socialLinks = computed(() => {
                     aria-label="成員照片"
                   >
                     <template v-if="teamPhoto(member, 'avatar')">
-                      <NuxtImg
+                      <ShareFadeImage
                         v-if="!isDesktop"
+                        frame-class="size-[149px] rounded-[42%]"
                         :src="teamPhoto(member, 'popupMobile')"
                         :alt="`${member.name}（${member.jobTitle}）照片`"
                         width="149"
@@ -109,10 +113,11 @@ const socialLinks = computed(() => {
                         loading="eager"
                         format="avif,webp"
                         densities="x1 x2"
-                        class="block size-[149px] rounded-[42%] object-cover"
+                        class="block size-full object-cover"
                       />
-                      <NuxtImg
+                      <ShareFadeImage
                         v-else
+                        frame-class="h-[506px] w-[333px] rounded-[12px]"
                         :src="teamPhoto(member, 'popup')"
                         :alt="`${member.name}（${member.jobTitle}）照片`"
                         width="333"
@@ -120,7 +125,7 @@ const socialLinks = computed(() => {
                         loading="eager"
                         format="avif,webp"
                         densities="x1 x2"
-                        class="h-[506px] w-[333px] rounded-[12px] object-cover"
+                        class="block size-full object-cover"
                       />
                     </template>
                     <!-- 尚未提供照片：以名稱首字遞補，維持版型 -->
