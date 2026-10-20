@@ -141,7 +141,7 @@ watch(
     >
       <div
         v-if="visible"
-        class="fixed inset-0 z-[100] overflow-hidden bg-vconf-black/85"
+        class="recap-modal-backdrop fixed inset-0 z-[100] overflow-hidden bg-vconf-black/85"
         role="dialog"
         aria-modal="true"
         :aria-label="photo ? photo.alt : '花絮照片'"

@@ -27,6 +27,7 @@ topic: V 生態最新進展及未來展望
 startTime: "09:30"
 endTime: "10:15"
 noteUrl: https://hackmd.io/@vconf-conference/rJHsJLNufl/https%3A%2F%2Fhackmd.io%2F%40vconf-conference%2FrycY8LEdGg
+slideUrl: https://docs.google.com/presentation/d/1s9Pp0xzFuHHsayaLuiuxu0Fxmd5F_wIlrIj2vFIpE-k/edit
 ---
 
 本次演講會與大家分享 Vue / Vite / VoidZero 生態的最新進展，以及在 AI 背景下對於框架、開發工具，以及開源生態未來變化的一些思考和探討。
